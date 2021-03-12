@@ -34,3 +34,10 @@ Alternatively, a YAML file that specifies the values for the parameters can be p
 ```bash
 $ helm install qtest -f values.yaml test-conductor-chart
 ```
+
+## Uninstalling the Chart
+
+To uninstall the chart with the release name `qtest`:
+```bash
+$ helm uninstall qtest
+```
