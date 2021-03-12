@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-conductor-deployment
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: test-conductor
+  template:
+    metadata:
+      labels:
+        app: test-conductor
+    spec:
+      containers:
+      - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        name: {{ .Chart.Name }}
+        ports:
+        - containerPort: {{ .Values.service.port }}
+          name: http
+        env:
+           - name: POSTGRES_USER
+             valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: postgres_user
+           - name: POSTGRES_PASSWORD
+             valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: postgres_password
+           - name: POSTGRES_HOST
+             valueFrom:
+              configMapKeyRef:
+                name: hostname-config
+                key: postgres_host
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+      imagePullSecrets:
+      - name: regcre

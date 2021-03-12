@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hostname-config
+  labels:
+    app: postgres
+data:
+  postgres_host: {{ .Values.ConfigMap.postgres_host }}
+---   
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  labels:
+    app: postgres
+data:
+  postgres_user: {{ .Values.ConfigMap.postgres_user }}
+  postgres_password: {{ .Values.ConfigMap.postgres_password }}    
