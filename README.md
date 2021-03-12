@@ -7,6 +7,7 @@ This chart will provision a functional and featured qTest Manager installation i
 ## Prerequisites
 
    • `Helm CLI`
+
    • `Kubernetes Cluster`
 
 ## Installing the Chart
