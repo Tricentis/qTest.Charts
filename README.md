@@ -11,7 +11,10 @@ To install the chart with the release name `qtest`:
 $ git clone https://username:password@github.com/QAS-Labs/test-conductor-chart.git
 $ cd test-conductor-chart
 $ update values.yaml file
+Dry run test:
 $ helm install qtest test-conductor-chart --dry-run
+Install:
+$ helm install qtest test-conductor-chart
 ```
 
 ## Configuration
