@@ -38,4 +38,4 @@ spec:
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
       imagePullSecrets:
-      - name: regcre
+      - name: {{ .Values.secret }}
