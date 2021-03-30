@@ -3,12 +3,12 @@ entries:
   qtest-chart:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2021-03-30T14:46:44.9877232-04:00"
+    created: "2021-03-30T14:48:18.3272785-04:00"
     description: A Helm chart for Kubernetes
     digest: 1ca5c6322dd48ae70395432064c79e2270d4a9c2a5e990592a82fb91d7a2fcd0
     name: qtest-chart
     type: application
     urls:
-    - https://QAS-Labs/github.io/qtest-chart/qtest-chart-0.1.0.tgz
+    - https://qas-labs.github.io/qtest-chart/qtest-chart-0.1.0.tgz
     version: 0.1.0
-generated: "2021-03-30T14:46:44.9867004-04:00"
+generated: "2021-03-30T14:48:18.3262772-04:00"
