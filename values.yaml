@@ -31,7 +31,7 @@ ingress:
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
-    # alb.ingress.kubernetes.io/subnets: subnet-0af0145f6b11db237, subnet-0703b40274a38ef03, subnet-08b03eaa2622a4fe6
+    # alb.ingress.kubernetes.io/subnets: subnet-0af0148f6b11db237, subnet-0703b40274a38ef03, subnet-08b03eaa2622a4fe6
 
 resources:
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -48,6 +48,6 @@ resources:
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 5
+  maxReplicas: 8
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
