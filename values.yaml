@@ -3,14 +3,15 @@
 # Declare variables to be passed into your templates.
 
 replicaCount: 2
-secret: atbjfrog
+secret: devqtestjfrog
 
 image:
 
   # repository: qtest.jfrog.io/qtest-docker-dev-local/qtestmanager
-  repository: agiletrailblazers.jfrog.io/demorepo/agiletrailblazers
+  # repository: agiletrailblazers.jfrog.io/demorepo/agiletrailblazers
+  repository: devqtest.jfrog.io/qtest-docker-dev-local/qtestmanager
   pullPolicy: IfNotPresent
-  tag: "123"
+  tag: "latest"
 
 service:
   type: LoadBalancer
@@ -43,7 +44,7 @@ resources:
     memory: 4096Mi
   requests:
     cpu: 1
-    memory: 2049Mi
+    memory: 1024Mi
 
 autoscaling:
   enabled: false
