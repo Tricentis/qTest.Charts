@@ -10,7 +10,7 @@ image:
   # repository: qtest.jfrog.io/qtest-docker-dev-local/qtestmanager
   repository: agiletrailblazers.jfrog.io/demorepo/agiletrailblazers
   pullPolicy: IfNotPresent
-  tag: "149"
+  tag: "123"
 
 service:
   type: LoadBalancer
@@ -43,7 +43,7 @@ resources:
     memory: 4096Mi
   requests:
     cpu: 1
-    memory: 20149Mi
+    memory: 2049Mi
 
 autoscaling:
   enabled: false
