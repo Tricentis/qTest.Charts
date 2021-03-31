@@ -12,15 +12,14 @@ This chart will provision a functional and featured qTest Manager installation i
 
 ## Installing the Chart
 
-To install the chart with the release name `qtest`:
+To install the chart with the release name `qtestmanager`:
 ```bash
-$ git clone https://username:password@github.com/QAS-Labs/qtest-chart.git
-$ cd test-conductor-chart
-$ update values.yaml file
+$ helm repo add qtest https://qas-labs.github.io/qtest-chart/
+
 Dry run test:
-$ helm install qtest qtest-chart --dry-run
+$ helm install qtestmanager qtest/qtest-chart --dry-run
 Install:
-$ helm install qtest qtest-chart
+$ helm install qtestmanager qtest/qtest-chart
 ```
 
 ## Configuration
@@ -32,12 +31,12 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
 
 ```bash
-$ helm install qtest -f values.yaml qtest-chart
+$ helm install qtestmanager -f values.yaml qtest/qtest-chart
 ```
 
 ## Uninstalling the Chart
 
-To uninstall the chart with the release name `qtest`:
+To uninstall the chart with the release name `qtestmanager`:
 ```bash
-$ helm uninstall qtest
+$ helm uninstall qtestmanager
 ```

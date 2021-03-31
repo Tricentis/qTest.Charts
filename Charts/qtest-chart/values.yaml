@@ -1,0 +1,78 @@
+# Default values for qtest-manager-chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 2
+secret: devqtestjfrog
+
+image:
+
+  # repository: qtest.jfrog.io/qtest-docker-dev-local/qtestmanager
+  # repository: agiletrailblazers.jfrog.io/demorepo/agiletrailblazers
+  repository: devqtest.jfrog.io/qtest-docker-dev-local/qtestmanager
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: LoadBalancer
+  port: 8080
+  targetport: 8080
+  servicename: mgr-service
+
+ConfigMap:
+  postgres_host: qtest.cfhos3kg3k0j.us-east-2.rds.amazonaws.com
+  postgres_user: postgres
+  postgres_password: Cirruslabs2020
+
+ingress:
+  enabled: false
+  annotations:
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    # alb.ingress.kubernetes.io/subnets: subnet-0af0148f6b11db237, subnet-0703b40274a38ef03, subnet-08b03eaa2622a4fe6
+
+persistence:
+  enabled: true
+  ## Set annotations on pvc
+  annotations: {}
+
+  ## Specify an existing volume claim instead of creating a new one.
+  ## When using this option all following options like storageClass, accessMode and size are ignored.
+  # existingClaim:
+
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is
+  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  ##   GKE, AWS & OpenStack)
+  ##
+  storageClass:
+  accessMode: ReadWriteOnce
+  size: 10Gi
+
+  ## Specify extra volumes. Refer to ".spec.volumes" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
+  volumes: []
+  ## Specify extra mounts. Refer to ".spec.containers.volumeMounts" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
+  mounts: []
+
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    cpu: 2
+    memory: 4096Mi
+  requests:
+    cpu: 1
+    memory: 1024Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 8
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
