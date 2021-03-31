@@ -17,7 +17,7 @@ service:
   type: LoadBalancer
   port: 8080
   targetport: 8080
-  servicename: manager-service
+  servicename: mgr-service
 
 ConfigMap:
   postgres_host: qtest.cfhos3kg3k0j.us-east-2.rds.amazonaws.com
@@ -35,7 +35,7 @@ ingress:
     # alb.ingress.kubernetes.io/subnets: subnet-0af0148f6b11db237, subnet-0703b40274a38ef03, subnet-08b03eaa2622a4fe6
 
 persistence:
-  enabled: false
+  enabled: true
   ## Set annotations on pvc
   annotations: {}
 

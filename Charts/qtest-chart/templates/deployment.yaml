@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: test-conductor-deployment
+  name: mgr-deployment
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -11,6 +11,9 @@ spec:
     metadata:
       labels:
         app: test-conductor
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        release: "{{ .Release.Name }}"
+        heritage: "{{ .Release.Service }}"
     spec:
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -35,15 +38,26 @@ spec:
               configMapKeyRef:
                 name: hostname-config
                 key: postgres_host
-        livenessProbe:
-          httpGet:
-            path: /
-            port: http
-        readinessProbe:
-          httpGet:
-            path: /
-            port: http               
+        # livenessProbe:
+        #   httpGet:
+        #     path: /
+        #     port: http
+        # readinessProbe:
+        #   httpGet:
+        #     path: /
+        #     port: http               
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
+        volumeMounts:
+        - name: qtest-data
+          mountPath: /mnt/data/storage
+      volumes:
+      - name: qtest-data
+      {{- if .Values.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ template "qtest-chart.fullname" . }}
+      {{- else }}
+        emptyDir: {}
+      {{- end }}
       imagePullSecrets:
       - name: {{ .Values.secret }}
