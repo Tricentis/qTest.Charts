@@ -19,10 +19,72 @@ service:
   targetport: 8080
   servicename: mgr-service
 
-ConfigMap:
-  postgres_host: qtest.cfhos3kg3k0j.us-east-2.rds.amazonaws.com
-  postgres_user: postgres
-  postgres_password: Cirruslabs2020
+qTestManager:
+  postgres_host: ""
+  postgres_user: ""
+  postgres_password: ""
+  testConductorEnvironment: localhost
+  springProfilesActive: postgres,oldTrackingDefect
+  clientJdbc:
+    postgresUrl: ""
+    postgresUserName: ""
+    postgresPassword: ""
+    postgresReadOnlyUrl: ""
+    postgresReadonlyUserName: ""
+    postgresReadOnlyPassword: ""
+  elasticSearch:
+    init: false
+    disable: true
+    scheme: http
+    host: 127.0.0.1
+    port: 9200
+  attachmentFolderPath: /usr/local/tomcat/temp
+  blobStorage:
+    type: disk_storage
+    region: us-east-1
+    sharedBucket: ""
+  s3:
+    accessKey: ""
+    secretKey: ""
+    folder: manager
+    scanUrl: ""
+  serverAppUrl: http://search:8080
+  serverAppUseSecureCookie: true
+  serverAppSSLRequired: false
+  base:
+    httpPort: 8080
+    httpsPort: 8080
+  preUrl: http://127.0.0.1:8080
+  preUrlHttps: http://127.0.0.1:8080
+  qasymphonyUrlPostfix: .qtest.local
+  qasDirectoryAddress: http://localhost:9080/tc-auth
+  appName: app
+  kafka:
+    bootstrapAddress: "[:]"
+    schemaRegistryUrl: "[:]"
+  analyticsUrlBase: ""
+  preSessionUrl: ""
+  pulseUrlBase: ""
+  insightsUrl: ""
+  launchUrlBase: ""
+  notification:
+    urlExternal: ""
+    urlInternal: ""
+  qTest:
+    serverMapUrl: ""
+    instance: US
+    appVersion: 10.3.1
+  report:
+    httpUrl: ""
+    url: ""
+  tdmSettingUrl: ""
+  mail:
+    host: ""
+    port: 465
+    userName: ""
+    password: ""
+    protocol: smtp
+    smtpAuth: true
 
 ingress:
   enabled: false
