@@ -46,7 +46,7 @@ data:
   qTestMgrS3Folder: {{ .Values.qTestManager.s3.folder }}
   qTestMgrS3ScanUrl: {{ .Values.qTestManager.s3.scanUrl }}
   qTestMgrServerAppUrl: {{ .Values.qTestManager.serverAppUrl }}
-  qTestMgrServerappUseSecureCookie: {{ .Values.qTestManager.serverAppUseSecureCookie }}
+  qTestMgrServerAppUseSecureCookie: {{ .Values.qTestManager.serverAppUseSecureCookie }}
   qTestMgrServerAppSSLRequired: {{ .Values.qTestManager.serverAppSSLRequired }}
   qTestMgrBaseHttpPort: {{ .Values.qTestManager.base.httpPort }}
   qTestMgrBaseHttpsPort: {{ .Values.qTestManager.base.httpsPort }}
