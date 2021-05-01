@@ -11,19 +11,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.4
-    - name: Install Helm
-      uses: azure/setup-helm@v1
-      with:
-        version: 3.4.0 #renovate: datasource=github-releases depName=helm/helm
-    - uses: actions/setup-python@v2.2.2
-      with:
-        python-version: 3.7
-      - name: Install chart-testing
-        uses: helm/chart-testing-action@v2.0.1
+      - name: Install Helm
+        uses: azure/setup-helm@v1
         with:
-          version: v3.3.0 #renovate: datasource=github-releases depName=helm/chart-testing
-      - name: Run lint
-        run: ct lint --config .github/ct.yaml
+          version: 3.4.0 #renovate: datasource=github-releases depName=helm/helm
+      - uses: actions/setup-python@v2.2.2
+        with:
+          python-version: 3.7
+        - name: Install chart-testing
+          uses: helm/chart-testing-action@v2.0.1
+          with:
+            version: v3.3.0 #renovate: datasource=github-releases depName=helm/chart-testing
+        - name: Run lint
+          run: ct lint --config .github/ct.yaml
 
   lint-docs:
     runs-on: ubuntu-latest
