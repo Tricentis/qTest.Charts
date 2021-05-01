@@ -7,22 +7,30 @@ on:
 
 jobs:
   lint-chart:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v1
-        - name: Run chart-testing (lint)
-          uses: helm/chart-testing-action@v2.0.1
-          with:
-            command: lint
-            config: .github/ct.yaml
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+    - name: Install Helm
+      uses: azure/setup-helm@v1
+      with:
+        version: 3.4.0 #renovate: datasource=github-releases depName=helm/helm
+    - uses: actions/setup-python@v2.2.2
+      with:
+        python-version: 3.7
+      - name: Install chart-testing
+        uses: helm/chart-testing-action@v2.0.1
+        with:
+          version: v3.3.0 #renovate: datasource=github-releases depName=helm/chart-testing
+      - name: Run lint
+        run: ct lint --config .github/ct.yaml
 
   lint-docs:
     runs-on: ubuntu-latest
     needs: lint-chart
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2.3.4
       - name: Run helm-docs
         run: .github/helm-docs.sh
 
@@ -38,7 +46,7 @@ jobs:
           - v1.18.1
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2.3.4
       - name: Run kubeval
         env:
           KUBERNETES_VERSION: ${{ matrix.k8s }}
