@@ -18,12 +18,12 @@ jobs:
       - uses: actions/setup-python@v2.2.2
         with:
           python-version: 3.7
-        - name: Install chart-testing
-          uses: helm/chart-testing-action@v2.0.1
-          with:
-            version: v3.3.0 #renovate: datasource=github-releases depName=helm/chart-testing
-        - name: Run lint
-          run: ct lint --config .github/ct.yaml
+      - name: Install chart-testing
+        uses: helm/chart-testing-action@v2.0.1
+        with:
+          version: v3.3.0 #renovate: datasource=github-releases depName=helm/chart-testing
+      - name: Run lint
+        run: ct lint --config .github/ct.yaml
 
   lint-docs:
     runs-on: ubuntu-latest
