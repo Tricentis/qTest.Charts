@@ -44,15 +44,18 @@ jobs:
     strategy:
       matrix:
         k8s:
+          # from https://github.com/instrumenta/kubernetes-json-schema
           - v1.17.4
           - v1.18.1
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.4
+        with:
+          fetch-depth: 0
       - name: Run kubeval
         env:
           KUBERNETES_VERSION: ${{ matrix.k8s }}
-        run: sudo .github/kubeval.sh
+        run: .github/kubeval.sh
 
   install-chart:
     name: install-chart
@@ -69,12 +72,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.4
+        with:
+          fetch-depth: 0
       - name: Create kind ${{ matrix.k8s }} cluster
         uses: helm/kind-action@v1.1.0
         with:
           node_image: kindest/node:${{ matrix.k8s }}
-      - name: Run chart-testing (install)
+      - name: Install chart-testing
         uses: helm/chart-testing-action@v2.0.1
         with:
-          command: install
-          config: .github/ct.yaml
+          version: v3.3.0 #renovate: datasource=github-releases depName=helm/chart-testing
+
+      - name: Run chart install
+        run: ct install --config .github/ct.yaml
