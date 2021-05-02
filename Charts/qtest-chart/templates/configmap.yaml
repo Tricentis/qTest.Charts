@@ -46,8 +46,8 @@ data:
   qTestMgrS3Folder: {{ .Values.qTestManager.s3.folder }}
   qTestMgrS3ScanUrl: {{ .Values.qTestManager.s3.scanUrl }}
   qTestMgrServerAppUrl: {{ .Values.qTestManager.serverAppUrl }}
-  qTestMgrServerappuseSecureCookie: {{ .Values.qTestManager.serverAppUseSecureCookie }}
-  qTestMgrServerappsslrequired: {{ .Values.qTestManager.serverAppSSLRequired }}
+  qTestMgrServerAppUseSecureCookie: {{ .Values.qTestManager.serverAppUseSecureCookie }}
+  qTestMgrServerAppSSLRequired: {{ .Values.qTestManager.serverAppSSLRequired }}
   qTestMgrBaseHttpPort: {{ .Values.qTestManager.base.httpPort }}
   qTestMgrBaseHttpsPort: {{ .Values.qTestManager.base.httpsPort }}
   qTestMgrPreUrl: {{ .Values.qTestManager.preUrl }}
@@ -66,7 +66,7 @@ data:
   qTestMgrLaunchUrlBase: {{ .Values.qTestManager.launchUrlBase }}
   qTestMgrNotificationUrlExternal: {{ .Values.qTestManager.notification.urlExternal }}
   qTestMgrNotificationUrlInternal: {{ .Values.qTestManager.notification.urlInternal }}
-  qTestMgrQtestServermapUrl: {{ .Values.qTestManager.qTest.serverMapUrl }}
+  qTestMgrQtestServerMapUrl: {{ .Values.qTestManager.qTest.serverMapUrl }}
   qTestMgrReportHttpUrl: {{ .Values.qTestManager.report.httpUrl }}
   qTestMgrReportUrl: {{ .Values.qTestManager.report.url }}
   qTestMgrTdmSettingUrl: {{ .Values.qTestManager.tdmSettingUrl }}
