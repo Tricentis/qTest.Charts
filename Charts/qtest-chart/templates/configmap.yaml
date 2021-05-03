@@ -5,7 +5,7 @@ metadata:
   labels:
     app: postgres
 data:
-  postgres_host: {{ .Values.qTestManager.postgres_host }}
+  postgres_host: "{{ .Values.qTestManager.postgres_host }}"
 ---   
 apiVersion: v1
 kind: ConfigMap
@@ -14,8 +14,8 @@ metadata:
   labels:
     app: postgres
 data:
-  postgres_user: {{ .Values.qTestManager.postgres_user }}
-  postgres_password: {{ .Values.qTestManager.postgres_password }}
+  postgres_user: "{{ .Values.qTestManager.postgres_user }}"
+  postgres_password: "{{ .Values.qTestManager.postgres_password }}"
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -24,55 +24,55 @@ metadata:
   labels:
     app: qTestManager
 data:
-  qTestMgrTestConductorEnvironment: {{ .Values.qTestManager.testConductorEnvironment }}
-  qTestMgrSpringProfilesActive: {{ .Values.qTestManager.springProfilesActive }}
-  qTestMgrClientjdbcPostgresUrl: {{ .Values.qTestManager.clientJdbc.postgresUrl }}
-  qTestMgrClientjdbcPostgresUserName: {{ .Values.qTestManager.clientJdbc.postgresUserName }}
-  qTestMgrClientjdbcPostgresPassword: {{ .Values.qTestManager.clientJdbc.postgresPassword }}
-  qTestMgrClientjdbcPostgresReadonlyUrl: {{ .Values.qTestManager.clientJdbc.postgresReadOnlyUrl }}
-  qTestMgrClientjdbcPostgresReadonlyUserName: {{ .Values.qTestManager.clientJdbc.postgresReadonlyUserName }}
-  qTestMgrClientjdbcPostgresReadonlyPassword: {{ .Values.qTestManager.clientJdbc.postgresReadOnlyPassword }}
-  qTestMgrElasticSearchInit: {{ .Values.qTestManager.elasticSearch.init }}
-  qTestMgrElasticSearchDisable: {{ .Values.qTestManager.elasticSearch.disable }}
-  qTestMgrElasticSearchScheme: {{ .Values.qTestManager.elasticSearch.scheme }}
-  qTestMgrElasticSearchHost: {{ .Values.qTestManager.elasticSearch.host }}
+  qTestMgrTestConductorEnvironment: "{{ .Values.qTestManager.testConductorEnvironment }}"
+  qTestMgrSpringProfilesActive: "{{ .Values.qTestManager.springProfilesActive }}"
+  qTestMgrClientjdbcPostgresUrl: "{{ .Values.qTestManager.clientJdbc.postgresUrl }}"
+  qTestMgrClientjdbcPostgresUserName: "{{ .Values.qTestManager.clientJdbc.postgresUserName }}"
+  qTestMgrClientjdbcPostgresPassword: "{{ .Values.qTestManager.clientJdbc.postgresPassword }}"
+  qTestMgrClientjdbcPostgresReadonlyUrl: "{{ .Values.qTestManager.clientJdbc.postgresReadOnlyUrl }}"
+  qTestMgrClientjdbcPostgresReadonlyUserName: "{{ .Values.qTestManager.clientJdbc.postgresReadonlyUserName }}"
+  qTestMgrClientjdbcPostgresReadonlyPassword: "{{ .Values.qTestManager.clientJdbc.postgresReadOnlyPassword }}"
+  qTestMgrElasticSearchInit: "{{ .Values.qTestManager.elasticSearch.init }}"
+  qTestMgrElasticSearchDisable: "{{ .Values.qTestManager.elasticSearch.disable }}"
+  qTestMgrElasticSearchScheme: "{{ .Values.qTestManager.elasticSearch.scheme }}"
+  qTestMgrElasticSearchHost: "{{ .Values.qTestManager.elasticSearch.host }}"
   qTestMgrElasticSearchPort: "{{ .Values.qTestManager.elasticSearch.port }}"
-  qTestMgrAttachmentFolderPath: {{ .Values.qTestManager.attachmentFolderPath }}
-  qTestMgrBlobStorageType: {{ .Values.qTestManager.blobStorage.type }}
-  qTestMgrBlobStorageRegion: {{ .Values.qTestManager.blobStorage.region }}
-  qTestMgrBlobStorageSharedBucket: {{ .Values.qTestManager.blobStorage.sharedBucket }}
-  qTestMgrS3AccessKey: {{ .Values.qTestManager.s3.accessKey }}
-  qTestMgrS3SecretKey: {{ .Values.qTestManager.s3.secretKey }}
-  qTestMgrS3Folder: {{ .Values.qTestManager.s3.folder }}
-  qTestMgrS3ScanUrl: {{ .Values.qTestManager.s3.scanUrl }}
-  qTestMgrServerAppUrl: {{ .Values.qTestManager.serverAppUrl }}
-  qTestMgrServerAppUseSecureCookie: {{ .Values.qTestManager.serverAppUseSecureCookie }}
-  qTestMgrServerAppSSLRequired: {{ .Values.qTestManager.serverAppSSLRequired }}
-  qTestMgrBaseHttpPort: {{ .Values.qTestManager.base.httpPort }}
-  qTestMgrBaseHttpsPort: {{ .Values.qTestManager.base.httpsPort }}
-  qTestMgrPreUrl: {{ .Values.qTestManager.preUrl }}
-  qTestMgrPreUrlHttps: {{ .Values.qTestManager.preUrlHttps }}
-  qTestMgrQasymphonyUrlPostfix: {{ .Values.qTestManager.qasymphonyUrlPostfix }}
-  qTestMgrQasDirectoryAddress: {{ .Values.qTestManager.qasDirectoryAddress }}
-  qTestMgrQTestInstance: {{ .Values.qTestManager.qTest.instance }}
-  qTestMgrQTestAppVersion: {{ .Values.qTestManager.qTest.appVersion }}
-  qTestMgrAppName: {{ .Values.qTestManager.appName }}
-  qTestMgrAnalyticsUrlBase: {{ .Values.qTestManager.analyticsUrlBase }}
+  qTestMgrAttachmentFolderPath: "{{ .Values.qTestManager.attachmentFolderPath }}"
+  qTestMgrBlobStorageType: "{{ .Values.qTestManager.blobStorage.type }}"
+  qTestMgrBlobStorageRegion: "{{ .Values.qTestManager.blobStorage.region }}"
+  qTestMgrBlobStorageSharedBucket: "{{ .Values.qTestManager.blobStorage.sharedBucket }}"
+  qTestMgrS3AccessKey: "{{ .Values.qTestManager.s3.accessKey }}"
+  qTestMgrS3SecretKey: "{{ .Values.qTestManager.s3.secretKey }}"
+  qTestMgrS3Folder: "{{ .Values.qTestManager.s3.folder }}"
+  qTestMgrS3ScanUrl: "{{ .Values.qTestManager.s3.scanUrl }}"
+  qTestMgrServerAppUrl: "{{ .Values.qTestManager.serverAppUrl }}"
+  qTestMgrServerAppUseSecureCookie: "{{ .Values.qTestManager.serverAppUseSecureCookie }}"
+  qTestMgrServerAppSSLRequired: "{{ .Values.qTestManager.serverAppSSLRequired }}"
+  qTestMgrBaseHttpPort: "{{ .Values.qTestManager.base.httpPort }}"
+  qTestMgrBaseHttpsPort: "{{ .Values.qTestManager.base.httpsPort }}"
+  qTestMgrPreUrl: "{{ .Values.qTestManager.preUrl }}"
+  qTestMgrPreUrlHttps: "{{ .Values.qTestManager.preUrlHttps }}"
+  qTestMgrQasymphonyUrlPostfix: "{{ .Values.qTestManager.qasymphonyUrlPostfix }}"
+  qTestMgrQasDirectoryAddress: "{{ .Values.qTestManager.qasDirectoryAddress }}"
+  qTestMgrQTestInstance: "{{ .Values.qTestManager.qTest.instance }}"
+  qTestMgrQTestAppVersion: "{{ .Values.qTestManager.qTest.appVersion }}"
+  qTestMgrAppName: "{{ .Values.qTestManager.appName }}"
+  qTestMgrAnalyticsUrlBase: "{{ .Values.qTestManager.analyticsUrlBase }}"
   qTestMgrKafkaBootstrapAddress: "{{ .Values.qTestManager.kafka.bootstrapAddress }}"
   qTestMgrKafkaSchemaRegistryUrl: "{{ .Values.qTestManager.kafka.schemaRegistryUrl }}"
-  qTestMgrPreSessionUrl: {{ .Values.qTestManager.preSessionUrl }}
-  qTestMgrPulseUrlBase: {{ .Values.qTestManager.pulseUrlBase }}
-  qTestMgrInsightsUrl: {{ .Values.qTestManager.insightsUrl }}
-  qTestMgrLaunchUrlBase: {{ .Values.qTestManager.launchUrlBase }}
-  qTestMgrNotificationUrlExternal: {{ .Values.qTestManager.notification.urlExternal }}
-  qTestMgrNotificationUrlInternal: {{ .Values.qTestManager.notification.urlInternal }}
-  qTestMgrQtestServerMapUrl: {{ .Values.qTestManager.qTest.serverMapUrl }}
-  qTestMgrReportHttpUrl: {{ .Values.qTestManager.report.httpUrl }}
-  qTestMgrReportUrl: {{ .Values.qTestManager.report.url }}
-  qTestMgrTdmSettingUrl: {{ .Values.qTestManager.tdmSettingUrl }}
-  qTestMgrMailHost: {{ .Values.qTestManager.mail.host }}
-  qTestMgrMailPort: {{ .Values.qTestManager.mail.port }}
-  qTestMgrMailUserName: {{ .Values.qTestManager.mail.userName }}
-  qTestMgrMailPassword: {{ .Values.qTestManager.mail.password }}
-  qTestMgrMailProtocol: {{ .Values.qTestManager.mail.protocol }}
-  qTestMgrMailSmtpAuth: {{ .Values.qTestManager.mail.smtpAuth }}
+  qTestMgrPreSessionUrl: "{{ .Values.qTestManager.preSessionUrl }}"
+  qTestMgrPulseUrlBase: "{{ .Values.qTestManager.pulseUrlBase }}"
+  qTestMgrInsightsUrl: "{{ .Values.qTestManager.insightsUrl }}"
+  qTestMgrLaunchUrlBase: "{{ .Values.qTestManager.launchUrlBase }}"
+  qTestMgrNotificationUrlExternal: "{{ .Values.qTestManager.notification.urlExternal }}"
+  qTestMgrNotificationUrlInternal: "{{ .Values.qTestManager.notification.urlInternal }}"
+  qTestMgrQtestServerMapUrl: "{{ .Values.qTestManager.qTest.serverMapUrl }}"
+  qTestMgrReportHttpUrl: "{{ .Values.qTestManager.report.httpUrl }}"
+  qTestMgrReportUrl: "{{ .Values.qTestManager.report.url }}"
+  qTestMgrTdmSettingUrl: "{{ .Values.qTestManager.tdmSettingUrl }}"
+  qTestMgrMailHost: "{{ .Values.qTestManager.mail.host }}"
+  qTestMgrMailPort: "{{ .Values.qTestManager.mail.port }}"
+  qTestMgrMailUserName: "{{ .Values.qTestManager.mail.userName }}"
+  qTestMgrMailPassword: "{{ .Values.qTestManager.mail.password }}"
+  qTestMgrMailProtocol: "{{ .Values.qTestManager.mail.protocol }}"
+  qTestMgrMailSmtpAuth: "{{ .Values.qTestManager.mail.smtpAuth }}"
