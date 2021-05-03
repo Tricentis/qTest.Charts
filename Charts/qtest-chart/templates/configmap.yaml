@@ -38,6 +38,8 @@ data:
   qTestMgrElasticSearchHost: "{{ .Values.qTestManager.elasticSearch.host }}"
   qTestMgrElasticSearchPort: "{{ .Values.qTestManager.elasticSearch.port }}"
   qTestMgrAttachmentFolderPath: "{{ .Values.qTestManager.attachmentFolderPath }}"
+  qTestMgrSearchFolderPath: "{{ .Values.qTestManager.searchFolderPath }}"
+  qTestMgrLicenseFolderPath: "{{ .Values.qTestManager.licenseFolderPath }}"
   qTestMgrBlobStorageType: "{{ .Values.qTestManager.blobStorage.type }}"
   qTestMgrBlobStorageRegion: "{{ .Values.qTestManager.blobStorage.region }}"
   qTestMgrBlobStorageSharedBucket: "{{ .Values.qTestManager.blobStorage.sharedBucket }}"
