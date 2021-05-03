@@ -45,9 +45,24 @@ spec:
                  key: qTestMgrClientjdbcPostgresUserName
            - name: client.jdbc.postgres.password
              valueFrom:
+               secretKeyRef:
+                 name: qtest-manager-secret
+                 key: qTestMgrClientjdbcPostgresPassword
+           - name: client.jdbc.postgres.readonly.url
+             valueFrom:
                configMapKeyRef:
                  name: qtest-manager-config
-                 key: qTestMgrClientjdbcPostgresPassword
+                 key: qTestMgrClientjdbcPostgresReadonlyUrl
+           - name: client.jdbc.postgres.readonly.username
+             valueFrom:
+               configMapKeyRef:
+                 name: qtest-manager-config
+                 key: qTestMgrClientjdbcPostgresReadonlyUserName
+           - name: client.jdbc.postgres.readonly.password
+             valueFrom:
+               secretKeyRef:
+                 name: qtest-manager-secret
+                 key: qTestMgrClientjdbcPostgresReadonlyPassword
            - name: elasticsearch.init
              valueFrom:
                configMapKeyRef:
@@ -105,13 +120,13 @@ spec:
                  key: qTestMgrBlobStorageSharedBucket
            - name: s3.accessKey
              valueFrom:
-               configMapKeyRef:
-                 name: qtest-manager-config
+               secretKeyRef:
+                 name: qtest-manager-secret
                  key: qTestMgrS3AccessKey
            - name: s3.secretKey
              valueFrom:
-               configMapKeyRef:
-                 name: qtest-manager-config
+               secretKeyRef:
+                 name: qtest-manager-secret
                  key: qTestMgrS3SecretKey
            - name: s3.folder
              valueFrom:
@@ -265,8 +280,8 @@ spec:
                  key: qTestMgrMailUserName
            - name: mail.password
              valueFrom:
-               configMapKeyRef:
-                 name: qtest-manager-config
+               secretKeyRef:
+                 name: qtest-manager-secret
                  key: qTestMgrMailPassword
            - name: mail.protocol
              valueFrom:

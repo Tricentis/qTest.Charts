@@ -28,10 +28,8 @@ qTestManager:
   clientJdbc:
     postgresUrl: ""
     postgresUserName: ""
-    postgresPassword: ""
     postgresReadOnlyUrl: ""
     postgresReadonlyUserName: ""
-    postgresReadOnlyPassword: ""
   elasticSearch:
     init: false
     disable: true
@@ -39,15 +37,13 @@ qTestManager:
     host: 127.0.0.1
     port: 9200
   attachmentFolderPath: /usr/local/tomcat/temp
-  searchFolderPath: ""
-  licenseFolderPath: ""
+  searchFolderPath: /usr/local/tomcat/temp
+  licenseFolderPath: /usr/local/tomcat/temp
   blobStorage:
     type: disk_storage
     region: us-east-1
     sharedBucket: ""
   s3:
-    accessKey: ""
-    secretKey: ""
     folder: manager
     scanUrl: ""
   serverAppUrl: http://search:8080
