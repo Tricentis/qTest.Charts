@@ -39,6 +39,8 @@ qTestManager:
     host: 127.0.0.1
     port: 9200
   attachmentFolderPath: /usr/local/tomcat/temp
+  searchFolderPath: ""
+  licenseFolderPath: ""
   blobStorage:
     type: disk_storage
     region: us-east-1

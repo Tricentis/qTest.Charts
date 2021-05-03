@@ -78,6 +78,16 @@ spec:
                configMapKeyRef:
                  name: qtest-manager-config
                  key: qTestMgrAttachmentFolderPath
+           - name: search.folder.path
+             valueFrom:
+               configMapKeyRef:
+                 name: qtest-manager-config
+                 key: qTestMgrSearchFolderPath
+           - name: license.folder.path
+             valueFrom:
+               configMapKeyRef:
+                 name: qtest-manager-config
+                 key: qTestMgrLicenseFolderPath
            - name: blobStorage.type
              valueFrom:
                configMapKeyRef:
