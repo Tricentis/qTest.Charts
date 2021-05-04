@@ -15,6 +15,26 @@ spec:
         release: "{{ .Release.Name }}"
         heritage: "{{ .Release.Service }}"
     spec:
+      initContainers:
+      - image: "{{ .Values.image.liquibase }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        name: qtestliquibase
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+           - name: POSTGRES_URL
+             valueFrom:
+               configMapKeyRef:
+                 name: qtest-manager-config
+                 key: qTestMgrClientjdbcPostgresUrl
+           - name: POSTGRES_USER
+             valueFrom:
+               configMapKeyRef:
+                 name: qtest-manager-config
+                 key: qTestMgrClientjdbcPostgresUserName
+           - name: POSTGRES_PASSWORD
+             valueFrom:
+               secretKeyRef:
+                 name: qtest-manager-secret
+                 key: qTestMgrClientjdbcPostgresPassword
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
