@@ -1,3 +1,4 @@
+{{- if .Values.deployments.enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -334,3 +335,4 @@ spec:
       {{- else }}
         emptyDir: {}
       {{- end }}
+{{- end }}
