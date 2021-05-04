@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euxo pipefail
 
-CHART_DIRS="$(git diff --find-renames --name-only "$(git rev-parse --abbrev-ref HEAD)" remotes/origin/main -- charts | cut -d '/' -f 2 | uniq)"
+CHART_DIRS="$(git diff --find-renames --name-only "$(git rev-parse --abbrev-ref HEAD)" remotes/origin/main -- Charts | cut -d '/' -f 2 | uniq)"
 
 # renovate: datasource=github-releases depName=instrumenta/kubeval
 KUBEVAL_VERSION="v0.16.1"
@@ -13,5 +13,6 @@ tar -xf /tmp/kubeval.tar.gz kubeval
 
 # validate charts
 for CHART_DIR in ${CHART_DIRS}; do
+  (cd Charts/${CHART_DIR})
   helm template Charts/"${CHART_DIR}" | ./kubeval --strict --ignore-missing-schemas --kubernetes-version "${KUBERNETES_VERSION#v}" --schema-location "${SCHEMA_LOCATION}"
 done

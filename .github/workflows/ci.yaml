@@ -57,31 +57,24 @@ jobs:
           KUBERNETES_VERSION: ${{ matrix.k8s }}
         run: .github/kubeval.sh
 
-  install-chart:
-    name: install-chart
-    runs-on: ubuntu-latest
-    needs:
-      - lint-chart
-      - lint-docs
-      - kubeval-chart
-    strategy:
-      matrix:
-        k8s:
-          - v1.18.8
-          - v1.19.3
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2.3.4
-        with:
-          fetch-depth: 0
-      - name: Create kind ${{ matrix.k8s }} cluster
-        uses: helm/kind-action@v1.1.0
-        with:
-          node_image: kindest/node:${{ matrix.k8s }}
-      - name: Install chart-testing
-        uses: helm/chart-testing-action@v2.0.1
-        with:
-          version: v3.3.0 #renovate: datasource=github-releases depName=helm/chart-testing
+  # install-chart:
+  #   name: install-chart
+  #   runs-on: ubuntu-latest
+  #   needs:
+  #     - lint-chart
+  #     - lint-docs
+  #     - kubeval-chart
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2.3.4
+  #       with:
+  #         fetch-depth: 0
+  #     - name: Create kind cluster
+  #       uses: helm/kind-action@v1.1.0
+  #     - name: Install chart-testing
+  #       uses: helm/chart-testing-action@v2.0.1
+  #       with:
+  #         version: v3.3.0 #renovate: datasource=github-releases depName=helm/chart-testing
 
       - name: Run chart install
         run: ct install --config .github/ct.yaml
