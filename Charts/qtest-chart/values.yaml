@@ -28,8 +28,10 @@ qTestManager:
   clientJdbc:
     postgresUrl: ""
     postgresUserName: ""
+    postgresPassword: ""
     postgresReadOnlyUrl: ""
-    postgresReadonlyUserName: ""
+    postgresReadOnlyUserName: ""
+    postgresReadOnlyPassword: ""
   elasticSearch:
     init: false
     disable: true
@@ -46,6 +48,8 @@ qTestManager:
   s3:
     folder: manager
     scanUrl: ""
+    SecretKey: ""
+    AccessKey: ""
   serverAppUrl: http://search:8080
   serverAppUseSecureCookie: true
   serverAppSSLRequired: false

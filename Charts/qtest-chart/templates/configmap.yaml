@@ -29,7 +29,7 @@ data:
   qTestMgrClientjdbcPostgresUrl: "{{ .Values.qTestManager.clientJdbc.postgresUrl }}"
   qTestMgrClientjdbcPostgresUserName: "{{ .Values.qTestManager.clientJdbc.postgresUserName }}"
   qTestMgrClientjdbcPostgresReadonlyUrl: "{{ .Values.qTestManager.clientJdbc.postgresReadOnlyUrl }}"
-  qTestMgrClientjdbcPostgresReadonlyUserName: "{{ .Values.qTestManager.clientJdbc.postgresReadonlyUserName }}"
+  qTestMgrClientjdbcPostgresReadonlyUserName: "{{ .Values.qTestManager.clientJdbc.postgresReadOnlyUserName }}"
   qTestMgrElasticSearchInit: "{{ .Values.qTestManager.elasticSearch.init }}"
   qTestMgrElasticSearchDisable: "{{ .Values.qTestManager.elasticSearch.disable }}"
   qTestMgrElasticSearchScheme: "{{ .Values.qTestManager.elasticSearch.scheme }}"
