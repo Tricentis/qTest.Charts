@@ -18,7 +18,6 @@ image:
   # repository: qtest.jfrog.io/qtest-docker-dev-local/qtestmanager
   # repository: agiletrailblazers.jfrog.io/demorepo/agiletrailblazers
   repository: devqtest.jfrog.io/qtest-docker-dev-local/qtestmanager
-  liquibase: qtest.jfrog.io/qtest-docker-dev-local/qtestliquibase
   pullPolicy: IfNotPresent
   tag: "latest"
 
