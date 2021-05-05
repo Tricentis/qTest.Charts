@@ -1,0 +1,21 @@
+{{- if .Values.rollouts.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: canary-{{ .Values.service.servicename }}
+  labels:
+    app: test-conductor
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    chart: {{ template "qtest-chart.chart" . }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: test-conductor
+    release: {{ .Release.Name }}
+{{- end }}

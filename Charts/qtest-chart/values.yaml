@@ -5,6 +5,14 @@
 replicaCount: 2
 secret: devqtestjfrog
 
+rollouts:
+  enabled: false
+  annotations:
+    litmuschaos.io/chaos: "false"
+
+deployments:
+  enabled: true
+
 image:
 
   # repository: qtest.jfrog.io/qtest-docker-dev-local/qtestmanager

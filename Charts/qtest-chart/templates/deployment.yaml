@@ -3,11 +3,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mgr-deployment
+  labels:
+    app: test-conductor
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: test-conductor
+      release: {{ .Release.Name }}
   template:
     metadata:
       labels:
@@ -313,15 +319,7 @@ spec:
              valueFrom:
                configMapKeyRef:
                  name: qtest-manager-config
-                 key: qTestMgrMailSmtpAuth
-        # livenessProbe:
-        #   httpGet:
-        #     path: /
-        #     port: http
-        # readinessProbe:
-        #   httpGet:
-        #     path: /
-        #     port: http               
+                 key: qTestMgrMailSmtpAuth            
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
         volumeMounts:
