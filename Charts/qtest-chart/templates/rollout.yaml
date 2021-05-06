@@ -304,7 +304,6 @@ spec:
                 configMapKeyRef:
                   name: qtest-manager-config
                   key: qTestMgrMailSmtpAuth             
-
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
@@ -319,13 +318,27 @@ spec:
     {{- end }}
   minReadySeconds: 30
   strategy:
-    canary: #Indicates that the rollout should use the Canary strategy
+    canary:
       maxSurge: "25%"
       maxUnavailable: 0
+      canaryService: canary-{{ .Values.service.servicename }}
+      stableService: {{ .Values.service.servicename }}
+      trafficRouting:
+        nginx:
+          stableIngress: mgr-ingress
+          annotationPrefix: nginx.ingress.kubernetes.io 
+          {{- with .Values.ingress.canary.annotations }}
+          additionalIngressAnnotations:
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
       steps:
-      - setWeight: 10
-      - pause:
-          duration: 1h # 1 hour
       - setWeight: 20
-      - pause: {} # pause indefinitely
+      - analysis:
+          templates:
+          - templateName: success-rates
+            clusterScope: true
+          args:
+          - name: service-name
+      - setWeight: 50
+      - pause: {}
 {{- end }}
