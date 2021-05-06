@@ -1,0 +1,17 @@
+{{- if .Values.rollouts.enabled -}}
+apiVersion: argoproj.io/v1alpha1
+kind: ClusterAnalysisTemplate
+metadata:
+  name: success-rates
+spec:
+  args:
+  - name: service-name
+  metrics:
+  - name: success-rates
+    successCondition: result[0] >= 0.001
+    provider:
+      prometheus:
+        address: {{ .Values.metrics.prometheus.address }}
+        query:  |
+          {{ .Values.metrics.prometheus.query }}
+{{- end }}

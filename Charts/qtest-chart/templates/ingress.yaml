@@ -1,5 +1,5 @@
 {{- if .Values.ingress.enabled -}}
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: mgr-ingress
@@ -9,10 +9,11 @@ metadata:
   {{- end }}
 spec:
   rules:
-    - http:
-        paths:
-          - path: /*
-            backend:
-              serviceName: {{ .Values.service.servicename }}
-              servicePort: {{ .Values.service.port }}
+  - host: {{ .Values.ingress.host }}
+    http:
+      paths:
+        - path: {{ .Values.ingress.path }}
+          backend:
+            serviceName: {{ .Values.service.servicename }}
+            servicePort: {{ .Values.service.port }}
 {{- end }}
