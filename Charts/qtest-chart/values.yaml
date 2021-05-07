@@ -18,7 +18,7 @@ image:
   # repository: agiletrailblazers.jfrog.io/demorepo/agiletrailblazers
   repository: qtest.jfrog.io/qtest-docker-dev-local/qtestmanager
   pullPolicy: IfNotPresent
-  tag: "96"
+  tag: "167"
 
 service:
   type: LoadBalancer
