@@ -12,5 +12,5 @@ minorVS="${str3##*.}"
 minorVS="${minorVS%?}"
 minorVS=$((minorVS+1))
 str4="${str3%.*}.$minorVS\""
-echo Update to appVersion $str3
+echo Update to appVersion $str4
 sed "s/appVersion:.*/$str4/g" Chart.yaml
