@@ -17,8 +17,11 @@ image:
   # repository: qtest.jfrog.io/qtest-docker-dev-local/qtestmanager
   # repository: agiletrailblazers.jfrog.io/demorepo/agiletrailblazers
   repository: qtest.jfrog.io/qtest-docker-dev-local/qtestmanager
+  liquibase: qtest.jfrog.io/qtest-docker-dev-local/qtestliquibase
   pullPolicy: IfNotPresent
   tag: "167"
+  liquibasetag: latest
+  liquibasepullpolicy: IfNotPresent
 
 service:
   type: LoadBalancer
