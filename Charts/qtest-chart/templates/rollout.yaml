@@ -23,6 +23,26 @@ spec:
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
         release: "{{ .Release.Name }}"
     spec:
+      initContainers:
+      - image: "{{ .Values.image.liquibase }}:{{ .Values.image.liquibasetag | default .Chart.AppVersion }}"
+        name: qtestliquibase
+        imagePullPolicy: {{ .Values.image.liquibasepullpolicy }}
+        env:
+           - name: POSTGRES_URL
+             valueFrom:
+               configMapKeyRef:
+                 name: qtest-manager-config
+                 key: qTestMgrClientjdbcPostgresUrl
+           - name: POSTGRES_USER
+             valueFrom:
+               configMapKeyRef:
+                 name: qtest-manager-config
+                 key: qTestMgrClientjdbcPostgresUserName
+           - name: POSTGRES_PASSWORD
+             valueFrom:
+               secretKeyRef:
+                 name: qtest-manager-secret
+                 key: qTestMgrClientjdbcPostgresPassword
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -33,6 +53,17 @@ spec:
               protocol: TCP
           resources:
 {{ toYaml .Values.resources | indent 12 }}
+        {{- if .Values.persistence.enabled }}
+          volumeMounts:
+          - name: qtest-data
+            mountPath: /mnt/data/storage
+        volumes:
+        - name: qtest-data
+          persistentVolumeClaim:
+            claimName: {{ template "qtest-chart.fullname" . }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
           env:
             - name: testconductor.environment
               valueFrom:
