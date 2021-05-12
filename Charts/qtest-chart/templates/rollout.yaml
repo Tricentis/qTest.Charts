@@ -364,12 +364,14 @@ spec:
           {{- end }}
       steps:
       - setWeight: 20
+      {{- if .Values.metrics.enabled }}
       - analysis:
           templates:
           - templateName: success-rates
             clusterScope: true
           args:
           - name: service-name
+      {{- end }}
       - setWeight: 50
       - pause: {}
 {{- end }}

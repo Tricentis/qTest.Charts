@@ -116,7 +116,7 @@ ingress:
   host: ""
   tls: []
 
-# Metrics for nginx ingress controller for application
+# Metrics for nginx ingress controller for application and cluster analysis
 metrics:
   enabled: false
   prometheus:
