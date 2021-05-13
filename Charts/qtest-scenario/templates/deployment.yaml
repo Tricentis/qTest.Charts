@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qtest-scenario-deployment
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: qtest-scenario
+  template:
+    metadata:
+      labels:
+        app: qtest-scenario
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        release: "{{ .Release.Name }}"
+        heritage: "{{ .Release.Service }}"
+    spec:
+      containers:
+        - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          name: {{ .Chart.Name }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+              name: http
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-scenario-config
+                  key: qTestScenarioDBConnection
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-scenario-config
+                  key: qTestScenarioPort
+            - name: LOCAL_BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-scenario-config
+                  key: qTestScenarioLocalBaseURL
+            - name: NODE_TLS_REJECT_UNAUTHORIZED
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-scenario-config
+                  key: qTestScenarioNodeTLSRejectUnAuthorized
+            - name: REFRESH_TOKEN_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: qtest-scenario-secret
+                  key: qTestScenarioRefreshTokenSecret
+
+          resources:
+          {{- toYaml .Values.resources | nindent 12 }}
