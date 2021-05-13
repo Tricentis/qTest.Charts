@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: qtest-scenario-config
+  labels:
+    app: qTestScenario
+data:
+  qTestScenarioDBConnection: "{{ .Values.qTestScenario.qTestScenarioDBConnection }}"
+  qTestScenarioLocalBaseURL: "{{ .Values.qTestScenario.qTestScenarioLocalBaseURL }}"
+  qTestScenarioNodeTLSRejectUnAuthorized: "{{ .Values.qTestScenario.qTestScenarioNodeTLSRejectUnAuthorized }}"
+  qTestScenarioPort: "{{ .Values.qTestScenario.qTestScenarioPort }}"
+  qTestScenarioRefreshTokenSecret: "{{ .Values.qTestScenario.qTestScenarioRefreshTokenSecret }}"
