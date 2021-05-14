@@ -20,6 +20,8 @@ qTestScenario:
   qTestScenarioLocalBaseURL: http://127.0.0.1:4000
   qTestScenarioNodeTLSRejectUnAuthorized: "0"
   qTestScenarioRefreshTokenSecret: ""
+  qTestScenarioAppKeyDescriptor: ""
+  qTestScenarioQTestURL: http://127.0.0.1:8080
 
 ingress:
   enabled: false
