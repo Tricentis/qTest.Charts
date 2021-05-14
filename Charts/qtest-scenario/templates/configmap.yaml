@@ -10,3 +10,5 @@ data:
   qTestScenarioNodeTLSRejectUnAuthorized: "{{ .Values.qTestScenario.qTestScenarioNodeTLSRejectUnAuthorized }}"
   qTestScenarioPort: "{{ .Values.qTestScenario.qTestScenarioPort }}"
   qTestScenarioRefreshTokenSecret: "{{ .Values.qTestScenario.qTestScenarioRefreshTokenSecret }}"
+  qTestScenarioAppKeyDescriptor: "{{ .Values.qTestScenario.qTestScenarioAppKeyDescriptor }}"
+  qTestScenarioQTestURL: "{{ .Values.qTestScenario.qTestScenarioQTestURL }}"
