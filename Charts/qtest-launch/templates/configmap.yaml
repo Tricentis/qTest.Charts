@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: qtest-launch-config
+  labels:
+    app: qTestLaunch
+data:
+  qTestLaunchPostgresUrl: "{{ .Values.qTestLaunch.qTestLaunchPostgresUrl }}"
+  qTestLaunchRootURL: "{{ .Values.qTestLaunch.qTestLaunchRootURL }}"
+  qTestLaunchQTestURL: "{{ .Values.qTestLaunch.qTestLaunchQTestURL }}"
+  qTestLaunchTCPWD: "{{ .Values.qTestLaunch.qTestLaunchTCPWD }}"
+  qTestLaunchNodeTLSRejectUnAuthorized: "{{ .Values.qTestLaunch.qTestLaunchNodeTLSRejectUnAuthorized }}"
+  qTestLaunchPort: "{{ .Values.qTestLaunch.qTestLaunchPort }}"
