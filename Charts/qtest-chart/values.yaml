@@ -75,8 +75,8 @@ qTestManager:
     bootstrapAddress: "[:]"
     schemaRegistryUrl: "[:]"
   analyticsUrlBase: ""
-  preSessionUrl: ""
-  pulseUrlBase: ""
+  preSessionUrl: "http://127.0.0.1:8080"
+  pulseUrlBase: "http://127.0.0.1:8080"
   insightsUrl: ""
   launchUrlBase: ""
   notification:

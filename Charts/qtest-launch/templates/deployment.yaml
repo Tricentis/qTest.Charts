@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: launch-deployment
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: qtest-launch
+  template:
+    metadata:
+      labels:
+        app: qtest-launch
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        release: "{{ .Release.Name }}"
+        heritage: "{{ .Release.Service }}"
+    spec:
+      containers:
+        - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          name: {{ .Chart.Name }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+              name: http
+          env:
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-launch-config
+                  key: qTestLaunchPort
+            - name: PG_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-launch-config
+                  key: qTestLaunchPostgresUrl
+            - name: ROOT_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-launch-config
+                  key: qTestLaunchRootURL
+            - name: QTEST_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-launch-config
+                  key: qTestLaunchQTestURL
+            - name: TCPWD
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-launch-config
+                  key: qTestLaunchTCPWD
+            - name: NODE_TLS_REJECT_UNAUTHORIZED
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-launch-config
+                  key: qTestLaunchNodeTLSRejectUnAuthorized
+          resources:
+          {{- toYaml .Values.resources | nindent 12 }}
