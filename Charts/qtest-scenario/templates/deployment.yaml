@@ -43,6 +43,11 @@ spec:
                 configMapKeyRef:
                   name: qtest-scenario-config
                   key: qTestScenarioNodeTLSRejectUnAuthorized
+            - name: NODE_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-scenario-config
+                  key: qTestScenarioNodeEnvironment
             - name: QTEST_URL
               valueFrom:
                 configMapKeyRef:

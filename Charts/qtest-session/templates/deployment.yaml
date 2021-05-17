@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: session-deployment
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: qtest-session
+  template:
+    metadata:
+      labels:
+        app: qtest-session
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        release: "{{ .Release.Name }}"
+        heritage: "{{ .Release.Service }}"
+    spec:
+      containers:
+        - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          name: {{ .Chart.Name }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+              name: http
+          env:
+            - name: SESSION_JS_HOME
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-session-config
+                  key: qTestSessionJSHome
+            - name: NODE_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-session-config
+                  key: qTestSessionNodeEnvironment
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-session-config
+                  key: qTestSessionPort
+            - name: DB_CONNECTION
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-session-config
+                  key: qTestSessionDBConnection
+            - name: QTEST_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-session-config
+                  key: QTestSessionHost
+            - name: QTEST_MASTER_TOKEN
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-session-config
+                  key: qTestSessionMasterToken
+            - name: SESSION_STORAGE_TYPE
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-session-config
+                  key: qTestSessionStorageType
+            - name: CSRF_ALLOW_PATTERN
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-session-config
+                  key: qTestSessionCSRFAllowPattern
+            - name: SESSION_STORAGE_ROOT_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-session-config
+                  key: qTestSessionStorageRootPath
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: qtest-session-secret
+                  key: qTestSessionSecretKey
+
+          resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+          - name: qtest-session-data
+            mountPath: /usr/local/sessions-js/logs
+      volumes:
+        - name: qtest-session-data
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ template "qtest-session.fullname" . }}
+          {{- else }}
+          emptyDir: {}
+  {{- end }}

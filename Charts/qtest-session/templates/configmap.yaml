@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: qtest-session-config
+  labels:
+    app: qTestSession
+data:
+  qTestSessionJSHome: "{{ .Values.qTestSession.qTestSessionJSHome }}"
+  qTestSessionNodeEnvironment: "{{ .Values.qTestSession.qTestSessionNodeEnvironment }}"
+  qTestSessionPort: "{{ .Values.qTestSession.qTestSessionPort }}"
+  qTestSessionDBConnection: "{{ .Values.qTestSession.qTestSessionDBConnection }}"
+  QTestManagerHost: "{{ .Values.qTestSession.qTestManagerHost }}"
+  qTestSessionMasterToken: "{{ .Values.qTestSession.qTestSessionMasterToken }}"
+  qTestSessionStorageType: "{{ .Values.qTestSession.qTestSessionStorageType }}"
+  qTestSessionCSRFAllowPattern: "{{ .Values.qTestSession.qTestSessionCSRFAllowPattern }}"
+  qTestSessionStorageRootPath: "{{ .Values.qTestSession.qTestSessionStorageRootPath }}"
+  qTestSessionSecretKey: {{ .Values.qTestSession.qTestSessionSecretKey }}
+
