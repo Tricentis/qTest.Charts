@@ -47,7 +47,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: qtest-session-config
-                  key: QTestSessionHost
+                  key: QTestManagerHost
             - name: QTEST_MASTER_TOKEN
               valueFrom:
                 configMapKeyRef:
