@@ -73,6 +73,9 @@ spec:
           emptyDir: {}
         {{- end }}
           env:
+        {{- if .Values.env }}
+{{- toYaml .Values.env | nindent 10 }}
+        {{- end }}
             - name: testconductor.environment
               valueFrom:
                 configMapKeyRef:

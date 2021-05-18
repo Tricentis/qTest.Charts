@@ -14,6 +14,8 @@ deployments:
 
 podAnnotations: {}
 
+env: []
+
 image:
   # repository: qtest.jfrog.io/qtest-docker-dev-local/qtestmanager
   # repository: agiletrailblazers.jfrog.io/demorepo/agiletrailblazers

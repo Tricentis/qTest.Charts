@@ -58,6 +58,9 @@ spec:
         - containerPort: {{ .Values.service.port }}
           name: http
         env:
+        {{- if .Values.env }}
+{{- toYaml .Values.env | nindent 11 }}
+        {{- end }}
            - name: testconductor.environment
              valueFrom:
                configMapKeyRef:
