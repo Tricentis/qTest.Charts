@@ -3,7 +3,6 @@
 # Declare variables to be passed into your templates.
 
 replicaCount: 2
-secret: {}
 
 rollouts:
   enabled: false
@@ -16,12 +15,20 @@ deployments:
 image:
   # repository: qtest.jfrog.io/qtest-docker-dev-local/qtestmanager
   # repository: agiletrailblazers.jfrog.io/demorepo/agiletrailblazers
-  repository: qtest.jfrog.io/qtest-docker-dev-local/qtestmanager
-  liquibase: qtest.jfrog.io/qtest-docker-dev-local/qtestliquibase1
+  repository: 242129367204.dkr.ecr.us-east-1.amazonaws.com/qtestmgr
+  liquibase: 242129367204.dkr.ecr.us-east-1.amazonaws.com/liquibase
   pullPolicy: IfNotPresent
-  tag: "167"
-  liquibasetag: latest
+  tag: "171"
+  liquibasetag: 1
   liquibasepullpolicy: IfNotPresent
+
+imageCredentials:
+  enabled: false
+  name: ""
+  registry: ""
+  username: ""
+  password: ""
+  email: ""
 
 service:
   type: LoadBalancer
@@ -115,6 +122,10 @@ ingress:
   # name.<nginx ip>.nip.io
   host: ""
   tls: []
+
+workflow:
+  enabled: false
+  adminModeNamespace: litmus
 
 # Metrics for nginx ingress controller for application and cluster analysis
 metrics:
