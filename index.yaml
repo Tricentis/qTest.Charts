@@ -3,6 +3,28 @@ entries:
   qtest-chart:
   - apiVersion: v2
     appVersion: 1.20.7
+    created: "2021-05-18T18:27:13.901625545Z"
+    description: A Helm chart for qTest Manager
+    digest: 391afa2e83fcdf9a1a7e5d8f02cc777e1c7301557b983b6904b2aec7776d62f5
+    home: https://github.com/QAS-Labs/qtest-chart.git
+    icon: https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_c2d6524c36c94138504f7a18bf179d76/tricentis-qtest.png
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: b.yang@ext.tricentis.com
+      name: byangtri
+    - email: p.jaladi@ext.tricentis.com
+      name: pjaladi21
+    - email: l.nguyen@tricentis.com
+      name: liemng
+    - email: m.vankendine@ext.tricentis.com
+      name: mtricentis
+    name: qtest-chart
+    type: application
+    urls:
+    - https://github.com/QAS-Labs/qtest-chart/releases/download/qtest-chart-0.2.4/qtest-chart-0.2.4.tgz
+    version: 0.2.4
+  - apiVersion: v2
+    appVersion: 1.20.7
     created: "2021-05-18T00:14:14.370494246Z"
     description: A Helm chart for qTest Manager
     digest: acd1f6e6bf211e14b0e2a15fa01e9a84e561f4b88476235a7e4b9475c8fd9880
@@ -245,6 +267,25 @@ entries:
   qtest-launch:
   - apiVersion: v2
     appVersion: 1.6.5
+    created: "2021-05-18T18:27:14.062703958Z"
+    description: A Helm chart for Kubernetes cluster of qtest-launch
+    digest: a7e69f2f268f0d49453dbff1badc8d43b7096597c638282e2d580cfe0fb0f6ec
+    home: https://github.com/QAS-Labs/qtest-chart.git
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: b.yang@ext.tricentis.com
+      name: byangtri
+    - email: p.jaladi@ext.tricentis.com
+      name: pjaladi21
+    - email: l.nguyen@tricentis.com
+      name: liemng
+    name: qtest-launch
+    type: application
+    urls:
+    - https://github.com/QAS-Labs/qtest-chart/releases/download/qtest-launch-0.1.1/qtest-launch-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.6.5
     created: "2021-05-17T18:20:30.979857078Z"
     description: A Helm chart for Kubernetes cluster of qtest-launch
     digest: b4aabb9d8cf1a45c411366b51d9b44995196ced9ac37def223c51b500b360d26
@@ -324,6 +365,25 @@ entries:
     - https://github.com/QAS-Labs/qtest-chart/releases/download/qtest-scenario-0.1.0/qtest-scenario-0.1.0.tgz
     version: 0.1.0
   qtest-session:
+  - apiVersion: v2
+    appVersion: 4.3.8
+    created: "2021-05-18T18:27:14.162946646Z"
+    description: A Helm chart for Kubernetes cluster of qtest-session
+    digest: 3d59ab01fbb232b60c322fae5929340e40b8e8c5c026db367c695dfb7dc3a4c2
+    home: https://github.com/QAS-Labs/qtest-chart.git
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: b.yang@ext.tricentis.com
+      name: byangtri
+    - email: p.jaladi@ext.tricentis.com
+      name: pjaladi21
+    - email: l.nguyen@tricentis.com
+      name: liemng
+    name: qtest-session
+    type: application
+    urls:
+    - https://github.com/QAS-Labs/qtest-chart/releases/download/qtest-session-0.1.1/qtest-session-0.1.1.tgz
+    version: 0.1.1
   - apiVersion: v2
     appVersion: 4.3.8
     created: "2021-05-17T18:20:31.185876309Z"
