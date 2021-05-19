@@ -74,7 +74,7 @@ spec:
         {{- end }}
           env:
         {{- if .Values.env }}
-{{- toYaml .Values.env | nindent 10 }}
+{{- toYaml .Values.env | nindent 12 }}
         {{- end }}
             - name: testconductor.environment
               valueFrom:
