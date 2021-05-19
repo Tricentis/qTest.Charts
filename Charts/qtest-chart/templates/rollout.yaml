@@ -4,7 +4,7 @@ kind: Rollout
 metadata:
   name: mgr-rollout
   labels:
-    app: test-conductor
+    app: qtest-mgr
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
@@ -13,7 +13,7 @@ spec:
   revisionHistoryLimit: 3
   selector:
     matchLabels:
-      app: test-conductor
+      app: qtest-mgr
       release: {{ .Release.Name }}
   template:
     metadata:
@@ -24,7 +24,7 @@ spec:
       {{- end }}
       {{- end }}
       labels:
-        app: test-conductor
+        app: qtest-mgr
         release: {{ .Release.Name }}
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
         release: "{{ .Release.Name }}"

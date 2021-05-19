@@ -1,4 +1,8 @@
 {{- if .Values.ingress.enabled -}}
+{{- $serviceName := .Values.service.servicename -}}
+{{- $servicePort := .Values.service.port -}}
+{{- $paths := .Values.ingress.paths -}}
+{{- $extraPaths := .Values.ingress.extraPaths -}}
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
@@ -7,13 +11,30 @@ metadata:
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
+  labels:
+    {{- if .Values.ingress.labels }}
+    {{- toYaml .Values.ingress.labels | nindent 4 }}
+    {{- end }}
 spec:
   rules:
-  - host: {{ .Values.ingress.host }}
+  {{- if .Values.ingress.hosts }}
+  {{- range $host := .Values.ingress.hosts }}
+  - host: {{ $host }}
     http:
       paths:
-        - path: {{ .Values.ingress.path }}
+        {{- if $extraPaths }}
+        {{- toYaml $extraPaths | nindent 8 }}
+        {{- end }}
+        {{- range $p := $paths }}
+        - path: {{ $p }}
           backend:
-            serviceName: {{ .Values.service.servicename }}
-            servicePort: {{ .Values.service.port }}
+            serviceName: {{ $serviceName }}
+            servicePort: {{ $servicePort }}
+        {{- end -}}
+  {{- end -}}
+  {{- end -}}
+  {{- if .Values.ingress.tls }}
+  tls:
+    {{- toYaml .Values.ingress.tls | nindent 4 }}
+  {{- end -}}
 {{- end }}

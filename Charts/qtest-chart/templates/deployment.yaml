@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: mgr-deployment
   labels:
-    app: test-conductor
+    app: qtest-mgr
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
@@ -12,7 +12,7 @@ spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: test-conductor
+      app: qtest-mgr
       release: {{ .Release.Name }}
   template:
     metadata:
@@ -23,7 +23,7 @@ spec:
       {{- end }}
       {{- end }}
       labels:
-        app: test-conductor
+        app: qtest-mgr
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
         release: "{{ .Release.Name }}"
         heritage: "{{ .Release.Service }}"

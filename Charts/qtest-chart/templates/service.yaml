@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ .Values.service.servicename }}
   labels:
-    app: test-conductor
+    app: qtest-mgr
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
     chart: {{ template "qtest-chart.chart" . }}
@@ -14,6 +14,6 @@ spec:
       port: {{ .Values.service.port }}
       targetPort: {{ .Values.service.targetport }}
   selector:
-    app: test-conductor
+    app: qtest-mgr
     release: {{ .Release.Name }}
   type: {{ .Values.service.type }}

@@ -36,7 +36,7 @@ spec:
               spec:
                 appinfo:
                   appns: qtest
-                  applabel: "app=test-conductor"
+                  applabel: "app=qtest-mgr"
                   appkind: rollout
                 jobCleanUpPolicy: retain
                 monitoring: false
@@ -70,13 +70,13 @@ spec:
               kind: Job
               metadata:
                 labels:
-                  app: test-conductor-bench
+                  app: qtest-mgr-bench
                 generateName: qtest-mgr-bench-
               spec:
                 template:
                   metadata:
                     labels:
-                      app: test-conductor-bench
+                      app: qtest-mgr-bench
                   spec:
                     restartPolicy: Never
                     containers:
@@ -87,14 +87,14 @@ spec:
                       - /bin/sh
                       env:
                         - name: qtest-mgr_SVC_NAME
-                          value: "test-conductor.default.svc.cluster.local"
+                          value: "qtest-mgr.default.svc.cluster.local"
                         - name: qtest-mgr_PORT_NUM
                           value: "80"
                         - name: BENCHMARK_DURATION
                           value: "300"
                       image: devth/alpine-bench
                       imagePullPolicy: Always
-                      name: test-conductor-bench
+                      name: qtest-mgr-bench
       container:
         image: lachlanevenson/k8s-kubectl
         command: [sh, -c]
