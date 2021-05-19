@@ -4,7 +4,7 @@ kind: Service
 metadata:
   name: canary-{{ .Values.service.servicename }}
   labels:
-    app: test-conductor
+    app: qtest-mgr
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
     chart: {{ template "qtest-chart.chart" . }}
@@ -16,6 +16,6 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app: test-conductor
+    app: qtest-mgr
     release: {{ .Release.Name }}
 {{- end }}

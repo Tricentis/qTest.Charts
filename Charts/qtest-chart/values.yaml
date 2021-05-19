@@ -39,6 +39,10 @@ service:
   port: 8080
   targetport: 8080
   servicename: mgr-service
+  # servicePortHttp: 80
+  # servicePortHttps: 443
+  # servicePortHttpName: http
+  # servicePortHttpsName: https
 
 qTestManager:
   postgres_host: ""
@@ -119,13 +123,25 @@ ingress:
     # alb.ingress.kubernetes.io/target-type: ip
     # alb.ingress.kubernetes.io/subnets: subnet-0af0148f6b11db237, subnet-0703b40274a38ef03, subnet-08b03eaa2622a4fe6
   canary:
-    annotations:
-      canary-by-header: tenantID
-      canary-by-header-pattern: 10|11|12|13
-  path: /
-  # name.<nginx ip>.nip.io
-  host: ""
-  tls: []
+    annotations: {}
+      # canary-by-header: []
+      # canary-by-header-pattern: []
+  labels: {}
+  hosts: []
+  paths: 
+    - /
+  extraPaths:
+    []
+    # - path: /*
+    #   backend:
+    #     serviceName: ssl-redirect
+    #     servicePort: use-annotation
+  tls:
+    []
+    # - secretName: qtest-example-tls
+    #   hosts:
+    #     - foo.qtest.com
+  https: false
 
 workflow:
   enabled: false

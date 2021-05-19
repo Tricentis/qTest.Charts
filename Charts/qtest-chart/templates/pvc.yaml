@@ -4,7 +4,7 @@ apiVersion: v1
 metadata:
   name: {{ template "qtest-chart.fullname" . }}
   labels:
-    app: test-conductor
+    app: qtest-mgr
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
