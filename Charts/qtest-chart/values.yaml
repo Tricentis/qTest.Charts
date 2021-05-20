@@ -6,11 +6,11 @@ replicaCount: 2
 
 rollouts:
   enabled: false
-  annotations:
-    litmuschaos.io/chaos: "false"
 
 deployments:
   enabled: true
+
+annotations: {}
 
 podAnnotations: {}
 
