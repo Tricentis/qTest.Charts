@@ -128,7 +128,7 @@ ingress:
       # canary-by-header-pattern: []
   labels: {}
   hosts: []
-  paths: 
+  paths:
     - /
   extraPaths:
     []
