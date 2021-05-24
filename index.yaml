@@ -454,6 +454,46 @@ entries:
     urls:
     - https://github.com/QAS-Labs/qtest-chart/releases/download/qtest-launch-0.1.0/qtest-launch-0.1.0.tgz
     version: 0.1.0
+  qtest-parameters:
+  - apiVersion: v2
+    appVersion: 2.2.12
+    created: "2021-05-24T13:50:16.83923252Z"
+    description: A Helm chart for Kubernetes cluster of qtest-parameters
+    digest: e22d3901bf8e0cbbeba82115b3b075bd189b00763075fac5aa661502b9bcd725
+    home: https://github.com/QAS-Labs/qtest-chart.git
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: b.yang@ext.tricentis.com
+      name: byangtri
+    - email: p.jaladi@ext.tricentis.com
+      name: pjaladi21
+    - email: l.nguyen@tricentis.com
+      name: liemng
+    name: qtest-parameters
+    type: application
+    urls:
+    - https://github.com/QAS-Labs/qtest-chart/releases/download/qtest-parameters-0.1.0/qtest-parameters-0.1.0.tgz
+    version: 0.1.0
+  qtest-pulse:
+  - apiVersion: v2
+    appVersion: 9.3.5
+    created: "2021-05-24T13:50:16.996139673Z"
+    description: A Helm chart for Kubernetes cluster of qtest-pulse
+    digest: bb48b517f973dac0ddc22a451bb93f85c374a6185a948c0beff7478e02b1aaa7
+    home: https://github.com/QAS-Labs/qtest-chart.git
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: b.yang@ext.tricentis.com
+      name: byangtri
+    - email: p.jaladi@ext.tricentis.com
+      name: pjaladi21
+    - email: l.nguyen@tricentis.com
+      name: liemng
+    name: qtest-pulse
+    type: application
+    urls:
+    - https://github.com/QAS-Labs/qtest-chart/releases/download/qtest-pulse-0.1.0/qtest-pulse-0.1.0.tgz
+    version: 0.1.0
   qtest-scenario:
   - apiVersion: v2
     appVersion: 3.3.4
