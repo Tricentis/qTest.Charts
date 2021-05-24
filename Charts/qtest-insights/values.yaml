@@ -1,0 +1,87 @@
+# Default values for qtest-insights-chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+image:
+  repository: qasymphony/insights
+  pullPolicy: IfNotPresent
+  tag: "v1.21.22.op"
+
+service:
+  type: LoadBalancer
+  port: 8080
+  targetport: 8080
+  servicename: insights-service
+
+qTestInsights:
+  qTestInsightsProxyEnabled: 1
+  qTestInsightsProxyHTTP: http://127.0.0.1:8080/
+  qTestInsightsProxyHTTPS: https://127.0.0.1:8443/
+  qTestInsightsCatalinaOpts: \"-server -d64 -Xms1024m -Xmx3072m -XX:MaxPermSize=256m -XX:CompileThreshold=8000 -XX:-DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/logs -Djava.awt.headless=true\"
+  qTestInsightsDBName: ""
+  qTestInsightsDBPassword: ""
+  qTestInsightsDBHost: ""
+  qTestInsightsDBUser: ""
+  qTestInsightsWriteQTestDBName: ""
+  qTestInsightsWriteQTestDBPassword: ""
+  qTestInsightsWriteQTestDBHost: ""
+  qTestInsightsWriteQTestDBUser: ""
+  qTestInsightsSessionDBName: ""
+  qTestInsightsSessionDBPassword: ""
+  qTestInsightsSessionDBHost: ""
+  qTestInsightsSessionDBUser: ""
+  qTestInsightsCSRFAllowPattern: \"$insights_security_csrf_trusted_source_pattern\"
+
+ingress:
+  enabled: false
+  annotations:
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    # alb.ingress.kubernetes.io/subnets: subnet-0af0148f6b11db237, subnet-0703b40274a38ef03, subnet-08b03eaa2622a4fe6
+
+persistence:
+  enabled: false
+  ## Set annotations on pvc
+  annotations: {}
+
+  ## Specify an existing volume claim instead of creating a new one.
+  ## When using this option all following options like storageClass, accessMode and size are ignored.
+  # existingClaim:
+
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is
+  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  ##   GKE, AWS & OpenStack)
+  ##
+  storageClass:
+  accessMode: ReadWriteOnce
+  size: 5Gi
+
+  ## Specify extra volumes. Refer to ".spec.volumes" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
+  volumes: []
+  ## Specify extra mounts. Refer to ".spec.containers.volumeMounts" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
+  mounts: []
+
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    cpu: 1
+    memory: 2G
+  requests:
+    cpu: 1
+    memory: 2G
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80

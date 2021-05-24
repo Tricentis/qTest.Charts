@@ -1,0 +1,178 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qtest-insights-deployment
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: qtest-insights
+  template:
+    metadata:
+      labels:
+        app: qtest-insights
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        release: "{{ .Release.Name }}"
+        heritage: "{{ .Release.Service }}"
+    spec:
+      containers:
+        - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          name: {{ .Chart.Name }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+              name: http
+          env:
+            - name: PROXY_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-insights-config
+                  key: qTestInsightsProxyEnabled
+            - name: PROXY_HTTP1
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-insights-config
+                  key: qTestInsightsProxyHTTP                  
+            - name: PROXY_HTTPS1
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-insights-config
+                  key: qTestInsightsProxyHTTPS
+            - name: CATALINA_OPTS1
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-insights-config
+                  key: qTestInsightsCatalinaOpts
+            - name: QTEST_DB_PW
+              valueFrom:
+                secretKeyRef:
+                  name: qtest-insights-secret
+                  key: qTestInsightsDBPassword
+            - name: QTEST_DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-insights-config
+                  key: qTestInsightsDBName
+            - name: QTEST_DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-insights-config
+                  key: qTestInsightsDBHost      
+            - name: QTEST_DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-insights-config
+                  key: qTestInsightsDBUser
+            - name: WRITE_QTEST_DB_PW
+              valueFrom:
+                secretKeyRef:
+                  name: qtest-insights-secret
+                  key: qTestInsightsWriteQTestDBPassword
+            - name: WRITE_QTEST_DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-insights-config
+                  key: qTestInsightsWriteQTestDBName
+            - name: WRITE_QTEST_DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-insights-config
+                  key: qTestInsightsWriteQTestDBHost
+            - name: WRITE_QTEST_DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-insights-config
+                  key: qTestInsightsWriteQTestDBUser
+            - name: SESSIONS_DB_PW
+              valueFrom:
+                secretKeyRef:
+                  name: qtest-insights-secret
+                  key: qTestInsightsSessionDBPassword
+            - name: SESSIONS_DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-insights-config
+                  key: qTestInsightsSessionDBName
+            - name: SESSIONS_DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-insights-config
+                  key: qTestInsightsSessionDBHost
+            - name: SESSIONS_DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-insights-config
+                  key: qTestInsightsSessionDBUser
+            - name: CSRF_ALLOW_PATTERN
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-insights-config
+                  key: qTestInsightsCSRFAllowPattern
+          resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: qtest-insights-logs
+              mountPath: /usr/local/tomcat/logs/
+            - name: qtest-insights-error-logs
+              mountPath: /usr/local/tomcat/webapps/ROOT/ErrorLog/
+            - name: qtest-insights-dashboards
+              mountPath: /usr/local/tomcat/webapps/ROOT/SavedDashboards/
+            - name: qtest-insights-bookmarks
+              mountPath: /usr/local/tomcat/webapps/ROOT/SavedBookmarks/
+            - name: qtest-insights-custom-reports
+              mountPath: /usr/local/tomcat/webapps/ROOT/CustomReports/
+            - name: qtest-insights-rddatacache
+              mountPath: /usr/local/tomcat/webapps/ROOT/rdDataCache
+            - name: qtest-insights-rddownload
+              mountPath: /usr/local/tomcat/webapps/ROOT/rdDownload
+      volumes:
+        - name: qtest-insights-logs
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: qtest-insights-logs
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        - name: qtest-insights-error-logs
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: qtest-insights-error-logs
+          {{- else }}
+          emptyDir: {}
+        {{- end }}
+        - name: qtest-insights-dashboards
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: qtest-insights-dashboards
+          {{- else }}
+          emptyDir: {}
+        {{- end }}
+        - name: qtest-insights-bookmarks
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: qtest-insights-bookmarks
+          {{- else }}
+          emptyDir: {}
+        {{- end }}
+        - name: qtest-insights-custom-reports
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: qtest-insights-custom-reports
+          {{- else }}
+          emptyDir: {}
+        {{- end }}
+        - name: qtest-insights-rddatacache
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: qtest-insights-rddatacache
+          {{- else }}
+          emptyDir: {}
+        {{- end }}
+        - name: qtest-insights-rddownload
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: qtest-insights-rddownload
+          {{- else }}
+          emptyDir: {}
+        {{- end }}
+
