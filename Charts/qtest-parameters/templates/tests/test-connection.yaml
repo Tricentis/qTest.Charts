@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "qtest-parameters.fullname" . }}-test-connection"
+  labels:
+    {{- include "qtest-parameters.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "qtest-parameters.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never

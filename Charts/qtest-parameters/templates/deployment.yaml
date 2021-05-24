@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scenario-deployment
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: qtest-parameters
+  template:
+    metadata:
+      labels:
+        app: qtest-parameters
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        release: "{{ .Release.Name }}"
+        heritage: "{{ .Release.Service }}"
+    spec:
+      containers:
+        - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          name: {{ .Chart.Name }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+              name: http
+          env:
+            - name: PG_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-parameters-config
+                  key: qTestParametersPGUrl
+            - name: NODE_TLS_REJECT_UNAUTHORIZED
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-parameters-config
+                  key: qTestParametersNodeTLSRejectUnAuthorized
+            - name: QTEST_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-parameters-config
+                  key: qTestParametersQTestHost
+            - name: NODE_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-parameters-config
+                  key: qTestParametersNodeEnv
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-parameters-config
+                  key: qTestParametersPort
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+          - name: qtest-parameter-logs
+            mountPath: /usr/local/parameters/logs
+      volumes:
+        - name: qtest-parameter-logs
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ template "qtest-parameters.fullname" . }}
+          {{- else }}
+          emptyDir: {}
+  {{- end }}

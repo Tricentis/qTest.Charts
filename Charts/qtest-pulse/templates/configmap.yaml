@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: qtest-pulse-config
+  labels:
+    app: qTestPulse
+data:
+  qTestPulsePGUrl: "{{ .Values.qTestPulse.qTestPulsePGUrl }}"
+  qTestPulseRootURL: "{{ .Values.qTestPulse.qTestPulseRootURL }}"
+  qTestPulseQTestURL: "{{ .Values.qTestPulse.qTestPulseQTestURL }}"
+  qTestPulseScenarioURL: "{{ .Values.qTestPulse.qTestPulseScenarioURL }}"
+  qTestPulseNodeTLSRejectUnAuthorized: "{{ .Values.qTestPulse.qTestPulseNodeTLSRejectUnAuthorized }}"
+  qTestPulsePort: "{{ .Values.qTestPulse.qTestPulsePort }}"
+  qTestPulseNodeEnv: "{{ .Values.qTestPulse.qTestPulseNodeEnv }}"

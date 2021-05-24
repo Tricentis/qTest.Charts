@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: qtest-parameters-config
+  labels:
+    app: qTestParameters
+data:
+  qTestParametersPGUrl: "{{ .Values.qTestParameters.qTestParametersPGUrl }}"
+  qTestParametersQTestHost: "{{ .Values.qTestParameters.qTestParametersQTestHost }}"
+  qTestParametersNodeTLSRejectUnAuthorized: "{{ .Values.qTestParameters.qTestParametersNodeTLSRejectUnAuthorized }}"
+  qTestParametersNodeEnv: "{{ .Values.qTestParameters.qTestParametersNodeEnv }}"
+  qTestParametersPort: "{{ .Values.qTestParameters.qTestParametersPort }}"
