@@ -2,7 +2,7 @@
 Kubernetes Helm Chart Repository for qTest Manager
 
 ## Chart Details
-This chart will provision a functional and featured qTest Manager installation in the cluster that it is deployed to.
+This chart will provision a functional and featured qTest products installation in the cluster that it is deployed to.
 
 ## Prerequisites
 
