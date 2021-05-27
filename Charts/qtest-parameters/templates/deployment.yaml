@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: scenario-deployment
+  name: parameters-deployment
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
