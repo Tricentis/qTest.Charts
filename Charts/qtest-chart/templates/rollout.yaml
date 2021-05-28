@@ -347,9 +347,14 @@ spec:
                   key: qTestMgrMailProtocol
             - name: mail.smtp.auth
               valueFrom:
+              configMapKeyRef:
+                name: qtest-manager-config
+                key: qTestMgrMailSmtpAuth
+            - name: mail.smtp.starttls.enable
+              valueFrom:
                 configMapKeyRef:
                   name: qtest-manager-config
-                  key: qTestMgrMailSmtpAuth             
+                  key: qTestMgrMailSmtpTLS
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
