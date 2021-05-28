@@ -107,11 +107,12 @@ qTestManager:
   tdmSettingUrl: ""
   mail:
     host: ""
-    port: 465
+    port: 587
     userName: ""
     password: ""
     protocol: smtp
     smtpAuth: true
+    smtpTls: true
 
 ingress:
   enabled: false

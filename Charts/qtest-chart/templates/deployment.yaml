@@ -334,7 +334,12 @@ spec:
              valueFrom:
                configMapKeyRef:
                  name: qtest-manager-config
-                 key: qTestMgrMailSmtpAuth            
+                 key: qTestMgrMailSmtpAuth
+           - name: mail.smtp.starttls.enable
+             valueFrom:
+               configMapKeyRef:
+                 name: qtest-manager-config
+                 key: qTestMgrMailSmtpTLS
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
         volumeMounts:
