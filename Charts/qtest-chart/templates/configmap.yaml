@@ -74,3 +74,4 @@ data:
   qTestMgrMailProtocol: "{{ .Values.qTestManager.mail.protocol }}"
   qTestMgrMailSmtpAuth: "{{ .Values.qTestManager.mail.smtpAuth }}"
   qTestMgrMailSmtpTLS: "{{ .Values.qTestManager.mail.smtpTls }}"
+  qTestMgrMailFromAddress: "{{ .Values.qTestManager.mail.supportEmailAddress }}"
