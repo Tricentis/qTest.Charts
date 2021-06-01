@@ -355,6 +355,11 @@ spec:
                 configMapKeyRef:
                   name: qtest-manager-config
                   key: qTestMgrMailSmtpTLS
+            - name: supportEmailAddress
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-manager-config
+                  key: qTestMgrMailFromAddress
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
