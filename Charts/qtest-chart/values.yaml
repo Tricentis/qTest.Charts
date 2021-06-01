@@ -22,7 +22,7 @@ image:
   repository: 242129367204.dkr.ecr.us-east-1.amazonaws.com/qtestmgr
   liquibase: 242129367204.dkr.ecr.us-east-1.amazonaws.com/liquibase
   pullPolicy: IfNotPresent
-  tag: "176"
+  tag: "19"
   liquibasetag: 1
   liquibasepullpolicy: IfNotPresent
 
