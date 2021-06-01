@@ -3,6 +3,28 @@ entries:
   qtest-chart:
   - apiVersion: v2
     appVersion: 1.20.8
+    created: "2021-06-01T15:32:27.627983121Z"
+    description: A Helm chart for qTest Manager
+    digest: 589b7a73ef68039c9912291e69783a9593d87abbb0651c52f7bac8ec9d7c65cd
+    home: https://github.com/QAS-Labs/qtest-chart.git
+    icon: https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_c2d6524c36c94138504f7a18bf179d76/tricentis-qtest.png
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: b.yang@ext.tricentis.com
+      name: byangtri
+    - email: p.jaladi@ext.tricentis.com
+      name: pjaladi21
+    - email: l.nguyen@tricentis.com
+      name: liemng
+    - email: m.vankendine@ext.tricentis.com
+      name: mtricentis
+    name: qtest-chart
+    type: application
+    urls:
+    - https://github.com/QAS-Labs/qtest-chart/releases/download/qtest-chart-0.2.16/qtest-chart-0.2.16.tgz
+    version: 0.2.16
+  - apiVersion: v2
+    appVersion: 1.20.8
     created: "2021-06-01T14:28:11.781857661Z"
     description: A Helm chart for qTest Manager
     digest: 1409f29c3f1f6dd03cf8f0ffa519f73a33938618ee75471ce4b50997d81bc303
