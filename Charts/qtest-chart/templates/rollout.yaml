@@ -347,9 +347,9 @@ spec:
                   key: qTestMgrMailProtocol
             - name: mail.smtp.auth
               valueFrom:
-              configMapKeyRef:
-                name: qtest-manager-config
-                key: qTestMgrMailSmtpAuth
+                configMapKeyRef:
+                  name: qtest-manager-config
+                  key: qTestMgrMailSmtpAuth
             - name: mail.smtp.starttls.enable
               valueFrom:
                 configMapKeyRef:
