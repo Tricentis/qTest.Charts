@@ -56,29 +56,29 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.imageCredentials.name }}
       containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: {{ .Values.service.port }}
-              protocol: TCP
-          resources:
-            {{ toYaml .Values.resources | indent 12 }}
-          volumeMounts:
-          - name: qtest-data
-            mountPath: /mnt/data/storage
-        volumes:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+          - name: http
+            containerPort: {{ .Values.service.port }}
+            protocol: TCP
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+        volumeMounts:
         - name: qtest-data
-        {{- if .Values.persistence.existingClaim }}
-          persistentVolumeClaim:
-            claimName: {{ .Values.persistence.existingClaim }}
-        {{- else if .Values.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ template "qtest-chart.fullname" . }}
-        {{- else }}
-          emptyDir: {}
-        {{- end }}
+          mountPath: /mnt/data/storage
+      volumes:
+      - name: qtest-data
+      {{- if .Values.persistence.existingClaim }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.persistence.existingClaim }}
+      {{- else if .Values.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ template "qtest-chart.fullname" . }}
+      {{- else }}
+        emptyDir: {}
+      {{- end }}
           env:
         {{- if .Values.env }}
 {{- toYaml .Values.env | nindent 12 }}
