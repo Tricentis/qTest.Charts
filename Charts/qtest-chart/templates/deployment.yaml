@@ -52,8 +52,10 @@ spec:
                secretKeyRef:
                  name: qtest-manager-secret
                  key: qTestMgrClientjdbcPostgresPassword
+      {{- if .Values.imageCredentials.enabled -}}
       imagePullSecrets:
       - name: {{ .Values.imageCredentials.name }}
+      {{- end }}
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
