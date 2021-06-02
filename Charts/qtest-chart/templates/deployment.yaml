@@ -352,7 +352,10 @@ spec:
           mountPath: /mnt/data/storage
       volumes:
       - name: qtest-data
-      {{- if .Values.persistence.enabled }}
+      {{- if .Values.persistence.existingClaim }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.persistence.existingClaim }}
+      {{- else if .Values.persistence.enabled }}
         persistentVolumeClaim:
           claimName: {{ template "qtest-chart.fullname" . }}
       {{- else }}
