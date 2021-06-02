@@ -33,6 +33,18 @@ spec:
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
         release: "{{ .Release.Name }}"
     spec:
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
       initContainers:
       - image: "{{ .Values.image.liquibase }}:{{ .Values.image.liquibasetag | default .Chart.AppVersion }}"
         name: qtestliquibase
@@ -81,33 +93,6 @@ spec:
       {{- else }}
         emptyDir: {}
       {{- end }}
-        env:
-           - name: POSTGRES_URL
-             valueFrom:
-               configMapKeyRef:
-                 name: qtest-manager-config
-                 key: qTestMgrClientjdbcPostgresUrl
-           - name: POSTGRES_USER
-             valueFrom:
-               configMapKeyRef:
-                 name: qtest-manager-config
-                 key: qTestMgrClientjdbcPostgresUserName
-           - name: POSTGRES_PASSWORD
-             valueFrom:
-               secretKeyRef:
-                 name: qtest-manager-secret
-                 key: qTestMgrClientjdbcPostgresPassword
-      {{- if .Values.imageCredentials.enabled -}}
-      imagePullSecrets:
-      - name: {{ .Values.imageCredentials.name }}
-      {{- end }}
-      containers:
-      - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        name: {{ .Chart.Name }}
-        ports:
-        - containerPort: {{ .Values.service.port }}
-          name: http
         env:
         {{- if .Values.env }}
 {{- toYaml .Values.env | nindent 11 }}
@@ -392,18 +377,6 @@ spec:
                configMapKeyRef:
                  name: qtest-manager-config
                  key: qTestMgrMailFromAddress
-    {{- with .Values.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
   minReadySeconds: 30
   strategy:
     canary:
