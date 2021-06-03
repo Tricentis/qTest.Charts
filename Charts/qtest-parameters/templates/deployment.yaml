@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: parameters-deployment
+  name: qtest-parameters-deployment
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.autoscaling.minReplicas }}
   selector:
     matchLabels:
       app: qtest-parameters
@@ -26,30 +26,28 @@ spec:
             - name: PG_URL
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-parameters-config
+                  name: qtest-parameters-configmap
                   key: qTestParametersPGUrl
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-parameters-config
+                  name: qtest-parameters-configmap
                   key: qTestParametersNodeTLSRejectUnAuthorized
             - name: QTEST_HOST
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-parameters-config
+                  name: qtest-parameters-configmap
                   key: qTestParametersQTestHost
             - name: NODE_ENV
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-parameters-config
+                  name: qtest-parameters-configmap
                   key: qTestParametersNodeEnv
             - name: PORT
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-parameters-config
+                  name: qtest-parameters-configmap
                   key: qTestParametersPort
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
           - name: qtest-parameter-logs
             mountPath: /usr/local/parameters/logs
@@ -60,4 +58,4 @@ spec:
             claimName: {{ template "qtest-parameters.fullname" . }}
           {{- else }}
           emptyDir: {}
-  {{- end }}
+          {{- end }}

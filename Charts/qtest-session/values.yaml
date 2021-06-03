@@ -1,8 +1,5 @@
 # Default values for qtest-session-chart.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
 
-replicaCount: 1
 image:
   repository: qasymphony/sessions
   pullPolicy: IfNotPresent
@@ -10,16 +7,16 @@ image:
 
 service:
   type: LoadBalancer
-  port: 8080
-  targetport: 8080
-  servicename: session-service
+  port: 9080
+  targetport: 9080
+  servicename: qtest-session-service
 
 qTestSession:
   qTestSessionJSHome: /usr/local/sessions-js
   qTestSessionNodeEnvironment: production
-  qTestSessionPort: "8080"
+  qTestSessionPort: "9080"
   qTestSessionDBConnection: ""
-  qTestManagerHost: http://127.0.0.1:8080
+  qTestManagerHost: http://qtestdev1.container-dev.qtestdev.com
   qTestSessionMasterToken: ""
   qTestSessionStorageType: disk_storage
   qTestSessionCSRFAllowPattern: \"$sessions_security_csrf_trusted_source_pattern\"
@@ -27,17 +24,24 @@ qTestSession:
   qTestSessionSecretKey: ""
 
 ingress:
-  enabled: false
+  enabled: true
   annotations:
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-    kubernetes.io/ingress.class: alb
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/target-type: ip
-    # alb.ingress.kubernetes.io/subnets: subnet-0af0148f6b11db237, subnet-0703b40274a38ef03, subnet-08b03eaa2622a4fe6
+    kubernetes.io/ingress.class: "nginx"
+  canary:
+    annotations: {}
+  labels: {}
+  hosts:
+    - session.container-dev.qtestdev.com
+  paths:
+    - /
+  extraPaths:
+    []
+  tls:
+    []
+  https: false
 
 persistence:
-  enabled: true
+  enabled: false
   ## Set annotations on pvc
   annotations: {}
 
@@ -60,21 +64,9 @@ persistence:
   ## Specify extra mounts. Refer to ".spec.containers.volumeMounts" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
   mounts: []
 
-resources:
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  limits:
-    cpu: 2
-    memory: 4096Mi
-  requests:
-    cpu: 2
-    # memory: 4096Mi
-
 autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 3
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80

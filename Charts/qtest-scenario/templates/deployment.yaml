@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: qtest-scenario-deployment
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.autoscaling.minReplicas }}
   selector:
     matchLabels:
       app: qtest-scenario
@@ -26,37 +26,37 @@ spec:
             - name: DATABASE_URL
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-scenario-config
+                  name: qtest-scenario-configmap
                   key: qTestScenarioDBConnection
             - name: PORT
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-scenario-config
+                  name: qtest-scenario-configmap
                   key: qTestScenarioPort
             - name: LOCAL_BASE_URL
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-scenario-config
+                  name: qtest-scenario-configmap
                   key: qTestScenarioLocalBaseURL
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-scenario-config
+                  name: qtest-scenario-configmap
                   key: qTestScenarioNodeTLSRejectUnAuthorized
             - name: NODE_ENV
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-scenario-config
+                  name: qtest-scenario-configmap
                   key: qTestScenarioNodeEnvironment
             - name: QTEST_URL
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-scenario-config
+                  name: qtest-scenario-configmap
                   key: qTestScenarioQTestURL
             - name: APP_KEY_FOR_DESCRIPTOR
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-scenario-config
+                  name: qtest-scenario-configmap
                   key: qTestScenarioAppKeyDescriptor
             - name: REFRESH_TOKEN_SECRET
               valueFrom:
@@ -64,5 +64,3 @@ spec:
                   name: qtest-scenario-secret
                   key: qTestScenarioRefreshTokenSecret
 
-          resources:
-          {{- toYaml .Values.resources | nindent 12 }}

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: qtest-pulse-config
+  name: qtest-pulse-configmap
   labels:
     app: qTestPulse
 data:

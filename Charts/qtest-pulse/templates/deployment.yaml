@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pulse-deployment
+  name: qtest-pulse-deployment
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.autoscaling.minReplicas }}
   selector:
     matchLabels:
       app: qtest-pulse
@@ -26,37 +26,35 @@ spec:
             - name: NODE_ENV
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-pulse-config
+                  name: qtest-pulse-configmap
                   key: qTestPulseNodeEnv
             - name: PG_URL
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-pulse-config
+                  name: qtest-pulse-configmap
                   key: qTestPulsePGUrl
             - name: PORT
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-pulse-config
+                  name: qtest-pulse-configmap
                   key: qTestPulsePort
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-pulse-config
+                  name: qtest-pulse-configmap
                   key: qTestPulseNodeTLSRejectUnAuthorized
             - name: ROOT_URL
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-pulse-config
+                  name: qtest-pulse-configmap
                   key: qTestPulseRootURL
             - name: QTEST_URL
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-pulse-config
+                  name: qtest-pulse-configmap
                   key: qTestPulseQTestURL
             - name: SCENARIO_URL
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-pulse-config
+                  name: qtest-pulse-configmap
                   key: qTestPulseScenarioURL
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
