@@ -172,7 +172,7 @@ persistence:
   ## GKE, AWS & OpenStack)
   ##
   storageClass:
-  accessMode: ReadWriteOnce
+  accessMode: ReadWriteMany
   size: 10Gi
 
   ## Specify extra volumes. Refer to ".spec.volumes" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/

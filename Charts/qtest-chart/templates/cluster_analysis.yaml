@@ -1,4 +1,4 @@
-{{- if .Values.rollouts.enabled -}}
+{{- if .Values.metrics.enabled -}}
 apiVersion: argoproj.io/v1alpha1
 kind: ClusterAnalysisTemplate
 metadata:
