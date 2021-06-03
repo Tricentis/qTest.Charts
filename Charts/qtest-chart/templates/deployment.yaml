@@ -50,21 +50,21 @@ spec:
         name: qtestliquibase
         imagePullPolicy: {{ .Values.image.liquibasepullpolicy }}
         env:
-           - name: POSTGRES_URL
-             valueFrom:
-               configMapKeyRef:
-                 name: qtest-manager-config
-                 key: qTestMgrClientjdbcPostgresUrl
-           - name: POSTGRES_USER
-             valueFrom:
-               configMapKeyRef:
-                 name: qtest-manager-config
-                 key: qTestMgrClientjdbcPostgresUserName
-           - name: POSTGRES_PASSWORD
-             valueFrom:
-               secretKeyRef:
-                 name: qtest-manager-secret
-                 key: qTestMgrClientjdbcPostgresPassword
+          - name: POSTGRES_URL
+            valueFrom:
+              configMapKeyRef:
+                name: qtest-manager-config
+                key: qTestMgrClientjdbcPostgresUrl
+          - name: POSTGRES_USER
+            valueFrom:
+              configMapKeyRef:
+                name: qtest-manager-config
+                key: qTestMgrClientjdbcPostgresUserName
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: qtest-manager-secret
+                key: qTestMgrClientjdbcPostgresPassword
       {{- if .Values.imageCredentials.enabled -}}
       imagePullSecrets:
       - name: {{ .Values.imageCredentials.name }}
