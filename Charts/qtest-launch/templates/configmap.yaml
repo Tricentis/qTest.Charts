@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: qtest-launch-config
+  name: qtest-launch-configmap
   labels:
     app: qTestLaunch
 data:

@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: qtest-session-resource-quota
+spec:
+  hard:
+    limits.cpu: "4"
+    limits.memory: 4Gi
+    requests.cpu: "4"
+    requests.memory: 4Gi
+    pods: "4"
+    persistentvolumeclaims: "10"
+    requests.storage: "50Gi"
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: qtest-session-limit-range
+spec:
+  limits:
+    - max:
+        cpu: "1"
+        memory: 1Gi
+      min:
+        cpu: "0.8"
+        memory: 750Mi
+      default:
+        cpu: "1"
+        memory: 1Gi
+      defaultRequest:
+          cpu: "0.8"
+          memory: 750Mi
+      type: Container

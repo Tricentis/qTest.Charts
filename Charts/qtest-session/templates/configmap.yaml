@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: qtest-session-config
+  name: qtest-session-configmap
   labels:
     app: qTestSession
 data:

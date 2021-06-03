@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: qtest-parameters-config
+  name: qtest-parameters-configmap
   labels:
     app: qTestParameters
 data:

@@ -1,8 +1,5 @@
-# Default values for qtest-launch.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+# Default values for qtest-launch app.
 
-replicaCount: 1
 image:
   repository: qasymphony/launch
   pullPolicy: IfNotPresent
@@ -10,67 +7,38 @@ image:
 
 service:
   type: LoadBalancer
-  port: 3000
-  targetport: 3000
-  servicename: launch-service
+  port: 3080
+  targetport: 3080
+  servicename: qtest-launch-service
 
 qTestLaunch:
   qTestLaunchPostgresUrl: ""
-  qTestLaunchRootURL: http://127.0.0.1:3000
-  qTestLaunchQTestURL: http://127.0.0.1:8080
+  qTestLaunchRootURL: http://launch.container-dev.qtestdev.com
+  qTestLaunchQTestURL: http://qtestdev1.container-dev.qtestdev.com
   qTestLaunchNodeTLSRejectUnAuthorized: "0"
   qTestLaunchTCPWD: "qTest"
-  qTestLaunchPort: "3000"
+  qTestLaunchPort: "3080"
 
 ingress:
-  enabled: false
-  annotations:
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-    kubernetes.io/ingress.class: alb
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/target-type: ip
-    # alb.ingress.kubernetes.io/subnets: subnet-0af0148f6b11db237, subnet-0703b40274a38ef03, subnet-08b03eaa2622a4fe6
-
-persistence:
   enabled: true
-  ## Set annotations on pvc
-  annotations: {}
-
-  ## Specify an existing volume claim instead of creating a new one.
-  ## When using this option all following options like storageClass, accessMode and size are ignored.
-  # existingClaim:
-
-  ## If defined, storageClassName: <storageClass>
-  ## If set to "-", storageClassName: "", which disables dynamic provisioning
-  ## If undefined (the default) or set to null, no storageClassName spec is
-  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
-  ##   GKE, AWS & OpenStack)
-  ##
-  storageClass:
-  accessMode: ReadWriteOnce
-  size: 5Gi
-
-  ## Specify extra volumes. Refer to ".spec.volumes" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
-  volumes: []
-  ## Specify extra mounts. Refer to ".spec.containers.volumeMounts" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
-  mounts: []
-
-resources:
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  limits:
-    cpu: 2
-    memory: 4096Mi
-  requests:
-    cpu: 2
-    # memory: 4096Mi
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+  canary:
+    annotations: {}
+  labels: {}
+  hosts:
+    - launch.container-dev.qtestdev.com
+  paths:
+    - /
+  extraPaths:
+    []
+  tls:
+    []
+  https: false
 
 autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 3
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80

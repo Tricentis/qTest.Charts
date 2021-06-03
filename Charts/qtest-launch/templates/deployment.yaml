@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: launch-deployment
+  name: qtest-launch-deployment
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.autoscaling.minReplicas }}
   selector:
     matchLabels:
       app: qtest-launch
@@ -26,32 +26,30 @@ spec:
             - name: PORT
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-launch-config
+                  name: qtest-launch-configmap
                   key: qTestLaunchPort
             - name: PG_URL
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-launch-config
+                  name: qtest-launch-configmap
                   key: qTestLaunchPostgresUrl
             - name: ROOT_URL
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-launch-config
+                  name: qtest-launch-configmap
                   key: qTestLaunchRootURL
             - name: QTEST_URL
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-launch-config
+                  name: qtest-launch-configmap
                   key: qTestLaunchQTestURL
             - name: TCPWD
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-launch-config
+                  name: qtest-launch-configmap
                   key: qTestLaunchTCPWD
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-launch-config
+                  name: qtest-launch-configmap
                   key: qTestLaunchNodeTLSRejectUnAuthorized
-          resources:
-          {{- toYaml .Values.resources | nindent 12 }}
