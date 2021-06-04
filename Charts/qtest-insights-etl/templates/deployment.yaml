@@ -1,0 +1,104 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qtest-insights-etl
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: qtest-insights-etl
+  template:
+    metadata:
+      labels:
+        app: qtest-insights-etl
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        release: "{{ .Release.Name }}"
+        heritage: "{{ .Release.Service }}"
+    spec:
+      containers:
+        - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          name: {{ .Chart.Name }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+              name: http
+          env:
+            - name: LOG_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-insights-etl-config
+                  key: qTestLogPath
+            - name: QTEST_DB_PW
+              valueFrom:
+                secretKeyRef:
+                  name: qtest-insights-etl-secret
+                  key: qTestInsightsEtlDBPassword
+            - name: QTEST_DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-insights-etl-config
+                  key: qTestInsightsEtlDBName
+            - name: QTEST_DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-insights-etl-config
+                  key: qTestInsightsEtlDBHost      
+            - name: QTEST_DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-insights-etl-config
+                  key: qTestInsightsEtlDBUser
+            - name: WRITE_QTEST_DB_PW
+              valueFrom:
+                secretKeyRef:
+                  name: qtest-insights-etl-secret
+                  key: qTestInsightsEtlWriteQTestDBPassword
+            - name: WRITE_QTEST_DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-insights-etl-config
+                  key: qTestInsightsEtlWriteQTestDBName
+            - name: WRITE_QTEST_DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-insights-etl-config
+                  key: qTestInsightsEtlWriteQTestDBHost
+            - name: WRITE_QTEST_DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-insights-etl-config
+                  key: qTestInsightsEtlWriteQTestDBUser
+            - name: SESSIONS_DB_PW
+              valueFrom:
+                secretKeyRef:
+                  name: qtest-insights-etl-secret
+                  key: qTestInsightsEtlSessionDBPassword
+            - name: SESSIONS_DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-insights-etl-config
+                  key: qTestInsightsEtlSessionDBName
+            - name: SESSIONS_DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-insights-etl-config
+                  key: qTestInsightsEtlSessionDBHost
+            - name: SESSIONS_DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-insights-etl-config
+                  key: qTestInsightsEtlSessionDBUser
+          resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: qtest-insights-etl-logs
+              mountPath: /usr/local/insights-etl/logs
+      volumes:
+        - name: qtest-insights-etl-logs
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: qtest-insights-etl-logs
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+
