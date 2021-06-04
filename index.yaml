@@ -641,6 +641,24 @@ entries:
     urls:
     - https://github.com/QAS-Labs/qtest-chart/releases/download/qtest-insights-0.1.0/qtest-insights-0.1.0.tgz
     version: 0.1.0
+  qtest-insights-etl:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2021-06-04T16:03:51.638332548Z"
+    description: A Helm chart for Kubernetes
+    digest: 2a7c3872b65ac3d5b68453ffe7c904bdf37e524c6dc50f60a62ae4c7660be7f4
+    maintainers:
+    - email: b.yang@ext.tricentis.com
+      name: byangtri
+    - email: p.jaladi@ext.tricentis.com
+      name: pjaladi21
+    - email: l.nguyen@tricentis.com
+      name: liemng
+    name: qtest-insights-etl
+    type: application
+    urls:
+    - https://github.com/QAS-Labs/qtest-chart/releases/download/qtest-insights-etl-0.1.0/qtest-insights-etl-0.1.0.tgz
+    version: 0.1.0
   qtest-launch:
   - apiVersion: v2
     appVersion: 1.6.5
