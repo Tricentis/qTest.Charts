@@ -918,6 +918,25 @@ entries:
   qtest-session:
   - apiVersion: v2
     appVersion: 4.3.8
+    created: "2021-06-04T12:42:49.223718372Z"
+    description: A Helm chart for Kubernetes cluster of qtest-session
+    digest: 330cb6018c574b8e323569a3f7026bcfe342a98c4a38b704d17492aa334d058d
+    home: https://github.com/QAS-Labs/qtest-chart.git
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: b.yang@ext.tricentis.com
+      name: byangtri
+    - email: p.jaladi@ext.tricentis.com
+      name: pjaladi21
+    - email: l.nguyen@tricentis.com
+      name: liemng
+    name: qtest-session
+    type: application
+    urls:
+    - https://github.com/QAS-Labs/qtest-chart/releases/download/qtest-session-0.1.4/qtest-session-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
+    appVersion: 4.3.8
     created: "2021-06-03T16:26:46.933518116Z"
     description: A Helm chart for Kubernetes cluster of qtest-session
     digest: 72029c8dfeab4c8d993ff876b6855d40e06b2720fc67bbe5371cc9ab29dad04b
