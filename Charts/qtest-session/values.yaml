@@ -19,7 +19,6 @@ qTestSession:
   qTestManagerHost: http://qtestdev1.container-dev.qtestdev.com
   qTestSessionMasterToken: ""
   qTestSessionStorageType: disk_storage
-  qTestSessionCSRFAllowPattern: \"$sessions_security_csrf_trusted_source_pattern\"
   qTestSessionStorageRootPath: /data
   qTestSessionSecretKey: ""
 

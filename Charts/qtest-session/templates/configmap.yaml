@@ -12,7 +12,6 @@ data:
   QTestManagerHost: "{{ .Values.qTestSession.qTestManagerHost }}"
   qTestSessionMasterToken: "{{ .Values.qTestSession.qTestSessionMasterToken }}"
   qTestSessionStorageType: "{{ .Values.qTestSession.qTestSessionStorageType }}"
-  qTestSessionCSRFAllowPattern: "{{ .Values.qTestSession.qTestSessionCSRFAllowPattern }}"
   qTestSessionStorageRootPath: "{{ .Values.qTestSession.qTestSessionStorageRootPath }}"
   qTestSessionSecretKey: {{ .Values.qTestSession.qTestSessionSecretKey }}
 

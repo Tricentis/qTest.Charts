@@ -58,11 +58,6 @@ spec:
                 configMapKeyRef:
                   name: qtest-session-configmap
                   key: qTestSessionStorageType
-            - name: CSRF_ALLOW_PATTERN
-              valueFrom:
-                configMapKeyRef:
-                  name: qtest-session-configmap
-                  key: qTestSessionCSRFAllowPattern
             - name: SESSION_STORAGE_ROOT_PATH
               valueFrom:
                 configMapKeyRef:
