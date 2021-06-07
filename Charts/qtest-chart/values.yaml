@@ -48,7 +48,7 @@ qTestManager:
   postgres_host: ""
   postgres_user: ""
   postgres_password: ""
-  testConductorEnvironment: localhost
+  testConductorEnvironment: production
   springProfilesActive: postgres,oldTrackingDefect
   clientJdbc:
     postgresUrl: ""
@@ -100,7 +100,7 @@ qTestManager:
   qTest:
     serverMapUrl: ""
     instance: US
-    appVersion: 10.3.1
+    appVersion: production
   report:
     httpUrl: ""
     url: ""
