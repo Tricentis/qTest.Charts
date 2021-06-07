@@ -1,3 +1,4 @@
+{{- if and .Values.persistence.enabled (not .Values.persistence.existingClaim) }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -200,3 +201,4 @@ spec:
   storageClassName: "{{ .Values.persistence.storageClass }}"
   {{- end }}
   {{- end }}
+{{- end }}
