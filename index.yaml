@@ -645,6 +645,30 @@ entries:
   qtest-insights:
   - apiVersion: v2
     appVersion: v1.21.22.op
+    created: "2021-06-07T16:17:29.311801153Z"
+    description: A Helm chart for qTest Manager
+    digest: d6a6d1f30d9d3ef28c263b33c13e749c707c4602e51e49aacdddb20c14e6b3cc
+    home: https://github.com/QAS-Labs/qtest-chart.git
+    icon: https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_c2d6524c36c94138504f7a18bf179d76/tricentis-qtest.png
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: b.yang@ext.tricentis.com
+      name: byangtri
+    - email: p.jaladi@ext.tricentis.com
+      name: pjaladi21
+    - email: l.nguyen@tricentis.com
+      name: liemng
+    - email: m.vankendine@ext.tricentis.com
+      name: mtricentis
+    - email: s.reddy-ganjikunta@ext.tricentis.com
+      name: subbuATB1
+    name: qtest-insights
+    type: application
+    urls:
+    - https://github.com/QAS-Labs/qtest-chart/releases/download/qtest-insights-0.1.1/qtest-insights-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: v1.21.22.op
     created: "2021-05-24T16:42:24.787782501Z"
     description: A Helm chart for qTest Manager
     digest: 3d784c92cd38fd9285f65dd89cf9bab745baa62b0887e70ed5a6bbc2a981d259
