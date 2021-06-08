@@ -2,7 +2,11 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 2
+replicaCount:
+  ui: 2
+  api: 2
+  notification: 2
+  poller: 1
 
 rollouts:
   enabled: false
@@ -53,8 +57,6 @@ qTestManager:
   postgres_host: "postgres.local"
   postgres_user: "qtest"
   postgres_password: ""
-  testConductorEnvironment: production
-  springProfilesActive: postgres,oldTrackingDefect
   clientJdbc:
     postgresUrl: "jdbc:postgresql://postgres.local:5432/qtest"
     postgresUserName: "qtest"

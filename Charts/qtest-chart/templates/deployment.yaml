@@ -13,7 +13,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.replicaCount.ui }}
   revisionHistoryLimit: 3
   selector:
     matchLabels:
@@ -89,6 +89,260 @@ spec:
         {{- if .Values.env }}
 {{- toYaml .Values.env | nindent 11 }}
         {{- end }}
+           - name: testconductor.environment
+             value: "ui.production"
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+        volumeMounts:
+        - name: qtest-data
+          mountPath: /mnt/data/storage
+      volumes:
+      - name: qtest-data
+      {{- if .Values.persistence.existingClaim }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.persistence.existingClaim }}
+      {{- else if .Values.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ template "qtest-chart.fullname" . }}
+      {{- else }}
+        emptyDir: {}
+      {{- end }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mgr-deployment
+  {{- with .Values.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  labels:
+    app: qtest-mgr-api
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount.api }}
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: qtest-mgr-api
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      {{- if .Values.podAnnotations }}
+      annotations:
+      {{- range $key, $value := .Values.podAnnotations }}
+        {{ $key }}: {{ $value | quote }}
+      {{- end }}
+      {{- end }}
+      labels:
+        app: qtest-mgr-api
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        release: "{{ .Release.Name }}"
+        heritage: "{{ .Release.Service }}"
+    spec:
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      {{- if .Values.secrets.existingImageCredentials -}}
+      imagePullSecrets:
+      - name: {{ .Values.secrets.existingImageCredentials }}
+      {{- else if .Values.imageCredentials.enabled -}}
+      imagePullSecrets:
+      - name: {{ .Values.imageCredentials.name }}
+      {{- end }}
+      containers:
+      - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        name: {{ .Chart.Name }}
+        ports:
+        - containerPort: {{ .Values.service.port }}
+          name: http
+          protocol: TCP
+        env:
+        {{- if .Values.env }}
+{{- toYaml .Values.env | nindent 11 }}
+        {{- end }}
+           - name: testconductor.environment
+             value: "api.production"
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+        volumeMounts:
+        - name: qtest-data
+          mountPath: /mnt/data/storage
+      volumes:
+      - name: qtest-data
+      {{- if .Values.persistence.existingClaim }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.persistence.existingClaim }}
+      {{- else if .Values.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ template "qtest-chart.fullname" . }}
+      {{- else }}
+        emptyDir: {}
+      {{- end }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mgr-deployment
+  {{- with .Values.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  labels:
+    app: qtest-mgr-notification
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount.notification }}
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: qtest-mgr-notification
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      {{- if .Values.podAnnotations }}
+      annotations:
+      {{- range $key, $value := .Values.podAnnotations }}
+        {{ $key }}: {{ $value | quote }}
+      {{- end }}
+      {{- end }}
+      labels:
+        app: qtest-mgr-notification
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        release: "{{ .Release.Name }}"
+        heritage: "{{ .Release.Service }}"
+    spec:
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      {{- if .Values.secrets.existingImageCredentials -}}
+      imagePullSecrets:
+      - name: {{ .Values.secrets.existingImageCredentials }}
+      {{- else if .Values.imageCredentials.enabled -}}
+      imagePullSecrets:
+      - name: {{ .Values.imageCredentials.name }}
+      {{- end }}
+      containers:
+      - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        name: {{ .Chart.Name }}
+        ports:
+        - containerPort: {{ .Values.service.port }}
+          name: http
+          protocol: TCP
+        env:
+        {{- if .Values.env }}
+{{- toYaml .Values.env | nindent 11 }}
+        {{- end }}
+           - name: testconductor.environment
+             value: "notification.production"
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+        volumeMounts:
+        - name: qtest-data
+          mountPath: /mnt/data/storage
+      volumes:
+      - name: qtest-data
+      {{- if .Values.persistence.existingClaim }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.persistence.existingClaim }}
+      {{- else if .Values.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ template "qtest-chart.fullname" . }}
+      {{- else }}
+        emptyDir: {}
+      {{- end }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mgr-deployment
+  {{- with .Values.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  labels:
+    app: qtest-mgr-poller
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount.poller }}
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: qtest-mgr-poller
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      {{- if .Values.podAnnotations }}
+      annotations:
+      {{- range $key, $value := .Values.podAnnotations }}
+        {{ $key }}: {{ $value | quote }}
+      {{- end }}
+      {{- end }}
+      labels:
+        app: qtest-mgr-poller
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        release: "{{ .Release.Name }}"
+        heritage: "{{ .Release.Service }}"
+    spec:
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      {{- if .Values.secrets.existingImageCredentials -}}
+      imagePullSecrets:
+      - name: {{ .Values.secrets.existingImageCredentials }}
+      {{- else if .Values.imageCredentials.enabled -}}
+      imagePullSecrets:
+      - name: {{ .Values.imageCredentials.name }}
+      {{- end }}
+      containers:
+      - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        name: {{ .Chart.Name }}
+        ports:
+        - containerPort: {{ .Values.service.port }}
+          name: http
+          protocol: TCP
+        env:
+        {{- if .Values.env }}
+{{- toYaml .Values.env | nindent 11 }}
+        {{- end }}
+           - name: testconductor.environment
+             value: "poller.production"
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
         volumeMounts:

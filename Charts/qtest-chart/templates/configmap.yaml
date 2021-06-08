@@ -24,8 +24,6 @@ metadata:
   labels:
     app: qTestManager
 data:
-  testconductor.environment: "{{ .Values.qTestManager.testConductorEnvironment }}"
-  spring.profiles.active: "{{ .Values.qTestManager.springProfilesActive }}"
   client.jdbc.postgres.url: "{{ .Values.qTestManager.clientJdbc.postgresUrl }}"
   client.jdbc.postgres.username: "{{ .Values.qTestManager.clientJdbc.postgresUserName }}"
   client.jdbc.postgres.readonly.url: "{{ .Values.qTestManager.clientJdbc.postgresReadOnlyUrl }}"
