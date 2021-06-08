@@ -34,6 +34,11 @@ imageCredentials:
   password: ""
   email: ""
 
+secrets:
+  enabled: false
+  # existingConfigs: ""
+  # existingImageCredentials: ""
+
 service:
   type: LoadBalancer
   port: 8080

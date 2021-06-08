@@ -65,7 +65,10 @@ spec:
               secretKeyRef:
                 name: qtest-manager-secret
                 key: qTestMgrClientjdbcPostgresPassword
-      {{- if .Values.imageCredentials.enabled -}}
+      {{- if .Values.secrets.existingImageCredentials -}}
+      imagePullSecrets:
+      - name: {{ .Values.secrets.existingImageCredentials }}
+      {{- else if .Values.imageCredentials.enabled -}}
       imagePullSecrets:
       - name: {{ .Values.imageCredentials.name }}
       {{- end }}
