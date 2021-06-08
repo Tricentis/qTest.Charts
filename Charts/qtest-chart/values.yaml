@@ -101,7 +101,7 @@ qTestManager:
   qTest:
     serverMapUrl: "http://qtest.local/public/jira-widget/server-map"
     instance: US
-    OD.Private: false
+    ODPrivate: false
   tdmSettingUrl: "http://parameters.local"
   mail:
     host: "smtp.local"
