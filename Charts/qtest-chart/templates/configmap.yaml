@@ -50,8 +50,6 @@ data:
   qasymphonyUrlPostfix: "{{ .Values.qTestManager.qasymphonyUrlPostfix }}"
   qas.directory.address: "{{ .Values.qTestManager.qasDirectoryAddress }}"
   qTest.instance: "{{ .Values.qTestManager.qTest.instance }}"
-  qTest.app.version: "{{ .Values.qTestManager.qTest.appVersion }}"
-  app.name: "{{ .Values.qTestManager.appName }}"
   kafka.bootstrapAddress: "{{ .Values.qTestManager.kafka.bootstrapAddress }}"
   kafka.schemaRegistryUrl: "{{ .Values.qTestManager.kafka.schemaRegistryUrl }}"
   qtest.kafka.enable: "{{ .Values.qTestManager.kafka.enable }}"

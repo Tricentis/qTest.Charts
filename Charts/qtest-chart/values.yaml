@@ -86,7 +86,6 @@ qTestManager:
   preUrlHttps: https://nephele.qtest.local
   qasymphonyUrlPostfix: .qtest.local
   qasDirectoryAddress: http://qtest-auth.local/tc-auth
-  appName: app
   kafka:
     enable: false
     bootstrapAddress: "kafka-broker.local:9092"
@@ -100,7 +99,6 @@ qTestManager:
   qTest:
     serverMapUrl: "http://qtest.local/public/jira-widget/server-map"
     instance: US
-    appVersion: production
     OD.Private: false
   tdmSettingUrl: "http://parameters.local"
   mail:
@@ -108,8 +106,6 @@ qTestManager:
     port: 465
     userName: "qtest"
     password: ""
-    protocol: smtp
-    smtpTls: false
     supportEmailAddress: supports@tricentis.com
   integration:
     jira:
