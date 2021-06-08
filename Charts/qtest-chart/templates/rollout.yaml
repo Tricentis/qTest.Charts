@@ -54,17 +54,17 @@ spec:
             valueFrom:
               configMapKeyRef:
                 name: qtest-manager-config
-                key: qTestMgrClientjdbcPostgresUrl
+                key: client.jdbc.postgres.url
           - name: POSTGRES_USER
             valueFrom:
               configMapKeyRef:
                 name: qtest-manager-config
-                key: qTestMgrClientjdbcPostgresUserName
+                key: client.jdbc.postgres.username
           - name: POSTGRES_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: qtest-manager-secret
-                key: qTestMgrClientjdbcPostgresPassword
+                key: client.jdbc.postgres.password
       {{- if .Values.secrets.existingImageCredentials -}}
       imagePullSecrets:
       - name: {{ .Values.secrets.existingImageCredentials }}
