@@ -50,30 +50,31 @@ service:
   # servicePortHttpsName: https
 
 qTestManager:
-  postgres_host: ""
-  postgres_user: ""
+  postgres_host: "postgres.local"
+  postgres_user: "qtest"
   postgres_password: ""
   testConductorEnvironment: production
   springProfilesActive: postgres,oldTrackingDefect
   clientJdbc:
-    postgresUrl: ""
-    postgresUserName: ""
+    postgresUrl: "jdbc:postgresql://postgres.local:5432/qtest"
+    postgresUserName: "qtest"
     postgresPassword: ""
-    postgresReadOnlyUrl: ""
-    postgresReadOnlyUserName: ""
+    postgresReadOnlyUrl: "jdbc:postgresql://postgres_replica.local:5432/qtest"
+    postgresReadOnlyUserName: "qtest"
     postgresReadOnlyPassword: ""
   elasticSearch:
     init: false
     disable: true
     scheme: http
-    host: 127.0.0.1
+    host: elasticsearch.local
     port: 9200
+    permittedClients: ""
   attachmentFolderPath: /usr/local/tomcat/temp
   licenseFolderPath: /usr/local/tomcat/temp
   blobStorage:
     type: disk_storage
     region: us-east-1
-    sharedBucket: ""
+    sharedBucket: "qtest"
   s3:
     folder: manager
     scanUrl: ""
@@ -81,34 +82,38 @@ qTestManager:
     AccessKey: ""
   serverAppUseSecureCookie: true
   serverAppSSLRequired: false
-  preUrl: http://127.0.0.1:8080
-  preUrlHttps: http://127.0.0.1:8080
+  preUrl: http://nephele.qtest.local
+  preUrlHttps: https://nephele.qtest.local
   qasymphonyUrlPostfix: .qtest.local
-  qasDirectoryAddress: http://localhost:9080/tc-auth
+  qasDirectoryAddress: http://qtest-auth.local/tc-auth
   appName: app
   kafka:
-    bootstrapAddress: "[:]"
-    schemaRegistryUrl: "[:]"
-  preSessionUrl: "http://127.0.0.1:8080"
-  pulseUrlBase: "http://127.0.0.1:8080"
-  insightsUrl: ""
-  launchUrlBase: ""
+    enable: false
+    bootstrapAddress: "kafka-broker.local:9092"
+    schemaRegistryUrl: "https://schema-registry.local"
+  preSessionUrl: "http://sessions.local"
+  pulseUrlBase: "http://pulse.local"
+  insightsUrl: "http://insights.local"
+  launchUrlBase: "http://launch.local"
   notification:
-    urlExternal: ""
+    urlExternal: "http://notification.qtest.local"
   qTest:
-    serverMapUrl: ""
+    serverMapUrl: "http://qtest.local/public/jira-widget/server-map"
     instance: US
     appVersion: production
-  tdmSettingUrl: ""
+    OD.Private: false
+  tdmSettingUrl: "http://parameters.local"
   mail:
-    host: ""
+    host: "smtp.local"
     port: 465
-    userName: ""
+    userName: "qtest"
     password: ""
     protocol: smtp
-    smtpAuth: true
     smtpTls: false
-    supportEmailAddress: qas_devops@tricentis.com
+    supportEmailAddress: supports@tricentis.com
+  integration:
+    jira:
+      testConnectionLegacyEndpointClients: ""
 
 ingress:
   enabled: false
