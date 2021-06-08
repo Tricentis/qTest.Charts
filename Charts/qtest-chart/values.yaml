@@ -69,7 +69,6 @@ qTestManager:
     host: 127.0.0.1
     port: 9200
   attachmentFolderPath: /usr/local/tomcat/temp
-  searchFolderPath: /usr/local/tomcat/temp
   licenseFolderPath: /usr/local/tomcat/temp
   blobStorage:
     type: disk_storage
@@ -80,12 +79,8 @@ qTestManager:
     scanUrl: ""
     SecretKey: ""
     AccessKey: ""
-  serverAppUrl: http://search:8080
   serverAppUseSecureCookie: true
   serverAppSSLRequired: false
-  base:
-    httpPort: 8080
-    httpsPort: 8080
   preUrl: http://127.0.0.1:8080
   preUrlHttps: http://127.0.0.1:8080
   qasymphonyUrlPostfix: .qtest.local
@@ -94,21 +89,16 @@ qTestManager:
   kafka:
     bootstrapAddress: "[:]"
     schemaRegistryUrl: "[:]"
-  analyticsUrlBase: ""
   preSessionUrl: "http://127.0.0.1:8080"
   pulseUrlBase: "http://127.0.0.1:8080"
   insightsUrl: ""
   launchUrlBase: ""
   notification:
     urlExternal: ""
-    urlInternal: ""
   qTest:
     serverMapUrl: ""
     instance: US
     appVersion: production
-  report:
-    httpUrl: ""
-    url: ""
   tdmSettingUrl: ""
   mail:
     host: ""
