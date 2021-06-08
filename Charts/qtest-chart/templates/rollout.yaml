@@ -85,6 +85,10 @@ spec:
               name: qtest-manager-config
           - secretRef:
               name: qtest-manager-secret
+        env:
+        {{- if .Values.env }}
+{{- toYaml .Values.env | nindent 11 }}
+        {{- end }}
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
         volumeMounts:
