@@ -1,18 +1,18 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: qtest-insights-etl-config
+  name: qtest-insights-etl-configmap
   labels:
     app: qTestInsightsEtl
 data:
-  qTestLogPath: "{{ .Values.qTestInsightsEtl.qTestInsightsProxyEnabled }}"
+  LOG_PATH: "{{ .Values.qTestInsightsEtl.qTestInsightsProxyEnabled }}"
   qTestUpdateDB: "{{ .Values.qTestInsightsEtl.qTestUpdateDB }}"
-  qTestInsightsEtlDBName: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlDBName }}"
-  qTestInsightsEtlDBHost: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlDBHost }}"
-  qTestInsightsEtlDBUser: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlDBUser }}"
-  qTestInsightsEtlWriteQTestDBName: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlWriteQTestDBName }}"
-  qTestInsightsEtlWriteQTestDBHost: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlWriteQTestDBHost }}"
-  qTestInsightsEtlWriteQTestDBUser: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlWriteQTestDBUser }}"
-  qTestInsightsEtlSessionDBName: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlSessionDBName }}"
-  qTestInsightsEtlSessionDBHost: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlSessionDBHost }}"
-  qTestInsightsEtlSessionDBUser: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlSessionDBUser }}"
+  QTEST_DB_NAME: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlDBName }}"
+  QTEST_DB_HOST: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlDBHost }}"
+  QTEST_DB_USER: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlDBUser }}"
+  WRITE_QTEST_DB_NAME: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlWriteQTestDBName }}"
+  WRITE_QTEST_DB_HOST: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlWriteQTestDBHost }}"
+  WRITE_QTEST_DB_USER: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlWriteQTestDBUser }}"
+  SESSIONS_DB_NAME: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlSessionDBName }}"
+  SESSIONS_DB_HOST: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlSessionDBHost }}"
+  SESSIONS_DB_USER: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlSessionDBUser }}"
