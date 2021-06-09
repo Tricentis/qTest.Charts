@@ -63,4 +63,4 @@ data:
   mail.username: "{{ .Values.qTestManager.mail.userName }}"
   supportEmailAddress: "{{ .Values.qTestManager.mail.supportEmailAddress }}"
   integration.jira.testConnection.legacyEndpoint.clients: "{{ .Values.qTestManager.integration.jira.testConnectionLegacyEndpointClients }}"
-  qtest.od.private: "{{ .Values.qTestManager.qTest.OD.Private }}"
+  qtest.od.private: "{{ .Values.qTestManager.qTest.ODPrivate }}"
