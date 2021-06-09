@@ -111,7 +111,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mgr-deployment
+  name: mgr-deployment-poller
   {{- with .Values.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -195,7 +195,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mgr-deployment
+  name: mgr-deployment-notification
   {{- with .Values.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -279,7 +279,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mgr-deployment
+  name: mgr-deployment-api
   {{- with .Values.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
