@@ -1,8 +1,5 @@
 # Default values for qtest-insights-chart.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
 
-replicaCount: 1
 image:
   repository: qasymphony/insights
   pullPolicy: IfNotPresent
@@ -18,49 +15,36 @@ qTestInsights:
   qTestInsightsProxyEnabled: 1
   qTestInsightsProxyHTTP: http://127.0.0.1:8080/
   qTestInsightsProxyHTTPS: https://127.0.0.1:8443/
-  qTestInsightsCatalinaOpts: \"-server -d64 -Xms1024m -Xmx3072m -XX:MaxPermSize=256m -XX:CompileThreshold=8000 -XX:-DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/logs -Djava.awt.headless=true\"
-  qTestInsightsDBName: ""
-  qTestInsightsDBPassword: ""
-  qTestInsightsDBHost: ""
-  qTestInsightsDBUser: ""
-  qTestInsightsWriteQTestDBName: ""
-  qTestInsightsWriteQTestDBPassword: ""
-  qTestInsightsWriteQTestDBHost: ""
-  qTestInsightsWriteQTestDBUser: ""
-  qTestInsightsSessionDBName: ""
-  qTestInsightsSessionDBPassword: ""
-  qTestInsightsSessionDBHost: ""
-  qTestInsightsSessionDBUser: ""
+  qTestInsightsCatalinaOpts: \"-server -d64 -Xms512m -Xmx2048m -XX:MaxPermSize=256m -XX:CompileThreshold=8000 -XX:-DisableExplicitGC -XX:HeapDumpPath=/logs -Djava.awt.headless=true\"
+  qTestInsightsDBName: qtest
+  qTestInsightsDBUser: postgres
+  qTestInsightsDBPassword: cG9zdGdyZXM=
+  qTestInsightsDBHost: postgres.local
+  qTestInsightsWriteQTestDBName: qtest
+  qTestInsightsWriteQTestDBUser: postgres
+  qTestInsightsWriteQTestDBPassword: cG9zdGdyZXM=
+  qTestInsightsWriteQTestDBHost: postgres.local
+  qTestInsightsSessionDBName: sessions
+  qTestInsightsSessionDBUser: postgres
+  qTestInsightsSessionDBPassword: cG9zdGdyZXM=
+  qTestInsightsSessionDBHost: postgres.local
   qTestInsightsCSRFAllowPattern: \"$insights_security_csrf_trusted_source_pattern\"
 
 ingress:
-  enabled: false
+  enabled: true
   annotations:
-    # kubernetes.io/tls-acme: "true"
-    # alb or nginx
-    kubernetes.io/ingress.class: ""
-    # alb.ingress.kubernetes.io/scheme: internet-facing
-    # alb.ingress.kubernetes.io/target-type: ip
-    # alb.ingress.kubernetes.io/subnets: subnet-0af0148f6b11db237, subnet-0703b40274a38ef03, subnet-08b03eaa2622a4fe6
+    kubernetes.io/ingress.class: "nginx"
   canary:
     annotations: {}
-      # canary-by-header: []
-      # canary-by-header-pattern: []
   labels: {}
-  hosts: []
+  hosts:
+    - insights.container-dev.qtestdev.com
   paths:
     - /
   extraPaths:
     []
-    # - path: /*
-    #   backend:
-    #     serviceName: ssl-redirect
-    #     servicePort: use-annotation
   tls:
     []
-    # - secretName: qtest-example-tls
-    #   hosts:
-    #     - foo.qtest.com
   https: false
 
 persistence:
@@ -87,21 +71,9 @@ persistence:
   ## Specify extra mounts. Refer to ".spec.containers.volumeMounts" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
   mounts: []
 
-resources:
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  limits:
-    cpu: 1
-    memory: 2G
-  requests:
-    cpu: 1
-    memory: 2G
-
 autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 1
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
