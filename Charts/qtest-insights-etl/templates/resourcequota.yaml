@@ -6,8 +6,8 @@ spec:
   hard:
     limits.cpu: "4"
     limits.memory: 8Gi
-    requests.cpu: "4"
-    requests.memory: 8Gi
+    requests.cpu: "3.6"
+    requests.memory: 6.8Gi
     pods: "4"
     persistentvolumeclaims: "50"
     requests.storage: "500Gi"
@@ -22,12 +22,12 @@ spec:
         cpu: "1"
         memory: 2Gi
       min:
-        cpu: "0.8"
-        memory: 1800Mi
+        cpu: "0.85"
+        memory: 0.85Gi
       default:
         cpu: "1"
         memory: 2Gi
       defaultRequest:
-          cpu: "0.8"
-          memory: 1800Mi
+          cpu: "0.85"
+          memory: 0.85Gi
       type: Container

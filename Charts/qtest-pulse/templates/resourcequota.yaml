@@ -6,8 +6,8 @@ spec:
   hard:
     limits.cpu: "4"
     limits.memory: 4Gi
-    requests.cpu: "4"
-    requests.memory: 4Gi
+    requests.cpu: "3.6"
+    requests.memory: 3.4Gi
     pods: "4"
 ---
 apiVersion: v1
@@ -20,12 +20,12 @@ spec:
         cpu: "1"
         memory: 1Gi
       min:
-        cpu: "0.8"
-        memory: 750Mi
+        cpu: "0.85"
+        memory: 0.85Gi
       default:
         cpu: "1"
         memory: 1Gi
       defaultRequest:
-          cpu: "0.8"
-          memory: 750Mi
+          cpu: "0.85"
+          memory: 0.85Gi
       type: Container

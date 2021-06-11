@@ -12,7 +12,7 @@ service:
   servicename: qtest-scenario-service
 
 qTestScenario:
-  qTestScenarioDBConnection: ""
+  qTestScenarioDBConnection: postgresql://postgres:changeme@postgres.local/scenario
   qTestScenarioPort: "6080"
   qTestScenarioLocalBaseURL: http://scenario.container-dev.qtestdev.com
   qTestScenarioNodeTLSRejectUnAuthorized: "0"
@@ -41,6 +41,6 @@ ingress:
 autoscaling:
   enabled: true
   minReplicas: 2
-  maxReplicas: 5
-  targetCPUUtilizationPercentage: 80
-  targetMemoryUtilizationPercentage: 80
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 85
+  targetMemoryUtilizationPercentage: 85
