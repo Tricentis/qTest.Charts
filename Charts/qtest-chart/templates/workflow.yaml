@@ -1,5 +1,4 @@
 {{- if .Values.workflow.enabled -}}
-# This is for OD CD Pipeline Testing use ONLY
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
