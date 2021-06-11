@@ -1,26 +1,39 @@
 {{- if .Values.workflow.enabled -}}
+# This is for OD CD Pipeline Testing use ONLY
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
-  generateName: argowf-chaos-
+  generateName: mgr-workflow-
+  {{- with .Values.workflow.annotations }}
   annotations:
-    argocd.argoproj.io/hook: PostSync
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   namespace: {{ .Values.workflow.adminModeNamespace }}
 spec:
-  entrypoint: argowf-chaos
+  entrypoint: mgr-workflow
   podGC:  # Pod GC provides the ability to delete pods automatically without deleting the workflow.
     # OnWorkflowSuccess - delete pods when workflow is successful
-    strategy: OnWorkflowSuccess
-  serviceAccountName: argo-chaos
+    strategy: {{ .Values.workflow.podGC }}
+  serviceAccountName: {{ .Values.workflow.serviceAccountName }}
   templates:
-    - name: argowf-chaos
+    - name: mgr-workflow
       steps:
+        - - name: run-api-test-1
+            template: run-api-test-1
+          - name: run-api-test-2
+            template: run-api-test-2
+          - name: run-api-test-3
+            template: run-api-test-3
+          - name: run-api-test-4
+            template: run-api-test-4
+  {{- if .Values.chaos.enabled -}}
         - - name: run-benchmark
             template: run-benchmark
           - name: run-chaos
             template: run-chaos
         - - name: revert-chaos
             template: revert-chaos
+  {{- end }}
     - name: run-chaos
       inputs:
         artifacts:
@@ -105,4 +118,84 @@ spec:
         image: lachlanevenson/k8s-kubectl
         command: [sh, -c]
         args: [' sleep 20 | kubectl delete chaosengine qtest-mgr-pod-delete-chaos -n {{ .Values.workflow.adminModeNamespace }}']
+
+    - name: run-api-test-1
+      inputs:
+        artifacts:
+        - name: run-api-test-1
+          path: /src
+          git:
+            repo: {{ .Values.workflow.postman.repo }}
+            revision: "master"
+            usernameSecret:
+              name: gitlab-creds
+              key: username
+            passwordSecret:
+              name: gitlab-creds
+              key: password
+      container:
+        image: {{ .Values.workflow.postman.image }}
+        command: [sh, -c]
+        args: ["./postman/dev-run.sh smoketest1"]
+        workingDir: /src
+
+    - name: run-api-test-2
+      inputs:
+        artifacts:
+        - name: run-api-test-2
+          path: /src
+          git:
+            repo: {{ .Values.workflow.postman.repo }}
+            revision: "master"
+            usernameSecret:
+              name: gitlab-creds
+              key: username
+            passwordSecret:
+              name: gitlab-creds
+              key: password
+      container:
+        image: {{ .Values.workflow.postman.image }}
+        command: [sh, -c]
+        args: ["./postman/dev-run.sh smoketest2"]
+        workingDir: /src
+
+    - name: run-api-test-3
+      inputs:
+        artifacts:
+        - name: run-api-test-3
+          path: /src
+          git:
+            repo: {{ .Values.workflow.postman.repo }}
+            revision: "master"
+            usernameSecret:
+              name: gitlab-creds
+              key: username
+            passwordSecret:
+              name: gitlab-creds
+              key: password
+      container:
+        image: {{ .Values.workflow.postman.image }}
+        command: [sh, -c]
+        args: ["./postman/dev-run.sh smoketest3"]
+        workingDir: /src
+
+    - name: run-api-test-4
+      inputs:
+        artifacts:
+        - name: run-api-test-4
+          path: /src
+          git:
+            repo: {{ .Values.workflow.postman.repo }}
+            revision: "master"
+            usernameSecret:
+              name: gitlab-creds
+              key: username
+            passwordSecret:
+              name: gitlab-creds
+              key: password
+      container:
+        image: {{ .Values.workflow.postman.image }}
+        command: [sh, -c]
+        args: ["./postman/dev-run.sh smoketest4"]
+        workingDir: /src
 {{- end }}
