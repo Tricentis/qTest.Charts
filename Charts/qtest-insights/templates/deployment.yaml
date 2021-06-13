@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: qtest-insights-deployment
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.autoscaling.minReplicas }}
   selector:
     matchLabels:
       app: qtest-insights
@@ -22,94 +22,11 @@ spec:
           ports:
             - containerPort: {{ .Values.service.port }}
               name: http
-          env:
-            - name: PROXY_ENABLED
-              valueFrom:
-                configMapKeyRef:
-                  name: qtest-insights-config
-                  key: qTestInsightsProxyEnabled
-            - name: PROXY_HTTP1
-              valueFrom:
-                configMapKeyRef:
-                  name: qtest-insights-config
-                  key: qTestInsightsProxyHTTP                  
-            - name: PROXY_HTTPS1
-              valueFrom:
-                configMapKeyRef:
-                  name: qtest-insights-config
-                  key: qTestInsightsProxyHTTPS
-            - name: CATALINA_OPTS1
-              valueFrom:
-                configMapKeyRef:
-                  name: qtest-insights-config
-                  key: qTestInsightsCatalinaOpts
-            - name: QTEST_DB_PW
-              valueFrom:
-                secretKeyRef:
-                  name: qtest-insights-secret
-                  key: qTestInsightsDBPassword
-            - name: QTEST_DB_NAME
-              valueFrom:
-                configMapKeyRef:
-                  name: qtest-insights-config
-                  key: qTestInsightsDBName
-            - name: QTEST_DB_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: qtest-insights-config
-                  key: qTestInsightsDBHost      
-            - name: QTEST_DB_USER
-              valueFrom:
-                configMapKeyRef:
-                  name: qtest-insights-config
-                  key: qTestInsightsDBUser
-            - name: WRITE_QTEST_DB_PW
-              valueFrom:
-                secretKeyRef:
-                  name: qtest-insights-secret
-                  key: qTestInsightsWriteQTestDBPassword
-            - name: WRITE_QTEST_DB_NAME
-              valueFrom:
-                configMapKeyRef:
-                  name: qtest-insights-config
-                  key: qTestInsightsWriteQTestDBName
-            - name: WRITE_QTEST_DB_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: qtest-insights-config
-                  key: qTestInsightsWriteQTestDBHost
-            - name: WRITE_QTEST_DB_USER
-              valueFrom:
-                configMapKeyRef:
-                  name: qtest-insights-config
-                  key: qTestInsightsWriteQTestDBUser
-            - name: SESSIONS_DB_PW
-              valueFrom:
-                secretKeyRef:
-                  name: qtest-insights-secret
-                  key: qTestInsightsSessionDBPassword
-            - name: SESSIONS_DB_NAME
-              valueFrom:
-                configMapKeyRef:
-                  name: qtest-insights-config
-                  key: qTestInsightsSessionDBName
-            - name: SESSIONS_DB_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: qtest-insights-config
-                  key: qTestInsightsSessionDBHost
-            - name: SESSIONS_DB_USER
-              valueFrom:
-                configMapKeyRef:
-                  name: qtest-insights-config
-                  key: qTestInsightsSessionDBUser
-            - name: CSRF_ALLOW_PATTERN
-              valueFrom:
-                configMapKeyRef:
-                  name: qtest-insights-config
-                  key: qTestInsightsCSRFAllowPattern
-          resources:
-          {{- toYaml .Values.resources | nindent 12 }}
+          envFrom:
+            - configMapRef:
+                name: qtest-insights-configmap
+            - secretRef:
+                name: qtest-insights-secret
           volumeMounts:
             - name: qtest-insights-logs
               mountPath: /usr/local/tomcat/logs/

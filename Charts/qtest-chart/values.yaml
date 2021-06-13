@@ -143,9 +143,18 @@ ingress:
     #     - foo.qtest.com
   https: false
 
+# CD Pipeline use only
+chaos:
+  enabled: false
 workflow:
   enabled: false
+  annotations: {}
   adminModeNamespace: litmus
+  serviceAccountName: ""
+  podGC: OnWorkflowSuccess
+  postman:
+    repo: ""
+    image: public.ecr.aws/b8y7a2x6/argo-agent:ubuntu.2
 
 # Metrics for nginx ingress controller for application and cluster analysis
 metrics:

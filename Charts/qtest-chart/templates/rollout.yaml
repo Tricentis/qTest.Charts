@@ -89,6 +89,8 @@ spec:
         {{- if .Values.env }}
 {{- toYaml .Values.env | nindent 11 }}
         {{- end }}
+          - name: testconductor.environment
+            value: "production"
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
         volumeMounts:

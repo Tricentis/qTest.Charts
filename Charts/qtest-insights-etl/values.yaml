@@ -17,28 +17,35 @@ service:
 qTestInsightsEtl:
   qTestLogPath: /logs
   qTestUpdateDB: true
-  qTestInsightsEtlDBName: ""
-  qTestInsightsEtlDBPassword: ""
-  qTestInsightsEtlDBHost: ""
-  qTestInsightsEtlDBUser: ""
-  qTestInsightsEtlWriteQTestDBName: ""
-  qTestInsightsEtlWriteQTestDBPassword: ""
-  qTestInsightsEtlWriteQTestDBHost: ""
-  qTestInsightsEtlWriteQTestDBUser: ""
-  qTestInsightsEtlSessionDBName: ""
-  qTestInsightsEtlSessionDBPassword: ""
-  qTestInsightsEtlSessionDBHost: ""
-  qTestInsightsEtlSessionDBUser: ""
+  qTestInsightsEtlDBName: qtest
+  qTestInsightsEtlDBUser: postgres
+  qTestInsightsEtlDBPassword: cG9zdGdyZXM=
+  qTestInsightsEtlDBHost: postgres.local
+  qTestInsightsEtlWriteQTestDBName: qtest
+  qTestInsightsEtlWriteQTestDBUser: postgres
+  qTestInsightsEtlWriteQTestDBPassword: cG9zdGdyZXM=
+  qTestInsightsEtlWriteQTestDBHost: postgres.local
+  qTestInsightsEtlSessionDBName: sessions
+  qTestInsightsEtlSessionDBUser: postgres
+  qTestInsightsEtlSessionDBPassword: cG9zdGdyZXM=
+  qTestInsightsEtlSessionDBHost: postgres.local
 
 ingress:
-  enabled: false
+  enabled: true
   annotations:
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-    kubernetes.io/ingress.class: alb
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/target-type: ip
-    # alb.ingress.kubernetes.io/subnets: subnet-0af0148f6b11db237, subnet-0703b40274a38ef03, subnet-08b03eaa2622a4fe6
+    kubernetes.io/ingress.class: "nginx"
+  canary:
+    annotations: {}
+  labels: {}
+  hosts:
+    - insights-etl.container-dev.qtestdev.com
+  paths:
+    - /
+  extraPaths:
+    []
+  tls:
+    []
+  https: false
 
 persistence:
   enabled: false
@@ -64,21 +71,10 @@ persistence:
   ## Specify extra mounts. Refer to ".spec.containers.volumeMounts" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
   mounts: []
 
-resources:
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  limits:
-    cpu: 1
-    memory: 2G
-  requests:
-    cpu: 1
-    memory: 2G
 
 autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 1
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80

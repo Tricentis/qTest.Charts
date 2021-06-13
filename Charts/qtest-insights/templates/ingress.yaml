@@ -1,40 +1,40 @@
 {{- if .Values.ingress.enabled -}}
-{{- $serviceName := .Values.service.servicename -}}
-{{- $servicePort := .Values.service.port -}}
-{{- $paths := .Values.ingress.paths -}}
-{{- $extraPaths := .Values.ingress.extraPaths -}}
+  {{- $serviceName := .Values.service.servicename -}}
+  {{- $servicePort := .Values.service.port -}}
+  {{- $paths := .Values.ingress.paths -}}
+  {{- $extraPaths := .Values.ingress.extraPaths -}}
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: insights-ingress
+  name: qtest-launch-ingress
   {{- with .Values.ingress.annotations }}
   annotations:
-    {{- toYaml . | nindent 4 }}
+  {{- toYaml . | nindent 4 }}
   {{- end }}
   labels:
-    {{- if .Values.ingress.labels }}
-    {{- toYaml .Values.ingress.labels | nindent 4 }}
-    {{- end }}
+  {{- if .Values.ingress.labels }}
+  {{- toYaml .Values.ingress.labels | nindent 4 }}
+  {{- end }}
 spec:
   rules:
-  {{- if .Values.ingress.hosts }}
-  {{- range $host := .Values.ingress.hosts }}
-  - host: {{ $host }}
-    http:
-      paths:
-        {{- if $extraPaths }}
-        {{- toYaml $extraPaths | nindent 8 }}
-        {{- end }}
-        {{- range $p := $paths }}
-        - path: {{ $p }}
-          backend:
-            serviceName: {{ $serviceName }}
-            servicePort: {{ $servicePort }}
-        {{- end -}}
+    {{- if .Values.ingress.hosts }}
+    {{- range $host := .Values.ingress.hosts }}
+    - host: {{ $host }}
+      http:
+        paths:
+          {{- if $extraPaths }}
+          {{- toYaml $extraPaths | nindent 8 }}
+          {{- end }}
+          {{- range $p := $paths }}
+          - path: {{ $p }}
+            backend:
+              serviceName: {{ $serviceName }}
+              servicePort: {{ $servicePort }}
+  {{- end -}}
   {{- end -}}
   {{- end -}}
   {{- if .Values.ingress.tls }}
   tls:
-    {{- toYaml .Values.ingress.tls | nindent 4 }}
+  {{- toYaml .Values.ingress.tls | nindent 4 }}
   {{- end -}}
-{{- end }}
+  {{- end }}
