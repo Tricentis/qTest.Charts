@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: qtest-launch
+  name: {{ include "qtest-launch.fullname" . }}
 spec:
   replicas: {{ .Values.autoscaling.minReplicas }}
   selector:

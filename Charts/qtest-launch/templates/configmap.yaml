@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: qtest-launch-configmap
   labels:
-    app: qTestLaunch
+    app: qtest-launch
 data:
   qTestLaunchPostgresUrl: "{{ .Values.qTestLaunch.qTestLaunchPostgresUrl }}"
   qTestLaunchRootURL: "{{ .Values.qTestLaunch.qTestLaunchRootURL }}"
