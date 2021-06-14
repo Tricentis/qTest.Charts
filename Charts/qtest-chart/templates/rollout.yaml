@@ -1,4 +1,6 @@
 {{- if .Values.rollouts.enabled -}}
+{{- $existingImageCredentials := .Values.secrets.existingImageCredentials -}}
+{{- $imageCredentials := .Values.imageCredentials.name -}}
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
@@ -67,10 +69,10 @@ spec:
                 key: client.jdbc.postgres.password
       {{- if .Values.secrets.existingImageCredentials -}}
       imagePullSecrets:
-      - name: {{ .Values.secrets.existingImageCredentials }}
+        - name: {{ $existingImageCredentials }}
       {{- else if .Values.imageCredentials.enabled -}}
       imagePullSecrets:
-      - name: {{ .Values.imageCredentials.name }}
+        - name: {{ $imageCredentials }}
       {{- end }}
       containers:
       - name: {{ .Chart.Name }}
