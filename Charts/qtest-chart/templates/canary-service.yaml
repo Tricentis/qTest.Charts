@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: canary-{{ .Values.service.servicename }}
+  name: canary-mgr-service
   labels:
     app: qtest-mgr
     release: {{ .Release.Name }}
@@ -17,5 +17,45 @@ spec:
       name: http
   selector:
     app: qtest-mgr
+    release: {{ .Release.Name }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: canary-mgr-service-api
+  labels:
+    app: qtest-mgr-api
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    chart: {{ template "qtest-chart.chart" . }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: qtest-mgr-api
+    release: {{ .Release.Name }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: canary-mgr-service-notification
+  labels:
+    app: qtest-mgr-notification
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    chart: {{ template "qtest-chart.chart" . }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: qtest-mgr-notification
     release: {{ .Release.Name }}
 {{- end }}

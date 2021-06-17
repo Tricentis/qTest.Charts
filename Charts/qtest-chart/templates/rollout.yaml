@@ -112,8 +112,8 @@ spec:
     canary:
       maxSurge: "25%"
       maxUnavailable: 0
-      canaryService: canary-{{ .Values.service.servicename }}
-      stableService: {{ .Values.service.servicename }}
+      canaryService: canary-mgr-service
+      stableService: mgr-service
       trafficRouting:
         nginx:
           stableIngress: mgr-ingress
