@@ -167,7 +167,6 @@ metrics:
 
 persistence:
   enabled: true
-  ## Set annotations on pvc
   annotations: {}
 
   ## Specify an existing volume claim instead of creating a new one.
