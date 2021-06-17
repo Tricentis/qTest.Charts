@@ -120,14 +120,11 @@ qTestManager:
 
 ingress:
   enabled: false
+  ingressClassName: ""
   annotations:
-    # kubernetes.io/tls-acme: "true"
-    # alb or nginx
     kubernetes.io/ingress.class: ""
-    # alb.ingress.kubernetes.io/scheme: internet-facing
-    # alb.ingress.kubernetes.io/target-type: ip
-    # alb.ingress.kubernetes.io/subnets: subnet-0af0148f6b11db237, subnet-0703b40274a38ef03, subnet-08b03eaa2622a4fe6
   canary:
+    annotationPrefix: ""
     annotations: {}
       # canary-by-header: []
       # canary-by-header-pattern: []
