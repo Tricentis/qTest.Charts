@@ -15,7 +15,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.replicaCount.ui }}
   revisionHistoryLimit: 3
   selector:
     matchLabels:
@@ -92,7 +92,7 @@ spec:
 {{- toYaml .Values.env | nindent 11 }}
         {{- end }}
           - name: testconductor.environment
-            value: "production"
+            value: "ui.production"
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
         volumeMounts:
@@ -116,6 +116,240 @@ spec:
       maxUnavailable: 0
       canaryService: canary-mgr-service
       stableService: mgr-service
+      trafficRouting:
+        {{ .Values.ingress.ingressClassName }}:
+          annotationPrefix: {{ .Values.ingress.canary.annotationPrefix }}
+          {{- with .Values.ingress.canary.annotations }}
+          additionalIngressAnnotations:
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
+          ingress: mgr-ingress
+          servicePort: 443
+      steps:
+      - setWeight: 20
+      {{- if .Values.metrics.enabled }}
+      - analysis:
+          templates:
+          - templateName: success-rates
+            clusterScope: true
+          args:
+          - name: service-name
+      {{- end }}
+      - setWeight: 50
+      - pause: {}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: mgr-api-rollout
+  {{- with .Values.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  labels:
+    app: qtest-mgr-api
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount.api }}
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: qtest-mgr-api
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      {{- if .Values.podAnnotations }}
+      annotations:
+      {{- range $key, $value := .Values.podAnnotations }}
+        {{ $key }}: {{ $value | quote }}
+      {{- end }}
+      {{- end }}
+      labels:
+        app: qtest-mgr-api
+        release: {{ .Release.Name }}
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        release: "{{ .Release.Name }}"
+    spec:
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      {{- if .Values.secrets.existingImageCredentials -}}
+      imagePullSecrets:
+        - name: {{ $existingImageCredentials }}
+      {{- else if .Values.imageCredentials.enabled -}}
+      imagePullSecrets:
+        - name: {{ $imageCredentials }}
+      {{- end }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+          - name: http
+            containerPort: {{ .Values.service.port }}
+            protocol: TCP
+        envFrom:
+          - configMapRef:
+              name: qtest-manager-config
+          - secretRef:
+              name: qtest-manager-secret
+        {{- if .Values.env }}
+        env:
+{{- toYaml .Values.env | nindent 11 }}
+        {{- end }}
+          - name: testconductor.environment
+            value: "api.production"
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+        volumeMounts:
+        - name: qtest-data
+          mountPath: /mnt/data/storage
+      volumes:
+        - name: qtest-data
+        {{- if .Values.persistence.existingClaim }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim }}
+        {{- else if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ template "qtest-chart.fullname" . }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+  minReadySeconds: 30
+  strategy:
+    canary:
+      maxSurge: "25%"
+      maxUnavailable: 0
+      canaryService: canary-mgr-service-api
+      stableService: mgr-service-api
+      trafficRouting:
+        {{ .Values.ingress.ingressClassName }}:
+          annotationPrefix: {{ .Values.ingress.canary.annotationPrefix }}
+          {{- with .Values.ingress.canary.annotations }}
+          additionalIngressAnnotations:
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
+          ingress: mgr-ingress
+          servicePort: 443
+      steps:
+      - setWeight: 20
+      {{- if .Values.metrics.enabled }}
+      - analysis:
+          templates:
+          - templateName: success-rates
+            clusterScope: true
+          args:
+          - name: service-name
+      {{- end }}
+      - setWeight: 50
+      - pause: {}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: mgr-notification-rollout
+  {{- with .Values.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  labels:
+    app: qtest-mgr-notification
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount.notification }}
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: qtest-mgr-notification
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      {{- if .Values.podAnnotations }}
+      annotations:
+      {{- range $key, $value := .Values.podAnnotations }}
+        {{ $key }}: {{ $value | quote }}
+      {{- end }}
+      {{- end }}
+      labels:
+        app: qtest-mgr-notification
+        release: {{ .Release.Name }}
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        release: "{{ .Release.Name }}"
+    spec:
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      {{- if .Values.secrets.existingImageCredentials -}}
+      imagePullSecrets:
+        - name: {{ $existingImageCredentials }}
+      {{- else if .Values.imageCredentials.enabled -}}
+      imagePullSecrets:
+        - name: {{ $imageCredentials }}
+      {{- end }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+          - name: http
+            containerPort: {{ .Values.service.port }}
+            protocol: TCP
+        envFrom:
+          - configMapRef:
+              name: qtest-manager-config
+          - secretRef:
+              name: qtest-manager-secret
+        {{- if .Values.env }}
+        env:
+{{- toYaml .Values.env | nindent 11 }}
+        {{- end }}
+          - name: testconductor.environment
+            value: "notification.production"
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+        volumeMounts:
+        - name: qtest-data
+          mountPath: /mnt/data/storage
+      volumes:
+        - name: qtest-data
+        {{- if .Values.persistence.existingClaim }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim }}
+        {{- else if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ template "qtest-chart.fullname" . }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+  minReadySeconds: 30
+  strategy:
+    canary:
+      maxSurge: "25%"
+      maxUnavailable: 0
+      canaryService: canary-mgr-service-notification
+      stableService: mgr-service-notification
       trafficRouting:
         {{ .Values.ingress.ingressClassName }}:
           annotationPrefix: {{ .Values.ingress.canary.annotationPrefix }}
