@@ -21,13 +21,11 @@ podAnnotations: {}
 env: []
 
 image:
-  # repository: qtest.jfrog.io/qtest-docker-dev-local/qtestmanager
-  # repository: agiletrailblazers.jfrog.io/demorepo/agiletrailblazers
-  repository: public.ecr.aws/b8y7a2x6/qtest-k8s-dev
+  repository: 242129367204.dkr.ecr.us-east-1.amazonaws.com/qtestmgr
   liquibase: public.ecr.aws/b8y7a2x6/liquibase
   pullPolicy: IfNotPresent
-  tag: "19"
-  liquibasetag: 1
+  tag: "10.4.0"
+  liquibasetag: 2
   liquibasepullpolicy: IfNotPresent
 
 imageCredentials:
@@ -115,14 +113,11 @@ qTestManager:
 
 ingress:
   enabled: false
+  ingressClassName: ""
   annotations:
-    # kubernetes.io/tls-acme: "true"
-    # alb or nginx
     kubernetes.io/ingress.class: ""
-    # alb.ingress.kubernetes.io/scheme: internet-facing
-    # alb.ingress.kubernetes.io/target-type: ip
-    # alb.ingress.kubernetes.io/subnets: subnet-0af0148f6b11db237, subnet-0703b40274a38ef03, subnet-08b03eaa2622a4fe6
   canary:
+    annotationPrefix: ""
     annotations: {}
       # canary-by-header: []
       # canary-by-header-pattern: []
@@ -165,7 +160,6 @@ metrics:
 
 persistence:
   enabled: true
-  ## Set annotations on pvc
   annotations: {}
 
   ## Specify an existing volume claim instead of creating a new one.

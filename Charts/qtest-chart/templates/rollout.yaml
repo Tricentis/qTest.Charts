@@ -1,4 +1,6 @@
 {{- if .Values.rollouts.enabled -}}
+{{- $existingImageCredentials := .Values.secrets.existingImageCredentials -}}
+{{- $imageCredentials := .Values.imageCredentials.name -}}
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
@@ -67,10 +69,10 @@ spec:
                 key: client.jdbc.postgres.password
       {{- if .Values.secrets.existingImageCredentials -}}
       imagePullSecrets:
-      - name: {{ .Values.secrets.existingImageCredentials }}
+        - name: {{ $existingImageCredentials }}
       {{- else if .Values.imageCredentials.enabled -}}
       imagePullSecrets:
-      - name: {{ .Values.imageCredentials.name }}
+        - name: {{ $imageCredentials }}
       {{- end }}
       containers:
       - name: {{ .Chart.Name }}
@@ -85,8 +87,8 @@ spec:
               name: qtest-manager-config
           - secretRef:
               name: qtest-manager-secret
-        env:
         {{- if .Values.env }}
+        env:
 {{- toYaml .Values.env | nindent 11 }}
         {{- end }}
           - name: testconductor.environment
@@ -115,13 +117,14 @@ spec:
       canaryService: canary-mgr-service
       stableService: mgr-service
       trafficRouting:
-        nginx:
-          stableIngress: mgr-ingress
-          annotationPrefix: nginx.ingress.kubernetes.io 
+        {{ .Values.ingress.ingressClassName }}:
+          annotationPrefix: {{ .Values.ingress.canary.annotationPrefix }}
           {{- with .Values.ingress.canary.annotations }}
           additionalIngressAnnotations:
           {{- toYaml . | nindent 12 }}
           {{- end }}
+          ingress: mgr-ingress
+          servicePort: 443
       steps:
       - setWeight: 20
       {{- if .Values.metrics.enabled }}

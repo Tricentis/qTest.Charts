@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: qtest-pulse-deployment
+  name: qtest-pulse
 spec:
   replicas: {{ .Values.autoscaling.minReplicas }}
   selector:
