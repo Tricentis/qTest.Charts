@@ -31,9 +31,9 @@ spec:
       {{- end }}
       labels:
         app: qtest-mgr
-        release: {{ .Release.Name }}
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-        release: "{{ .Release.Name }}"
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
     spec:
     {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -170,7 +170,7 @@ spec:
         app: qtest-mgr-api
         release: {{ .Release.Name }}
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-        release: "{{ .Release.Name }}"
+        heritage: "{{ .Release.Service }}"
     spec:
     {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -287,7 +287,7 @@ spec:
         app: qtest-mgr-notification
         release: {{ .Release.Name }}
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-        release: "{{ .Release.Name }}"
+        heritage: {{ .Release.Service }}
     spec:
     {{- with .Values.nodeSelector }}
       nodeSelector:
