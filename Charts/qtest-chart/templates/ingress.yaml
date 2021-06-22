@@ -1,5 +1,4 @@
 {{- if .Values.ingress.enabled -}}
-{{- $serviceName := .Values.service.servicename -}}
 {{- $servicePort := .Values.service.port -}}
 {{- $paths := .Values.ingress.paths -}}
 {{- $extraPaths := .Values.ingress.extraPaths -}}
@@ -25,52 +24,44 @@ spec:
         {{- if $extraPaths }}
         {{- toYaml $extraPaths | nindent 8 }}
         {{- end }}
-        {{- range $p := $paths }}
-        - path: {{ $p }}
-          backend:
-            serviceName: {{ $serviceName }}
-            servicePort: {{ $servicePort }}
-        {{- end -}}
-  {{- end -}}
-  {{- end -}}
-  - http:
-      paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: mgr-service
-              port: {{ .Values.service.port }}
         - path: /api
           pathType: Prefix
           backend:
             service:
               name: mgr-service-api
-              port: {{ .Values.service.port }}
+              port: {{ $servicePort }}
         - path: /api2
           pathType: Prefix
           backend:
             service:
               name: mgr-service-api
-              port: {{ .Values.service.port }}
+              port: {{ $servicePort }}
         - path: /api/v3
           pathType: Prefix
           backend:
             service:
               name: mgr-service-api
-              port: {{ .Values.service.port }}
+              port: {{ $servicePort }}
         - path: /public/integration/webhookcallback2
           pathType: Prefix
           backend:
             service:
               name: mgr-service-api
-              port: {{ .Values.service.port }}
+              port: {{ $servicePort }}
         - path: /realtime
           pathType: Prefix
           backend:
             service:
               name: mgr-service-notification
-              port: {{ .Values.service.port }}
+              port: {{ $servicePort }}
+        {{- range $p := $paths }}
+        - path: {{ $p }}
+          backend:
+            serviceName: mgr-service
+            servicePort: {{ $servicePort }}
+        {{- end -}}
+  {{- end -}}
+  {{- end -}}
   {{- if .Values.ingress.tls }}
   tls:
     {{- toYaml .Values.ingress.tls | nindent 4 }}
