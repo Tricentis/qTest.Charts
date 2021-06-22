@@ -67,13 +67,6 @@ spec:
               secretKeyRef:
                 name: qtest-manager-secret
                 key: client.jdbc.postgres.password
-      {{- if .Values.secrets.existingImageCredentials -}}
-      imagePullSecrets:
-        - name: {{ $existingImageCredentials }}
-      {{- else if .Values.imageCredentials.enabled -}}
-      imagePullSecrets:
-        - name: {{ $imageCredentials }}
-      {{- end }}
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -184,13 +177,6 @@ spec:
       tolerations:
 {{ toYaml . | indent 8 }}
     {{- end }}
-      {{- if .Values.secrets.existingImageCredentials -}}
-      imagePullSecrets:
-        - name: {{ $existingImageCredentials }}
-      {{- else if .Values.imageCredentials.enabled -}}
-      imagePullSecrets:
-        - name: {{ $imageCredentials }}
-      {{- end }}
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -301,13 +287,6 @@ spec:
       tolerations:
 {{ toYaml . | indent 8 }}
     {{- end }}
-      {{- if .Values.secrets.existingImageCredentials -}}
-      imagePullSecrets:
-        - name: {{ $existingImageCredentials }}
-      {{- else if .Values.imageCredentials.enabled -}}
-      imagePullSecrets:
-        - name: {{ $imageCredentials }}
-      {{- end }}
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -418,13 +397,6 @@ spec:
       tolerations:
 {{ toYaml . | indent 8 }}
     {{- end }}
-      {{- if .Values.secrets.existingImageCredentials -}}
-      imagePullSecrets:
-      - name: {{ .Values.secrets.existingImageCredentials }}
-      {{- else if .Values.imageCredentials.enabled -}}
-      imagePullSecrets:
-      - name: {{ .Values.imageCredentials.name }}
-      {{- end }}
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
