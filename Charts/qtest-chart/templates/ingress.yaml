@@ -25,31 +25,31 @@ spec:
         {{- toYaml $extraPaths | nindent 8 }}
         {{- end }}
         - path: /api
-          pathType: Prefix
+          # pathType: Prefix
           backend:
             service:
               name: mgr-service-api
               port: {{ $servicePort }}
         - path: /api2
-          pathType: Prefix
+          # pathType: Prefix
           backend:
             service:
               name: mgr-service-api
               port: {{ $servicePort }}
         - path: /api/v3
-          pathType: Prefix
+          # pathType: Prefix
           backend:
             service:
               name: mgr-service-api
               port: {{ $servicePort }}
         - path: /public/integration/webhookcallback2
-          pathType: Prefix
+          # pathType: Prefix
           backend:
             service:
               name: mgr-service-api
               port: {{ $servicePort }}
         - path: /realtime
-          pathType: Prefix
+          # pathType: Prefix
           backend:
             service:
               name: mgr-service-notification
