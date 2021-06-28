@@ -381,16 +381,16 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
   labels:
-    app: qtest-mgr-api
+    app: qtest-mgr-poller
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.replicaCount.api }}
+  replicas: {{ .Values.replicaCount.poller }}
   revisionHistoryLimit: 3
   selector:
     matchLabels:
-      app: qtest-mgr-api
+      app: qtest-mgr-poller
       release: {{ .Release.Name }}
   template:
     metadata:
@@ -401,7 +401,7 @@ spec:
       {{- end }}
       {{- end }}
       labels:
-        app: qtest-mgr-api
+        app: qtest-mgr-poller
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
         release: "{{ .Release.Name }}"
         heritage: "{{ .Release.Service }}"
@@ -438,7 +438,12 @@ spec:
 {{- toYaml .Values.env | nindent 11 }}
         {{- end }}
            - name: testconductor.environment
-             value: "api.production"
+             value: "poller.production"
+        envFrom:
+          - configMapRef:
+              name: qtest-manager-config
+          - secretRef:
+              name: qtest-manager-secret
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
         volumeMounts:
