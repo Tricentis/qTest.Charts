@@ -124,7 +124,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.replicaCount.api }}
+  replicas: {{ .Values.replicaCount.poller }}
   revisionHistoryLimit: 3
   selector:
     matchLabels:
@@ -176,7 +176,7 @@ spec:
 {{- toYaml .Values.env | nindent 11 }}
         {{- end }}
            - name: testconductor.environment
-             value: "api.production"
+             value: "poller.production"
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
         volumeMounts:
@@ -292,7 +292,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.replicaCount.poller }}
+  replicas: {{ .Values.replicaCount.api }}
   revisionHistoryLimit: 3
   selector:
     matchLabels:
@@ -344,7 +344,7 @@ spec:
 {{- toYaml .Values.env | nindent 11 }}
         {{- end }}
            - name: testconductor.environment
-             value: "poller.production"
+             value: "api.production"
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
         volumeMounts:
