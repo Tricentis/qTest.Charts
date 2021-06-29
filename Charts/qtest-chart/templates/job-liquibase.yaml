@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: qtestliquibase
-          image: "{{ $image }}:{{ $imagetag }}"
+          image: "{{ .Values.image.liquibase }}:{{ .Values.image.liquibasetag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.liquibasepullpolicy }}
           env:
             - name: POSTGRES_URL
