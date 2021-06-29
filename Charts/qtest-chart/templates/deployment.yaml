@@ -83,10 +83,10 @@ spec:
           name: http
           protocol: TCP
         envFrom:
-          - configMapRef:
-              name: qtest-manager-config
-          - secretRef:
-              name: qtest-manager-secret
+        - configMapRef:
+            name: qtest-manager-config
+        - secretRef:
+            name: qtest-manager-secret
         env:
         {{- if .Values.env }}
 {{- toYaml .Values.env | nindent 11 }}
@@ -171,6 +171,11 @@ spec:
         - containerPort: {{ .Values.service.port }}
           name: http
           protocol: TCP
+        envFrom:
+        - configMapRef:
+            name: qtest-manager-config
+        - secretRef:
+            name: qtest-manager-secret
         env:
         {{- if .Values.env }}
 {{- toYaml .Values.env | nindent 11 }}
@@ -255,6 +260,11 @@ spec:
         - containerPort: {{ .Values.service.port }}
           name: http
           protocol: TCP
+        envFrom:
+        - configMapRef:
+            name: qtest-manager-config
+        - secretRef:
+            name: qtest-manager-secret
         env:
         {{- if .Values.env }}
 {{- toYaml .Values.env | nindent 11 }}
@@ -339,6 +349,11 @@ spec:
         - containerPort: {{ .Values.service.port }}
           name: http
           protocol: TCP
+        envFrom:
+        - configMapRef:
+            name: qtest-manager-config
+        - secretRef:
+            name: qtest-manager-secret
         env:
         {{- if .Values.env }}
 {{- toYaml .Values.env | nindent 11 }}
