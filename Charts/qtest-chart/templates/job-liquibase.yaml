@@ -20,23 +20,23 @@ spec:
         heritage: {{ .Release.Service }}
     spec:
       containers:
-        - name: qtestliquibase
-          image: "{{ .Values.image.liquibase }}:{{ .Values.image.liquibasetag }}"
-          imagePullPolicy: {{ .Values.image.liquibasepullpolicy }}
-          env:
-            - name: POSTGRES_URL
-                valueFrom:
-                configMapKeyRef:
-                    name: qtest-manager-config
-                    key: client.jdbc.postgres.url
-            - name: POSTGRES_USER
-                valueFrom:
-                configMapKeyRef:
-                    name: qtest-manager-config
-                    key: client.jdbc.postgres.username
-            - name: POSTGRES_PASSWORD
-                valueFrom:
-                secretKeyRef:
-                    name: qtest-manager-secret
-                    key: client.jdbc.postgres.password
+      - name: qtestliquibase
+        image: "{{ .Values.image.liquibase }}:{{ .Values.image.liquibasetag }}"
+        imagePullPolicy: {{ .Values.image.liquibasepullpolicy }}
+        env:
+          - name: POSTGRES_URL
+              valueFrom:
+              configMapKeyRef:
+                  name: qtest-manager-config
+                  key: client.jdbc.postgres.url
+          - name: POSTGRES_USER
+              valueFrom:
+              configMapKeyRef:
+                  name: qtest-manager-config
+                  key: client.jdbc.postgres.username
+          - name: POSTGRES_PASSWORD
+              valueFrom:
+              secretKeyRef:
+                  name: qtest-manager-secret
+                  key: client.jdbc.postgres.password
       restartPolicy: OnFailure
