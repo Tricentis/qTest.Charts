@@ -42,8 +42,6 @@ data:
   elasticsearch.maximum_objects_per_index_request: "{{ .Values.qTestManager.elasticSearch.maxObjPerIndexRequest }}"  
   attachment.folder.path: "{{ .Values.qTestManager.attachmentFolderPath }}"
   search.folder.path: "{{ .Values.qTestManager.searchFolderPath }}"
-  license.folder.path: "{{ .Values.qTestManager.licenseFolderPath }}"
-  blobStorage.type: "{{ .Values.qTestManager.blobStorage.type }}"
   blobStorage.region: "{{ .Values.qTestManager.blobStorage.region }}"
   blobStorage.sharedBucket: "{{ .Values.qTestManager.blobStorage.sharedBucket }}"
   s3.folder: "{{ .Values.qTestManager.s3.folder }}"

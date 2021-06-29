@@ -75,16 +75,12 @@ qTestManager:
     permittedClients: qas
   attachmentFolderPath: /usr/local/tomcat/temp
   searchFolderPath: /usr/local/tomcat/temp
-  licenseFolderPath: /usr/local/tomcat/temp
   blobStorage:
-    type: disk_storage
     region: us-east-1
     sharedBucket: ""
   s3:
     folder: manager
     scanUrl: http://clamab-service
-    SecretKey: ""
-    AccessKey: ""
   serverAppUrl: http://search:8080
   serverAppUseSecureCookie: true
   serverAppSSLRequired: false
