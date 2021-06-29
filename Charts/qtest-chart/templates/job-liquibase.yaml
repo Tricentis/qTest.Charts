@@ -19,13 +19,6 @@ spec:
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
     spec:
-      # {{- if .Values.secrets.existingImageCredentials -}}
-      # imagePullSecrets:
-      #   - name: {{ $existingImageCredentials }}
-      # {{- else if .Values.imageCredentials.enabled -}}
-      # imagePullSecrets:
-      #   - name: {{ $imageCredentials }}
-      # {{- end }}
       containers:
         - name: qtestliquibase
           image: "{{ $image }}:{{ $imagetag }}"
