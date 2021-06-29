@@ -24,10 +24,10 @@ metadata:
   labels:
     app: qTestManager
 data:
-  client.jdbc.postgres.url: "{{ .Values.qTestManager.clientJdbc.postgresUrl }}"
-  client.jdbc.postgres.username: "{{ .Values.qTestManager.clientJdbc.postgresUserName }}"
-  client.jdbc.postgres.readonly.url: "{{ .Values.qTestManager.clientJdbc.postgresReadOnlyUrl }}"
-  client.jdbc.postgres.readonly.username: "{{ .Values.qTestManager.clientJdbc.postgresReadOnlyUserName }}"
+  client.jdbc.postgres.url: "{{ .Values.qTestManager.client.postgresUrl }}"
+  client.jdbc.postgres.username: "{{ .Values.qTestManager.client.postgresUserName }}"
+  client.jdbc.postgres.readonly.url: "{{ .Values.qTestManager.client.postgresReadOnlyUrl }}"
+  client.jdbc.postgres.readonly.username: "{{ .Values.qTestManager.client.postgresReadOnlyUserName }}"
   elasticsearch.init: "{{ .Values.qTestManager.elasticSearch.init }}"
   elasticsearch.disable: "{{ .Values.qTestManager.elasticSearch.disable }}"
   elasticsearch.scheme: "{{ .Values.qTestManager.elasticSearch.scheme }}"

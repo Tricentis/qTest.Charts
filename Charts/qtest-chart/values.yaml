@@ -55,13 +55,14 @@ qTestManager:
   postgres_host: "postgres.local"
   postgres_user: "qtest"
   postgres_password: ""
-  clientJdbc:
-    postgresUrl: "jdbc:postgresql://postgres.local:5432/qtest"
-    postgresUserName: "qtest"
-    postgresPassword: ""
-    postgresReadOnlyUrl: "jdbc:postgresql://postgres_replica.local:5432/qtest"
-    postgresReadOnlyUserName: "qtest"
-    postgresReadOnlyPassword: ""
+  client:
+    jdbc:
+      postgresUrl: "jdbc:postgresql://postgres.local:5432/qtest"
+      postgresUserName: "qtest"
+      postgresPassword: ""
+      postgresReadOnlyUrl: "jdbc:postgresql://postgres_replica.local:5432/qtest"
+      postgresReadOnlyUserName: "qtest"
+      postgresReadOnlyPassword: ""
   elasticSearch:
     init: false
     disable: true
@@ -77,7 +78,7 @@ qTestManager:
     sharedBucket: "qtest"
   s3:
     folder: manager
-    scanUrl: ""
+    scanUrl: http://clamab-service
     SecretKey: ""
     AccessKey: ""
   serverAppUseSecureCookie: true
@@ -100,7 +101,7 @@ qTestManager:
     serverMapUrl: "http://qtest.local/public/jira-widget/server-map"
     instance: US
     ODPrivate: false
-  tdmSettingUrl: "http://parameters.local"
+  tdmSettingUrl: "http://parameters-service"
   mail:
     host: "smtp.local"
     port: 465
