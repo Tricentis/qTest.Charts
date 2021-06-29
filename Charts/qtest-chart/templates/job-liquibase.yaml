@@ -1,5 +1,7 @@
 {{- $existingImageCredentials := .Values.secrets.existingImageCredentials -}}
 {{- $imageCredentials := .Values.imageCredentials.name -}}
+{{- $image := .Values.image.liquibase -}}
+{{- $imagetag := .Values.image.liquibasetag -}}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -26,7 +28,7 @@ spec:
       {{- end }}
       containers:
         - name: qtestliquibase
-          image: "{{ .Values.image.liquibase }}:{{ .Values.image.liquibasetag | default .Chart.AppVersion }}"
+          image: "{{ $image }}:{{ $imagetag }}"
           imagePullPolicy: {{ .Values.image.liquibasepullpolicy }}
           env:
             - name: POSTGRES_URL
