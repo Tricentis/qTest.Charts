@@ -1,3 +1,5 @@
+{{- $existingImageCredentials := .Values.secrets.existingImageCredentials -}}
+{{- $imageCredentials := .Values.imageCredentials.name -}}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -15,9 +17,13 @@ spec:
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
     spec:
-    {{- if .Values.imagePullSecrets }}
-      imagePullSecrets: {{ toYaml .Values.imagePullSecrets | nindent 8 }}
-    {{- end }}
+      {{- if .Values.secrets.existingImageCredentials -}}
+      imagePullSecrets:
+        - name: {{ $existingImageCredentials }}
+      {{- else if .Values.imageCredentials.enabled -}}
+      imagePullSecrets:
+        - name: {{ $imageCredentials }}
+      {{- end }}
       containers:
         - name: qtestliquibase
           image: "{{ .Values.image.liquibase }}:{{ .Values.image.liquibasetag | default .Chart.AppVersion }}"
