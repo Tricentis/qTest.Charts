@@ -5,7 +5,8 @@ metadata:
   labels:
     app: qTestManager
   annotations:
-    "helm.sh/hook": pre-install
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 data:
   client.jdbc.postgres.url: "{{ .Values.qTestManager.client.jdbc.postgresUrl }}"
   client.jdbc.postgres.username: "{{ .Values.qTestManager.client.jdbc.postgresUserName }}"
