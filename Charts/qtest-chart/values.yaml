@@ -48,9 +48,6 @@ service:
   # servicePortHttpsName: https
 
 qTestManager:
-  postgres_host: ""
-  postgres_user: ""
-  postgres_password: ""
   testConductorEnvironment: production
   springProfilesActive: postgres,oldTrackingDefect
   client:
