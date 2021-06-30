@@ -1,7 +1,3 @@
-{{- $existingImageCredentials := .Values.secrets.existingImageCredentials -}}
-{{- $imageCredentials := .Values.imageCredentials.name -}}
-{{- $image := .Values.image.liquibase -}}
-{{- $imagetag := .Values.image.liquibasetag -}}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -23,20 +19,9 @@ spec:
         - name: qtestliquibase
           image: "{{ .Values.image.liquibase }}:{{ .Values.image.liquibasetag }}"
           imagePullPolicy: {{ .Values.image.liquibasepullpolicy }}
-          env:
-            - name: POSTGRES_URL
-              valueFrom:
-              configMapKeyRef:
-                  name: qtest-manager-config
-                  key: client.jdbc.postgres.url
-            - name: POSTGRES_USER
-              valueFrom:
-              configMapKeyRef:
-                  name: qtest-manager-config
-                  key: client.jdbc.postgres.username
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-              secretKeyRef:
-                  name: qtest-manager-secret
-                  key: client.jdbc.postgres.password
+          envFrom:
+            - configMapRef:
+                name: qtest-manager-config
+            - secretRef:
+                name: qtest-manager-secret
       restartPolicy: OnFailure
