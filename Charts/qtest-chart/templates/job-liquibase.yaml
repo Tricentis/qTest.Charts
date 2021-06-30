@@ -19,17 +19,17 @@ spec:
           image: "{{ .Values.image.liquibase }}:{{ .Values.image.liquibasetag }}"
           imagePullPolicy: {{ .Values.image.liquibasepullpolicy }}
           env:
-            - name: postgres_url
+            - name: POSTGRES_URL
               valueFrom:
                 configMapKeyRef:
                   name: qtest-liquibase-config
                   key: client.jdbc.postgres.url
-            - name: postgres_username
+            - name: POSTGRES_USER
               valueFrom:
                 configMapKeyRef:
                   name: qtest-liquibase-config
                   key: client.jdbc.postgres.username
-            - name: postgres_secret
+            - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: qtest-manager-secret
