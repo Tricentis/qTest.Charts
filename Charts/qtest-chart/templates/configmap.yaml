@@ -4,6 +4,8 @@ metadata:
   name: qtest-liquibase-config
   labels:
     app: qTestManager
+  annotations:
+    "helm.sh/hook": pre-install
 data:
   client.jdbc.postgres.url: "{{ .Values.qTestManager.client.jdbc.postgresUrl }}"
   client.jdbc.postgres.username: "{{ .Values.qTestManager.client.jdbc.postgresUserName }}"
