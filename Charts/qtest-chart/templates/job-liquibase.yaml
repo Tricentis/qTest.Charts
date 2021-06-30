@@ -23,8 +23,18 @@ spec:
             - name: postgres_url
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-manager-config
+                  name: qtest-liquibase-config
                   key: client.jdbc.postgres.url
+            - name: postgres_username
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-liquibase-config
+                  key: client.jdbc.postgres.username
+            - name: postgres_secret
+              valueFrom:
+                secretKeyRef:
+                  name: qtest-manager-secret
+                  key: client.jdbc.postgres.password
           # envFrom:
           #   - configMapRef:
           #       name: qtest-liquibase-config
