@@ -20,7 +20,7 @@ image:
   repository: 242129367204.dkr.ecr.us-east-1.amazonaws.com/qtestmgr
   liquibase: public.ecr.aws/b8y7a2x6/liquibase
   pullPolicy: IfNotPresent
-  tag: "10.4.0-2d3e577"
+  tag: "10.4.0-d8c26b1"
   liquibasetag: 2
   liquibasepullpolicy: IfNotPresent
 
