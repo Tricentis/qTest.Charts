@@ -12,9 +12,6 @@ service:
   servicename: insights-service
 
 qTestInsights:
-  qTestInsightsProxyEnabled: 1
-  qTestInsightsProxyHTTP: http://127.0.0.1:8080/
-  qTestInsightsProxyHTTPS: https://127.0.0.1:8443/
   qTestInsightsCatalinaOpts: \"-server -d64 -Xms512m -Xmx2048m -XX:MaxPermSize=256m -XX:CompileThreshold=8000 -XX:-DisableExplicitGC -XX:HeapDumpPath=/logs -Djava.awt.headless=true\"
   qTestInsightsDBName: qtest
   qTestInsightsDBUser: postgres

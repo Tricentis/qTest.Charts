@@ -5,9 +5,6 @@ metadata:
   labels:
     app: qTestInsights
 data:
-  PROXY_ENABLED: "{{ .Values.qTestInsights.qTestInsightsProxyEnabled }}"
-  PROXY_HTTP1: "{{ .Values.qTestInsights.qTestInsightsProxyHTTP }}"
-  PROXY_HTTPS1: "{{ .Values.qTestInsights.qTestInsightsProxyHTTPS }}"
   CATALINA_OPTS1: "{{ .Values.qTestInsights.qTestInsightsCatalinaOpts }}"
   QTEST_DB_NAME: "{{ .Values.qTestInsights.qTestInsightsDBName }}"
   QTEST_DB_HOST: "{{ .Values.qTestInsights.qTestInsightsDBHost }}"
