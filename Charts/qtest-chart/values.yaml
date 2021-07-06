@@ -2,7 +2,11 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 2
+replicaCount:
+  ui: 2
+  api: 2
+  notification: 2
+  poller: 1
 
 rollouts:
   enabled: false
@@ -48,105 +52,58 @@ service:
   # servicePortHttpsName: https
 
 qTestManager:
-  testConductorEnvironment: production
-  springProfilesActive: postgres,oldTrackingDefect
   client:
     jdbc:
-      postgresUrl: ""
-      postgresUserName: ""
+      postgresUrl: "jdbc:postgresql://postgres.local:5432/qtest"
+      postgresUserName: "qtest"
       postgresPassword: ""
-      postgresReadOnlyUrl: ""
-      postgresReadOnlyUserName: ""
+      postgresReadOnlyUrl: "jdbc:postgresql://postgres_replica.local:5432/qtest"
+      postgresReadOnlyUserName: "qtest"
       postgresReadOnlyPassword: ""
-    dbcp:
-      testWhileIdle: 1
-      readOnlyMaxActive: 100
-      maxActive: 150
   elasticSearch:
     init: false
     disable: true
     scheme: http
-    host: 127.0.0.1
+    host: elasticsearch.local
     port: 9200
-    maxObjPerIndexRequest: 10000
-    permittedClients: qas
+    permittedClients: ""
   attachmentFolderPath: /usr/local/tomcat/temp
-  searchFolderPath: /usr/local/tomcat/temp
   blobStorage:
     region: us-east-1
-    sharedBucket: ""
+    sharedBucket: "qtest"
   s3:
     folder: manager
     scanUrl: http://clamab-service
-  serverAppUrl: http://search:8080
   serverAppUseSecureCookie: true
   serverAppSSLRequired: false
-  base:
-    httpPort: 8080
-    httpsPort: 8080
-  preUrl: http://127.0.0.1:8080
-  preUrlHttps: https://127.0.0.1:8443
+  preUrl: http://nephele.qtest.local
+  preUrlHttps: https://nephele.qtest.local
   qasymphonyUrlPostfix: .qtest.local
-  qasDirectoryAddress: http://localhost:9080/tc-auth
-  appName: app
+  qasDirectoryAddress: http://qtest-auth.local/tc-auth
   kafka:
-    bootstrapAddress: "[:]"
-    schemaRegistryUrl: "[:]"
-  analyticsUrlBase: "http://analytics-service"
-  preSessionUrl: "http://session-service"
-  pulseUrlBase: "http://pulse-service"
-  insightsUrl: "http://insights-service"
-  launchUrlBase: ""
+    enable: false
+    bootstrapAddress: "kafka-broker.local:9092"
+    schemaRegistryUrl: "https://schema-registry.local"
+  preSessionUrl: "http://sessions.local"
+  pulseUrlBase: "http://pulse.local"
+  insightsUrl: "http://insights.local"
+  launchUrlBase: "http://launch.local"
   notification:
-    urlExternal: "http://notification-service"
-    urlInternal: "http://notification-service"
+    urlExternal: "http://notification.qtest.local"
   qTest:
-    serverMapUrl: ""
+    serverMapUrl: "http://qtest.local/public/jira-widget/server-map"
     instance: US
-    appVersion: production
-  report:
-    httpUrl: ""
-    url: ""
-  tdmSettingUrl: "http://parameter-service"
+    ODPrivate: false
+  tdmSettingUrl: "http://parameters-service"
   mail:
-    host: ""
+    host: "smtp.local"
     port: 465
-    userName: ""
+    userName: "qtest"
     password: ""
-    protocol: smtp
-    smtpAuth: true
-    smtpTls: false
-    supportEmailAddress: qas_devops@tricentis.com
-    blockExternal: false
-  askExecutorPoolSize: 10
-  asyncThreadReadNumber: 30
-  asyncMaxDBCpu: 90
-  background:
-    event:
-      api:
-        threshold: 10
-      jira:
-        cloudThreshold: 10
-        serverThreshold: 10
-      maxThreshold: 2000
-      oldDefectThreshold: 20
-      testExecuteApiRetryTimes: 1
-      testExecuteApiThreshold: 2
-  clientDbcpMaxActive: 300
-  taskExecutionTimeUpperThreshold: 6000
-  requestExecutionTimeUpperThreshold: 1000
-  qtestODPrivate: false
-  pluginStoragePath: /var/lib/qtest/qtest-plugins
-  analyticsBetaClients: ""
-  actionTaskExecutorPoolSize: 0
-  region: us-east-1
-  qTestPluginServer: 0
-  jdbcConnectionString: ""
-  elbSG: ""
-  elbCertificate: ""
-  elbBucket: ""
-  autoUpdateDB: 1
-  accountId: ""
+    supportEmailAddress: supports@tricentis.com
+  integration:
+    jira:
+      testConnectionLegacyEndpointClients: ""
 
 ingress:
   enabled: false

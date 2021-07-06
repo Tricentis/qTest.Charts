@@ -1,5 +1,4 @@
 {{- if .Values.ingress.enabled -}}
-{{- $serviceName := .Values.service.servicename -}}
 {{- $servicePort := .Values.service.port -}}
 {{- $paths := .Values.ingress.paths -}}
 {{- $extraPaths := .Values.ingress.extraPaths -}}
@@ -25,10 +24,35 @@ spec:
         {{- if $extraPaths }}
         {{- toYaml $extraPaths | nindent 8 }}
         {{- end }}
+        - path: /api
+          pathType: Prefix
+          backend:
+            serviceName: mgr-service-api
+            servicePort: {{ $servicePort }}
+        - path: /api2
+          pathType: Prefix
+          backend:
+            serviceName: mgr-service-api
+            servicePort: {{ $servicePort }}
+        - path: /api/v3
+          pathType: Prefix
+          backend:
+            serviceName: mgr-service-api
+            servicePort: {{ $servicePort }}
+        - path: /public/integration/webhookcallback2
+          pathType: Prefix
+          backend:
+            serviceName: mgr-service-api
+            servicePort: {{ $servicePort }}
+        - path: /realtime
+          pathType: Prefix
+          backend:
+            serviceName: mgr-service-notification
+            servicePort: {{ $servicePort }}
         {{- range $p := $paths }}
         - path: {{ $p }}
           backend:
-            serviceName: {{ $serviceName }}
+            serviceName: mgr-service
             servicePort: {{ $servicePort }}
         {{- end -}}
   {{- end -}}
