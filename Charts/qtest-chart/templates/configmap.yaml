@@ -1,21 +1,16 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: hostname-config
+  name: qtest-liquibase-config
   labels:
-    app: postgres
+    app: qTestManager
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 data:
-  postgres_host: "{{ .Values.qTestManager.postgres_host }}"
----   
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: postgres-config
-  labels:
-    app: postgres
-data:
-  postgres_user: "{{ .Values.qTestManager.postgres_user }}"
-  postgres_password: "{{ .Values.qTestManager.postgres_password }}"
+  client.jdbc.postgres.url: "{{ .Values.qTestManager.client.jdbc.postgresUrl }}"
+  client.jdbc.postgres.username: "{{ .Values.qTestManager.client.jdbc.postgresUserName }}"
 ---
 apiVersion: v1
 kind: ConfigMap

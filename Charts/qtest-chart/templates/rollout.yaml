@@ -32,8 +32,8 @@ spec:
       labels:
         app: qtest-mgr
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-        release: {{ .Release.Name }}
-        heritage: {{ .Release.Service }}
+        release: "{{ .Release.Name }}"
+        heritage: "{{ .Release.Service }}"
     spec:
     {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -47,30 +47,10 @@ spec:
       tolerations:
 {{ toYaml . | indent 8 }}
     {{- end }}
-      initContainers:
-      - image: "{{ .Values.image.liquibase }}:{{ .Values.image.liquibasetag | default .Chart.AppVersion }}"
-        name: qtestliquibase
-        imagePullPolicy: {{ .Values.image.liquibasepullpolicy }}
-        env:
-          - name: POSTGRES_URL
-            valueFrom:
-              configMapKeyRef:
-                name: qtest-manager-config
-                key: client.jdbc.postgres.url
-          - name: POSTGRES_USER
-            valueFrom:
-              configMapKeyRef:
-                name: qtest-manager-config
-                key: client.jdbc.postgres.username
-          - name: POSTGRES_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: qtest-manager-secret
-                key: client.jdbc.postgres.password
-      {{- if .Values.secrets.existingImageCredentials }}
+      {{- if .Values.secrets.existingImageCredentials -}}
       imagePullSecrets:
         - name: {{ $existingImageCredentials }}
-      {{- else if .Values.imageCredentials.enabled }}
+      {{- else if .Values.imageCredentials.enabled -}}
       imagePullSecrets:
         - name: {{ $imageCredentials }}
       {{- end }}

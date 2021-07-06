@@ -24,7 +24,7 @@ image:
   repository: 242129367204.dkr.ecr.us-east-1.amazonaws.com/qtestmgr
   liquibase: public.ecr.aws/b8y7a2x6/liquibase
   pullPolicy: IfNotPresent
-  tag: "10.4.0-2d3e577"
+  tag: "10.4.0-203244a"
   liquibasetag: 2
   liquibasepullpolicy: IfNotPresent
 
@@ -52,9 +52,6 @@ service:
   # servicePortHttpsName: https
 
 qTestManager:
-  postgres_host: "postgres.local"
-  postgres_user: "qtest"
-  postgres_password: ""
   client:
     jdbc:
       postgresUrl: "jdbc:postgresql://postgres.local:5432/qtest"
