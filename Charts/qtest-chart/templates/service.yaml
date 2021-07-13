@@ -1,3 +1,7 @@
+{{- $targetPort := .Values.service.targetPort }}
+{{- if .Values.SigSci.enabled }}
+{{- $targetPort = .Values.service.targetSigSciPort }}
+{{- end }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -12,7 +16,7 @@ spec:
     - name: http
       protocol: TCP
       port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.targetport }}
+      targetPort: {{ $targetPort }}
   selector:
     app: qtest-mgr
     release: {{ .Release.Name }}
@@ -32,7 +36,7 @@ spec:
     - name: http
       protocol: TCP
       port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.targetport }}
+      targetPort: {{ $targetPort }}
   selector:
     app: qtest-mgr-api
     release: {{ .Release.Name }}
@@ -52,7 +56,7 @@ spec:
     - name: http
       protocol: TCP
       port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.targetport }}
+      targetPort: {{ $targetPort }}
   selector:
     app: qtest-mgr-notification
     release: {{ .Release.Name }}

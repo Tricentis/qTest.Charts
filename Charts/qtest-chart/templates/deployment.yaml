@@ -59,7 +59,7 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         name: {{ .Chart.Name }}
         ports:
-        - containerPort: {{ .Values.service.port }}
+        - containerPort: {{ .Values.service.targetPort }}
           name: http
           protocol: TCP
         envFrom:
@@ -78,7 +78,41 @@ spec:
         volumeMounts:
         - name: qtest-data
           mountPath: /mnt/data/storage
+      {{- if .Values.SigSci.enabled }}
+      - name: sigsci-agent
+        image: signalsciences/sigsci-agent:latest
+        imagePullPolicy: Always
+        env:
+        - name: SIGSCI_ACCESSKEYID
+          valueFrom:
+            secretKeyRef:
+              name: sigsci-secret
+              key: accesskeyid
+        - name: SIGSCI_SECRETACCESSKEY
+          valueFrom:
+            secretKeyRef:
+              name: sigsci-secret
+              key: secretaccesskey
+        # Configure the revproxy listener to listen on the original web application port 8000
+        # forwarding to the app on the alternate port 8001 as the upstream
+        - name: SIGSCI_REVPROXY_LISTENER
+          value: "http:{listener='http://0.0.0.0:{{ .Values.service.targetSigSciPort }}',upstreams='http://127.0.0.1:{{ .Values.service.targetPort }}',access-log='/dev/stdout'}"
+        ports:
+        - containerPort: {{ .Values.service.targetSigSciPort }}
+        securityContext:
+          # The sigsci-agent container should run with its root filesystem read only
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        # Default volume mount location for sigsci-agent writeable data
+        # NOTE: Also change `SIGSCI_SHARED_CACHE_DIR` (default `/sigsci/tmp/cache`)
+        #       if mountPath is changed, but best not to change.
+        - name: sigsci-tmp
+          mountPath: /sigsci/tmp
+      {{- end }}
       volumes:
+      {{- if .Values.SigSci.enabled }}
+      - name: sigsci-tmp
+      {{- end }}
       - name: qtest-data
       {{- if .Values.persistence.existingClaim }}
         persistentVolumeClaim:
@@ -148,7 +182,7 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         name: {{ .Chart.Name }}
         ports:
-        - containerPort: {{ .Values.service.port }}
+        - containerPort: {{ .Values.service.targetPort }}
           name: http
           protocol: TCP
         envFrom:
@@ -237,7 +271,7 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         name: {{ .Chart.Name }}
         ports:
-        - containerPort: {{ .Values.service.port }}
+        - containerPort: {{ .Values.service.targetPort }}
           name: http
           protocol: TCP
         envFrom:
@@ -256,7 +290,41 @@ spec:
         volumeMounts:
         - name: qtest-data
           mountPath: /mnt/data/storage
+      {{- if .Values.SigSci.enabled }}
+      - name: sigsci-agent
+        image: signalsciences/sigsci-agent:latest
+        imagePullPolicy: Always
+        env:
+        - name: SIGSCI_ACCESSKEYID
+          valueFrom:
+            secretKeyRef:
+              name: sigsci-secret
+              key: accesskeyid
+        - name: SIGSCI_SECRETACCESSKEY
+          valueFrom:
+            secretKeyRef:
+              name: sigsci-secret
+              key: secretaccesskey
+        # Configure the revproxy listener to listen on the original web application port 8000
+        # forwarding to the app on the alternate port 8001 as the upstream
+        - name: SIGSCI_REVPROXY_LISTENER
+          value: "http:{listener='http://0.0.0.0:{{ .Values.service.targetSigSciPort }}',upstreams='http://127.0.0.1:{{ .Values.service.targetPort }}',access-log='/dev/stdout',inspect-websocket=true}"
+        ports:
+        - containerPort: {{ .Values.service.targetSigSciPort }}
+        securityContext:
+          # The sigsci-agent container should run with its root filesystem read only
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        # Default volume mount location for sigsci-agent writeable data
+        # NOTE: Also change `SIGSCI_SHARED_CACHE_DIR` (default `/sigsci/tmp/cache`)
+        #       if mountPath is changed, but best not to change.
+        - name: sigsci-tmp
+          mountPath: /sigsci/tmp
+      {{- end }}
       volumes:
+      {{- if .Values.SigSci.enabled }}
+      - name: sigsci-tmp
+      {{- end }}
       - name: qtest-data
       {{- if .Values.persistence.existingClaim }}
         persistentVolumeClaim:
@@ -326,7 +394,7 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         name: {{ .Chart.Name }}
         ports:
-        - containerPort: {{ .Values.service.port }}
+        - containerPort: {{ .Values.service.targetPort }}
           name: http
           protocol: TCP
         envFrom:
@@ -345,7 +413,41 @@ spec:
         volumeMounts:
         - name: qtest-data
           mountPath: /mnt/data/storage
+      {{- if .Values.SigSci.enabled }}
+      - name: sigsci-agent
+        image: signalsciences/sigsci-agent:latest
+        imagePullPolicy: Always
+        env:
+        - name: SIGSCI_ACCESSKEYID
+          valueFrom:
+            secretKeyRef:
+              name: sigsci-secret
+              key: accesskeyid
+        - name: SIGSCI_SECRETACCESSKEY
+          valueFrom:
+            secretKeyRef:
+              name: sigsci-secret
+              key: secretaccesskey
+        # Configure the revproxy listener to listen on the original web application port 8000
+        # forwarding to the app on the alternate port 8001 as the upstream
+        - name: SIGSCI_REVPROXY_LISTENER
+          value: "http:{listener='http://0.0.0.0:{{ .Values.service.targetSigSciPort }}',upstreams='http://127.0.0.1:{{ .Values.service.targetPort }}',access-log='/dev/stdout'}"
+        ports:
+        - containerPort: {{ .Values.service.targetSigSciPort }}
+        securityContext:
+          # The sigsci-agent container should run with its root filesystem read only
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        # Default volume mount location for sigsci-agent writeable data
+        # NOTE: Also change `SIGSCI_SHARED_CACHE_DIR` (default `/sigsci/tmp/cache`)
+        #       if mountPath is changed, but best not to change.
+        - name: sigsci-tmp
+          mountPath: /sigsci/tmp
+      {{- end }}
       volumes:
+      {{- if .Values.SigSci.enabled }}
+      - name: sigsci-tmp
+      {{- end }}
       - name: qtest-data
       {{- if .Values.persistence.existingClaim }}
         persistentVolumeClaim:

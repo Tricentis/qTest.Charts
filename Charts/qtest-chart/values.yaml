@@ -44,12 +44,19 @@ secrets:
 service:
   type: LoadBalancer
   port: 8080
-  targetport: 8080
+  targetPort: 8080
+  targetSigSciPort: 8081
   servicename: mgr-service
   # servicePortHttp: 80
   # servicePortHttps: 443
   # servicePortHttpName: http
   # servicePortHttpsName: https
+
+SigSci:
+  enabled: false
+  # existingSecret: "sigsci-secret"
+  accesskeyid: ""
+  secretaccesskey: ""
 
 qTestManager:
   client:
