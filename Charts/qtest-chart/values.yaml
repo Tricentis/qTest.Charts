@@ -22,7 +22,7 @@ env: []
 
 image:
   repository: 242129367204.dkr.ecr.us-east-1.amazonaws.com/qtestmgr
-  liquibase: public.ecr.aws/b8y7a2x6/liquibase
+  liquibase: 242129367204.dkr.ecr.us-east-1.amazonaws.com/liquibase
   pullPolicy: IfNotPresent
   tag: "10.4.5-4dca716"
   liquibasetag: "10.4.5-4dca716"
