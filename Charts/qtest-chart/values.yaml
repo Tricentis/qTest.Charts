@@ -25,7 +25,7 @@ image:
   liquibase: public.ecr.aws/b8y7a2x6/liquibase
   pullPolicy: IfNotPresent
   tag: "10.4.5-fd5fd5d"
-  liquibasetag: 2
+  liquibasetag: "2"
   liquibasepullpolicy: IfNotPresent
 
 imageCredentials:
