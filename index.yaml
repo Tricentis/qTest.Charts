@@ -1365,6 +1365,32 @@ entries:
   qtest-insights:
   - apiVersion: v2
     appVersion: v1.21.22.op
+    created: "2021-07-19T14:31:37.951145932Z"
+    description: A Helm chart for qTest Insights
+    digest: 4af938d9a88e5c46b7e7e39977b483e3520f9c6a8fd82c3c94c44f136ea6ab3f
+    home: https://github.com/QAS-Labs/qtest-chart.git
+    icon: https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_c2d6524c36c94138504f7a18bf179d76/tricentis-qtest.png
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: b.yang@ext.tricentis.com
+      name: byangtri
+    - email: p.jaladi@ext.tricentis.com
+      name: pjaladi21
+    - email: l.nguyen@tricentis.com
+      name: liemng
+    - email: m.vankendine@ext.tricentis.com
+      name: mtricentis
+    - email: s.reddy-ganjikunta@ext.tricentis.com
+      name: subbuATB1
+    - email: k.kanojiya@tricentis.com
+      name: KaranKanojiya
+    name: qtest-insights
+    type: application
+    urls:
+    - https://github.com/QAS-Labs/qtest-chart/releases/download/qtest-insights-0.1.7/qtest-insights-0.1.7.tgz
+    version: 0.1.7
+  - apiVersion: v2
+    appVersion: v1.21.22.op
     created: "2021-07-06T16:04:10.092464015Z"
     description: A Helm chart for qTest Insights
     digest: 958bca7e2dda7241425931eb625c3cab40fb825b6bb5063b9a72c8337c645a93
@@ -2087,4 +2113,4 @@ entries:
     urls:
     - https://github.com/QAS-Labs/qtest-chart/releases/download/qtest-session-0.1.0/qtest-session-0.1.0.tgz
     version: 0.1.0
-generated: "2021-07-13T19:09:13.911180997Z"
+generated: "2021-07-19T14:31:37.952384418Z"
