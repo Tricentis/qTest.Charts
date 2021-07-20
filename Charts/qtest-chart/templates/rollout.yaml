@@ -73,8 +73,6 @@ spec:
         {{- end }}
            - name: testconductor.environment
              value: "ui.production"
-        resources:
-          {{- toYaml .Values.resources | nindent 12 }}
         volumeMounts:
         - name: qtest-data
           mountPath: /mnt/data/storage
@@ -224,8 +222,6 @@ spec:
         {{- end }}
            - name: testconductor.environment
              value: "api.production"
-        resources:
-          {{- toYaml .Values.resources | nindent 12 }}
         volumeMounts:
         - name: qtest-data
           mountPath: /mnt/data/storage
@@ -375,8 +371,6 @@ spec:
         {{- end }}
            - name: testconductor.environment
              value: "notification.production"
-        resources:
-          {{- toYaml .Values.resources | nindent 12 }}
         volumeMounts:
         - name: qtest-data
           mountPath: /mnt/data/storage
@@ -526,8 +520,6 @@ spec:
               name: qtest-manager-config
           - secretRef:
               name: qtest-manager-secret
-        resources:
-          {{- toYaml .Values.resources | nindent 12 }}
         volumeMounts:
         - name: qtest-data
           mountPath: /mnt/data/storage

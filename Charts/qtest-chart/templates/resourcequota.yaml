@@ -4,11 +4,11 @@ metadata:
   name: qtest-chart-resource-quota
 spec:
   hard:
-    limits.cpu: "12"
-    limits.memory: 16Gi
-    requests.cpu: "14.4"
-    requests.memory: 13.6Gi
-    pods: "16"
+    limits.cpu: "48"
+    limits.memory: 64Gi
+    requests.cpu: "40.8"
+    requests.memory: 54.4Gi
+    pods: "20"
     persistentvolumeclaims: "25"
     requests.storage: "200Gi"
 ---
@@ -19,15 +19,15 @@ metadata:
 spec:
   limits:
     - max:
-        cpu: "1"
-        memory: 1Gi
+        cpu: "3"
+        memory: 4Gi
       min:
-        cpu: "0.85"
-        memory: 0.85Gi
-      default:
         cpu: "1"
-        memory: 1Gi
+        memory: 2Gi
+      default:
+        cpu: "3"
+        memory: 4Gi
       defaultRequest:
-          cpu: "0.85"
-          memory: 0.85Gi
+          cpu: "1"
+          memory: 1Gi
       type: Container
