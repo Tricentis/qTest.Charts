@@ -79,8 +79,8 @@ qTestManager:
     region: us-east-1
     sharedBucket: "qtest"
   s3:
-    folder: manager
-    scanUrl: http://clamab-service
+    folder: qtest/manager
+    scanUrl: https://clamav-13.container-dev.qtestdev.com
   serverAppUseSecureCookie: true
   serverAppSSLRequired: false
   preUrl: http://nephele.qtest.local
