@@ -54,6 +54,8 @@ spec:
       imagePullSecrets:
         - name: {{ $imageCredentials }}
       {{- end }}
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountsatoken }}
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
