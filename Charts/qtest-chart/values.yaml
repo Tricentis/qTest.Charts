@@ -42,6 +42,7 @@ secrets:
   # existingImageCredentials: ""
 serviceAccount:
   name: ekssa
+  automountsatoken: false
 
 service:
   type: LoadBalancer
