@@ -54,6 +54,8 @@ spec:
       imagePullSecrets:
         - name: {{ $imageCredentials }}
       {{- end }}
+      serviceAccountName: ekssa
+      automountServiceAccountToken: false
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
