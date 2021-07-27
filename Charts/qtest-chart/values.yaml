@@ -40,6 +40,8 @@ secrets:
   enabled: false
   # existingConfigs: ""
   # existingImageCredentials: ""
+serviceAccount:
+  name: ekssa
 
 service:
   type: LoadBalancer
@@ -191,7 +193,7 @@ resources:
     memory: 4096Mi
   requests:
     cpu: 1
-    memory: 1024Mi   
+    memory: 1024Mi
 autoscaling:
   enabled: false
   minReplicas: 2
