@@ -6,7 +6,6 @@ metadata:
     app: qTestInsightsEtl
 data:
   LOG_PATH: "{{ .Values.qTestInsightsEtl.qTestInsightsProxyEnabled }}"
-  qTestUpdateDB: "{{ .Values.qTestInsightsEtl.qTestUpdateDB }}"
   QTEST_DB_NAME: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlDBName }}"
   QTEST_DB_HOST: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlDBHost }}"
   QTEST_DB_USER: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlDBUser }}"
@@ -16,3 +15,4 @@ data:
   SESSIONS_DB_NAME: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlSessionDBName }}"
   SESSIONS_DB_HOST: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlSessionDBHost }}"
   SESSIONS_DB_USER: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlSessionDBUser }}"
+  UPDATEDB: "true"
