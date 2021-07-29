@@ -32,7 +32,7 @@ spec:
           path: /src
           git:
             repo: {{ .Values.workflow.postman.repo }}
-            revision: "master"
+            revision: {{ .Values.workflow.revision }}
             usernameSecret:
               name: {{ .Values.workflow.secret }}
               key: username
@@ -52,7 +52,7 @@ spec:
           path: /src
           git:
             repo: {{ .Values.workflow.postman.repo }}
-            revision: "master"
+            revision: {{ .Values.workflow.revision }}
             usernameSecret:
               name: {{ .Values.workflow.secret }}
               key: username
@@ -72,7 +72,7 @@ spec:
           path: /src
           git:
             repo: {{ .Values.workflow.postman.repo }}
-            revision: "master"
+            revision: {{ .Values.workflow.revision }}
             usernameSecret:
               name: {{ .Values.workflow.secret }}
               key: username
@@ -92,7 +92,7 @@ spec:
           path: /src
           git:
             repo: {{ .Values.workflow.postman.repo }}
-            revision: "master"
+            revision: {{ .Values.workflow.revision }}
             usernameSecret:
               name: {{ .Values.workflow.secret }}
               key: username

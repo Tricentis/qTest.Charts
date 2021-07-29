@@ -154,6 +154,7 @@ workflow:
   serviceAccountName: ""
   podGC: OnWorkflowSuccess
   secret: ""
+  revision: ""
   postman:
     repo: ""
     image: public.ecr.aws/b8y7a2x6/argo-agent:ubuntu.2
