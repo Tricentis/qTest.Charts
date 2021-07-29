@@ -41,7 +41,9 @@ secrets:
   # existingConfigs: ""
   # existingImageCredentials: ""
 serviceAccount:
-  name: ekssa
+  create: true
+  name:
+  annotations: {}
   automountsatoken: false
 
 service:

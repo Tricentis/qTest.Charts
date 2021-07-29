@@ -54,7 +54,7 @@ spec:
       imagePullSecrets:
         - name: {{ $imageCredentials }}
       {{- end }}
-      serviceAccountName: {{ .Values.serviceAccount.name }}
+      serviceAccountName: {{ template "qtest-chart.serviceAccountName" . }}
       automountServiceAccountToken: {{ .Values.serviceAccount.automountsatoken }}
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -179,6 +179,8 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.imageCredentials.name }}
       {{- end }}
+      serviceAccountName: {{ template "qtest-chart.serviceAccountName" . }}
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountsatoken }}
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -268,6 +270,8 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.imageCredentials.name }}
       {{- end }}
+      serviceAccountName: {{ template "qtest-chart.serviceAccountName" . }}
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountsatoken }}
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -391,6 +395,8 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.imageCredentials.name }}
       {{- end }}
+      serviceAccountName: {{ template "qtest-chart.serviceAccountName" . }}
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountsatoken }}
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
