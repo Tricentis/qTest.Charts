@@ -153,6 +153,7 @@ workflow:
   adminModeNamespace: litmus
   serviceAccountName: ""
   podGC: OnWorkflowSuccess
+  secret: ""
   postman:
     repo: ""
     image: public.ecr.aws/b8y7a2x6/argo-agent:ubuntu.2

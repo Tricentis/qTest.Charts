@@ -34,10 +34,10 @@ spec:
             repo: {{ .Values.workflow.postman.repo }}
             revision: "master"
             usernameSecret:
-              name: gitlab-creds
+              name: {{ .Values.workflow.secret }}
               key: username
             passwordSecret:
-              name: gitlab-creds
+              name: {{ .Values.workflow.secret }}
               key: password
       container:
         image: {{ .Values.workflow.postman.image }}
@@ -54,10 +54,10 @@ spec:
             repo: {{ .Values.workflow.postman.repo }}
             revision: "master"
             usernameSecret:
-              name: gitlab-creds
+              name: {{ .Values.workflow.secret }}
               key: username
             passwordSecret:
-              name: gitlab-creds
+              name: {{ .Values.workflow.secret }}
               key: password
       container:
         image: {{ .Values.workflow.postman.image }}
@@ -74,10 +74,10 @@ spec:
             repo: {{ .Values.workflow.postman.repo }}
             revision: "master"
             usernameSecret:
-              name: gitlab-creds
+              name: {{ .Values.workflow.secret }}
               key: username
             passwordSecret:
-              name: gitlab-creds
+              name: {{ .Values.workflow.secret }}
               key: password
       container:
         image: {{ .Values.workflow.postman.image }}
@@ -94,10 +94,10 @@ spec:
             repo: {{ .Values.workflow.postman.repo }}
             revision: "master"
             usernameSecret:
-              name: gitlab-creds
+              name: {{ .Values.workflow.secret }}
               key: username
             passwordSecret:
-              name: gitlab-creds
+              name: {{ .Values.workflow.secret }}
               key: password
       container:
         image: {{ .Values.workflow.postman.image }}
