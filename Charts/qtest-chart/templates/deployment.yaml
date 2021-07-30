@@ -15,7 +15,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.replicaCount.ui }}
+  replicas: {{ .Values.autoscaling.minReplicas.ui }}
   revisionHistoryLimit: 3
   selector:
     matchLabels:
@@ -75,8 +75,6 @@ spec:
         {{- end }}
            - name: testconductor.environment
              value: "ui.production"
-        resources:
-          {{- toYaml .Values.resources | nindent 12 }}
         volumeMounts:
         - name: qtest-data
           mountPath: /mnt/data/storage
@@ -140,7 +138,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.replicaCount.poller }}
+  replicas: {{ .Values.autoscaling.minReplicas.poller }}
   revisionHistoryLimit: 3
   selector:
     matchLabels:
@@ -200,8 +198,6 @@ spec:
         {{- end }}
            - name: testconductor.environment
              value: "poller.production"
-        resources:
-          {{- toYaml .Values.resources | nindent 12 }}
         volumeMounts:
         - name: qtest-data
           mountPath: /mnt/data/storage
@@ -231,7 +227,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.replicaCount.notification }}
+  replicas: {{ .Values.autoscaling.minReplicas.notification }}
   revisionHistoryLimit: 3
   selector:
     matchLabels:
@@ -291,8 +287,6 @@ spec:
         {{- end }}
            - name: testconductor.environment
              value: "notification.production"
-        resources:
-          {{- toYaml .Values.resources | nindent 12 }}
         volumeMounts:
         - name: qtest-data
           mountPath: /mnt/data/storage
@@ -356,7 +350,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.replicaCount.api }}
+  replicas: {{ .Values.autoscaling.minReplicas.api }}
   revisionHistoryLimit: 3
   selector:
     matchLabels:
@@ -416,8 +410,6 @@ spec:
         {{- end }}
            - name: testconductor.environment
              value: "api.production"
-        resources:
-          {{- toYaml .Values.resources | nindent 12 }}
         volumeMounts:
         - name: qtest-data
           mountPath: /mnt/data/storage
