@@ -3,30 +3,6 @@ entries:
   qtest-chart:
   - apiVersion: v2
     appVersion: 1.20.29
-    created: "2021-07-30T19:11:59.428285482Z"
-    description: A Helm chart for qTest Manager
-    digest: b0dba8de147813105e262c18663fea22651e97aad07e0eac60b83dc931019dda
-    home: https://github.com/QAS-Labs/qtest-chart.git
-    icon: https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_c2d6524c36c94138504f7a18bf179d76/tricentis-qtest.png
-    kubeVersion: '>=1.16.0-0'
-    maintainers:
-    - email: b.yang@ext.tricentis.com
-      name: byangtri
-    - email: p.jaladi@ext.tricentis.com
-      name: pjaladi21
-    - email: l.nguyen@tricentis.com
-      name: liemng
-    - email: m.vankendine@ext.tricentis.com
-      name: mtricentis
-    - email: s.reddy-ganjikunta@ext.tricentis.com
-      name: subbuATB1
-    name: qtest-chart
-    type: application
-    urls:
-    - https://github.com/QAS-Labs/qtest-chart/releases/download/qtest-chart-0.3.27/qtest-chart-0.3.27.tgz
-    version: 0.3.27
-  - apiVersion: v2
-    appVersion: 1.20.29
     created: "2021-07-30T17:42:35.978060423Z"
     description: A Helm chart for qTest Manager
     digest: 9a7fc1a217f7d4b9d7ca34870025586134287f01c6106c81188ed180ea396b0c
@@ -2378,6 +2354,25 @@ entries:
   qtest-session:
   - apiVersion: v2
     appVersion: 4.3.8
+    created: "2021-07-30T19:12:09.78456551Z"
+    description: A Helm chart for Kubernetes cluster of qtest-session
+    digest: df86775fd56a2b973dd118f0c30247e6be5843a7560a829c48e12506de9d2cdc
+    home: https://github.com/QAS-Labs/qtest-chart.git
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: b.yang@ext.tricentis.com
+      name: byangtri
+    - email: p.jaladi@ext.tricentis.com
+      name: pjaladi21
+    - email: l.nguyen@tricentis.com
+      name: liemng
+    name: qtest-session
+    type: application
+    urls:
+    - https://github.com/QAS-Labs/qtest-chart/releases/download/qtest-session-0.1.7/qtest-session-0.1.7.tgz
+    version: 0.1.7
+  - apiVersion: v2
+    appVersion: 4.3.8
     created: "2021-06-11T14:56:48.074318164Z"
     description: A Helm chart for Kubernetes cluster of qtest-session
     digest: d08c0e28e4f67879e7b5665c9ed8d05a03ae2738dbcbc9dfc7b91b8d04cf4258
@@ -2490,4 +2485,4 @@ entries:
     urls:
     - https://github.com/QAS-Labs/qtest-chart/releases/download/qtest-session-0.1.0/qtest-session-0.1.0.tgz
     version: 0.1.0
-generated: "2021-07-30T19:11:59.429039586Z"
+generated: "2021-07-30T19:12:09.785271814Z"
