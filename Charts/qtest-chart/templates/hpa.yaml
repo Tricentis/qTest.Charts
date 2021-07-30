@@ -117,7 +117,7 @@ metadata:
     {{- include "qtest-chart.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
-    apiVersion: apps/v1
+    apiVersion: argoproj.io/v1alpha1
     kind: Rollout
     name: mgr-rollout
   minReplicas: {{ .Values.autoscaling.minReplicas.default }}
@@ -144,7 +144,7 @@ metadata:
     {{- include "qtest-chart.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
-    apiVersion: apps/v1
+    apiVersion: argoproj.io/v1alpha1
     kind: Rollout
     name: mgr-rollout-api
   minReplicas: {{ .Values.autoscaling.minReplicas.default }}
@@ -171,7 +171,7 @@ metadata:
     {{- include "qtest-chart.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
-    apiVersion: apps/v1
+    apiVersion: argoproj.io/v1alpha1
     kind: Rollout
     name: mgr-rollout-poller
   minReplicas: {{ .Values.autoscaling.minReplicas.default }}
@@ -198,7 +198,7 @@ metadata:
     {{- include "qtest-chart.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
-    apiVersion: apps/v1
+    apiVersion: argoproj.io/v1alpha1
     kind: Rollout
     name: mgr-rollout-notification
   minReplicas: {{ .Values.autoscaling.minReplicas.default }}
