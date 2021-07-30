@@ -15,6 +15,8 @@ spec:
         release: "{{ .Release.Name }}"
         heritage: "{{ .Release.Service }}"
     spec:
+      serviceAccountName: {{ template "qtest-session.serviceAccountName" . }}
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountsatoken }}
       containers:
         - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
