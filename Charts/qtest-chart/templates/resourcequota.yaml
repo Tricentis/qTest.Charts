@@ -4,13 +4,13 @@ metadata:
   name: qtest-chart-resource-quota
 spec:
   hard:
-    limits.cpu: "48"
-    limits.memory: 64Gi
-    requests.cpu: "40.8"
-    requests.memory: 54.4Gi
-    pods: "20"
-    persistentvolumeclaims: "25"
-    requests.storage: "200Gi"
+    limits.cpu: "110"
+    limits.memory: 144Gi
+    requests.cpu: "92"
+    requests.memory: 120Gi
+    pods: "40"
+    persistentvolumeclaims: "50"
+    requests.storage: "500Gi"
 ---
 apiVersion: v1
 kind: LimitRange
