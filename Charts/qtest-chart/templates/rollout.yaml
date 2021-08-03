@@ -60,6 +60,24 @@ spec:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+        livenessProbe:
+          httpGet:
+            path: /health-checker
+            port: {{ .Values.service.port }}
+          initialDelaySeconds: 300
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /health-checker
+            port: {{ .Values.service.port }}
+          initialDelaySeconds: 300
+          periodSeconds: 30
+        startupProbe:
+          httpGet:
+            path: /health-checker
+            port: {{ .Values.service.port }}
+          failureThreshold: 30
+          periodSeconds: 10
         ports:
           - name: http
             containerPort: {{ .Values.service.port }}
@@ -211,6 +229,24 @@ spec:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+        livenessProbe:
+          httpGet:
+            path: /health-checker
+            port: {{ .Values.service.port }}
+          initialDelaySeconds: 300
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /health-checker
+            port: {{ .Values.service.port }}
+          initialDelaySeconds: 300
+          periodSeconds: 30
+        startupProbe:
+          httpGet:
+            path: /health-checker
+            port: {{ .Values.service.port }}
+          failureThreshold: 30
+          periodSeconds: 10
         ports:
           - name: http
             containerPort: {{ .Values.service.port }}
@@ -362,6 +398,24 @@ spec:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+        livenessProbe:
+          httpGet:
+            path: /health-checker
+            port: {{ .Values.service.port }}
+          initialDelaySeconds: 300
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /health-checker
+            port: {{ .Values.service.port }}
+          initialDelaySeconds: 300
+          periodSeconds: 30
+        startupProbe:
+          httpGet:
+            path: /health-checker
+            port: {{ .Values.service.port }}
+          failureThreshold: 30
+          periodSeconds: 10
         ports:
           - name: http
             containerPort: {{ .Values.service.port }}
@@ -513,6 +567,24 @@ spec:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         name: {{ .Chart.Name }}
+        livenessProbe:
+          httpGet:
+            path: /health-checker
+            port: {{ .Values.service.port }}
+          initialDelaySeconds: 300
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /health-checker
+            port: {{ .Values.service.port }}
+          initialDelaySeconds: 300
+          periodSeconds: 30
+        startupProbe:
+          httpGet:
+            path: /health-checker
+            port: {{ .Values.service.port }}
+          failureThreshold: 30
+          periodSeconds: 10
         ports:
         - containerPort: {{ .Values.service.port }}
           name: http
