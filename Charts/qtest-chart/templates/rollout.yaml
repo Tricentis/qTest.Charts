@@ -76,7 +76,7 @@ spec:
           httpGet:
             path: /health-checker
             port: {{ .Values.service.port }}
-          failureThreshold: 30
+          failureThreshold: 60
           periodSeconds: 10
         ports:
           - name: http
@@ -245,7 +245,7 @@ spec:
           httpGet:
             path: /health-checker
             port: {{ .Values.service.port }}
-          failureThreshold: 30
+          failureThreshold: 60
           periodSeconds: 10
         ports:
           - name: http
@@ -414,7 +414,7 @@ spec:
           httpGet:
             path: /health-checker
             port: {{ .Values.service.port }}
-          failureThreshold: 30
+          failureThreshold: 60
           periodSeconds: 10
         ports:
           - name: http
@@ -583,7 +583,7 @@ spec:
           httpGet:
             path: /health-checker
             port: {{ .Values.service.port }}
-          failureThreshold: 30
+          failureThreshold: 60
           periodSeconds: 10
         ports:
         - containerPort: {{ .Values.service.port }}
