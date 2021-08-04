@@ -30,4 +30,4 @@ spec:
       defaultRequest:
           cpu: "2"
           memory: 6Gi
-      type: Container
+      type: Pod
