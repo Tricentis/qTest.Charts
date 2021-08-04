@@ -20,14 +20,14 @@ spec:
   limits:
     - max:
         cpu: "2"
-        memory: 10Gi
+        memory: 8Gi
       min:
         cpu: "2"
-        memory: 8Gi
+        memory: 6Gi
       default:
         cpu: "2"
-        memory: 8Gi
+        memory: 6Gi
       defaultRequest:
           cpu: "2"
-          memory: 8Gi
+          memory: 6Gi
       type: Container
