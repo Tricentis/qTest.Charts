@@ -8,7 +8,7 @@ spec:
     limits.memory: 144Gi
     requests.cpu: "92"
     requests.memory: 120Gi
-    pods: "40"
+    pods: "45"
     persistentvolumeclaims: "50"
     requests.storage: "500Gi"
 ---
