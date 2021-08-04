@@ -186,14 +186,14 @@ persistence:
 autoscaling:
   enabled: true
   minReplicas:
-    ui: 2
-    api: 2
-    notification: 2
+    ui: 1
+    api: 1
+    notification: 1
     poller: 1
     default: 1
-  maxReplicas: 4
-  targetCPUUtilizationPercentage: 80
-  targetMemoryUtilizationPercentage: 80
+  maxReplicas: 2
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 70
 
 nodeSelector: {}
 
