@@ -192,8 +192,8 @@ autoscaling:
     poller: 1
     default: 1
   maxReplicas: 2
-  targetCPUUtilizationPercentage: 80
-  targetMemoryUtilizationPercentage: 80
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 70
 
 nodeSelector: {}
 
