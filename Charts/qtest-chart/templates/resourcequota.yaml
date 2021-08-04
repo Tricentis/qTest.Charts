@@ -24,10 +24,4 @@ spec:
       min:
         cpu: "2"
         memory: 6Gi
-      default:
-        cpu: "2"
-        memory: 6Gi
-      defaultRequest:
-          cpu: "2"
-          memory: 6Gi
       type: Pod
