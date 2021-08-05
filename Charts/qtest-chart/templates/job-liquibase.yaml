@@ -20,11 +20,11 @@ spec:
           imagePullPolicy: {{ .Values.image.liquibasepullpolicy }}
           resources:
             requests:
-              memory: "500mi"
-              cpu: "250m"
+              memory: "0.5Gi"
+              cpu: "0.25"
             limits:
               memory: "1Gi"
-              cpu: "500m"
+              cpu: "0.5"
           env:
             - name: POSTGRES_URL
               valueFrom:

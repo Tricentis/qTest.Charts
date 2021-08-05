@@ -97,6 +97,13 @@ spec:
                       image: devth/alpine-bench
                       imagePullPolicy: Always
                       name: qtest-mgr-bench
+                      resources:
+                        requests:
+                          memory: "0.5Gi"
+                          cpu: "0.5"
+                        limits:
+                          memory: "1Gi"
+                          cpu: "1"
       container:
         image: lachlanevenson/k8s-kubectl
         command: [sh, -c]
