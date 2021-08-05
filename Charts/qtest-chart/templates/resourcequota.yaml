@@ -21,9 +21,6 @@ spec:
     - max:
         cpu: "2"
         memory: 8Gi
-      min:
-        cpu: "2"
-        memory: 4Gi
       default:
         cpu: "2"
         memory: 4Gi
