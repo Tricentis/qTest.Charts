@@ -5,10 +5,10 @@ metadata:
 spec:
   hard:
     limits.cpu: "80"
-    limits.memory: 400Gi
+    limits.memory: 200Gi
     requests.cpu: "64"
-    requests.memory: 300Gi
-    pods: "40"
+    requests.memory: 160Gi
+    pods: "25"
     persistentvolumeclaims: "50"
     requests.storage: "500Gi"
 ---
@@ -23,5 +23,11 @@ spec:
         memory: 8Gi
       min:
         cpu: "2"
-        memory: 6Gi
-      type: Pod
+        memory: 4Gi
+      default:
+        cpu: "2"
+        memory: 4Gi
+      defaultRequest:
+          cpu: "2"
+          memory: 4Gi
+      type: Container
