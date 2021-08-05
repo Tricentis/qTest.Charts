@@ -100,6 +100,13 @@ spec:
       - name: sigsci-agent
         image: signalsciences/sigsci-agent:latest
         imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "500mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1"
         env:
         - name: SIGSCI_ACCESSKEYID
           valueFrom:
@@ -269,6 +276,13 @@ spec:
       - name: sigsci-agent
         image: signalsciences/sigsci-agent:latest
         imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "500mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1"
         env:
         - name: SIGSCI_ACCESSKEYID
           valueFrom:
@@ -438,6 +452,13 @@ spec:
       - name: sigsci-agent
         image: signalsciences/sigsci-agent:latest
         imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "500mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1"
         env:
         - name: SIGSCI_ACCESSKEYID
           valueFrom:

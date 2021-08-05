@@ -18,6 +18,13 @@ spec:
         - name: qtestliquibase
           image: "{{ .Values.image.liquibase }}:{{ .Values.image.liquibasetag }}"
           imagePullPolicy: {{ .Values.image.liquibasepullpolicy }}
+          resources:
+            requests:
+              memory: "500mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
           env:
             - name: POSTGRES_URL
               valueFrom:
