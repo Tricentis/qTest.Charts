@@ -102,8 +102,8 @@ spec:
         imagePullPolicy: Always
         resources:
           requests:
-            memory: "500mi"
-            cpu: "500m"
+            memory: "0.5Gi"
+            cpu: "0.5"
           limits:
             memory: "1Gi"
             cpu: "1"
@@ -278,8 +278,8 @@ spec:
         imagePullPolicy: Always
         resources:
           requests:
-            memory: "500mi"
-            cpu: "500m"
+            memory: "0.5Gi"
+            cpu: "0.5"
           limits:
             memory: "1Gi"
             cpu: "1"
@@ -454,8 +454,8 @@ spec:
         imagePullPolicy: Always
         resources:
           requests:
-            memory: "500mi"
-            cpu: "500m"
+            memory: "0.5Gi"
+            cpu: "0.5"
           limits:
             memory: "1Gi"
             cpu: "1"
