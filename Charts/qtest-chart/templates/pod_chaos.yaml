@@ -113,6 +113,6 @@ spec:
       container:
         image: lachlanevenson/k8s-kubectl
         command: [sh, -c]
-        args: [' sleep 300 | kubectl delete chaosengine qtest-mgr-pod-delete-chaos -n {{ .Values.workflow.adminModeNamespace }}']
+        args: [' sleep 300 | kubectl delete chaosengine qtest-mgr-pod-delete-chaos -n {{ .Values.workflow.adminModeNamespace }} | kubectl delete jobs --field-selector status.successful=1 -n qtest']
 
 {{- end }}

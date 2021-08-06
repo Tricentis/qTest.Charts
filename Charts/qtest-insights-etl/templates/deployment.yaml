@@ -34,10 +34,13 @@ spec:
               mountPath: /usr/local/insights-etl/logs
       volumes:
         - name: qtest-insights-etl-logs
-          {{- if .Values.persistence.enabled }}
+        {{- if .Values.persistence.existingClaim }}
           persistentVolumeClaim:
-            claimName: qtest-insights-etl-logs
-          {{- else }}
+            claimName: {{ .Values.persistence.existingClaim }}
+        {{- else if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ template "qtest-insights-etl.fullname" . }}
+        {{- else }}
           emptyDir: {}
-          {{- end }}
+        {{- end }}
 

@@ -75,9 +75,13 @@ spec:
             mountPath: /usr/local/sessions-js/logs
       volumes:
         - name: qtest-session-data
-          {{- if .Values.persistence.enabled }}
+        {{- if .Values.persistence.existingClaim }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim }}
+        {{- else if .Values.persistence.enabled }}
           persistentVolumeClaim:
             claimName: {{ template "qtest-session.fullname" . }}
-          {{- else }}
+        {{- else }}
           emptyDir: {}
-  {{- end }}
+        {{- end }}
+
