@@ -194,6 +194,9 @@ autoscaling:
   maxReplicas: 2
   targetCPUUtilizationPercentage: 70
   targetMemoryUtilizationPercentage: 70
+  healthApiPath: /health-checker
+  periodSeconds: 30
+  failureThreshold: 20
 
 nodeSelector: {}
 

@@ -62,22 +62,20 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         livenessProbe:
           httpGet:
-            path: /health-checker
+            path: {{ .Values.autoscaling.healthApiPath }}
             port: {{ .Values.service.port }}
-          initialDelaySeconds: 300
-          periodSeconds: 30
+          periodSeconds: {{ .Values.autoscaling.periodSeconds }}
         readinessProbe:
           httpGet:
-            path: /health-checker
+            path: {{ .Values.autoscaling.healthApiPath }}
             port: {{ .Values.service.port }}
-          initialDelaySeconds: 300
-          periodSeconds: 30
+          periodSeconds: {{ .Values.autoscaling.periodSeconds }}
         startupProbe:
           httpGet:
-            path: /health-checker
+            path: {{ .Values.autoscaling.healthApiPath }}
             port: {{ .Values.service.port }}
-          failureThreshold: 60
-          periodSeconds: 10
+          failureThreshold: {{ .Values.autoscaling.failureThreshold }}
+          periodSeconds: {{ .Values.autoscaling.periodSeconds }}
         ports:
           - name: http
             containerPort: {{ .Values.service.port }}
@@ -238,22 +236,20 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         livenessProbe:
           httpGet:
-            path: /health-checker
+            path: {{ .Values.autoscaling.healthApiPath }}
             port: {{ .Values.service.port }}
-          initialDelaySeconds: 300
-          periodSeconds: 30
+          periodSeconds: {{ .Values.autoscaling.periodSeconds }}
         readinessProbe:
           httpGet:
-            path: /health-checker
+            path: {{ .Values.autoscaling.healthApiPath }}
             port: {{ .Values.service.port }}
-          initialDelaySeconds: 300
-          periodSeconds: 30
+          periodSeconds: {{ .Values.autoscaling.periodSeconds }}
         startupProbe:
           httpGet:
-            path: /health-checker
+            path: {{ .Values.autoscaling.healthApiPath }}
             port: {{ .Values.service.port }}
-          failureThreshold: 60
-          periodSeconds: 10
+          failureThreshold: {{ .Values.autoscaling.failureThreshold }}
+          periodSeconds: {{ .Values.autoscaling.periodSeconds }}
         ports:
           - name: http
             containerPort: {{ .Values.service.port }}
@@ -414,22 +410,20 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         livenessProbe:
           httpGet:
-            path: /health-checker
+            path: {{ .Values.autoscaling.healthApiPath }}
             port: {{ .Values.service.port }}
-          initialDelaySeconds: 300
-          periodSeconds: 30
+          periodSeconds: {{ .Values.autoscaling.periodSeconds }}
         readinessProbe:
           httpGet:
-            path: /health-checker
+            path: {{ .Values.autoscaling.healthApiPath }}
             port: {{ .Values.service.port }}
-          initialDelaySeconds: 300
-          periodSeconds: 30
+          periodSeconds: {{ .Values.autoscaling.periodSeconds }}
         startupProbe:
           httpGet:
-            path: /health-checker
+            path: {{ .Values.autoscaling.healthApiPath }}
             port: {{ .Values.service.port }}
-          failureThreshold: 60
-          periodSeconds: 10
+          failureThreshold: {{ .Values.autoscaling.failureThreshold }}
+          periodSeconds: {{ .Values.autoscaling.periodSeconds }}
         ports:
           - name: http
             containerPort: {{ .Values.service.port }}
@@ -590,22 +584,20 @@ spec:
         name: {{ .Chart.Name }}
         livenessProbe:
           httpGet:
-            path: /health-checker
+            path: {{ .Values.autoscaling.healthApiPath }}
             port: {{ .Values.service.port }}
-          initialDelaySeconds: 300
-          periodSeconds: 30
+          periodSeconds: {{ .Values.autoscaling.periodSeconds }}
         readinessProbe:
           httpGet:
-            path: /health-checker
+            path: {{ .Values.autoscaling.healthApiPath }}
             port: {{ .Values.service.port }}
-          initialDelaySeconds: 300
-          periodSeconds: 30
+          periodSeconds: {{ .Values.autoscaling.periodSeconds }}
         startupProbe:
           httpGet:
-            path: /health-checker
+            path: {{ .Values.autoscaling.healthApiPath }}
             port: {{ .Values.service.port }}
-          failureThreshold: 60
-          periodSeconds: 10
+          failureThreshold: {{ .Values.autoscaling.failureThreshold }}
+          periodSeconds: {{ .Values.autoscaling.periodSeconds }}
         ports:
         - containerPort: {{ .Values.service.port }}
           name: http
