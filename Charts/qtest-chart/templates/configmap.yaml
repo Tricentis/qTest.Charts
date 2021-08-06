@@ -3,11 +3,11 @@ kind: ConfigMap
 metadata:
   name: qtest-liquibase-config
   labels:
-    app: qTestManager
+    app: qtest-mgr
+  {{- with .Values.liquibase.configmapAnnotations }}
   annotations:
-    "helm.sh/hook": pre-install,pre-upgrade
-    "helm.sh/hook-weight": "-5"
-    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 data:
   client.jdbc.postgres.url: "{{ .Values.qTestManager.client.jdbc.postgresUrl }}"
   client.jdbc.postgres.username: "{{ .Values.qTestManager.client.jdbc.postgresUserName }}"
@@ -17,7 +17,7 @@ kind: ConfigMap
 metadata:
   name: qtest-manager-config
   labels:
-    app: qTestManager
+    app: qtest-mgr
 data:
   client.jdbc.postgres.url: "{{ .Values.qTestManager.client.jdbc.postgresUrl }}"
   client.jdbc.postgres.username: "{{ .Values.qTestManager.client.jdbc.postgresUserName }}"
