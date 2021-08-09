@@ -1,5 +1,5 @@
 # qtest-chart
-Kubernetes Helm Chart Repository for qTest Manager
+Kubernetes Helm Chart Repository for qTest Applications
 
 ## Chart Details
 This chart will provision a functional and featured qTest products installation in the cluster that it is deployed to.
@@ -10,9 +10,9 @@ This chart will provision a functional and featured qTest products installation 
 
    • `Kubernetes Cluster`
 
-## Installing the Chart
+## Installing the qTest Manager Chart
 
-To install the chart with the release name `qtestmanager`:
+To install the qTest Manager chart with the release name `qtestmanager`:
 ```bash
 $ helm repo add qtest https://qas-labs.github.io/qtest-chart/
 
@@ -34,9 +34,16 @@ Alternatively, a YAML file that specifies the values for the parameters can be p
 $ helm install qtestmanager -f values.yaml qtest/qtest-chart
 ```
 
-## Uninstalling the Chart
+## Configuration
 
-To uninstall the chart with the release name `qtestmanager`:
+| Parameter                                 | Description                                   | Default                                                 |
+|-------------------------------------------|-----------------------------------------------|---------------------------------------------------------|
+| `rollouts.enabled`                        | Enable Rollout deployment resource            | `false`                                                 |
+| `deployments.enabled`                     | Enable Deployment resource                    | `true`                                                  |
+
+## Uninstalling the qTest Manager Chart
+
+To uninstall the qTest Manager chart with the release name `qtestmanager`:
 ```bash
 $ helm uninstall qtestmanager
 ```
