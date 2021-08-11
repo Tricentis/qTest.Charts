@@ -32,8 +32,8 @@ image:
   repository: 242129367204.dkr.ecr.us-east-1.amazonaws.com/qtestmgr
   liquibase: 242129367204.dkr.ecr.us-east-1.amazonaws.com/liquibase
   pullPolicy: IfNotPresent
-  tag: "10.4.5-5dc75c2"
-  liquibasetag: "10.4.5-5dc75c2"
+  tag: "10.4.5-c362135"
+  liquibasetag: "10.4.5-c362135"
   liquibasepullpolicy: IfNotPresent
 
 imageCredentials:
