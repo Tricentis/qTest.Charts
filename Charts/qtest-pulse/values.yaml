@@ -41,7 +41,7 @@ autoscaling:
   enabled: true
   minReplicas: 2
   maxReplicas: 4
-  healthApiPath: /api/me
+  healthApiPath: /
   periodSeconds: 30
   failureThreshold: 4
   targetCPUUtilizationPercentage: 85
