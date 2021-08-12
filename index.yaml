@@ -2874,6 +2874,26 @@ entries:
   qtest-scenario:
   - apiVersion: v2
     appVersion: 3.3.4
+    created: "2021-08-12T16:29:29.03656606Z"
+    description: A Helm chart for Kubernetes cluster of qtest-scenario
+    digest: b190fca94fca5ea734df37b4382bee3a49df568e9e6edd059740b9d3c0d2256b
+    home: https://github.com/QAS-Labs/qtest-chart.git
+    icon: https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_c2d6524c36c94138504f7a18bf179d76/tricentis-qtest.png
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: b.yang@ext.tricentis.com
+      name: byangtri
+    - email: p.jaladi@ext.tricentis.com
+      name: pjaladi21
+    - email: l.nguyen@tricentis.com
+      name: liemng
+    name: qtest-scenario
+    type: application
+    urls:
+    - https://github.com/QAS-Labs/qtest-chart/releases/download/qtest-scenario-0.1.6/qtest-scenario-0.1.6.tgz
+    version: 0.1.6
+  - apiVersion: v2
+    appVersion: 3.3.4
     created: "2021-08-12T15:20:12.070605532Z"
     description: A Helm chart for Kubernetes cluster of qtest-scenario
     digest: 90377ba2b712567899954f22accbf71056606ef1e4a68bd290b043ad107b1ea3
@@ -3164,4 +3184,4 @@ entries:
     urls:
     - https://github.com/QAS-Labs/qtest-chart/releases/download/qtest-session-0.1.0/qtest-session-0.1.0.tgz
     version: 0.1.0
-generated: "2021-08-12T15:20:12.201624361Z"
+generated: "2021-08-12T16:29:29.037501775Z"
