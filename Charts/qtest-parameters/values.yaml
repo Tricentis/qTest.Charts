@@ -8,7 +8,7 @@ image:
 service:
   type: LoadBalancer
   port: 5080
-  targetport: 5080
+  targetPort: 5080
   servicename: qtest-parameters-service
 
 qTestParameters:
@@ -53,5 +53,8 @@ autoscaling:
   enabled: true
   minReplicas: 2
   maxReplicas: 4
+  healthApiPath: /health-check
+  periodSeconds: 30
+  failureThreshold: 4
   targetCPUUtilizationPercentage: 85
   targetMemoryUtilizationPercentage: 85

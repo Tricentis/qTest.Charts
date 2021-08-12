@@ -14,7 +14,7 @@ serviceAccount:
 service:
   type: LoadBalancer
   port: 8080
-  targetport: 8080
+  targetPort: 8080
   servicename: qtest-session-service
 
 qTestSession:
@@ -73,5 +73,8 @@ autoscaling:
   enabled: true
   minReplicas: 2
   maxReplicas: 4
+  healthApiPath: /health-check
+  periodSeconds: 30
+  failureThreshold: 4
   targetCPUUtilizationPercentage: 85
   targetMemoryUtilizationPercentage: 85

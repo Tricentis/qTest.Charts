@@ -19,6 +19,22 @@ spec:
         - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: {{ .Chart.Name }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.autoscaling.healthApiPath }}
+              port: {{ .Values.service.targetPort }}
+            periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.autoscaling.healthApiPath }}
+              port: {{ .Values.service.targetPort }}
+            periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          startupProbe:
+            httpGet:
+              path: {{ .Values.autoscaling.healthApiPath }}
+              port: {{ .Values.service.targetPort }}
+            failureThreshold: {{ .Values.autoscaling.failureThreshold }}
+            periodSeconds: {{ .Values.autoscaling.periodSeconds }}
           ports:
             - containerPort: {{ .Values.service.port }}
               name: http

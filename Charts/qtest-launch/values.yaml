@@ -8,7 +8,7 @@ image:
 service:
   type: LoadBalancer
   port: 3080
-  targetport: 3080
+  targetPort: 3080
   servicename: qtest-launch-service
 
 qTestLaunch:
@@ -40,5 +40,8 @@ autoscaling:
   enabled: true
   minReplicas: 2
   maxReplicas: 4
+  healthApiPath: /health-check
+  periodSeconds: 30
+  failureThreshold: 4
   targetCPUUtilizationPercentage: 85
   targetMemoryUtilizationPercentage: 85

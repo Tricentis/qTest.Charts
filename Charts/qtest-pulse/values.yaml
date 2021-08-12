@@ -8,7 +8,7 @@ image:
 service:
   type: LoadBalancer
   port: 4080
-  targetport: 4080
+  targetPort: 4080
   servicename: qtest-pulse-service
 
 qTestPulse:
@@ -41,5 +41,8 @@ autoscaling:
   enabled: true
   minReplicas: 2
   maxReplicas: 4
+  healthApiPath: /api/me
+  periodSeconds: 30
+  failureThreshold: 4
   targetCPUUtilizationPercentage: 85
   targetMemoryUtilizationPercentage: 85

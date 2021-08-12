@@ -11,7 +11,7 @@ image:
 service:
   type: LoadBalancer
   port: 8080
-  targetport: 8080
+  targetPort: 8080
   servicename: qtest-insights-etl-service
 
 qTestInsightsEtl:
@@ -76,5 +76,8 @@ autoscaling:
   enabled: true
   minReplicas: 1
   maxReplicas: 1
+  healthApiPath: /ping
+  periodSeconds: 30
+  failureThreshold: 4
   targetCPUUtilizationPercentage: 85
   targetMemoryUtilizationPercentage: 85
