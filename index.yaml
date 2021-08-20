@@ -2987,6 +2987,25 @@ entries:
   qtest-pulse:
   - apiVersion: v2
     appVersion: 9.3.5
+    created: "2021-08-20T21:51:09.021915937Z"
+    description: A Helm chart for Kubernetes cluster of qtest-pulse
+    digest: 173bd2407d3abe3d6e0c9466810527c84bf7cc016c7be5d561b32f621975b262
+    home: https://github.com/QAS-Labs/qtest-chart.git
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: b.yang@ext.tricentis.com
+      name: byangtri
+    - email: p.jaladi@ext.tricentis.com
+      name: pjaladi21
+    - email: l.nguyen@tricentis.com
+      name: liemng
+    name: qtest-pulse
+    type: application
+    urls:
+    - https://github.com/QAS-Labs/qtest-chart/releases/download/qtest-pulse-0.1.6/qtest-pulse-0.1.6.tgz
+    version: 0.1.6
+  - apiVersion: v2
+    appVersion: 9.3.5
     created: "2021-08-12T20:28:53.838181931Z"
     description: A Helm chart for Kubernetes cluster of qtest-pulse
     digest: 39ebe8b2ee7fb26363af6434c5095eab809218b3b221df381783e62bfbc48cf2
@@ -3432,4 +3451,4 @@ entries:
     urls:
     - https://github.com/QAS-Labs/qtest-chart/releases/download/qtest-session-0.1.0/qtest-session-0.1.0.tgz
     version: 0.1.0
-generated: "2021-08-20T13:37:55.935513465Z"
+generated: "2021-08-20T21:51:09.02404144Z"
