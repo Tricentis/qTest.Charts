@@ -6,7 +6,7 @@ replicaCount: 1
 image:
   repository: qasymphony/insights-etl
   pullPolicy: IfNotPresent
-  tag: "v6.9.22.op"
+  tag: "e287a47"
 
 service:
   type: LoadBalancer
@@ -77,6 +77,7 @@ autoscaling:
   minReplicas: 1
   maxReplicas: 1
   healthApiPath: /ping
+  targetPort: 8765
   periodSeconds: 30
   failureThreshold: 4
   targetCPUUtilizationPercentage: 85

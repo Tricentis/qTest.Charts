@@ -22,17 +22,17 @@ spec:
           livenessProbe:
             httpGet:
               path: {{ .Values.autoscaling.healthApiPath }}
-              port: {{ .Values.service.targetPort }}
+              port: {{ .Values.autoscaling.targetPort }}
             periodSeconds: {{ .Values.autoscaling.periodSeconds }}
           readinessProbe:
             httpGet:
               path: {{ .Values.autoscaling.healthApiPath }}
-              port: {{ .Values.service.targetPort }}
+              port: {{ .Values.autoscaling.targetPort }}
             periodSeconds: {{ .Values.autoscaling.periodSeconds }}
           startupProbe:
             httpGet:
               path: {{ .Values.autoscaling.healthApiPath }}
-              port: {{ .Values.service.targetPort }}
+              port: {{ .Values.autoscaling.targetPort }}
             failureThreshold: {{ .Values.autoscaling.failureThreshold }}
             periodSeconds: {{ .Values.autoscaling.periodSeconds }}
           ports:

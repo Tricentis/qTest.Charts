@@ -11,7 +11,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: mgr-deployment
-  minReplicas: {{ .Values.autoscaling.minReplicas.default }}
+  minReplicas: {{ .Values.autoscaling.minReplicas.ui }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
     {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
@@ -38,7 +38,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: mgr-deployment-api
-  minReplicas: {{ .Values.autoscaling.minReplicas.default }}
+  minReplicas: {{ .Values.autoscaling.minReplicas.api }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
     {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
@@ -65,7 +65,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: mgr-deployment-poller
-  minReplicas: {{ .Values.autoscaling.minReplicas.default }}
+  minReplicas: {{ .Values.autoscaling.minReplicas.poller }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
     {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
@@ -92,7 +92,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: mgr-deployment-notification
-  minReplicas: {{ .Values.autoscaling.minReplicas.default }}
+  minReplicas: {{ .Values.autoscaling.minReplicas.notification }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
     {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
@@ -120,7 +120,7 @@ spec:
     apiVersion: argoproj.io/v1alpha1
     kind: Rollout
     name: mgr-rollout
-  minReplicas: {{ .Values.autoscaling.minReplicas.default }}
+  minReplicas: {{ .Values.autoscaling.minReplicas.ui }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
     {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
@@ -147,7 +147,7 @@ spec:
     apiVersion: argoproj.io/v1alpha1
     kind: Rollout
     name: mgr-api-rollout
-  minReplicas: {{ .Values.autoscaling.minReplicas.default }}
+  minReplicas: {{ .Values.autoscaling.minReplicas.api }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
     {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
@@ -174,7 +174,7 @@ spec:
     apiVersion: argoproj.io/v1alpha1
     kind: Rollout
     name: mgr-poller-rollout
-  minReplicas: {{ .Values.autoscaling.minReplicas.default }}
+  minReplicas: {{ .Values.autoscaling.minReplicas.poller }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
     {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
@@ -201,7 +201,7 @@ spec:
     apiVersion: argoproj.io/v1alpha1
     kind: Rollout
     name: mgr-notification-rollout
-  minReplicas: {{ .Values.autoscaling.minReplicas.default }}
+  minReplicas: {{ .Values.autoscaling.minReplicas.notification }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
     {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
