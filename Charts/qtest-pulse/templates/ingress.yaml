@@ -19,17 +19,17 @@ spec:
   rules:
     {{- if .Values.ingress.hosts }}
     {{- range $host := .Values.ingress.hosts }}
-    - host: {{ $host }}
-      http:
-        paths:
-          {{- if $extraPaths }}
-          {{- toYaml $extraPaths | nindent 8 }}
-          {{- end }}
-          {{- range $p := $paths }}
-          - path: {{ $p }}
-            backend:
-              serviceName: {{ $serviceName }}
-              servicePort: {{ $servicePort }}
+  - host: {{ $host }}
+    http:
+      paths:
+        {{- if $extraPaths }}
+        {{- toYaml $extraPaths | nindent 8 }}
+        {{- end }}
+        {{- range $p := $paths }}
+        - path: {{ $p }}
+          backend:
+            serviceName: {{ $serviceName }}
+            servicePort: {{ $servicePort }}
   {{- end -}}
   {{- end -}}
   {{- end -}}
