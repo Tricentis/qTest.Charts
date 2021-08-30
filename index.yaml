@@ -3,6 +3,30 @@ entries:
   qtest-chart:
   - apiVersion: v2
     appVersion: 1.20.46
+    created: "2021-08-30T18:59:13.690554807Z"
+    description: A Helm chart for qTest Manager
+    digest: 66117526412b248c7d9198cbbbe4fc0f14a35af168af82841e9732c43dc934b8
+    home: https://github.com/QAS-Labs/qtest-chart.git
+    icon: https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_c2d6524c36c94138504f7a18bf179d76/tricentis-qtest.png
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: b.yang@ext.tricentis.com
+      name: byangtri
+    - email: p.jaladi@ext.tricentis.com
+      name: pjaladi21
+    - email: l.nguyen@tricentis.com
+      name: liemng
+    - email: m.vankendine@ext.tricentis.com
+      name: mtricentis
+    - email: s.reddy-ganjikunta@ext.tricentis.com
+      name: subbuATB1
+    name: qtest-chart
+    type: application
+    urls:
+    - https://github.com/QAS-Labs/qtest-chart/releases/download/qtest-chart-0.4.1/qtest-chart-0.4.1.tgz
+    version: 0.4.1
+  - apiVersion: v2
+    appVersion: 1.20.46
     created: "2021-08-27T16:37:23.721099322Z"
     description: A Helm chart for qTest Manager
     digest: 8a63ff6aca153b0b19745b97ac4f7712294e18681884683080c10bf5bad6e629
@@ -3547,4 +3571,4 @@ entries:
     urls:
     - https://github.com/QAS-Labs/qtest-chart/releases/download/qtest-session-0.1.0/qtest-session-0.1.0.tgz
     version: 0.1.0
-generated: "2021-08-27T16:37:23.723303737Z"
+generated: "2021-08-30T18:59:13.692339231Z"
