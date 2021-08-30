@@ -6,6 +6,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mgr-service
+  {{- with .Values.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   labels:
     app: qtest-mgr
     release: {{ .Release.Name }}
@@ -26,6 +30,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mgr-service-api
+  {{- with .Values.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   labels:
     app: qtest-mgr-api
     release: {{ .Release.Name }}
@@ -46,6 +54,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mgr-service-notification
+  {{- with .Values.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   labels:
     app: qtest-mgr-notification
     release: {{ .Release.Name }}
