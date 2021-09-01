@@ -61,21 +61,11 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         name: {{ .Chart.Name }}
         livenessProbe:
-          httpGet:
-            path: {{ .Values.autoscaling.healthApiPath }}
-            port: {{ .Values.service.targetPort }}
-          periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          {{ .Values.livenessProbe | toYaml | indent 10 | trim }}
         readinessProbe:
-          httpGet:
-            path: {{ .Values.autoscaling.healthApiPath }}
-            port: {{ .Values.service.targetPort }}
-          periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          {{ .Values.readinessProbe | toYaml | indent 10 | trim }}
         startupProbe:
-          httpGet:
-            path: {{ .Values.autoscaling.healthApiPath }}
-            port: {{ .Values.service.targetPort }}
-          failureThreshold: {{ .Values.autoscaling.failureThreshold }}
-          periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          {{ .Values.startupProbe | toYaml | indent 10 | trim }}
         ports:
         - containerPort: {{ .Values.service.targetPort }}
           name: http
@@ -207,21 +197,11 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         name: {{ .Chart.Name }}
         livenessProbe:
-          httpGet:
-            path: {{ .Values.autoscaling.healthApiPath }}
-            port: {{ .Values.service.targetPort }}
-          periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          {{ .Values.livenessProbe | toYaml | indent 10 | trim }}
         readinessProbe:
-          httpGet:
-            path: {{ .Values.autoscaling.healthApiPath }}
-            port: {{ .Values.service.targetPort }}
-          periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          {{ .Values.readinessProbe | toYaml | indent 10 | trim }}
         startupProbe:
-          httpGet:
-            path: {{ .Values.autoscaling.healthApiPath }}
-            port: {{ .Values.service.targetPort }}
-          failureThreshold: {{ .Values.autoscaling.failureThreshold }}
-          periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          {{ .Values.startupProbe | toYaml | indent 10 | trim }}
         ports:
         - containerPort: {{ .Values.service.targetPort }}
           name: http
@@ -312,21 +292,11 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         name: {{ .Chart.Name }}
         livenessProbe:
-          httpGet:
-            path: {{ .Values.autoscaling.healthApiPath }}
-            port: {{ .Values.service.targetPort }}
-          periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          {{ .Values.livenessProbe | toYaml | indent 10 | trim }}
         readinessProbe:
-          httpGet:
-            path: {{ .Values.autoscaling.healthApiPath }}
-            port: {{ .Values.service.targetPort }}
-          periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          {{ .Values.readinessProbe | toYaml | indent 10 | trim }}
         startupProbe:
-          httpGet:
-            path: {{ .Values.autoscaling.healthApiPath }}
-            port: {{ .Values.service.targetPort }}
-          failureThreshold: {{ .Values.autoscaling.failureThreshold }}
-          periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          {{ .Values.startupProbe | toYaml | indent 10 | trim }}
         ports:
         - containerPort: {{ .Values.service.targetPort }}
           name: http
@@ -457,21 +427,11 @@ spec:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         livenessProbe:
-          httpGet:
-            path: {{ .Values.autoscaling.healthApiPath }}
-            port: {{ .Values.service.targetPort }}
-          periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          {{ .Values.livenessProbe | toYaml | indent 10 | trim }}
         readinessProbe:
-          httpGet:
-            path: {{ .Values.autoscaling.healthApiPath }}
-            port: {{ .Values.service.targetPort }}
-          periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          {{ .Values.readinessProbe | toYaml | indent 10 | trim }}
         startupProbe:
-          httpGet:
-            path: {{ .Values.autoscaling.healthApiPath }}
-            port: {{ .Values.service.targetPort }}
-          failureThreshold: {{ .Values.autoscaling.failureThreshold }}
-          periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          {{ .Values.startupProbe | toYaml | indent 10 | trim }}
         name: {{ .Chart.Name }}
         ports:
         - containerPort: {{ .Values.service.targetPort }}

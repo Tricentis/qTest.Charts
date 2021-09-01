@@ -210,6 +210,26 @@ autoscaling:
   targetCPUUtilizationPercentage: 70
   targetMemoryUtilizationPercentage: 70
   healthApiPath: /health-checker
+
+## Readiness, liveness and startup probes
+livenessProbe:
+  httpGet:
+    path: /health-checker
+    port: 8080
+  initialDelaySeconds: 70
+  periodSeconds: 30
+  failureThreshold: 20
+readinessProbe:
+  httpGet:
+    path: /health-checker
+    port: 8080
+  initialDelaySeconds: 30
+  periodSeconds: 30
+  failureThreshold: 20
+startupProbe:
+  httpGet:
+    path: /health-checker
+    port: 8080
   periodSeconds: 30
   failureThreshold: 20
 
