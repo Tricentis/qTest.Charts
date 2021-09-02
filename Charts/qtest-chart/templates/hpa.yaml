@@ -12,7 +12,7 @@ spec:
     kind: Deployment
     name: mgr-deployment
   minReplicas: {{ .Values.autoscaling.minReplicas.ui }}
-  maxReplicas: {{ .Values.autoscaling.maxReplicas }}
+  maxReplicas: {{ .Values.autoscaling.maxReplicas.ui }}
   metrics:
     {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
     - type: Resource
@@ -39,7 +39,7 @@ spec:
     kind: Deployment
     name: mgr-deployment-api
   minReplicas: {{ .Values.autoscaling.minReplicas.api }}
-  maxReplicas: {{ .Values.autoscaling.maxReplicas }}
+  maxReplicas: {{ .Values.autoscaling.maxReplicas.api }}
   metrics:
     {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
     - type: Resource
@@ -66,7 +66,7 @@ spec:
     kind: Deployment
     name: mgr-deployment-poller
   minReplicas: {{ .Values.autoscaling.minReplicas.poller }}
-  maxReplicas: {{ .Values.autoscaling.maxReplicas }}
+  maxReplicas: {{ .Values.autoscaling.maxReplicas.poller }}
   metrics:
     {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
     - type: Resource
@@ -93,7 +93,7 @@ spec:
     kind: Deployment
     name: mgr-deployment-notification
   minReplicas: {{ .Values.autoscaling.minReplicas.notification }}
-  maxReplicas: {{ .Values.autoscaling.maxReplicas }}
+  maxReplicas: {{ .Values.autoscaling.maxReplicas.notification }}
   metrics:
     {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
     - type: Resource
@@ -121,7 +121,7 @@ spec:
     kind: Rollout
     name: mgr-rollout
   minReplicas: {{ .Values.autoscaling.minReplicas.ui }}
-  maxReplicas: {{ .Values.autoscaling.maxReplicas }}
+  maxReplicas: {{ .Values.autoscaling.maxReplicas.ui }}
   metrics:
     {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
     - type: Resource
@@ -148,7 +148,7 @@ spec:
     kind: Rollout
     name: mgr-api-rollout
   minReplicas: {{ .Values.autoscaling.minReplicas.api }}
-  maxReplicas: {{ .Values.autoscaling.maxReplicas }}
+  maxReplicas: {{ .Values.autoscaling.maxReplicas.api }}
   metrics:
     {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
     - type: Resource
@@ -175,7 +175,7 @@ spec:
     kind: Rollout
     name: mgr-poller-rollout
   minReplicas: {{ .Values.autoscaling.minReplicas.poller }}
-  maxReplicas: {{ .Values.autoscaling.maxReplicas }}
+  maxReplicas: {{ .Values.autoscaling.maxReplicas.poller }}
   metrics:
     {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
     - type: Resource
@@ -202,7 +202,7 @@ spec:
     kind: Rollout
     name: mgr-notification-rollout
   minReplicas: {{ .Values.autoscaling.minReplicas.notification }}
-  maxReplicas: {{ .Values.autoscaling.maxReplicas }}
+  maxReplicas: {{ .Values.autoscaling.maxReplicas.notification }}
   metrics:
     {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
     - type: Resource

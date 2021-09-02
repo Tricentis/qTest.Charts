@@ -4,13 +4,7 @@ metadata:
   name: qtest-chart-resource-quota
 spec:
   hard:
-    limits.cpu: "80"
-    limits.memory: 200Gi
-    requests.cpu: "64"
-    requests.memory: 160Gi
-    pods: "25"
-    persistentvolumeclaims: "50"
-    requests.storage: "500Gi"
+    {{ .Values.resourceQuota | toYaml | indent 4 | trim }}
 ---
 apiVersion: v1
 kind: LimitRange
@@ -18,13 +12,4 @@ metadata:
   name: qtest-chart-limit-range
 spec:
   limits:
-    - max:
-        cpu: "2"
-        memory: 8Gi
-      default:
-        cpu: "2"
-        memory: 8Gi
-      defaultRequest:
-          cpu: "2"
-          memory: 4Gi
-      type: Container
+    {{ .Values.limitRange | toYaml | indent 4 | trim }}

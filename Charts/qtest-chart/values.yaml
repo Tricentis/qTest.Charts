@@ -206,10 +206,34 @@ autoscaling:
     notification: 1
     poller: 1
     default: 1
-  maxReplicas: 2
+  maxReplicas:
+    ui: 3
+    api: 3
+    notification: 3
+    poller: 1
   targetCPUUtilizationPercentage: 70
   targetMemoryUtilizationPercentage: 70
   healthApiPath: /health-checker
+
+resourceQuota:
+  limits.cpu: '80'
+  limits.memory: 400Gi
+  requests.cpu: '64'
+  requests.memory: 160Gi
+  pods: '25'
+  persistentvolumeclaims: '50'
+  requests.storage: 500Gi
+limitRange:
+  - max:
+      cpu: '2'
+      memory: 16Gi
+    default:
+      cpu: '2'
+      memory: 16Gi
+    defaultRequest:
+      cpu: '2'
+      memory: 4Gi
+    type: Container
 
 ## Readiness, liveness and startup probes
 livenessProbe:
