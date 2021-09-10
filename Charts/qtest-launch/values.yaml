@@ -36,6 +36,13 @@ ingress:
     []
   https: false
 
+# VPA values
+vpaAutoscaling:
+  enabled: false
+  updatePolicy:
+    updateMode: "Off"
+
+# HPA values
 autoscaling:
   enabled: true
   minReplicas: 2

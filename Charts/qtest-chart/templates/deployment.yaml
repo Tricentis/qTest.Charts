@@ -66,6 +66,8 @@ spec:
           {{ .Values.readinessProbe | toYaml | indent 10 | trim }}
         startupProbe:
           {{ .Values.startupProbe | toYaml | indent 10 | trim }}
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
         ports:
         - containerPort: {{ .Values.service.targetPort }}
           name: http
@@ -202,6 +204,8 @@ spec:
           {{ .Values.readinessProbe | toYaml | indent 10 | trim }}
         startupProbe:
           {{ .Values.startupProbe | toYaml | indent 10 | trim }}
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
         ports:
         - containerPort: {{ .Values.service.targetPort }}
           name: http
@@ -297,6 +301,8 @@ spec:
           {{ .Values.readinessProbe | toYaml | indent 10 | trim }}
         startupProbe:
           {{ .Values.startupProbe | toYaml | indent 10 | trim }}
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
         ports:
         - containerPort: {{ .Values.service.targetPort }}
           name: http
@@ -432,6 +438,8 @@ spec:
           {{ .Values.readinessProbe | toYaml | indent 10 | trim }}
         startupProbe:
           {{ .Values.startupProbe | toYaml | indent 10 | trim }}
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
         name: {{ .Chart.Name }}
         ports:
         - containerPort: {{ .Values.service.targetPort }}

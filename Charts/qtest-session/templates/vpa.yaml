@@ -1,0 +1,15 @@
+{{- if .Values.vpaAutoscaling.enabled }}
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: {{ include "qtest-session.fullname" . }}
+  labels:
+    {{- include "qtest-session.labels" . | nindent 4 }}
+spec:
+  targetRef: 
+    apiVersion: "apps/v1"
+    kind: Deployment
+    name: {{ include "qtest-session.fullname" . }}
+  upadatePolicy:
+    updateMode: {{ .Values.vpaAutoscaling.updatePolicy.updateMode }}
+{{- end }}

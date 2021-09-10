@@ -198,6 +198,13 @@ persistence:
   ## Specify extra mounts. Refer to ".spec.containers.volumeMounts" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
   mounts: []
 
+# VPA values
+vpaAutoscaling:
+  enabled: false
+  updatePolicy:
+    updateMode: "Off"
+
+# HPA values
 autoscaling:
   enabled: true
   minReplicas:
@@ -216,24 +223,40 @@ autoscaling:
   healthApiPath: /health-checker
 
 resourceQuota:
-  limits.cpu: '80'
-  limits.memory: 400Gi
-  requests.cpu: '64'
-  requests.memory: 160Gi
-  pods: '25'
-  persistentvolumeclaims: '50'
-  requests.storage: 500Gi
+  enabled: true
+  hard:
+    limits.cpu: '80'
+    limits.memory: 400Gi
+    requests.cpu: '64'
+    requests.memory: 160Gi
+    pods: '25'
+    persistentvolumeclaims: '50'
+    requests.storage: 500Gi
 limitRange:
-  - max:
-      cpu: '2'
-      memory: 16Gi
-    default:
-      cpu: '2'
-      memory: 16Gi
-    defaultRequest:
-      cpu: '2'
-      memory: 4Gi
-    type: Container
+  enabled: true
+  limits:
+    - max:
+        cpu: '2'
+        memory: 16Gi
+      default:
+        cpu: '2'
+        memory: 16Gi
+      defaultRequest:
+        cpu: '2'
+        memory: 4Gi
+      type: Container
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
 
 ## Readiness, liveness and startup probes
 livenessProbe:

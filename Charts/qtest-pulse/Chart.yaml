@@ -18,12 +18,15 @@ maintainers:
     email: p.jaladi@ext.tricentis.com
   - name: liemng
     email: l.nguyen@tricentis.com
+  - name: tomasw
+    email: t.wallick@ext.tricentis.com
+
 home: https://github.com/QAS-Labs/qtest-chart.git
 kubeVersion: ">=1.16.0-0"
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.1.6
+version: 0.1.7
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to

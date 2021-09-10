@@ -66,6 +66,8 @@ spec:
           {{ .Values.readinessProbe | toYaml | indent 10 | trim }}
         startupProbe:
           {{ .Values.startupProbe | toYaml | indent 10 | trim }}
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
         ports:
           - name: http
             containerPort: {{ .Values.service.port }}
@@ -230,6 +232,8 @@ spec:
           {{ .Values.readinessProbe | toYaml | indent 10 | trim }}
         startupProbe:
           {{ .Values.startupProbe | toYaml | indent 10 | trim }}
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
         ports:
           - name: http
             containerPort: {{ .Values.service.port }}
@@ -394,6 +398,8 @@ spec:
           {{ .Values.readinessProbe | toYaml | indent 10 | trim }}
         startupProbe:
           {{ .Values.startupProbe | toYaml | indent 10 | trim }}
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
         ports:
           - name: http
             containerPort: {{ .Values.service.port }}
@@ -558,6 +564,8 @@ spec:
           {{ .Values.readinessProbe | toYaml | indent 10 | trim }}
         startupProbe:
           {{ .Values.startupProbe | toYaml | indent 10 | trim }}
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
         ports:
         - containerPort: {{ .Values.service.port }}
           name: http

@@ -1,0 +1,116 @@
+{{- if .Values.vpaAutoscaling.enabled }}
+{{- if .Values.deployments.enabled -}}
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: mgr-deployment
+  labels:
+    {{- include "qtest-chart.labels" . | nindent 4 }}
+spec:
+  targetRef: 
+    apiVersion: "apps/v1"
+    kind: Deployment
+    name: mgr-deployment
+  upadatePolicy:
+    updateMode: {{ .Values.vpaAutoscaling.updatePolicy.updateMode }}
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: mgr-deployment-api
+  labels:
+    {{- include "qtest-chart.labels" . | nindent 4 }}
+spec:
+  targetRef: 
+    apiVersion: "apps/v1"
+    kind: Deployment
+    name: mgr-deployment-api
+  upadatePolicy:
+    updateMode: {{ .Values.vpaAutoscaling.updatePolicy.updateMode }}
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: mgr-deployment-poller
+  labels:
+    {{- include "qtest-chart.labels" . | nindent 4 }}
+spec:
+  targetRef: 
+    apiVersion: "apps/v1"
+    kind: Deployment
+    name: mgr-deployment-poller
+  upadatePolicy:
+    updateMode: {{ .Values.vpaAutoscaling.updatePolicy.updateMode }}
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: mgr-deployment-notification
+  labels:
+    {{- include "qtest-chart.labels" . | nindent 4 }}
+spec:
+  targetRef: 
+    apiVersion: "apps/v1"
+    kind: Deployment
+    name: mgr-deployment-notification
+  upadatePolicy:
+    updateMode: {{ .Values.vpaAutoscaling.updatePolicy.updateMode }}
+{{- end }}
+{{- if .Values.rollouts.enabled -}}
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: mgr-rollout
+  labels:
+    {{- include "qtest-chart.labels" . | nindent 4 }}
+spec:
+  targetRef: 
+    apiVersion: "argoproj.io/v1alpha1"
+    kind: Rollout
+    name: mgr-rollout
+  upadatePolicy:
+    updateMode: {{ .Values.vpaAutoscaling.updatePolicy.updateMode }}
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: mgr-api-rollout
+  labels:
+    {{- include "qtest-chart.labels" . | nindent 4 }}
+spec:
+  targetRef: 
+    apiVersion: "argoproj.io/v1alpha1"
+    kind: Rollout
+    name: mgr-api-rollout
+  upadatePolicy:
+    updateMode: {{ .Values.vpaAutoscaling.updatePolicy.updateMode }}
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: mgr-poller-rollout
+  labels:
+    {{- include "qtest-chart.labels" . | nindent 4 }}
+spec:
+  targetRef: 
+    apiVersion: "argoproj.io/v1alpha1"
+    kind: Rollout
+    name: mgr-poller-rollout
+  upadatePolicy:
+    updateMode: {{ .Values.vpaAutoscaling.updatePolicy.updateMode }}
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: mgr-notification-rollout
+  labels:
+    {{- include "qtest-chart.labels" . | nindent 4 }}
+spec:
+  targetRef: 
+    apiVersion: "argoproj.io/v1alpha1"
+    kind: Rollout
+    name: mgr-notification-rollout
+  upadatePolicy:
+    updateMode: {{ .Values.vpaAutoscaling.updatePolicy.updateMode }}
+{{- end }}
+{{- end }}

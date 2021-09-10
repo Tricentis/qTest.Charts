@@ -1,15 +1,19 @@
+{{- if .Values.resourceQuota.enabled }}
 apiVersion: v1
 kind: ResourceQuota
 metadata:
   name: qtest-chart-resource-quota
 spec:
   hard:
-    {{ .Values.resourceQuota | toYaml | indent 4 | trim }}
+    {{ .Values.resourceQuota.hard | toYaml | indent 4 | trim }}
 ---
+{{- end }}
+{{- if .Values.resourceQuota.enabled }}
 apiVersion: v1
 kind: LimitRange
 metadata:
   name: qtest-chart-limit-range
 spec:
   limits:
-    {{ .Values.limitRange | toYaml | indent 4 | trim }}
+    {{ .Values.limitRange.limits | toYaml | indent 4 | trim }}
+{{- end }}
