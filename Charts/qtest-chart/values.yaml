@@ -111,6 +111,19 @@ qTestManager:
   launchUrlBase: "http://launch.local"
   notification:
     urlExternal: "http://notification.qtest.local"
+    # com.qasymphony.qtest.event.service.ToscaQueueEventPublisher#maxDequeue
+    ToscaQueueEventProcessingServiceMaxDequeue: 0
+    background:
+      event:
+        apiThreshold: 0
+        testExecutionApiThreshold: 0
+        jiraCloudThreshold: 0
+        oldDefectTrackingSystemsThreshold: 0
+        jiraServerThreshold: 0
+        reportThreshold: 0
+        maxThreshold: 0
+    asyncThreadNumber: 0
+    actionTaskExecutorPoolSize: 0
   qTest:
     serverMapUrl: "http://qtest.local/public/jira-widget/server-map"
     instance: US
