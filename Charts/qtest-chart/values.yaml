@@ -123,7 +123,7 @@ qTestManager:
         reportThreshold: 0
         maxThreshold: 0
     asyncThreadNumber: 0
-    actionTaskExecutorPoolSize: 0 
+    actionTaskExecutorPoolSize: 0
   qTest:
     serverMapUrl: "http://qtest.local/public/jira-widget/server-map"
     instance: US
