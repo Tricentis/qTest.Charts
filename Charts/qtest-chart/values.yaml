@@ -111,7 +111,8 @@ qTestManager:
   launchUrlBase: "http://launch.local"
   notification:
     urlExternal: "http://notification.qtest.local"
-    ToscaQueueEventProcessingServiceMaxDequeue: 0 # com.qasymphony.qtest.event.service.ToscaQueueEventPublisher#maxDequeue
+    # com.qasymphony.qtest.event.service.ToscaQueueEventPublisher#maxDequeue
+    ToscaQueueEventProcessingServiceMaxDequeue: 0
     background:
       event:
         apiThreshold: 0
