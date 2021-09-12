@@ -309,7 +309,7 @@ spec:
           protocol: TCP
         envFrom:
         - configMapRef:
-            name: qtest-manager-config
+            name: qtest-manager-notification-config
         - secretRef:
             name: qtest-manager-secret
         env:
