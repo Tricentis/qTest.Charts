@@ -47,3 +47,8 @@ To uninstall the qTest Manager chart with the release name `qtestmanager`:
 ```bash
 $ helm uninstall qtestmanager
 ```
+
+
+
+## Auto-Reload (Secrets and ConfigMaps) for qTest Manager Architecture 
+
