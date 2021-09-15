@@ -3,8 +3,6 @@
 reloader:
   enabled: false
 
-
-
 image:
   repository: qasymphony/insights
   pullPolicy: IfNotPresent
