@@ -1,4 +1,4 @@
-# Default values for qtest-insights-chart.
+# Default values for qtest-insights-chart
 
 reloader:
   enabled: false
