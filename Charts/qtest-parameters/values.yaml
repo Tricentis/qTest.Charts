@@ -1,4 +1,6 @@
 # Default values for qtest-parameters-chart.
+reloader:
+  enabled: false
 
 image:
   repository: qasymphony/parameters

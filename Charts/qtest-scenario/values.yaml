@@ -1,4 +1,7 @@
 # Default values for scenario App.
+reloader:
+  enabled: false
+
 
 image:
   repository: qasymphony/scenario
