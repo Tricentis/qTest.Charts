@@ -1,5 +1,8 @@
 # Default values for qtest-insights-chart.
 
+reloader:
+  enabled: false
+
 image:
   repository: qasymphony/insights
   pullPolicy: IfNotPresent

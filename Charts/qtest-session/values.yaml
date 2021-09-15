@@ -1,4 +1,7 @@
 # Default values for qtest-session-chart.
+reloader:
+  enabled: false
+
 
 image:
   repository: qasymphony/sessions

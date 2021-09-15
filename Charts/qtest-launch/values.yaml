@@ -1,5 +1,9 @@
 # Default values for qtest-launch app.
 
+reloader:
+  enabled: false
+
+
 image:
   repository: qasymphony/launch
   pullPolicy: IfNotPresent

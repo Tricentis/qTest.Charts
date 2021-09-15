@@ -12,6 +12,13 @@ description: A Helm chart for Kubernetes cluster of qtest-scenario
 # pipeline. Library charts do not define any templates and therefore cannot be deployed.
 type: application
 
+dependencies:
+- name: reloader
+  version: "*"
+  repository: "https://stakater.github.io/stakater-charts"
+  condition: reloader.enabled
+
+
 maintainers:
   - name: byangtri
     email: b.yang@ext.tricentis.com
