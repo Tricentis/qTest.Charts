@@ -50,5 +50,9 @@ $ helm uninstall qtestmanager
 
 
 
-## Auto-Reload (Secrets and ConfigMaps) for qTest Manager Architecture 
+### Secrets and Configuration Change Auto-Reload/Auto-Rolling Updates Architecture using Reloader
 
+The following diagram depicts the workflow of how `stakater/reloader` functions in K8s cluster.
+
+
+![stakater/reloader Architecture](docs/stakater-reloader-arch-1.png)
