@@ -133,6 +133,20 @@ qTestManager:
     jira:
       testConnectionLegacyEndpointClients: ""
 
+testconductor:
+  environment:
+    isOnPremise: false
+    od:
+      ui: ui.production
+      api: api.production
+      poller: poller.production
+      notification: notification.production
+    op:
+      ui: ui.onpremise
+      api: api.onpremise
+      poller: poller.onpremise
+      notification: notification.onpremise
+
 ingress:
   enabled: true
   ingressClassName: ""

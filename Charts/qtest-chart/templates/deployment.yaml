@@ -1,6 +1,16 @@
 {{- if .Values.deployments.enabled -}}
 {{- $existingImageCredentials := .Values.secrets.existingImageCredentials -}}
 {{- $imageCredentials := .Values.imageCredentials.name -}}
+{{- $apiProfile := .Values.testconductor.environment.od.api -}}
+{{- $uiProfile := .Values.testconductor.environment.od.ui -}}
+{{- $pollerProfile := .Values.testconductor.environment.od.poller -}}
+{{- $notificationProfile := .Values.testconductor.environment.od.notification -}}
+{{- if .Values.testconductor.environment.isOnPremise }}
+{{- $apiProfile = .Values.testconductor.environment.op.api -}}
+{{- $uiProfile = .Values.testconductor.environment.op.ui -}}
+{{- $pollerProfile = .Values.testconductor.environment.op.poller -}}
+{{- $notificationProfile = .Values.testconductor.environment.op.notification -}}
+{{- end }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -82,7 +92,7 @@ spec:
 {{- toYaml .Values.env | nindent 11 }}
         {{- end }}
            - name: testconductor.environment
-             value: "ui.production"
+             value: {{ $uiProfile }}
         volumeMounts:
         - name: qtest-data
           mountPath: /mnt/data/storage
@@ -220,7 +230,7 @@ spec:
 {{- toYaml .Values.env | nindent 11 }}
         {{- end }}
            - name: testconductor.environment
-             value: "poller.production"
+             value: {{ $pollerProfile }}
         volumeMounts:
         - name: qtest-data
           mountPath: /mnt/data/storage
@@ -317,7 +327,7 @@ spec:
 {{- toYaml .Values.env | nindent 11 }}
         {{- end }}
            - name: testconductor.environment
-             value: "notification.production"
+             value: {{ $notificationProfile }}
         volumeMounts:
         - name: qtest-data
           mountPath: /mnt/data/storage
@@ -455,7 +465,7 @@ spec:
 {{- toYaml .Values.env | nindent 11 }}
         {{- end }}
            - name: testconductor.environment
-             value: "api.production"
+             value: {{ $apiProfile }}
         volumeMounts:
         - name: qtest-data
           mountPath: /mnt/data/storage
