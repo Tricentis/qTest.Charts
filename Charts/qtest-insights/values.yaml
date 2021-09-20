@@ -11,6 +11,9 @@ image:
   pullPolicy: IfNotPresent
   tag: "v1.21.22.op"
 
+deployment:
+  annotations: {}
+
 service:
   type: LoadBalancer
   port: 8080

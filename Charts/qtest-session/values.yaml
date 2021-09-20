@@ -10,6 +10,9 @@ image:
   pullPolicy: IfNotPresent
   tag: "4.3.8"
 
+deployment:
+  annotations: {}
+
 serviceAccount:
   create: true
   name:

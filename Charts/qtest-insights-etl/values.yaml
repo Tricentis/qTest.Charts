@@ -13,6 +13,9 @@ image:
   pullPolicy: IfNotPresent
   tag: "e287a47"
 
+deployment:
+  annotations: {}
+
 service:
   type: LoadBalancer
   port: 8080

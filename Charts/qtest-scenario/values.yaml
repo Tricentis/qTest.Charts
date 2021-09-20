@@ -10,7 +10,8 @@ image:
   pullPolicy: IfNotPresent
   tag: "3.3.4"
 
-annotations: {}
+deployment:
+  annotations: {}
 
 service:
   type: LoadBalancer

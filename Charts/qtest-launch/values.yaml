@@ -11,6 +11,9 @@ image:
   pullPolicy: IfNotPresent
   tag: "1.6.5"
 
+deployment:
+  annotations: {}
+
 service:
   type: LoadBalancer
   port: 3080

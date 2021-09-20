@@ -10,6 +10,9 @@ image:
   pullPolicy: IfNotPresent
   tag: "9.3.5"
 
+deployment:
+  annotations: {}
+
 service:
   type: LoadBalancer
   port: 4080
