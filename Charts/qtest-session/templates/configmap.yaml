@@ -8,10 +8,11 @@ data:
   qTestSessionJSHome: "{{ .Values.qTestSession.qTestSessionJSHome }}"
   qTestSessionNodeEnvironment: "{{ .Values.qTestSession.qTestSessionNodeEnvironment }}"
   qTestSessionPort: "{{ .Values.qTestSession.qTestSessionPort }}"
-  qTestSessionDBConnection: "{{ .Values.qTestSession.qTestSessionDBConnection }}"
+  qTestSessionDBName: "{{ .Values.qTestSession.qTestSessionDBName }}"
+  qTestSessionDBUserName: "{{ .Values.qTestSession.qTestSessionDBUserName }}"
+  qTestSessionDBHostName: "{{ .Values.qTestSession.qTestSessionDBHostName }}"
   QTestManagerHost: "{{ .Values.qTestSession.qTestManagerHost }}"
   qTestSessionMasterToken: "{{ .Values.qTestSession.qTestSessionMasterToken }}"
   qTestSessionStorageType: "{{ .Values.qTestSession.qTestSessionStorageType }}"
   qTestSessionStorageRootPath: "{{ .Values.qTestSession.qTestSessionStorageRootPath }}"
-  qTestSessionSecretKey: {{ .Values.qTestSession.qTestSessionSecretKey }}
 

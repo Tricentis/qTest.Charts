@@ -5,7 +5,10 @@ metadata:
   labels:
     app: qTestParameters
 data:
-  qTestParametersPGUrl: "{{ .Values.qTestParameters.qTestParametersPGUrl }}"
+  qTestParametersDBName: "{{ .Values.qTestParameters.qTestParametersDBName }}"
+  qTestParametersDBUserName: "{{ .Values.qTestParameters.qTestParametersDBUserName }}"
+  qTestParametersDBPwd: "{{ .Values.qTestParameters.qTestParametersDBPwd }}"
+  qTestParametersDBHostName: "{{ .Values.qTestParameters.qTestParametersDBHostName }}"
   qTestParametersQTestHost: "{{ .Values.qTestParameters.qTestParametersQTestHost }}"
   qTestParametersNodeTLSRejectUnAuthorized: "{{ .Values.qTestParameters.qTestParametersNodeTLSRejectUnAuthorized }}"
   qTestParametersNodeEnv: "{{ .Values.qTestParameters.qTestParametersNodeEnv }}"

@@ -5,7 +5,10 @@ metadata:
   labels:
     app: qTestPulse
 data:
-  qTestPulsePGUrl: "{{ .Values.qTestPulse.qTestPulsePGUrl }}"
+  qTestPulseDBName: "{{ .Values.qTestPulse.qTestPulseDBName }}"
+  qTestPulseDBUserName: "{{ .Values.qTestPulse.qTestPulseDBUserName }}"
+  qTestPulseDBPwd: "{{ .Values.qTestPulse.qTestPulseDBPwd }}"
+  qTestPulseDBHostName: "{{ .Values.qTestPulse.qTestPulseDBHostName }}"
   qTestPulseRootURL: "{{ .Values.qTestPulse.qTestPulseRootURL }}"
   qTestPulseQTestURL: "{{ .Values.qTestPulse.qTestPulseQTestURL }}"
   qTestPulseScenarioURL: "{{ .Values.qTestPulse.qTestPulseScenarioURL }}"

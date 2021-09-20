@@ -2,6 +2,8 @@
 reloader:
   enabled: false
 
+secrets:
+  enabled: true
 
 image:
   repository: qasymphony/scenario
@@ -18,14 +20,17 @@ service:
   annotations: {}
 
 qTestScenario:
-  qTestScenarioDBConnection: postgresql://postgres:changeme@postgres.local/scenario
+  qTestScenarioDBName: scenario
+  qTestScenarioDBUserName: postgres
+  qTestScenarioDBPwd: Y2hhbmdlbWU=
+  qTestScenarioDBHostName: postgres.local
   qTestScenarioPort: "6080"
-  qTestScenarioLocalBaseURL: http://scenario.container-dev.qtestdev.com
+  qTestScenarioLocalBaseURL: https://scenario.local
   qTestScenarioNodeTLSRejectUnAuthorized: "0"
   qTestScenarioNodeEnvironment: production
   qTestScenarioRefreshTokenSecret: ""
   qTestScenarioAppKeyDescriptor: ""
-  qTestScenarioQTestURL: http://qtestdev1.container-dev.qtestdev.com
+  qTestScenarioQTestURL: https://nephele.qtest.local
 
 ingress:
   enabled: true
@@ -35,7 +40,7 @@ ingress:
     annotations: {}
   labels: {}
   hosts:
-    - scenario.container-dev.qtestdev.com
+    - scenario.local
   paths:
     - /
   extraPaths:

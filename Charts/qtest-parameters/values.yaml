@@ -2,6 +2,9 @@
 reloader:
   enabled: false
 
+secrets:
+  enabled: true
+
 image:
   repository: qasymphony/parameters
   pullPolicy: IfNotPresent
@@ -14,8 +17,11 @@ service:
   servicename: qtest-parameters-service
 
 qTestParameters:
-  qTestParametersPGUrl: postgresql://postgres:changeme@postgres.local/parameters
-  qTestParametersQTestHost: http://qtestdev1.container-dev.qtestdev.com
+  qTestParametersDBName: parameters
+  qTestParametersDBUserName: postgres
+  qTestParametersDBPwd: Y2hhbmdlbWU=
+  qTestParametersDBHostName: postgres.local
+  qTestParametersQTestHost: https://nephele.qtest.local
   qTestParametersNodeTLSRejectUnAuthorized: "0"
   qTestParametersNodeEnv: production
   qTestParametersPort: 5080
@@ -28,7 +34,7 @@ ingress:
     annotations: {}
   labels: {}
   hosts:
-    - parameters.container-dev.qtestdev.com
+    - parameters.local
   paths:
     - /
   extraPaths:

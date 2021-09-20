@@ -44,11 +44,28 @@ spec:
                 configMapKeyRef:
                   name: qtest-launch-configmap
                   key: qTestLaunchPort
-            - name: PG_URL
+            - name: LAUNCH_DB_NAME
               valueFrom:
                 configMapKeyRef:
                   name: qtest-launch-configmap
-                  key: qTestLaunchPostgresUrl
+                  key: qTestLaunchDBName
+            - name: LAUNCH_DB_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-launch-configmap
+                  key: qTestLaunchDBUserName
+            - name: LAUNCH_DB_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: qtest-launch-secret
+                  key: qTestLaunchDBPWD
+            - name: LAUNCH_DB_HOSTNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-launch-configmap
+                  key: qTestLaunchDBHostName
+            - name: PG_URL
+              value: {{ printf "postgresql://$(LAUNCH_DB_USERNAME):$(LAUNCH_DB_PWD)@$(LAUNCH_DB_HOSTNAME)/$(LAUNCH_DB_NAME)" }}
             - name: ROOT_URL
               valueFrom:
                 configMapKeyRef:

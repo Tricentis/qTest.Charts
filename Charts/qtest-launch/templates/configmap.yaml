@@ -5,7 +5,10 @@ metadata:
   labels:
     app: qtest-launch
 data:
-  qTestLaunchPostgresUrl: "{{ .Values.qTestLaunch.qTestLaunchPostgresUrl }}"
+  qTestLaunchDBName: "{{ .Values.qTestLaunch.qTestLaunchDBName }}"
+  qTestLaunchDBUserName: "{{ .Values.qTestLaunch.qTestLaunchDBUserName }}"
+  qTestLaunchDBPwd: "{{ .Values.qTestLaunch.qTestLaunchDBPwd }}"
+  qTestLaunchDBHostName: "{{ .Values.qTestLaunch.qTestLaunchDBHostName }}"
   qTestLaunchRootURL: "{{ .Values.qTestLaunch.qTestLaunchRootURL }}"
   qTestLaunchQTestURL: "{{ .Values.qTestLaunch.qTestLaunchQTestURL }}"
   qTestLaunchTCPWD: "{{ .Values.qTestLaunch.qTestLaunchTCPWD }}"

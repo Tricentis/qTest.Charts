@@ -3,6 +3,8 @@
 reloader:
   enabled: false
 
+secrets:
+  enabled: true
 
 image:
   repository: qasymphony/launch
@@ -16,9 +18,12 @@ service:
   servicename: qtest-launch-service
 
 qTestLaunch:
-  qTestLaunchPostgresUrl: "postgresql://postgres:postgres@postgres.local/qtest"
-  qTestLaunchRootURL: http://launch.container-dev.qtestdev.com
-  qTestLaunchQTestURL: http://qtestdev1.container-dev.qtestdev.com
+  qTestLaunchDBName: qtest
+  qTestLaunchDBUserName: postgres
+  qTestLaunchDBPwd: Y2hhbmdlbWU=
+  qTestLaunchDBHostName: postgres.local
+  qTestLaunchRootURL: https://launch.local
+  qTestLaunchQTestURL: https://nephele.qtest.local
   qTestLaunchNodeTLSRejectUnAuthorized: "0"
   qTestLaunchTCPWD: "qTest"
   qTestLaunchPort: "3080"
@@ -31,7 +36,7 @@ ingress:
     annotations: {}
   labels: {}
   hosts:
-    - launch.container-dev.qtestdev.com
+    - launch.local
   paths:
     - /
   extraPaths:

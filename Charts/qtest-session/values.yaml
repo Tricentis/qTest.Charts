@@ -2,6 +2,8 @@
 reloader:
   enabled: false
 
+secrets:
+  enabled: true
 
 image:
   repository: qasymphony/sessions
@@ -24,12 +26,15 @@ qTestSession:
   qTestSessionJSHome: /usr/local/sessions-js
   qTestSessionNodeEnvironment: production
   qTestSessionPort: "8080"
-  qTestSessionDBConnection: postgresql://postgres:changeme@postgres.local/sessions
-  qTestManagerHost: http://qtestdev1.container-dev.qtestdev.com
-  qTestSessionMasterToken: ""
+  qTestSessionDBName: sessions
+  qTestSessionDBUserName: postgres
+  qTestSessionDBPwd: Y2hhbmdlbWU=
+  qTestSessionDBHostName: postgres.local
+  qTestManagerHost: https://nephele.qtest.local
+  qTestSessionMasterToken: Qtoy
   qTestSessionStorageType: disk_storage
   qTestSessionStorageRootPath: /data
-  qTestSessionSecretKey: ""
+  qTestSessionSecretKey: Q3AyVEJYQ0lHb3N3dWs1eklwTG1nQm1QRkxWMDVrU1RKRHBWMXNaM3Y4VVBoWFBZMERzaERVdmwwOW1seVdETw==
 
 ingress:
   enabled: true
@@ -39,7 +44,7 @@ ingress:
     annotations: {}
   labels: {}
   hosts:
-    - session.container-dev.qtestdev.com
+    - session.local
   paths:
     - /
   extraPaths:

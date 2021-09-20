@@ -39,11 +39,28 @@ spec:
             - containerPort: {{ .Values.service.port }}
               name: http
           env:
-            - name: PG_URL
+            - name: PARAMETERS_DB_NAME
               valueFrom:
                 configMapKeyRef:
                   name: qtest-parameters-configmap
-                  key: qTestParametersPGUrl
+                  key: qTestParametersDBName
+            - name: PARAMETERS_DB_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-parameters-configmap
+                  key: qTestParametersDBUserName
+            - name: PARAMETERS_DB_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: qtest-parameters-secret
+                  key: qTestParametersDBPWD
+            - name: PARAMETERS_DB_HOSTNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-parameters-configmap
+                  key: qTestParametersDBHostName
+            - name: PG_URL
+              value: {{ printf "postgresql://$(PARAMETERS_DB_USERNAME):$(PARAMETERS_DB_PWD)@$(PARAMETERS_DB_HOSTNAME)/$(PARAMETERS_DB_NAME)" }}
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               valueFrom:
                 configMapKeyRef:

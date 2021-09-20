@@ -43,11 +43,28 @@ spec:
             - containerPort: {{ .Values.service.port }}
               name: http
           env:
-            - name: DATABASE_URL
+            - name: SCENARIO_DB_NAME
               valueFrom:
                 configMapKeyRef:
                   name: qtest-scenario-configmap
-                  key: qTestScenarioDBConnection
+                  key: qTestScenarioDBName
+            - name: SCENARIO_DB_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-scenario-configmap
+                  key: qTestScenarioDBUserName
+            - name: SCENARIO_DB_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: qtest-scenario-secret
+                  key: qTestScenarioDBPWD
+            - name: SCENARIO_DB_HOSTNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-scenario-configmap
+                  key: qTestScenarioDBHostName
+            - name: DATABASE_URL
+              value: {{ printf "postgresql://$(SCENARIO_DB_USERNAME):$(SCENARIO_DB_PWD)@$(SCENARIO_DB_HOSTNAME)/$(SCENARIO_DB_NAME)" }}
             - name: PORT
               valueFrom:
                 configMapKeyRef:
@@ -83,4 +100,3 @@ spec:
                 secretKeyRef:
                   name: qtest-scenario-secret
                   key: qTestScenarioRefreshTokenSecret
-

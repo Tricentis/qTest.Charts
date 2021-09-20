@@ -5,11 +5,12 @@ metadata:
   labels:
     app: qTestScenario
 data:
-  qTestScenarioDBConnection: "{{ .Values.qTestScenario.qTestScenarioDBConnection }}"
+  qTestScenarioDBName: "{{ .Values.qTestScenario.qTestScenarioDBName }}"
+  qTestScenarioDBUserName: "{{ .Values.qTestScenario.qTestScenarioDBUserName }}"
+  qTestScenarioDBHostName: "{{ .Values.qTestScenario.qTestScenarioDBHostName }}"
   qTestScenarioLocalBaseURL: "{{ .Values.qTestScenario.qTestScenarioLocalBaseURL }}"
   qTestScenarioNodeTLSRejectUnAuthorized: "{{ .Values.qTestScenario.qTestScenarioNodeTLSRejectUnAuthorized }}"
   qTestScenarioNodeEnvironment : "{{ .Values.qTestScenario.qTestScenarioNodeEnvironment }}"
   qTestScenarioPort: "{{ .Values.qTestScenario.qTestScenarioPort }}"
-  qTestScenarioRefreshTokenSecret: "{{ .Values.qTestScenario.qTestScenarioRefreshTokenSecret }}"
   qTestScenarioAppKeyDescriptor: "{{ .Values.qTestScenario.qTestScenarioAppKeyDescriptor }}"
   qTestScenarioQTestURL: "{{ .Values.qTestScenario.qTestScenarioQTestURL }}"

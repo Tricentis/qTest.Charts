@@ -56,11 +56,28 @@ spec:
                 configMapKeyRef:
                   name: qtest-session-configmap
                   key: qTestSessionPort
-            - name: DB_CONNECTION
+            - name: SESSION_DB_NAME
               valueFrom:
                 configMapKeyRef:
                   name: qtest-session-configmap
-                  key: qTestSessionDBConnection
+                  key: qTestSessionDBName
+            - name: SESSION_DB_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-session-configmap
+                  key: qTestSessionDBUserName
+            - name: SESSION_DB_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: qtest-session-secret
+                  key: qTestSessionDBPWD
+            - name: SESSION_DB_HOSTNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-session-configmap
+                  key: qTestSessionDBHostName
+            - name: DB_CONNECTION
+              value: {{ printf "postgresql://$(SESSION_DB_USERNAME):$(SESSION_DB_PWD)@$(SESSION_DB_HOSTNAME)/$(SESSION_DB_NAME)" }}
             - name: QTEST_HOST
               valueFrom:
                 configMapKeyRef:
@@ -100,4 +117,3 @@ spec:
         {{- else }}
           emptyDir: {}
         {{- end }}
-

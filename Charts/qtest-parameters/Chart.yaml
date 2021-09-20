@@ -12,17 +12,15 @@ description: A Helm chart for Kubernetes cluster of qtest-parameters
 # pipeline. Library charts do not define any templates and therefore cannot be deployed.
 type: application
 
-
 dependencies:
 - name: reloader
   version: "*"
   repository: "https://stakater.github.io/stakater-charts"
   condition: reloader.enabled
 
-
 maintainers:
   - name: byangtri
-    email: b.yang@ext.tricentis.com
+    email: b.yang@tricentis.com
   - name: pjaladi21
     email: p.jaladi@ext.tricentis.com
   - name: liemng
@@ -36,7 +34,7 @@ kubeVersion: ">=1.16.0-0"
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.1.7
+version: 0.1.8
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to

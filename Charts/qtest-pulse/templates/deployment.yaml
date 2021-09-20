@@ -44,11 +44,28 @@ spec:
                 configMapKeyRef:
                   name: qtest-pulse-configmap
                   key: qTestPulseNodeEnv
-            - name: PG_URL
+            - name: PULSE_DB_NAME
               valueFrom:
                 configMapKeyRef:
                   name: qtest-pulse-configmap
-                  key: qTestPulsePGUrl
+                  key: qTestPulseDBName
+            - name: PULSE_DB_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-pulse-configmap
+                  key: qTestPulseDBUserName
+            - name: PULSE_DB_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: qtest-pulse-secret
+                  key: qTestPulseDBPWD
+            - name: PULSE_DB_HOSTNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-pulse-configmap
+                  key: qTestPulseDBHostName
+            - name: PG_URL
+              value: {{ printf "postgresql://$(PULSE_DB_USERNAME):$(PULSE_DB_PWD)@$(PULSE_DB_HOSTNAME)/$(PULSE_DB_NAME)" }}
             - name: PORT
               valueFrom:
                 configMapKeyRef:

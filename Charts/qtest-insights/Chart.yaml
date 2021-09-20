@@ -20,7 +20,7 @@ dependencies:
 
 maintainers:
 - name: byangtri
-  email: b.yang@ext.tricentis.com
+  email: b.yang@tricentis.com
 - name: pjaladi21
   email: p.jaladi@ext.tricentis.com
 - name: liemng
@@ -41,7 +41,7 @@ icon: https://images.g2crowd.com/uploads/product/image/social_landscape/social_l
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
 
-version: 0.1.11
+version: 0.1.12
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to

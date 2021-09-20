@@ -4,6 +4,8 @@
 reloader:
   enabled: false
 
+secrets:
+  enabled: true
 
 replicaCount: 1
 image:
@@ -41,7 +43,7 @@ ingress:
     annotations: {}
   labels: {}
   hosts:
-    - insights-etl.container-dev.qtestdev.com
+    - insights-etl.local
   paths:
     - /
   extraPaths:

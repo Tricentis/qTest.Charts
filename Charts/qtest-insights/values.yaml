@@ -3,6 +3,9 @@
 reloader:
   enabled: false
 
+secrets:
+  enabled: true
+
 image:
   repository: qasymphony/insights
   pullPolicy: IfNotPresent
@@ -38,7 +41,7 @@ ingress:
     annotations: {}
   labels: {}
   hosts:
-    - insights.container-dev.qtestdev.com
+    - insights.local
   paths:
     - /
   extraPaths:

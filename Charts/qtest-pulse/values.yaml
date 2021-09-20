@@ -2,6 +2,8 @@
 reloader:
   enabled: false
 
+secrets:
+  enabled: true
 
 image:
   repository: qasymphony/pulse
@@ -15,12 +17,15 @@ service:
   servicename: qtest-pulse-service
 
 qTestPulse:
-  qTestPulsePGUrl: postgresql://postgres:changeme@postgres.local/pulse
+  qTestPulseDBName: pulse
+  qTestPulseDBUserName: postgres
+  qTestPulseDBPwd: Y2hhbmdlbWU=
+  qTestPulseDBHostName: postgres.local
   qTestPulsePort: "4080"
   qTestPulseNodeEnv: production
-  qTestPulseRootURL: http://pulse.container-dev.qtestdev.com
-  qTestPulseQTestURL: http://qtestdev1.container-dev.qtestdev.com
-  qTestPulseScenarioURL: http://scenario.container-dev.qtestdev.com
+  qTestPulseRootURL: https://pulse.local
+  qTestPulseQTestURL: https://nephele.qtest.local
+  qTestPulseScenarioURL: https://scenario.local
   qTestPulseNodeTLSRejectUnAuthorized: "0"
 
 ingress:
@@ -31,7 +36,7 @@ ingress:
     annotations: {}
   labels: {}
   hosts:
-    - pulse.container-dev.qtestdev.com
+    - pulse.local
   paths:
     - /
   extraPaths:
