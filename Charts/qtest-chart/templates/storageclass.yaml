@@ -1,4 +1,4 @@
-{{ if .Values.testconductor.environment.isOnPremise }}
+{{ if and .Values.testconductor.environment.isOnPremise false }}
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
