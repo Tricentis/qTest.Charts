@@ -51,6 +51,7 @@ secrets:
   enabled: false
   # existingConfigs: ""
   # existingImageCredentials: ""
+
 serviceAccount:
   create: true
   name:
@@ -92,6 +93,7 @@ qTestManager:
     port: 9200
     permittedClients: ""
   attachmentFolderPath: /usr/local/tomcat/temp
+  licenseFolderPath: /usr/local/tomcat/temp
   blobStorage:
     region: us-east-1
     sharedBucket: "qtest"
@@ -199,6 +201,7 @@ metrics:
 persistence:
   enabled: true
   annotations: {}
+  onPremiseStorageClaim: qtest-onpremise-pvc
 
   ## Specify an existing volume claim instead of creating a new one.
   ## When using this option all following options like storageClass, accessMode and size are ignored.

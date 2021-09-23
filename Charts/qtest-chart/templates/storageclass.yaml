@@ -1,0 +1,43 @@
+{{ if .Values.testconductor.environment.isOnPremise }}
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: qtest-onpremise-storage
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: Immediate
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: qtest-onpremise-pv
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: qtest-onpremise-storage
+  local:
+    path: /mnt/data/qtest
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - kind-worker
+                - kind-worker2
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: qtest-onpremise-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: qtest-onpremise-storage
+  resources:
+    requests:
+      storage: 5Gi
+{{- end }}
