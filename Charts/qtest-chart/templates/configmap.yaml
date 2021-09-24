@@ -29,6 +29,7 @@ data:
   elasticsearch.host: "{{ .Values.qTestManager.elasticSearch.host }}"
   elasticsearch.port: "{{ .Values.qTestManager.elasticSearch.port }}"
   attachment.folder.path: "{{ .Values.qTestManager.attachmentFolderPath }}"
+  license.folder.path: "{{ .Values.qTestManager.licenseFolderPath }}"
   elasticsearch.permitted_clients: "{{ .Values.qTestManager.elasticSearch.permittedClients }}"
   blobStorage.region: "{{ .Values.qTestManager.blobStorage.region }}"
   blobStorage.sharedBucket: "{{ .Values.qTestManager.blobStorage.sharedBucket }}"
