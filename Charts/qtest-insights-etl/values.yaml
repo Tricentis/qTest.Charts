@@ -20,7 +20,7 @@ service:
   type: LoadBalancer
   port: 8080
   targetPort: 8080
-  servicename: qtest-insights-etl-service
+  serviceName: qtest-insights-etl-service
 
 qTestInsightsEtl:
   qTestLogPath: /logs
@@ -38,22 +38,42 @@ qTestInsightsEtl:
   qTestInsightsEtlSessionDBPassword: cG9zdGdyZXM=
   qTestInsightsEtlSessionDBHost: postgres.local
 
+
+#### Ingress/IngressClass (> K8s 1.18-1.22+) #####
+ingressClass:
+  enabled: true
+  labels: {}
+  controller: ingress.k8s.aws/alb
+  isDefaultClass: true
+  # Use to force a networking.k8s.io API Version for certain CI/CD applications. Ex. "v1"
+  fallbackApiVersion: ""
+
 ingress:
   enabled: true
-  annotations:
-    kubernetes.io/ingress.class: "nginx"
-  canary:
-    annotations: {}
+  name: qtest-insights-etl-ingress
   labels: {}
+  annotations: {}
+  canary:
+    annotationPrefix: ""
+    annotations: {}
+      # canary-by-header: []
+      # canary-by-header-pattern: []
   hosts:
-    - insights-etl.local
-  paths:
-    - /
+    host: svc.qtest.com
+
+  paths: []
+
   extraPaths:
-    []
+    - path: /*
+      pathType: ImplementationSpecific
+
   tls:
     []
+    # - secretName: qtest-svc-tls
+    #   hosts:
+    #     - svc.qtest.com
   https: false
+
 
 persistence:
   enabled: false

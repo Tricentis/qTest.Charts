@@ -56,3 +56,37 @@ The following diagram depicts the workflow of how `stakater/reloader` functions 
 
 
 ![stakater/reloader Architecture](docs/stakater-reloader-arch-1.png)
+
+
+
+
+## qTest Ingress/Ingress Controller and Ingress Changes for Service Mesh (Istio, Linkerd)
+
+qTest (all of the qTest services) uses a new IngressClass provided in Kubernetes 1.18 which deprecates the annotation in the Ingress K8s resource:
+
+In Kubernetes versions `>= 1.22` the following will no longer issue a warning for deprecation and will cause an error during helm installations with K8s Ingresss using this annotation syntax:
+
+```
+apiVersion: networking.k8s.io/v1beta1  # For 1.18-1.21 networking.k8s.io/v1 annotation is ok, however not for 1.22
+kind: Ingress
+metadata:
+  name: mgr-ingress
+  annotations:
+    kubernetes.io/ingress.class: ingress.k8s.aws/alb
+spec:
+  rules:
+    ...
+```
+
+The new standard for Kubernetes 1.18 is to use an IngressClass. For Kubernetes clusters using 1.18-1.21 the use of the preceding annotations syntax will result in a warning to change to an IngressClass. In Kubernetes 1.22+ the warning will escalate to a deployment error.
+
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mgr-ingress
+spec:
+  ingressClassName: "qtest-chart-ingressclass"
+  rules:
+    ...
+```

@@ -64,7 +64,7 @@ service:
   port: 8080
   targetPort: 8080
   targetSigSciPort: 8081
-  servicename: mgr-service
+  serviceName: mgr-service
   # servicePortHttp: 80
   # servicePortHttps: 443
   # servicePortHttpName: http
@@ -149,31 +149,76 @@ testconductor:
       poller: poller.onpremise
       notification: notification.onpremise
 
+
+#### Ingress/IngressClass (> K8s 1.18-1.22+) #####
+ingressClass:
+  enabled: true
+  labels: {}
+  controller: ingress.k8s.aws/alb
+  isDefaultClass: true
+  # Use to force a networking.k8s.io API Version for certain CI/CD applications. Ex. "v1"
+  fallbackApiVersion: ""
+
+
 ingress:
   enabled: true
-  ingressClassName: ""
-  annotations:
-    kubernetes.io/ingress.class: ""
+  name: mgr-ingress
+  labels: {}
+  annotations: {}
   canary:
     annotationPrefix: ""
     annotations: {}
       # canary-by-header: []
       # canary-by-header-pattern: []
-  labels: {}
   hosts: []
+    # host: qtest.svc.com
+
   paths:
-    - /
+    - path: /api
+      pathType: Prefix
+      backend:
+        service:
+          name: mgr-service-api
+          port:
+            number: 8080
+    - path: /api2
+      pathType: Prefix
+      backend:
+        service:
+          name: mgr-service-api
+          port:
+            number: 8080
+    - path: /apiv3
+      pathType: Prefix
+      backend:
+        service:
+          name: mgr-service-api
+          port:
+            number: 8080
+    - path: /public/integration/webhookcallback2
+      pathType: Prefix
+      backend:
+        service:
+          name: mgr-service-api
+          port:
+            number: 8080
+    - path: /realtime
+      pathType: Prefix
+      backend:
+        service:
+          name: mgr-service-notification
+          port:
+            number: 8080
+
   extraPaths:
-    []
-    # - path: /*
-    #   backend:
-    #     serviceName: ssl-redirect
-    #     servicePort: use-annotation
+    - path: /*
+      pathType: ImplementationSpecific
+
   tls:
     []
-    # - secretName: qtest-example-tls
+    # - secretName: qtest-svc-tls
     #   hosts:
-    #     - foo.qtest.com
+    #     - svc.qtest.com
   https: false
 
 # CD Pipeline use only

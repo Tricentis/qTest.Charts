@@ -18,7 +18,7 @@ service:
   type: LoadBalancer
   port: 3080
   targetPort: 3080
-  servicename: qtest-launch-service
+  serviceName: qtest-launch-service
 
 qTestLaunch:
   qTestLaunchDBName: qtest
@@ -31,22 +31,42 @@ qTestLaunch:
   qTestLaunchTCPWD: "qTest"
   qTestLaunchPort: "3080"
 
+
+#### Ingress/IngressClass (> K8s 1.18-1.22+) #####
+ingressClass:
+  enabled: true
+  labels: {}
+  controller: ingress.k8s.aws/alb
+  isDefaultClass: true
+  # Use to force a networking.k8s.io API Version for certain CI/CD applications. Ex. "v1"
+  fallbackApiVersion: ""
+
 ingress:
   enabled: true
-  annotations:
-    kubernetes.io/ingress.class: "nginx"
-  canary:
-    annotations: {}
+  name: qtest-launch-ingress
   labels: {}
+  annotations: {}
+  canary:
+    annotationPrefix: ""
+    annotations: {}
+      # canary-by-header: []
+      # canary-by-header-pattern: []
   hosts:
-    - launch.local
-  paths:
-    - /
+    host: svc.qtest.com
+
+  paths: []
+
   extraPaths:
-    []
+    - path: /*
+      pathType: ImplementationSpecific
+
   tls:
     []
+    # - secretName: qtest-svc-tls
+    #   hosts:
+    #     - svc.qtest.com
   https: false
+
 
 # VPA values
 vpaAutoscaling:

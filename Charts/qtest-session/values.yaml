@@ -23,7 +23,7 @@ service:
   type: LoadBalancer
   port: 8080
   targetPort: 8080
-  servicename: qtest-session-service
+  serviceName: qtest-session-service
 
 qTestSession:
   qTestSessionJSHome: /usr/local/sessions-js
@@ -39,22 +39,41 @@ qTestSession:
   qTestSessionStorageRootPath: /data
   qTestSessionSecretKey: Q3AyVEJYQ0lHb3N3dWs1eklwTG1nQm1QRkxWMDVrU1RKRHBWMXNaM3Y4VVBoWFBZMERzaERVdmwwOW1seVdETw==
 
+#### Ingress/IngressClass (> K8s 1.18-1.22+) #####
+ingressClass:
+  enabled: true
+  labels: {}
+  controller: ingress.k8s.aws/alb
+  isDefaultClass: true
+  # Use to force a networking.k8s.io API Version for certain CI/CD applications. Ex. "v1"
+  fallbackApiVersion: ""
+
 ingress:
   enabled: true
-  annotations:
-    kubernetes.io/ingress.class: "nginx"
-  canary:
-    annotations: {}
+  name: qtest-session-ingress
   labels: {}
+  annotations: {}
+  canary:
+    annotationPrefix: ""
+    annotations: {}
+      # canary-by-header: []
+      # canary-by-header-pattern: []
   hosts:
-    - session.local
-  paths:
-    - /
+    host: qtest.svc.com
+
+  paths: []
+
   extraPaths:
-    []
+    - path: /*
+      pathType: ImplementationSpecific
+
   tls:
     []
+    # - secretName: qtest-svc-tls
+    #   hosts:
+    #     - svc.qtest.com
   https: false
+
 
 persistence:
   enabled: false

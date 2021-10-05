@@ -1,0 +1,14 @@
+{{- if .Values.ingressClass.enabled }}
+{{- if semverCompare ">=1.18" .Capabilities.KubeVersion.GitVersion -}}
+apiVersion: networking.k8s.io/v1
+{{- else -}}
+apiVersion: networking.k8s.io/v1beta1
+{{- end}}
+kind: IngressClass
+metadata:
+  name: "{{ include "qtest-scenario.fullname" . }}-ingressclass"
+  annotations:
+    ingressclass.kubernetes.io/is-default-class: {{ .Values.ingressClass.isDefaultClass | quote }}
+spec:
+  controller: {{ .Values.ingressClass.controller }}
+{{- end }}
