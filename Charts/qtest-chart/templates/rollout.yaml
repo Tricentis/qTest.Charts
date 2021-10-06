@@ -10,9 +10,9 @@ spec:
     kind: Deployment
     name: mgr-ui-deployment
   strategy:
-    canary:
-      maxSurge: "25%"
-      maxUnavailable: 0
+   {{- with .Values.rollouts.strategy -}}
+      {{- toYaml . | nindent 4 }}
+   {{- end }} 
       canaryService: canary-mgr-service
       stableService: mgr-service
       trafficRouting:
@@ -48,9 +48,9 @@ spec:
     kind: Deployment
     name: mgr-poller-deployment
   strategy:
-    canary:
-      maxSurge: "25%"
-      maxUnavailable: 0
+   {{- with .Values.rollouts.strategy -}}
+      {{- toYaml . | nindent 4 }}
+   {{- end }} 
       steps:
       - setWeight: 20
       {{- if .Values.metrics.enabled }}
@@ -75,9 +75,9 @@ spec:
     kind: Deployment
     name: mgr-notification-deployment
   strategy:
-    canary:
-      maxSurge: "25%"
-      maxUnavailable: 0
+   {{- with .Values.rollouts.strategy -}}
+      {{- toYaml . | nindent 4 }}
+   {{- end }} 
       canaryService: canary-mgr-service-notification
       stableService: mgr-service-notification
       trafficRouting:
@@ -113,9 +113,9 @@ spec:
     kind: Deployment
     name: mgr-api-deployment
   strategy:
-    canary:
-      maxSurge: "25%"
-      maxUnavailable: 0
+   {{- with .Values.rollouts.strategy -}}
+      {{- toYaml . | nindent 4 }}
+   {{- end }} 
       canaryService: canary-mgr-service-api
       stableService: mgr-service-api
       trafficRouting:

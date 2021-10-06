@@ -8,6 +8,11 @@ reloader:
 rollouts:
   enabled: false
   ingressClassName: alb
+  strategy:
+    canary:
+      maxSurge: "25%"
+      maxUnavailable: 0
+
 
 deployments:
   enabled: true
