@@ -51,17 +51,6 @@ spec:
     canary:
       maxSurge: "25%"
       maxUnavailable: 0
-      canaryService: canary-mgr-service
-      stableService: mgr-service
-      trafficRouting:
-        {{ .Values.rollouts.ingressClassName }}:
-          annotationPrefix: {{ .Values.ingress.canary.annotationPrefix }}
-          {{- with .Values.ingress.canary.annotations }}
-          additionalIngressAnnotations:
-          {{- toYaml . | nindent 12 }}
-          {{- end }}
-          ingress: mgr-ingress
-          servicePort: 443
       steps:
       - setWeight: 20
       {{- if .Values.metrics.enabled }}

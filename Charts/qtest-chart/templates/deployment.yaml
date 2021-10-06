@@ -1,4 +1,3 @@
-{{- if .Values.deployments.enabled -}}
 {{- $existingImageCredentials := .Values.secrets.existingImageCredentials -}}
 {{- $imageCredentials := .Values.imageCredentials.name -}}
 {{- $apiProfile := .Values.testconductor.environment.od.api -}}
@@ -26,7 +25,11 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
+  {{- if .Values.rollouts.enabled }}
+  replicas: 0
+  {{- else }}
   replicas: {{ .Values.autoscaling.minReplicas.ui }}
+  {{- end }}
   revisionHistoryLimit: 3
   selector:
     matchLabels:
@@ -173,7 +176,11 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
+  {{- if .Values.rollouts.enabled }}
+  replicas: 0
+  {{- else }}
   replicas: {{ .Values.autoscaling.minReplicas.poller }}
+  {{- end }}
   revisionHistoryLimit: 3
   selector:
     matchLabels:
@@ -279,7 +286,11 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
+  {{- if .Values.rollouts.enabled }}
+  replicas: 0
+  {{- else }}
   replicas: {{ .Values.autoscaling.minReplicas.notification }}
+  {{- end }}
   revisionHistoryLimit: 3
   selector:
     matchLabels:
@@ -426,7 +437,11 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
+  {{- if .Values.rollouts.enabled }}
+  replicas: 0
+  {{- else }}
   replicas: {{ .Values.autoscaling.minReplicas.api }}
+  {{- end }}
   revisionHistoryLimit: 3
   selector:
     matchLabels:
@@ -558,4 +573,3 @@ spec:
       {{- else }}
         emptyDir: {}
       {{- end }}
-{{- end }}
