@@ -16,7 +16,7 @@ spec:
       canaryService: canary-mgr-service
       stableService: mgr-service
       trafficRouting:
-        {{ .Values.ingress.ingressClassName }}:
+        {{ .Values.rollouts.ingressClassName }}:
           annotationPrefix: {{ .Values.ingress.canary.annotationPrefix }}
           {{- with .Values.ingress.canary.annotations }}
           additionalIngressAnnotations:
@@ -54,7 +54,7 @@ spec:
       canaryService: canary-mgr-service
       stableService: mgr-service
       trafficRouting:
-        {{ .Values.ingress.ingressClassName }}:
+        {{ .Values.rollouts.ingressClassName }}:
           annotationPrefix: {{ .Values.ingress.canary.annotationPrefix }}
           {{- with .Values.ingress.canary.annotations }}
           additionalIngressAnnotations:
@@ -92,7 +92,7 @@ spec:
       canaryService: canary-mgr-service-notification
       stableService: mgr-service-notification
       trafficRouting:
-        {{ .Values.ingress.ingressClassName }}:
+        {{ .Values.rollouts.ingressClassName }}:
           annotationPrefix: {{ .Values.ingress.canary.annotationPrefix }}
           {{- with .Values.ingress.canary.annotations }}
           additionalIngressAnnotations:
@@ -130,7 +130,7 @@ spec:
       canaryService: canary-mgr-service-api
       stableService: mgr-service-api
       trafficRouting:
-        {{ .Values.ingress.ingressClassName }}:
+        {{ .Values.rollouts.ingressClassName }}:
           annotationPrefix: {{ .Values.ingress.canary.annotationPrefix }}
           {{- with .Values.ingress.canary.annotations }}
           additionalIngressAnnotations:

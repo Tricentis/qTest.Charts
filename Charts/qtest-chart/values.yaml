@@ -7,6 +7,7 @@ reloader:
 
 rollouts:
   enabled: false
+  ingressClassName: alb
 
 deployments:
   enabled: true
@@ -166,7 +167,7 @@ ingress:
   labels: {}
   annotations: {}
   canary:
-    annotationPrefix: ""
+    annotationPrefix: alb.ingress.kubernetes.io
     annotations: {}
       # canary-by-header: []
       # canary-by-header-pattern: []
