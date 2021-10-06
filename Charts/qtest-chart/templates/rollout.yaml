@@ -1,164 +1,14 @@
 {{- if .Values.rollouts.enabled -}}
-{{- $existingImageCredentials := .Values.secrets.existingImageCredentials -}}
-{{- $imageCredentials := .Values.imageCredentials.name -}}
-{{- $apiProfile := .Values.testconductor.environment.od.api -}}
-{{- $uiProfile := .Values.testconductor.environment.od.ui -}}
-{{- $pollerProfile := .Values.testconductor.environment.od.poller -}}
-{{- $notificationProfile := .Values.testconductor.environment.od.notification -}}
-{{- $isOnPremise := .Values.testconductor.environment.isOnPremise -}}
-{{- if .Values.testconductor.environment.isOnPremise }}
-{{- $apiProfile = .Values.testconductor.environment.op.api -}}
-{{- $uiProfile = .Values.testconductor.environment.op.ui -}}
-{{- $pollerProfile = .Values.testconductor.environment.op.poller -}}
-{{- $notificationProfile = .Values.testconductor.environment.op.notification -}}
-{{- end }}
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: mgr-rollout
-  {{- with .Values.annotations }}
-  annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
-  labels:
-    app: qtest-mgr
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+  name: mgr-ui-rollout
 spec:
   replicas: {{ .Values.autoscaling.minReplicas.ui }}
-  revisionHistoryLimit: 3
-  selector:
-    matchLabels:
-      app: qtest-mgr
-      release: {{ .Release.Name }}
-  template:
-    metadata:
-      {{- if .Values.podAnnotations }}
-      annotations:
-      {{- range $key, $value := .Values.podAnnotations }}
-        {{ $key }}: {{ $value | quote }}
-      {{- end }}
-      {{- end }}
-      labels:
-        app: qtest-mgr
-        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-        release: "{{ .Release.Name }}"
-        heritage: "{{ .Release.Service }}"
-    spec:
-    {{- with .Values.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-      {{- if .Values.secrets.existingImageCredentials -}}
-      imagePullSecrets:
-        - name: {{ $existingImageCredentials }}
-      {{- else if .Values.imageCredentials.enabled -}}
-      imagePullSecrets:
-        - name: {{ $imageCredentials }}
-      {{- end }}
-      serviceAccountName: {{ template "qtest-chart.serviceAccountName" . }}
-      automountServiceAccountToken: {{ .Values.serviceAccount.automountsatoken }}
-      containers:
-      - name: {{ .Chart.Name }}
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        livenessProbe:
-          {{ .Values.livenessProbe | toYaml | indent 10 | trim }}
-        readinessProbe:
-          {{ .Values.readinessProbe | toYaml | indent 10 | trim }}
-        startupProbe:
-          {{ .Values.startupProbe | toYaml | indent 10 | trim }}
-        resources:
-          {{- toYaml .Values.resources | nindent 10 }}
-        ports:
-          - name: http
-            containerPort: {{ .Values.service.port }}
-            protocol: TCP
-        envFrom:
-          - configMapRef:
-              name: qtest-manager-config
-          - secretRef:
-              name: qtest-manager-secret
-        env:
-        {{- if .Values.env }}
-{{- toYaml .Values.env | nindent 11 }}
-        {{- end }}
-           - name: testconductor.environment
-             value: {{ $uiProfile }}
-        volumeMounts:
-        - name: qtest-data
-          mountPath: /mnt/data/storage
-        {{- if $isOnPremise }}
-        - name: qtest-onpremise-storage
-          mountPath: /mnt/data/qtest
-        {{- end }}
-      {{- if .Values.SigSci.enabled }}
-      - name: sigsci-agent
-        image: signalsciences/sigsci-agent:latest
-        imagePullPolicy: Always
-        resources:
-          requests:
-            memory: "0.5Gi"
-            cpu: "0.5"
-          limits:
-            memory: "1Gi"
-            cpu: "1"
-        env:
-        - name: SIGSCI_ACCESSKEYID
-          valueFrom:
-            secretKeyRef:
-              name: sigsci-secret
-              key: accesskeyid
-        - name: SIGSCI_SECRETACCESSKEY
-          valueFrom:
-            secretKeyRef:
-              name: sigsci-secret
-              key: secretaccesskey
-        # Configure the revproxy listener to listen on the original web application port 8000
-        # forwarding to the app on the alternate port 8001 as the upstream
-        - name: SIGSCI_REVPROXY_LISTENER
-          value: "http:{listener='http://0.0.0.0:{{ .Values.service.targetSigSciPort }}',upstreams='http://127.0.0.1:{{ .Values.service.targetPort }}',access-log='/dev/stdout'}"
-        ports:
-        - containerPort: {{ .Values.service.targetSigSciPort }}
-        securityContext:
-          # The sigsci-agent container should run with its root filesystem read only
-          readOnlyRootFilesystem: true
-        volumeMounts:
-        # Default volume mount location for sigsci-agent writeable data
-        # NOTE: Also change `SIGSCI_SHARED_CACHE_DIR` (default `/sigsci/tmp/cache`)
-        #       if mountPath is changed, but best not to change.
-        - name: sigsci-tmp
-          mountPath: /sigsci/tmp
-      {{- end }}
-      volumes:
-      {{- if .Values.SigSci.enabled }}
-        - name: sigsci-tmp
-      {{- end }}
-        {{- if $isOnPremise }}
-        - name: qtest-onpremise-storage
-          persistentVolumeClaim:
-            claimName: {{ .Values.persistence.onPremiseStorageClaim }}
-        {{- end }}      
-        - name: qtest-data
-        {{- if .Values.persistence.existingClaim }}
-          persistentVolumeClaim:
-            claimName: {{ .Values.persistence.existingClaim }}
-        {{- else if .Values.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ template "qtest-chart.fullname" . }}
-        {{- else }}
-          emptyDir: {}
-        {{- end }}
-  minReadySeconds: 30
+  workloadRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: mgr-ui-deployment
   strategy:
     canary:
       maxSurge: "25%"
@@ -190,156 +40,19 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: mgr-api-rollout
-  {{- with .Values.annotations }}
-  annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
-  labels:
-    app: qtest-mgr-api
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+  name: mgr-poller-rollout
 spec:
-  replicas: {{ .Values.autoscaling.minReplicas.api }}
-  revisionHistoryLimit: 3
-  selector:
-    matchLabels:
-      app: qtest-mgr-api
-      release: {{ .Release.Name }}
-  template:
-    metadata:
-      {{- if .Values.podAnnotations }}
-      annotations:
-      {{- range $key, $value := .Values.podAnnotations }}
-        {{ $key }}: {{ $value | quote }}
-      {{- end }}
-      {{- end }}
-      labels:
-        app: qtest-mgr-api
-        release: {{ .Release.Name }}
-        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-        heritage: "{{ .Release.Service }}"
-    spec:
-    {{- with .Values.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-      {{- if .Values.secrets.existingImageCredentials }}
-      imagePullSecrets:
-        - name: {{ $existingImageCredentials }}
-      {{- else if .Values.imageCredentials.enabled }}
-      imagePullSecrets:
-        - name: {{ $imageCredentials }}
-      {{- end }}
-      serviceAccountName: {{ template "qtest-chart.serviceAccountName" . }}
-      automountServiceAccountToken: {{ .Values.serviceAccount.automountsatoken }}
-      containers:
-      - name: {{ .Chart.Name }}
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        livenessProbe:
-          {{ .Values.livenessProbe | toYaml | indent 10 | trim }}
-        readinessProbe:
-          {{ .Values.readinessProbe | toYaml | indent 10 | trim }}
-        startupProbe:
-          {{ .Values.startupProbe | toYaml | indent 10 | trim }}
-        resources:
-          {{- toYaml .Values.resources | nindent 10 }}
-        ports:
-          - name: http
-            containerPort: {{ .Values.service.port }}
-            protocol: TCP
-        envFrom:
-          - configMapRef:
-              name: qtest-manager-config
-          - secretRef:
-              name: qtest-manager-secret
-        env:
-        {{- if .Values.env }}
-{{- toYaml .Values.env | nindent 11 }}
-        {{- end }}
-           - name: testconductor.environment
-             value: {{ $apiProfile }} 
-        volumeMounts:
-        - name: qtest-data
-          mountPath: /mnt/data/storage
-        {{- if $isOnPremise }}
-        - name: qtest-onpremise-storage
-          mountPath: /mnt/data/qtest
-        {{- end }}
-      {{- if .Values.SigSci.enabled }}
-      - name: sigsci-agent
-        image: signalsciences/sigsci-agent:latest
-        imagePullPolicy: Always
-        resources:
-          requests:
-            memory: "0.5Gi"
-            cpu: "0.5"
-          limits:
-            memory: "1Gi"
-            cpu: "1"
-        env:
-        - name: SIGSCI_ACCESSKEYID
-          valueFrom:
-            secretKeyRef:
-              name: sigsci-secret
-              key: accesskeyid
-        - name: SIGSCI_SECRETACCESSKEY
-          valueFrom:
-            secretKeyRef:
-              name: sigsci-secret
-              key: secretaccesskey
-        # Configure the revproxy listener to listen on the original web application port 8000
-        # forwarding to the app on the alternate port 8001 as the upstream
-        - name: SIGSCI_REVPROXY_LISTENER
-          value: "http:{listener='http://0.0.0.0:{{ .Values.service.targetSigSciPort }}',upstreams='http://127.0.0.1:{{ .Values.service.targetPort }}',access-log='/dev/stdout'}"
-        ports:
-        - containerPort: {{ .Values.service.targetSigSciPort }}
-        securityContext:
-          # The sigsci-agent container should run with its root filesystem read only
-          readOnlyRootFilesystem: true
-        volumeMounts:
-        # Default volume mount location for sigsci-agent writeable data
-        # NOTE: Also change `SIGSCI_SHARED_CACHE_DIR` (default `/sigsci/tmp/cache`)
-        #       if mountPath is changed, but best not to change.
-        - name: sigsci-tmp
-          mountPath: /sigsci/tmp
-      {{- end }}
-      volumes:
-      {{- if .Values.SigSci.enabled }}
-        - name: sigsci-tmp
-      {{- end }}
-        {{- if $isOnPremise }}
-        - name: qtest-onpremise-storage
-          persistentVolumeClaim:
-            claimName: {{ .Values.persistence.onPremiseStorageClaim }}
-        {{- end }}      
-        - name: qtest-data
-        {{- if .Values.persistence.existingClaim }}
-          persistentVolumeClaim:
-            claimName: {{ .Values.persistence.existingClaim }}
-        {{- else if .Values.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ template "qtest-chart.fullname" . }}
-        {{- else }}
-          emptyDir: {}
-        {{- end }}
-  minReadySeconds: 30
+  replicas: {{ .Values.autoscaling.minReplicas.ui }}
+  workloadRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: mgr-poller-deployment
   strategy:
     canary:
       maxSurge: "25%"
       maxUnavailable: 0
-      canaryService: canary-mgr-service-api
-      stableService: mgr-service-api
+      canaryService: canary-mgr-service
+      stableService: mgr-service
       trafficRouting:
         {{ .Values.ingress.ingressClassName }}:
           annotationPrefix: {{ .Values.ingress.canary.annotationPrefix }}
@@ -366,149 +79,12 @@ apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
   name: mgr-notification-rollout
-  {{- with .Values.annotations }}
-  annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
-  labels:
-    app: qtest-mgr-notification
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.autoscaling.minReplicas.notification }}
-  revisionHistoryLimit: 3
-  selector:
-    matchLabels:
-      app: qtest-mgr-notification
-      release: {{ .Release.Name }}
-  template:
-    metadata:
-      {{- if .Values.podAnnotations }}
-      annotations:
-      {{- range $key, $value := .Values.podAnnotations }}
-        {{ $key }}: {{ $value | quote }}
-      {{- end }}
-      {{- end }}
-      labels:
-        app: qtest-mgr-notification
-        release: {{ .Release.Name }}
-        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-        heritage: {{ .Release.Service }}
-    spec:
-    {{- with .Values.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-      {{- if .Values.secrets.existingImageCredentials }}
-      imagePullSecrets:
-        - name: {{ $existingImageCredentials }}
-      {{- else if .Values.imageCredentials.enabled }}
-      imagePullSecrets:
-        - name: {{ $imageCredentials }}
-      {{- end }}
-      serviceAccountName: {{ template "qtest-chart.serviceAccountName" . }}
-      automountServiceAccountToken: {{ .Values.serviceAccount.automountsatoken }}
-      containers:
-      - name: {{ .Chart.Name }}
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        livenessProbe:
-          {{ .Values.livenessProbe | toYaml | indent 10 | trim }}
-        readinessProbe:
-          {{ .Values.readinessProbe | toYaml | indent 10 | trim }}
-        startupProbe:
-          {{ .Values.startupProbe | toYaml | indent 10 | trim }}
-        resources:
-          {{- toYaml .Values.resources | nindent 10 }}
-        ports:
-          - name: http
-            containerPort: {{ .Values.service.port }}
-            protocol: TCP
-        envFrom:
-          - configMapRef:
-              name: qtest-manager-notification-config
-          - secretRef:
-              name: qtest-manager-secret
-        env:
-        {{- if .Values.env }}
-{{- toYaml .Values.env | nindent 11 }}
-        {{- end }}
-           - name: testconductor.environment
-             value: {{ $notificationProfile }}
-        volumeMounts:
-        - name: qtest-data
-          mountPath: /mnt/data/storage
-        {{- if $isOnPremise }}
-        - name: qtest-onpremise-storage
-          mountPath: /mnt/data/qtest
-        {{- end }}
-      {{- if .Values.SigSci.enabled }}
-      - name: sigsci-agent
-        image: signalsciences/sigsci-agent:latest
-        imagePullPolicy: Always
-        resources:
-          requests:
-            memory: "0.5Gi"
-            cpu: "0.5"
-          limits:
-            memory: "1Gi"
-            cpu: "1"
-        env:
-        - name: SIGSCI_ACCESSKEYID
-          valueFrom:
-            secretKeyRef:
-              name: sigsci-secret
-              key: accesskeyid
-        - name: SIGSCI_SECRETACCESSKEY
-          valueFrom:
-            secretKeyRef:
-              name: sigsci-secret
-              key: secretaccesskey
-        # Configure the revproxy listener to listen on the original web application port 8000
-        # forwarding to the app on the alternate port 8001 as the upstream
-        - name: SIGSCI_REVPROXY_LISTENER
-          value: "http:{listener='http://0.0.0.0:{{ .Values.service.targetSigSciPort }}',upstreams='http://127.0.0.1:{{ .Values.service.targetPort }}',access-log='/dev/stdout'}"
-        ports:
-        - containerPort: {{ .Values.service.targetSigSciPort }}
-        securityContext:
-          # The sigsci-agent container should run with its root filesystem read only
-          readOnlyRootFilesystem: true
-        volumeMounts:
-        # Default volume mount location for sigsci-agent writeable data
-        # NOTE: Also change `SIGSCI_SHARED_CACHE_DIR` (default `/sigsci/tmp/cache`)
-        #       if mountPath is changed, but best not to change.
-        - name: sigsci-tmp
-          mountPath: /sigsci/tmp
-      {{- end }}
-      volumes:
-      {{- if .Values.SigSci.enabled }}
-        - name: sigsci-tmp
-      {{- end }}
-        {{- if $isOnPremise }}
-        - name: qtest-onpremise-storage
-          persistentVolumeClaim:
-            claimName: {{ .Values.persistence.onPremiseStorageClaim }}
-        {{- end }}      
-        - name: qtest-data
-        {{- if .Values.persistence.existingClaim }}
-          persistentVolumeClaim:
-            claimName: {{ .Values.persistence.existingClaim }}
-        {{- else if .Values.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ template "qtest-chart.fullname" . }}
-        {{- else }}
-          emptyDir: {}
-        {{- end }}
-  minReadySeconds: 30
+  replicas: {{ .Values.autoscaling.minReplicas.ui }}
+  workloadRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: mgr-notification-deployment
   strategy:
     canary:
       maxSurge: "25%"
@@ -540,113 +116,28 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: mgr-poller-rollout
-  {{- with .Values.annotations }}
-  annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
-  labels:
-    app: qtest-mgr-poller
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+  name: mgr-api-rollout
 spec:
-  replicas: {{ .Values.autoscaling.minReplicas.poller }}
-  revisionHistoryLimit: 3
-  selector:
-    matchLabels:
-      app: qtest-mgr-poller
-      release: {{ .Release.Name }}
-  template:
-    metadata:
-      {{- if .Values.podAnnotations }}
-      annotations:
-      {{- range $key, $value := .Values.podAnnotations }}
-        {{ $key }}: {{ $value | quote }}
-      {{- end }}
-      {{- end }}
-      labels:
-        app: qtest-mgr-poller
-        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-        release: "{{ .Release.Name }}"
-        heritage: "{{ .Release.Service }}"
-    spec:
-    {{- with .Values.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-      {{- if .Values.secrets.existingImageCredentials }}
-      imagePullSecrets:
-      - name: {{ .Values.secrets.existingImageCredentials }}
-      {{- else if .Values.imageCredentials.enabled }}
-      imagePullSecrets:
-      - name: {{ .Values.imageCredentials.name }}
-      {{- end }}
-      serviceAccountName: {{ template "qtest-chart.serviceAccountName" . }}
-      automountServiceAccountToken: {{ .Values.serviceAccount.automountsatoken }}
-      containers:
-      - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        name: {{ .Chart.Name }}
-        livenessProbe:
-          {{ .Values.livenessProbe | toYaml | indent 10 | trim }}
-        readinessProbe:
-          {{ .Values.readinessProbe | toYaml | indent 10 | trim }}
-        startupProbe:
-          {{ .Values.startupProbe | toYaml | indent 10 | trim }}
-        resources:
-          {{- toYaml .Values.resources | nindent 10 }}
-        ports:
-        - containerPort: {{ .Values.service.port }}
-          name: http
-          protocol: TCP
-        env:
-        {{- if .Values.env }}
-{{- toYaml .Values.env | nindent 11 }}
-        {{- end }}
-           - name: testconductor.environment
-             value: {{  $pollerProfile }}
-        envFrom:
-          - configMapRef:
-              name: qtest-manager-config
-          - secretRef:
-              name: qtest-manager-secret
-        volumeMounts:
-        - name: qtest-data
-          mountPath: /mnt/data/storage
-        {{- if $isOnPremise }}
-        - name: qtest-onpremise-storage
-          mountPath: /mnt/data/qtest
-        {{- end }}
-      volumes:
-      {{- if $isOnPremise }}
-        - name: qtest-onpremise-storage
-          persistentVolumeClaim:
-            claimName: {{ .Values.persistence.onPremiseStorageClaim }}
-      {{- end }}      
-        - name: qtest-data
-      {{- if .Values.persistence.existingClaim }}
-        persistentVolumeClaim:
-          claimName: {{ .Values.persistence.existingClaim }}
-      {{- else if .Values.persistence.enabled }}
-        persistentVolumeClaim:
-          claimName: {{ template "qtest-chart.fullname" . }}
-      {{- else }}
-        emptyDir: {}
-      {{- end }}
-  minReadySeconds: 30
+  replicas: {{ .Values.autoscaling.minReplicas.ui }}
+  workloadRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: mgr-api-deployment
   strategy:
     canary:
       maxSurge: "25%"
       maxUnavailable: 0
+      canaryService: canary-mgr-service-api
+      stableService: mgr-service-api
+      trafficRouting:
+        {{ .Values.ingress.ingressClassName }}:
+          annotationPrefix: {{ .Values.ingress.canary.annotationPrefix }}
+          {{- with .Values.ingress.canary.annotations }}
+          additionalIngressAnnotations:
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
+          ingress: mgr-ingress
+          servicePort: 443
       steps:
       - setWeight: 20
       {{- if .Values.metrics.enabled }}
