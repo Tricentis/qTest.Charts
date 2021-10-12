@@ -13,6 +13,6 @@ data:
   qTestSessionDBHostName: "{{ .Values.qTestSession.qTestSessionDBHostName }}"
   QTestManagerHost: "{{ .Values.qTestSession.qTestManagerHost }}"
   qTestSessionMasterToken: "{{ .Values.qTestSession.qTestSessionMasterToken }}"
-  qTestSessionStorageType: "{{ .Values.qTestSession.qTestSessionStorageType }}"
   qTestSessionStorageRootPath: "{{ .Values.qTestSession.qTestSessionStorageRootPath }}"
-
+  qTestSessionClamavURL: "{{ .Values.qTestSession.qTestSessionClamavURL }}"
+  qTestStorageBucketName: "{{ .Values.qTestSession.qTestStorageBucketName }}"

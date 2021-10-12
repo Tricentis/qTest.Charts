@@ -92,11 +92,16 @@ spec:
                 configMapKeyRef:
                   name: qtest-session-configmap
                   key: qTestSessionMasterToken
-            - name: SESSION_STORAGE_TYPE
+            - name: SESSION_STORAGE_BUCKET_NAME
               valueFrom:
                 configMapKeyRef:
                   name: qtest-session-configmap
-                  key: qTestSessionStorageType
+                  key: qTestStorageBucketName
+            - name: CLAMAV_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-session-configmap
+                  key: qTestSessionClamavURL
             - name: SESSION_STORAGE_ROOT_PATH
               valueFrom:
                 configMapKeyRef:
