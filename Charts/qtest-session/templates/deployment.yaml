@@ -97,6 +97,11 @@ spec:
                 configMapKeyRef:
                   name: qtest-session-configmap
                   key: qTestStorageBucketName
+            - name: SESSION_STORAGE_TYPE
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-session-configmap
+                  key: qTestSessionStorageType
             - name: CLAMAV_URL
               valueFrom:
                 configMapKeyRef:

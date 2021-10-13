@@ -39,6 +39,7 @@ qTestSession:
   qTestSessionSecretKey: Q3AyVEJYQ0lHb3N3dWs1eklwTG1nQm1QRkxWMDVrU1RKRHBWMXNaM3Y4VVBoWFBZMERzaERVdmwwOW1seVdETw==
   qTestStorageBucketName: aws-session-buket-name
   qTestSessionClamavURL: http://clam.qtest.local
+  qTestSessionStorageType: amazon_s3
 
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
 ingressClass:

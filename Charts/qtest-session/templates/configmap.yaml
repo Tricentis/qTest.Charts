@@ -16,3 +16,4 @@ data:
   qTestSessionStorageRootPath: "{{ .Values.qTestSession.qTestSessionStorageRootPath }}"
   qTestSessionClamavURL: "{{ .Values.qTestSession.qTestSessionClamavURL }}"
   qTestStorageBucketName: "{{ .Values.qTestSession.qTestStorageBucketName }}"
+  qTestSessionStorageType : "{{ .Values.qTestSession.qTestSessionStorageType }}"
