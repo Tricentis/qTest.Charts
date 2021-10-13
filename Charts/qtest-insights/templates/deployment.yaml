@@ -48,68 +48,28 @@ spec:
             - secretRef:
                 name: qtest-insights-secret
           volumeMounts:
-            - name: qtest-insights-logs
+            - name: qtest-insights
               mountPath: /usr/local/tomcat/logs/
-            - name: qtest-insights-error-logs
+            - name: qtest-insights
               mountPath: /usr/local/tomcat/webapps/ROOT/ErrorLog/
-            - name: qtest-insights-dashboards
+            - name: qtest-insights
               mountPath: /usr/local/tomcat/webapps/ROOT/SavedDashboards/
-            - name: qtest-insights-bookmarks
+            - name: qtest-insights
               mountPath: /usr/local/tomcat/webapps/ROOT/SavedBookmarks/
-            - name: qtest-insights-custom-reports
+            - name: qtest-insights
               mountPath: /usr/local/tomcat/webapps/ROOT/CustomReports/
-            - name: qtest-insights-rddatacache
+            - name: qtest-insights
               mountPath: /usr/local/tomcat/webapps/ROOT/rdDataCache
-            - name: qtest-insights-rddownload
+            - name: qtest-insights
               mountPath: /usr/local/tomcat/webapps/ROOT/rdDownload
       volumes:
-        - name: qtest-insights-logs
-          {{- if .Values.persistence.enabled }}
+        - name: qtest-insights
+        {{- if .Values.persistence.existingClaim }}
           persistentVolumeClaim:
-            claimName: qtest-insights-logs
-          {{- else }}
-          emptyDir: {}
-          {{- end }}
-        - name: qtest-insights-error-logs
-          {{- if .Values.persistence.enabled }}
+            claimName: {{ .Values.persistence.existingClaim }}
+        {{- else if .Values.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: qtest-insights-error-logs
-          {{- else }}
+            claimName: {{ template "qtest-insights.fullname" . }}
+        {{- else }}
           emptyDir: {}
         {{- end }}
-        - name: qtest-insights-dashboards
-          {{- if .Values.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: qtest-insights-dashboards
-          {{- else }}
-          emptyDir: {}
-        {{- end }}
-        - name: qtest-insights-bookmarks
-          {{- if .Values.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: qtest-insights-bookmarks
-          {{- else }}
-          emptyDir: {}
-        {{- end }}
-        - name: qtest-insights-custom-reports
-          {{- if .Values.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: qtest-insights-custom-reports
-          {{- else }}
-          emptyDir: {}
-        {{- end }}
-        - name: qtest-insights-rddatacache
-          {{- if .Values.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: qtest-insights-rddatacache
-          {{- else }}
-          emptyDir: {}
-        {{- end }}
-        - name: qtest-insights-rddownload
-          {{- if .Values.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: qtest-insights-rddownload
-          {{- else }}
-          emptyDir: {}
-        {{- end }}
-

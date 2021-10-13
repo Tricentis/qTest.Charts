@@ -36,7 +36,6 @@ qTestInsights:
   qTestInsightsSessionDBHost: postgres.local
   qTestInsightsCSRFAllowPattern: \"$insights_security_csrf_trusted_source_pattern\"
 
-
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
 ingressClass:
   enabled: true
@@ -74,12 +73,12 @@ ingress:
 
 persistence:
   enabled: false
-  ## Set annotations on pvc
+  ## Set annotations on k8s pvc
   annotations: {}
 
   ## Specify an existing volume claim instead of creating a new one.
   ## When using this option all following options like storageClass, accessMode and size are ignored.
-  # existingClaim:
+  ## existingClaim:
 
   ## If defined, storageClassName: <storageClass>
   ## If set to "-", storageClassName: "", which disables dynamic provisioning
@@ -95,6 +94,7 @@ persistence:
   volumes: []
   ## Specify extra mounts. Refer to ".spec.containers.volumeMounts" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
   mounts: []
+
 
 # VPA values
 vpaAutoscaling:
