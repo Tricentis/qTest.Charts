@@ -1,4 +1,4 @@
-# qtest-chart
+# qTest
 Kubernetes Helm Chart Repository for qTest Applications
 
 ## Chart Details
