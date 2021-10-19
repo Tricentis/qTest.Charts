@@ -14,12 +14,12 @@ This chart will provision a functional and featured qTest products installation 
 
 To install the qTest Manager chart with the release name `qtestmanager`:
 ```bash
-$ helm repo add qtest https://qas-labs.github.io/qtest-chart/
+$ helm repo add qtest https://tricentis.github.io/qTest/
 
 Dry run test:
-$ helm install qtestmanager qtest/qtest-chart --dry-run
+$ helm install qtestmanager qtest/qtest-mgr --dry-run
 Install:
-$ helm install qtestmanager qtest/qtest-chart
+$ helm install qtestmanager qtest/qtest-mgr
 ```
 
 ## Configuration
@@ -31,7 +31,7 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
 
 ```bash
-$ helm install qtestmanager -f values.yaml qtest/qtest-chart
+$ helm install qtestmanager -f values.yaml qtest/qtest-mgr
 ```
 
 ## Configuration
@@ -86,7 +86,7 @@ kind: Ingress
 metadata:
   name: mgr-ingress
 spec:
-  ingressClassName: "qtest-chart-ingressclass"
+  ingressClassName: "qtest-mgr-ingressclass"
   rules:
     ...
 ```
