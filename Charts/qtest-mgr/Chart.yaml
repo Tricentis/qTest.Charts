@@ -1,5 +1,5 @@
 apiVersion: v2
-name: qtest-chart
+name: qtest-mgr
 description: A Helm chart for qTest Manager
 
 # A chart can be either an 'application' or a 'library' chart.
@@ -32,7 +32,7 @@ maintainers:
 - name: tomasw
   email: t.wallick@ext.tricentis.com
 
-home: https://github.com/QAS-Labs/qtest-chart.git
+home: https://github.com/Tricentis/qtest.git
 kubeVersion: ">=1.16.0-0"
 icon: https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_c2d6524c36c94138504f7a18bf179d76/tricentis-qtest.png
 # This is the chart version. This version number should be incremented each time you make changes

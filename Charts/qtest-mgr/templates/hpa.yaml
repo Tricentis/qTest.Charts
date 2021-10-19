@@ -5,7 +5,7 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: mgr-ui-rollout
   labels:
-    {{- include "qtest-chart.labels" . | nindent 4 }}
+    {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: argoproj.io/v1alpha1
@@ -32,7 +32,7 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: mgr-api-rollout
   labels:
-    {{- include "qtest-chart.labels" . | nindent 4 }}
+    {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: argoproj.io/v1alpha1
@@ -59,7 +59,7 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: mgr-poller-rollout
   labels:
-    {{- include "qtest-chart.labels" . | nindent 4 }}
+    {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: argoproj.io/v1alpha1
@@ -86,7 +86,7 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: mgr-notification-rollout
   labels:
-    {{- include "qtest-chart.labels" . | nindent 4 }}
+    {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: argoproj.io/v1alpha1
@@ -113,7 +113,7 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: mgr-ui-deployment
   labels:
-    {{- include "qtest-chart.labels" . | nindent 4 }}
+    {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -140,7 +140,7 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: mgr-api-deployment
   labels:
-    {{- include "qtest-chart.labels" . | nindent 4 }}
+    {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -167,7 +167,7 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: mgr-poller-deployment
   labels:
-    {{- include "qtest-chart.labels" . | nindent 4 }}
+    {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -194,7 +194,7 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: mgr-notification-deployment
   labels:
-    {{- include "qtest-chart.labels" . | nindent 4 }}
+    {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1

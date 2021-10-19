@@ -6,7 +6,7 @@ apiVersion: networking.k8s.io/v1beta1
 {{- end}}
 kind: IngressClass
 metadata:
-  name: "{{ include "qtest-chart.fullname" . }}-ingressclass"
+  name: "{{ include "qtest-mgr.fullname" . }}-ingressclass"
   annotations:
     ingressclass.kubernetes.io/is-default-class: {{ .Values.ingressClass.isDefaultClass | quote }}
 spec:

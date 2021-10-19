@@ -7,7 +7,7 @@ metadata:
     app: qtest-mgr
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-    chart: {{ template "qtest-chart.chart" . }}
+    chart: {{ template "qtest-mgr.chart" . }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -27,7 +27,7 @@ metadata:
     app: qtest-mgr-api
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-    chart: {{ template "qtest-chart.chart" . }}
+    chart: {{ template "qtest-mgr.chart" . }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -47,7 +47,7 @@ metadata:
     app: qtest-mgr-notification
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-    chart: {{ template "qtest-chart.chart" . }}
+    chart: {{ template "qtest-mgr.chart" . }}
 spec:
   type: {{ .Values.service.type }}
   ports:
