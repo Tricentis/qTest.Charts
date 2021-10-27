@@ -3,6 +3,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: {{ template "qtest-insights.fullname" . }}
+  namespace: {{ .Values.namespace.name }}
   labels:
     app: qtest-insights
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"

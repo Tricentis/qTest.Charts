@@ -7,6 +7,7 @@ apiVersion: networking.k8s.io/v1beta1
 kind: IngressClass
 metadata:
   name: "{{ include "qtest-insights-etl.fullname" . }}-ingressclass"
+  namespace: {{ .Values.namespace.name }}
   annotations:
     ingressclass.kubernetes.io/is-default-class: {{ .Values.ingressClass.isDefaultClass | quote }}
 spec:

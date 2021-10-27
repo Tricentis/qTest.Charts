@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: qtest-liquibase-config
+  namespace: {{ .Values.namespace.name }}
   labels:
     app: qtest-mgr
   {{- with .Values.liquibase.configmapAnnotations }}
@@ -16,6 +17,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: qtest-manager-config
+  namespace: {{ .Values.namespace.name }}
   labels:
     app: qtest-mgr
 data:
@@ -58,11 +60,14 @@ data:
   supportEmailAddress: "{{ .Values.qTestManager.mail.supportEmailAddress }}"
   integration.jira.testConnection.legacyEndpoint.clients: "{{ .Values.qTestManager.integration.jira.testConnectionLegacyEndpointClients }}"
   qtest.od.private: "{{ .Values.qTestManager.qTest.ODPrivate }}"
+  secret.volume.mount.path: "{{ .Values.qTestManager.secret.appVolumeMount }}"
+  client.dbcp.maxActive: "{{ .Values.qTestManager.client.dbcp.maxActive }}"
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: qtest-manager-notification-config
+  namespace: {{ .Values.namespace.name }}
   labels:
     app: qtest-mgr
 data:
@@ -107,3 +112,5 @@ data:
   com.qasymphony.qtest.event.service.ToscaQueueEventProcessingService.MAX_DEQUEUE: "{{ .Values.qTestManager.notification.ToscaQueueEventProcessingServiceMaxDequeue }}"
   action.task.executor.poolSize: "{{ .Values.qTestManager.notification.actionTaskExecutorPoolSize }}"
   spring.profiles.active: "{{ .Values.qTestManager.notification.springProfilesActive }}"
+  secret.volume.mount.path: "{{ .Values.qTestManager.secret.appVolumeMount }}"
+  client.dbcp.maxActive: "{{ .Values.qTestManager.client.dbcp.maxActive }}"

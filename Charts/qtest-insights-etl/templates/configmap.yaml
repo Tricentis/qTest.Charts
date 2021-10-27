@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: qtest-insights-etl-configmap
+  namespace: {{ .Values.namespace.name }}
   labels:
     app: qTestInsightsEtl
 data:

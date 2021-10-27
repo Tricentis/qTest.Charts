@@ -2,6 +2,10 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# universal namespace for all qtest app services
+namespace:
+  name: qtest
+
 reloader:
   enabled: false
 
@@ -38,11 +42,11 @@ podAnnotations: {}
 env: []
 
 image:
-  repository: 242129367204.dkr.ecr.us-east-1.amazonaws.com/qtestmgr
-  liquibase: 242129367204.dkr.ecr.us-east-1.amazonaws.com/liquibase
+  repository: qasymphony/manager
+  liquibase: qasymphony/manager-liquibase
   pullPolicy: IfNotPresent
-  tag: "10.6.0-a3c4241"
-  liquibasetag: "10.6.0-a3c4241"
+  tag: "10.5.1-06cc314"
+  liquibasetag: "10.5.1-06cc314"
   liquibasepullpolicy: IfNotPresent
 
 imageCredentials:
@@ -91,6 +95,8 @@ qTestManager:
       postgresReadOnlyUrl: "jdbc:postgresql://postgres_replica.local:5432/qtest"
       postgresReadOnlyUserName: "qtest"
       postgresReadOnlyPassword: ""
+    dbcp:
+      maxActive: 150
   elasticSearch:
     init: false
     disable: true
@@ -140,6 +146,9 @@ qTestManager:
   integration:
     jira:
       testConnectionLegacyEndpointClients: ""
+  secret:
+    volumeMount: /mnt/secrets/storage
+    appVolumeMount: /mnt/secrets/storage/..data
 
 testconductor:
   environment:

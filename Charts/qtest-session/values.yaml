@@ -1,4 +1,7 @@
 # Default values for qtest-session-chart.
+namespace:
+  name: qtest
+
 reloader:
   enabled: false
 
@@ -116,3 +119,17 @@ autoscaling:
   failureThreshold: 4
   targetCPUUtilizationPercentage: 85
   targetMemoryUtilizationPercentage: 85
+
+resources:
+  requests:
+    cpu: 1
+    memory: 1Gi
+  limits:
+    cpu: 1
+    memory: 1Gi
+
+limitRange:
+  enabled: false
+
+resourceQuota:
+  enabled: false

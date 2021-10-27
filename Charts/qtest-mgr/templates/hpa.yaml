@@ -4,6 +4,7 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   name: mgr-ui-rollout
+  namespace: {{ .Values.namespace.name }}
   labels:
     {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
@@ -31,6 +32,7 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   name: mgr-api-rollout
+  namespace: {{ .Values.namespace.name }}
   labels:
     {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
@@ -58,6 +60,7 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   name: mgr-poller-rollout
+  namespace: {{ .Values.namespace.name }}
   labels:
     {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
@@ -85,6 +88,7 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   name: mgr-notification-rollout
+  namespace: {{ .Values.namespace.name }}
   labels:
     {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
@@ -112,6 +116,7 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   name: mgr-ui-deployment
+  namespace: {{ .Values.namespace.name }}
   labels:
     {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
@@ -139,6 +144,7 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   name: mgr-api-deployment
+  namespace: {{ .Values.namespace.name }}
   labels:
     {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
@@ -166,6 +172,7 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   name: mgr-poller-deployment
+  namespace: {{ .Values.namespace.name }}
   labels:
     {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
@@ -193,6 +200,7 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   name: mgr-notification-deployment
+  namespace: {{ .Values.namespace.name }}
   labels:
     {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:

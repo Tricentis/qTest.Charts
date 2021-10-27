@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: "{{ include "qtest-pulse.fullname" . }}-test-connection"
+  namespace: {{ .Values.namespace.name }}
   labels:
     {{- include "qtest-pulse.labels" . | nindent 4 }}
   annotations:

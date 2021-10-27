@@ -3,6 +3,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
   name: mgr-ui-rollout
+  namespace: {{ .Values.namespace.name }}
 spec:
   replicas: {{ .Values.autoscaling.minReplicas.ui }}
   workloadRef:
@@ -41,6 +42,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
   name: mgr-poller-rollout
+  namespace: {{ .Values.namespace.name }}
 spec:
   replicas: {{ .Values.autoscaling.minReplicas.ui }}
   workloadRef:
@@ -68,6 +70,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
   name: mgr-notification-rollout
+  namespace: {{ .Values.namespace.name }}
 spec:
   replicas: {{ .Values.autoscaling.minReplicas.ui }}
   workloadRef:
@@ -106,6 +109,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
   name: mgr-api-rollout
+  namespace: {{ .Values.namespace.name }}
 spec:
   replicas: {{ .Values.autoscaling.minReplicas.ui }}
   workloadRef:

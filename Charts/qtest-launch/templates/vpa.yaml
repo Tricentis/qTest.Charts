@@ -3,6 +3,7 @@ apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
   name: {{ include "qtest-launch.fullname" . }}
+  namespace: {{ .Values.namespace.name }}
   labels:
     {{- include "qtest-launch.labels" . | nindent 4 }}
 spec:

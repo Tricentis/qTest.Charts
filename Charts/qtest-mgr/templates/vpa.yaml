@@ -4,8 +4,9 @@ apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
   name: mgr-deployment
+  namespace: {{ .Values.namespace.name }}
   labels:
-    {{- include "qtest-mgr.labels" . | nindent 4 }}
+    {{- include "qtest-chart.labels" . | nindent 4 }}
 spec:
   targetRef: 
     apiVersion: "apps/v1"
@@ -18,8 +19,9 @@ apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
   name: mgr-deployment-api
+  namespace: {{ .Values.namespace.name }}
   labels:
-    {{- include "qtest-mgr.labels" . | nindent 4 }}
+    {{- include "qtest-chart.labels" . | nindent 4 }}
 spec:
   targetRef: 
     apiVersion: "apps/v1"
@@ -32,8 +34,9 @@ apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
   name: mgr-deployment-poller
+  namespace: {{ .Values.namespace.name }}
   labels:
-    {{- include "qtest-mgr.labels" . | nindent 4 }}
+    {{- include "qtest-chart.labels" . | nindent 4 }}
 spec:
   targetRef: 
     apiVersion: "apps/v1"
@@ -46,8 +49,9 @@ apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
   name: mgr-deployment-notification
+  namespace: {{ .Values.namespace.name }}
   labels:
-    {{- include "qtest-mgr.labels" . | nindent 4 }}
+    {{- include "qtest-chart.labels" . | nindent 4 }}
 spec:
   targetRef: 
     apiVersion: "apps/v1"
@@ -61,8 +65,9 @@ apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
   name: mgr-rollout
+  namespace: {{ .Values.namespace.name }}
   labels:
-    {{- include "qtest-mgr.labels" . | nindent 4 }}
+    {{- include "qtest-chart.labels" . | nindent 4 }}
 spec:
   targetRef: 
     apiVersion: "argoproj.io/v1alpha1"
@@ -75,8 +80,9 @@ apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
   name: mgr-api-rollout
+  namespace: {{ .Values.namespace.name }}
   labels:
-    {{- include "qtest-mgr.labels" . | nindent 4 }}
+    {{- include "qtest-chart.labels" . | nindent 4 }}
 spec:
   targetRef: 
     apiVersion: "argoproj.io/v1alpha1"
@@ -89,8 +95,9 @@ apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
   name: mgr-poller-rollout
+  namespace: {{ .Values.namespace.name }}
   labels:
-    {{- include "qtest-mgr.labels" . | nindent 4 }}
+    {{- include "qtest-chart.labels" . | nindent 4 }}
 spec:
   targetRef: 
     apiVersion: "argoproj.io/v1alpha1"
@@ -103,8 +110,9 @@ apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
   name: mgr-notification-rollout
+  namespace: {{ .Values.namespace.name }}
   labels:
-    {{- include "qtest-mgr.labels" . | nindent 4 }}
+    {{- include "qtest-chart.labels" . | nindent 4 }}
 spec:
   targetRef: 
     apiVersion: "argoproj.io/v1alpha1"

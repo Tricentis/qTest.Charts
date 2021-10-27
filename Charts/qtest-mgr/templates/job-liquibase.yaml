@@ -2,6 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: mgr-liquibase-job
+  namespace: {{ .Values.namespace.name }}
   {{- with .Values.liquibase.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}

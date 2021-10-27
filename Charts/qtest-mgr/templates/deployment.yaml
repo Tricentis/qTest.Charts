@@ -15,6 +15,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mgr-ui-deployment
+  namespace: {{ .Values.namespace.name }}
   {{- with .Values.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -89,14 +90,9 @@ spec:
         envFrom:
         - configMapRef:
             name: qtest-manager-config
-        - secretRef:
-            name: qtest-manager-secret
         env:
-        {{- if .Values.env }}
-{{- toYaml .Values.env | nindent 11 }}
-        {{- end }}
-           - name: testconductor.environment
-             value: {{ $uiProfile }}
+        - name: testconductor.environment
+          value: {{ $uiProfile }}
         volumeMounts:
         - name: qtest-data
           mountPath: /mnt/data/storage
@@ -104,6 +100,9 @@ spec:
         - name: qtest-onpremise-storage
           mountPath: /mnt/data/qtest
         {{- end }}
+        - name: qtest-manager-secret-storage
+          mountPath: {{ .Values.qTestManager.secret.volumeMount }}
+          readOnly: true
       {{- if .Values.SigSci.enabled }}
       - name: sigsci-agent
         image: signalsciences/sigsci-agent:latest
@@ -143,6 +142,9 @@ spec:
           mountPath: /sigsci/tmp
       {{- end }}
       volumes:
+      - name: qtest-manager-secret-storage
+        secret:
+          secretName: qtest-manager-secret
       {{- if .Values.SigSci.enabled }}
       - name: sigsci-tmp
       {{- end }}
@@ -166,6 +168,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mgr-poller-deployment
+  namespace: {{ .Values.namespace.name }}
   {{- with .Values.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -240,14 +243,9 @@ spec:
         envFrom:
         - configMapRef:
             name: qtest-manager-config
-        - secretRef:
-            name: qtest-manager-secret
         env:
-        {{- if .Values.env }}
-{{- toYaml .Values.env | nindent 11 }}
-        {{- end }}
-           - name: testconductor.environment
-             value: {{ $pollerProfile }}
+        - name: testconductor.environment
+          value: {{ $pollerProfile }}
         volumeMounts:
         - name: qtest-data
           mountPath: /mnt/data/storage
@@ -255,7 +253,13 @@ spec:
         - name: qtest-onpremise-storage
           mountPath: /mnt/data/qtest
         {{- end }}
+        - name: qtest-manager-secret-storage
+          mountPath: {{ .Values.qTestManager.secret.volumeMount }}
+          readOnly: true
       volumes:
+      - name: qtest-manager-secret-storage
+        secret:
+          secretName: qtest-manager-secret
       {{- if $isOnPremise }}
       - name: qtest-onpremise-storage
         persistentVolumeClaim:
@@ -276,6 +280,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mgr-notification-deployment
+  namespace: {{ .Values.namespace.name }}
   {{- with .Values.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -350,14 +355,9 @@ spec:
         envFrom:
         - configMapRef:
             name: qtest-manager-notification-config
-        - secretRef:
-            name: qtest-manager-secret
         env:
-        {{- if .Values.env }}
-{{- toYaml .Values.env | nindent 11 }}
-        {{- end }}
-           - name: testconductor.environment
-             value: {{ $notificationProfile }}
+        - name: testconductor.environment
+          value: {{ $notificationProfile }}
         volumeMounts:
         - name: qtest-data
           mountPath: /mnt/data/storage
@@ -365,6 +365,9 @@ spec:
         - name: qtest-onpremise-storage
           mountPath: /mnt/data/qtest
         {{- end }}
+        - name: qtest-manager-secret-storage
+          mountPath: {{ .Values.qTestManager.secret.volumeMount }}
+          readOnly: true
       {{- if .Values.SigSci.enabled }}
       - name: sigsci-agent
         image: signalsciences/sigsci-agent:latest
@@ -404,6 +407,9 @@ spec:
           mountPath: /sigsci/tmp
       {{- end }}
       volumes:
+      - name: qtest-manager-secret-storage
+        secret:
+          secretName: qtest-manager-secret
       {{- if .Values.SigSci.enabled }}
       - name: sigsci-tmp
       {{- end }}
@@ -427,6 +433,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mgr-api-deployment
+  namespace: {{ .Values.namespace.name }}
   {{- with .Values.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -501,14 +508,9 @@ spec:
         envFrom:
         - configMapRef:
             name: qtest-manager-config
-        - secretRef:
-            name: qtest-manager-secret
         env:
-        {{- if .Values.env }}
-{{- toYaml .Values.env | nindent 11 }}
-        {{- end }}
-           - name: testconductor.environment
-             value: {{ $apiProfile }}
+        - name: testconductor.environment
+          value: {{ $apiProfile }}
         volumeMounts:
         - name: qtest-data
           mountPath: /mnt/data/storage
@@ -516,6 +518,9 @@ spec:
         - name: qtest-onpremise-storage
           mountPath: /mnt/data/qtest
         {{- end }}
+        - name: qtest-manager-secret-storage
+          mountPath: {{ .Values.qTestManager.secret.volumeMount }}
+          readOnly: true
       {{- if .Values.SigSci.enabled }}
       - name: sigsci-agent
         image: signalsciences/sigsci-agent:latest
@@ -555,6 +560,9 @@ spec:
           mountPath: /sigsci/tmp
       {{- end }}
       volumes:
+      - name: qtest-manager-secret-storage
+        secret:
+          secretName: qtest-manager-secret
       {{- if .Values.SigSci.enabled }}
       - name: sigsci-tmp
       {{- end }}

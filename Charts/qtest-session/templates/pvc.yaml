@@ -3,6 +3,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: {{ template "qtest-session.fullname" . }}
+  namespace: {{ .Values.namespace.name }}
   labels:
     app: test-conductor
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"

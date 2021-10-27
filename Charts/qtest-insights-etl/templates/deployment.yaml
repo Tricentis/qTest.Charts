@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: qtest-insights-etl
+  namespace: {{ .Values.namespace.name }}
   {{- with .Values.deployment.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -39,6 +40,8 @@ spec:
               port: {{ .Values.autoscaling.targetPort }}
             failureThreshold: {{ .Values.autoscaling.failureThreshold }}
             periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          resources:
+          {{- toYaml .Values.resources | nindent 12 }}
           ports:
             - containerPort: {{ .Values.service.port }}
               name: http

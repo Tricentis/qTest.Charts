@@ -3,6 +3,7 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   name: {{ include "qtest-session.fullname" . }}
+  namespace: {{ .Values.namespace.name }}
   labels:
     {{- include "qtest-session.labels" . | nindent 4 }}
 spec:

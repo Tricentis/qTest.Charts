@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: "{{ include "qtest-insights-etl.fullname" . }}-test-connection"
+  namespace: {{ .Values.namespace.name }}
   labels:
     {{- include "qtest-insights-etl.labels" . | nindent 4 }}
   annotations:

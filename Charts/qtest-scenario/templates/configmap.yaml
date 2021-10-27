@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: qtest-scenario-configmap
+  namespace: {{ .Values.namespace.name }}
   labels:
     app: qTestScenario
 data:

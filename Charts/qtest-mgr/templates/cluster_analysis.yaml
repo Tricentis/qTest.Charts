@@ -3,6 +3,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: ClusterAnalysisTemplate
 metadata:
   name: success-rates
+  namespace: {{ .Values.namespace.name }}
 spec:
   args:
   - name: service-name
