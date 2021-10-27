@@ -45,8 +45,8 @@ image:
   repository: qasymphony/manager
   liquibase: qasymphony/manager-liquibase
   pullPolicy: IfNotPresent
-  tag: "10.5.1-06cc314"
-  liquibasetag: "10.5.1-06cc314"
+  tag: "11.0.0-cdb273e"
+  liquibasetag: "11.0.0-cdb273e"
   liquibasepullpolicy: IfNotPresent
 
 imageCredentials:
