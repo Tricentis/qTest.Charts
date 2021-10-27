@@ -1,4 +1,4 @@
-# qTest
+# qTest Helm Charts
 Kubernetes Helm Chart Repository for qTest Applications
 
 ## Chart Details
@@ -14,12 +14,12 @@ This chart will provision a functional and featured qTest products installation 
 
 To install the qTest Manager chart with the release name `qtestmanager`:
 ```bash
-$ helm repo add qtest https://tricentis.github.io/qTest/
+$ helm repo add qtest https://tricentis.github.io/qTest.Charts/
 
 Dry run test:
-$ helm install qtestmanager qtest/qtest-mgr --dry-run
+$ helm install qtestmanager qTest.Charts/qtest-mgr --dry-run
 Install:
-$ helm install qtestmanager qtest/qtest-mgr
+$ helm install qtestmanager qTest.Charts/qtest-mgr
 ```
 
 ## Configuration
