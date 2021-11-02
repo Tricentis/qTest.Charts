@@ -6,7 +6,7 @@ metadata:
   name: mgr-deployment
   namespace: {{ .Values.namespace.name }}
   labels:
-    {{- include "qtest-chart.labels" . | nindent 4 }}
+    {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
   targetRef: 
     apiVersion: "apps/v1"
@@ -21,7 +21,7 @@ metadata:
   name: mgr-deployment-api
   namespace: {{ .Values.namespace.name }}
   labels:
-    {{- include "qtest-chart.labels" . | nindent 4 }}
+    {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
   targetRef: 
     apiVersion: "apps/v1"
@@ -36,7 +36,7 @@ metadata:
   name: mgr-deployment-poller
   namespace: {{ .Values.namespace.name }}
   labels:
-    {{- include "qtest-chart.labels" . | nindent 4 }}
+    {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
   targetRef: 
     apiVersion: "apps/v1"
@@ -51,7 +51,7 @@ metadata:
   name: mgr-deployment-notification
   namespace: {{ .Values.namespace.name }}
   labels:
-    {{- include "qtest-chart.labels" . | nindent 4 }}
+    {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
   targetRef: 
     apiVersion: "apps/v1"
@@ -67,7 +67,7 @@ metadata:
   name: mgr-rollout
   namespace: {{ .Values.namespace.name }}
   labels:
-    {{- include "qtest-chart.labels" . | nindent 4 }}
+    {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
   targetRef: 
     apiVersion: "argoproj.io/v1alpha1"
@@ -82,7 +82,7 @@ metadata:
   name: mgr-api-rollout
   namespace: {{ .Values.namespace.name }}
   labels:
-    {{- include "qtest-chart.labels" . | nindent 4 }}
+    {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
   targetRef: 
     apiVersion: "argoproj.io/v1alpha1"
@@ -97,7 +97,7 @@ metadata:
   name: mgr-poller-rollout
   namespace: {{ .Values.namespace.name }}
   labels:
-    {{- include "qtest-chart.labels" . | nindent 4 }}
+    {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
   targetRef: 
     apiVersion: "argoproj.io/v1alpha1"
@@ -112,7 +112,7 @@ metadata:
   name: mgr-notification-rollout
   namespace: {{ .Values.namespace.name }}
   labels:
-    {{- include "qtest-chart.labels" . | nindent 4 }}
+    {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
   targetRef: 
     apiVersion: "argoproj.io/v1alpha1"
