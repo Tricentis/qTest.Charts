@@ -5,10 +5,8 @@
 # universal namespace for all qtest app services
 namespace:
   name: qtest
-
 reloader:
   enabled: false
-
 rollouts:
   enabled: false
   ingressClassName: alb
@@ -16,11 +14,8 @@ rollouts:
     canary:
       maxSurge: "25%"
       maxUnavailable: 0
-
-
 deployments:
   enabled: true
-
 liquibase:
   annotations:
     helm.sh/hook: pre-install, pre-upgrade
@@ -34,21 +29,16 @@ liquibase:
     # argocd.argoproj.io/hook: PreSync
     # argocd.argoproj.io/sync-wave: "-5"
     # argocd.argoproj.io/hook-delete-policy: HookSucceeded, BeforeHookCreation
-
 annotations: {}
-
 podAnnotations: {}
-
 env: []
-
 image:
-  repository: qasymphony/manager
-  liquibase: qasymphony/manager-liquibase
+  repository: 242129367204.dkr.ecr.us-east-1.amazonaws.com/qtestmgr
+  liquibase: 242129367204.dkr.ecr.us-east-1.amazonaws.com/liquibase
   pullPolicy: IfNotPresent
-  tag: "11.0.0-2822aac"
-  liquibasetag: "11.0.0-2822aac"
+  tag: "10.5.2.4"
+  liquibasetag: "11.0.0-ca9614a"
   liquibasepullpolicy: IfNotPresent
-
 imageCredentials:
   enabled: false
   name: ""
@@ -56,18 +46,15 @@ imageCredentials:
   username: ""
   password: ""
   email: ""
-
 secrets:
   enabled: false
   # existingConfigs: ""
   # existingImageCredentials: ""
-
 serviceAccount:
   create: true
   name:
   annotations: {}
   automountsatoken: false
-
 service:
   type: LoadBalancer
   annotations: {}
@@ -79,13 +66,11 @@ service:
   # servicePortHttps: 443
   # servicePortHttpName: http
   # servicePortHttpsName: https
-
 SigSci:
   enabled: false
   # existingSecret: "sigsci-secret"
   accesskeyid: ""
   secretaccesskey: ""
-
 qTestManager:
   client:
     jdbc:
@@ -149,7 +134,6 @@ qTestManager:
   secret:
     volumeMount: /mnt/secrets/storage
     appVolumeMount: /mnt/secrets/storage/..data
-
 testconductor:
   environment:
     isOnPremise: false
@@ -163,8 +147,6 @@ testconductor:
       api: api.onpremise
       poller: poller.onpremise
       notification: notification.onpremise
-
-
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
 ingressClass:
   enabled: true
@@ -173,8 +155,6 @@ ingressClass:
   isDefaultClass: true
   # Use to force a networking.k8s.io API Version for certain CI/CD applications. Ex. "v1"
   fallbackApiVersion: ""
-
-
 ingress:
   enabled: true
   name: mgr-ingress
@@ -183,10 +163,10 @@ ingress:
   canary:
     annotationPrefix: alb.ingress.kubernetes.io
     annotations: {}
-      # canary-by-header: []
-      # canary-by-header-pattern: []
+    # canary-by-header: []
+    # canary-by-header-pattern: []
   hosts: []
-    # host: qtest.svc.com
+  # host: qtest.svc.com
 
   paths:
     - path: /api
@@ -224,18 +204,14 @@ ingress:
           name: mgr-service-notification
           port:
             number: 8080
-
   extraPaths:
     - path: /*
       pathType: ImplementationSpecific
-
-  tls:
-    []
-    # - secretName: qtest-svc-tls
-    #   hosts:
-    #     - svc.qtest.com
+  tls: []
+  # - secretName: qtest-svc-tls
+  #   hosts:
+  #     - svc.qtest.com
   https: false
-
 # CD Pipeline use only
 chaos:
   enabled: false
@@ -250,19 +226,16 @@ workflow:
   postman:
     repo: ""
     image: public.ecr.aws/b8y7a2x6/argo-agent:ubuntu.2
-
 # Metrics for nginx ingress controller for application and cluster analysis
 metrics:
   enabled: false
   prometheus:
     address: ""
     query: ""
-
 persistence:
   enabled: true
   annotations: {}
   onPremiseStorageClaim: qtest-onpremise-pvc
-
   ## Specify an existing volume claim instead of creating a new one.
   ## When using this option all following options like storageClass, accessMode and size are ignored.
   # existingClaim:
@@ -276,18 +249,15 @@ persistence:
   storageClass:
   accessMode: ReadWriteMany
   size: 10Gi
-
   ## Specify extra volumes. Refer to ".spec.volumes" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
   volumes: []
   ## Specify extra mounts. Refer to ".spec.containers.volumeMounts" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
   mounts: []
-
 # VPA values
 vpaAutoscaling:
   enabled: false
   updatePolicy:
     updateMode: "Off"
-
 # HPA values
 autoscaling:
   enabled: true
@@ -305,7 +275,6 @@ autoscaling:
   targetCPUUtilizationPercentage: 70
   targetMemoryUtilizationPercentage: 70
   healthApiPath: /health-checker
-
 resourceQuota:
   enabled: true
   hard:
@@ -329,18 +298,17 @@ limitRange:
         cpu: '2'
         memory: 4Gi
       type: Container
-
 resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+# We usually recommend not to specify default resources and to leave this as a conscious
+# choice for the user. This also increases chances charts run on environments with little
+# resources, such as Minikube. If you do want to specify resources, uncomment the following
+# lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+# limits:
+#   cpu: 100m
+#   memory: 128Mi
+# requests:
+#   cpu: 100m
+#   memory: 128Mi
 
 ## Readiness, liveness and startup probes
 livenessProbe:
@@ -363,9 +331,6 @@ startupProbe:
     port: 8080
   periodSeconds: 30
   failureThreshold: 20
-
 nodeSelector: {}
-
 tolerations: []
-
 affinity: {}
