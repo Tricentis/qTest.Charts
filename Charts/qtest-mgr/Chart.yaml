@@ -1,7 +1,6 @@
 apiVersion: v2
 name: qtest-mgr
 description: A Helm chart for qTest Manager
-
 # A chart can be either an 'application' or a 'library' chart.
 #
 # Application charts are a collection of templates that can be packaged into versioned archives
@@ -11,38 +10,34 @@ description: A Helm chart for qTest Manager
 # a dependency of application charts to inject those utilities and functions into the rendering
 # pipeline. Library charts do not define any templates and therefore cannot be deployed.
 type: application
-
 dependencies:
-- name: reloader
-  version: "*"
-  repository: "https://stakater.github.io/stakater-charts"
-  condition: reloader.enabled
-
+  - name: reloader
+    version: "*"
+    repository: "https://stakater.github.io/stakater-charts"
+    condition: reloader.enabled
 maintainers:
-- name: byangtri
-  email: b.yang@tricentis.com
-- name: pjaladi21
-  email: p.jaladi@ext.tricentis.com
-- name: liemng
-  email: l.nguyen@tricentis.com
-- name: mtricentis
-  email: m.vankendine@ext.tricentis.com
-- name: subbuATB1
-  email: s.reddy-ganjikunta@ext.tricentis.com
-- name: tomasw
-  email: t.wallick@ext.tricentis.com
-
-home: https://github.com/Tricentis/qtest.git
+  - name: byangtri
+    email: b.yang@tricentis.com
+  - name: pjaladi21
+    email: p.jaladi@ext.tricentis.com
+  - name: liemng
+    email: l.nguyen@tricentis.com
+  - name: mtricentis
+    email: m.vankendine@ext.tricentis.com
+  - name: subbuATB1
+    email: s.reddy-ganjikunta@ext.tricentis.com
+  - name: tomasw
+    email: t.wallick@ext.tricentis.com
+home: https://github.com/QAS-Labs/qtest-chart.git
 kubeVersion: ">=1.18.0-0"
 icon: https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_c2d6524c36c94138504f7a18bf179d76/tricentis-qtest.png
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
 
-version: 0.1.1
-
+version: 0.2.0
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
-appVersion: "11.0.0-2822aac"
+appVersion: "11.01"
