@@ -1,28 +1,22 @@
 # Default values for scenario App.
 namespace:
   name: qtest
-
 reloader:
   enabled: false
-
 secrets:
   enabled: true
-
 image:
   repository: qasymphony/scenario
   pullPolicy: IfNotPresent
-  tag: "3.3.4"
-
+  tag: "0.0.1"
 deployment:
   annotations: {}
-
 service:
   type: LoadBalancer
   port: 6080
   targetPort: 6080
   serviceName: qtest-scenario-service
   annotations: {}
-
 qTestScenario:
   qTestScenarioDBName: scenario
   qTestScenarioDBUserName: postgres
@@ -35,7 +29,6 @@ qTestScenario:
   qTestScenarioRefreshTokenSecret: ""
   qTestScenarioAppKeyDescriptor: ""
   qTestScenarioQTestURL: https://nephele.qtest.local
-
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
 ingressClass:
   enabled: true
@@ -44,7 +37,6 @@ ingressClass:
   isDefaultClass: true
   # Use to force a networking.k8s.io API Version for certain CI/CD applications. Ex. "v1"
   fallbackApiVersion: ""
-
 ingress:
   enabled: true
   name: qtest-scenario-ingress
@@ -53,30 +45,24 @@ ingress:
   canary:
     annotationPrefix: ""
     annotations: {}
-      # canary-by-header: []
-      # canary-by-header-pattern: []
+    # canary-by-header: []
+    # canary-by-header-pattern: []
   hosts:
     host: qtest.svc.com
-
   paths: []
-
   extraPaths:
     - path: /*
       pathType: ImplementationSpecific
-
-  tls:
-    []
-    # - secretName: qtest-svc-tls
-    #   hosts:
-    #     - svc.qtest.com
+  tls: []
+  # - secretName: qtest-svc-tls
+  #   hosts:
+  #     - svc.qtest.com
   https: false
-
 # VPA values
 vpaAutoscaling:
   enabled: false
   updatePolicy:
     updateMode: "Off"
-
 # HPA values
 autoscaling:
   enabled: true
@@ -87,7 +73,6 @@ autoscaling:
   failureThreshold: 4
   targetCPUUtilizationPercentage: 85
   targetMemoryUtilizationPercentage: 85
-
 resources:
   requests:
     cpu: 1
@@ -95,9 +80,7 @@ resources:
   limits:
     cpu: 1
     memory: 1Gi
-
 limitRange:
   enabled: false
-
 resourceQuota:
   enabled: false
