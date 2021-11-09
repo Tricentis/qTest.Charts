@@ -1,33 +1,26 @@
 # Default values for qtest-session-chart.
 namespace:
   name: qtest
-
 reloader:
   enabled: false
-
 secrets:
   enabled: true
-
 image:
   repository: qasymphony/sessions
   pullPolicy: IfNotPresent
-  tag: "4.3.8"
-
+  tag: "0.0.1"
 deployment:
   annotations: {}
-
 serviceAccount:
   create: true
   name:
   annotations: {}
   automountsatoken: false
-
 service:
   type: LoadBalancer
   port: 8080
   targetPort: 8080
   serviceName: qtest-session-service
-
 qTestSession:
   qTestSessionJSHome: /usr/local/sessions-js
   qTestSessionNodeEnvironment: production
@@ -43,7 +36,6 @@ qTestSession:
   qTestStorageBucketName: aws-session-buket-name
   qTestSessionClamavURL: http://clam.qtest.local
   qTestSessionStorageType: amazon_s3
-
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
 ingressClass:
   enabled: true
@@ -52,7 +44,6 @@ ingressClass:
   isDefaultClass: true
   # Use to force a networking.k8s.io API Version for certain CI/CD applications. Ex. "v1"
   fallbackApiVersion: ""
-
 ingress:
   enabled: true
   name: qtest-session-ingress
@@ -61,30 +52,23 @@ ingress:
   canary:
     annotationPrefix: ""
     annotations: {}
-      # canary-by-header: []
-      # canary-by-header-pattern: []
+    # canary-by-header: []
+    # canary-by-header-pattern: []
   hosts:
     host: qtest.svc.com
-
   paths: []
-
   extraPaths:
     - path: /*
       pathType: ImplementationSpecific
-
-  tls:
-    []
-    # - secretName: qtest-svc-tls
-    #   hosts:
-    #     - svc.qtest.com
+  tls: []
+  # - secretName: qtest-svc-tls
+  #   hosts:
+  #     - svc.qtest.com
   https: false
-
-
 persistence:
   enabled: false
   ## Set annotations on pvc
   annotations: {}
-
   ## Specify an existing volume claim instead of creating a new one.
   ## When using this option all following options like storageClass, accessMode and size are ignored.
   # existingClaim:
@@ -98,12 +82,10 @@ persistence:
   storageClass:
   accessMode: ReadWriteOnce
   size: 5Gi
-
   ## Specify extra volumes. Refer to ".spec.volumes" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
   volumes: []
   ## Specify extra mounts. Refer to ".spec.containers.volumeMounts" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
   mounts: []
-
 # VPA values
 vpaAutoscaling:
   enabled: false
@@ -119,7 +101,6 @@ autoscaling:
   failureThreshold: 4
   targetCPUUtilizationPercentage: 85
   targetMemoryUtilizationPercentage: 85
-
 resources:
   requests:
     cpu: 1
@@ -127,9 +108,7 @@ resources:
   limits:
     cpu: 1
     memory: 1Gi
-
 limitRange:
   enabled: false
-
 resourceQuota:
   enabled: false
