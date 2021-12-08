@@ -88,6 +88,37 @@ entries:
     version: 0.1.0
   qtest-mgr:
   - apiVersion: v2
+    appVersion: 11.0.0-0adae34
+    created: "2021-12-08T17:56:12.832123042Z"
+    dependencies:
+    - condition: reloader.enabled
+      name: reloader
+      repository: https://stakater.github.io/stakater-charts
+      version: '*'
+    description: A Helm chart for qTest Manager
+    digest: d291e1b6580a903d980a8695f897e8057517fbf34e5229ea26386889d23c9ce5
+    home: https://github.com/Tricentis/qtest.git
+    icon: https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_c2d6524c36c94138504f7a18bf179d76/tricentis-qtest.png
+    kubeVersion: '>=1.18.0-0'
+    maintainers:
+    - email: b.yang@tricentis.com
+      name: byangtri
+    - email: p.jaladi@ext.tricentis.com
+      name: pjaladi21
+    - email: l.nguyen@tricentis.com
+      name: liemng
+    - email: m.vankendine@ext.tricentis.com
+      name: mtricentis
+    - email: s.reddy-ganjikunta@ext.tricentis.com
+      name: subbuATB1
+    - email: t.wallick@ext.tricentis.com
+      name: tomasw
+    name: qtest-mgr
+    type: application
+    urls:
+    - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-mgr-0.1.3/qtest-mgr-0.1.3.tgz
+    version: 0.1.3
+  - apiVersion: v2
     appVersion: 11.0.0-5040bd5
     created: "2021-12-08T16:48:11.885578242Z"
     dependencies:
@@ -289,4 +320,4 @@ entries:
     urls:
     - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-session-0.1.0/qtest-session-0.1.0.tgz
     version: 0.1.0
-generated: "2021-12-08T16:48:11.885684944Z"
+generated: "2021-12-08T17:56:12.832209541Z"
