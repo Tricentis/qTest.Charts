@@ -1,3 +1,5 @@
+{{- $existingImageCredentials := .Values.imageCredentials.existingImageCredentials -}}
+{{- $imageCredentials := .Values.imageCredentials.name -}}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -27,6 +29,15 @@ spec:
             limits:
               memory: "1Gi"
               cpu: "0.5"
+    {{ if .Values.imageCredentials.enabled }}
+      {{ if .Values.imageCredentials.existingImageCredentials }}
+      imagePullSecrets:
+        - name: {{ $existingImageCredentials }}
+      {{ else }}
+      imagePullSecrets:
+        - name: {{ $imageCredentials }}
+      {{- end }}
+    {{- end }}
           env:
             - name: POSTGRES_URL
               valueFrom:

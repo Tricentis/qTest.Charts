@@ -1,13 +1,7 @@
 {{- if .Values.ingress.enabled -}}
-{{- $serviceName := .Values.service.serviceName -}}
-{{- $servicePort := .Values.service.port -}}
 {{- $paths := .Values.ingress.paths -}}
 {{- $extraPaths := .Values.ingress.extraPaths -}}
-{{- if semverCompare ">=1.18" .Capabilities.KubeVersion.GitVersion -}}
 apiVersion: networking.k8s.io/v1
-{{- else -}}
-apiVersion: networking.k8s.io/v1beta1
-{{- end}}
 kind: Ingress
 metadata:
   name: {{ .Values.ingress.name }}
@@ -23,21 +17,34 @@ metadata:
   {{- end }}
   {{- end }}
 spec:
+  {{- if .Values.ingress.className }}
+  ingressClassName: {{ .Values.ingress.className }} 
+{{ else }}
   ingressClassName: "{{ include "qtest-mgr.fullname" . }}-ingressclass"
+{{- end }}
   rules:
   {{- if .Values.ingress.hosts }}
   {{- range $host := .Values.ingress.hosts }}
     - host: {{ $host }}
       http:
         paths:
+  {{- range $p := $paths }}
+          - path: {{ $p.path }}
+            pathType: {{ $p.pathType }}
+            backend:
+              service:
+                name: {{ $p.backendServiceName }}
+                port: 
+                  number: {{ $p.backendPort }}
+  {{- end -}}
   {{- range $p := $extraPaths }}
           - path: {{ $p.path }}
             pathType: {{ $p.pathType }}
             backend:
               service:
-                name: {{ $serviceName }}
-                port: 
-                  number: {{ $servicePort }}
+                name: {{ $p.backendServiceName }}
+                port:
+                  number: {{ $p.backendPort }}
   {{- end -}}
   {{- end -}}
   {{- else }}
@@ -48,9 +55,18 @@ spec:
             pathType: {{ $p.pathType }}
             backend:
               service:
-                name: {{ $p.backend.service.name }}
+                name: {{ $p.backendServiceName }}
+                port: 
+                  number: {{ $p.backendPort }}
+  {{- end -}}
+  {{- range $p := $extraPaths }}
+          - path: {{ $p.path }}
+            pathType: {{ $p.pathType }}
+            backend:
+              service:
+                name: {{ $p.backendServiceName }}
                 port:
-                  number: {{ $servicePort }}
+                  number: {{ $p.backendPort }}
   {{- end -}}
   {{- end -}}
   {{- if .Values.ingress.tls }}

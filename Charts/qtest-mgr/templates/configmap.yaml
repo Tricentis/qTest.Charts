@@ -39,6 +39,7 @@ data:
   s3.scan.url: "{{ .Values.qTestManager.s3.scanUrl }}"
   serverapp.useSecureCookie: "{{ .Values.qTestManager.serverAppUseSecureCookie }}"
   serverapp.ssl.required: "{{ .Values.qTestManager.serverAppSSLRequired }}"
+  serverapp.ssl.redirect.custom.status.enabled: "{{ .Values.qTestManager.serverAppSSLRequired }}"
   preUrl: "{{ .Values.qTestManager.preUrl }}"
   preUrl.https: "{{ .Values.qTestManager.preUrlHttps }}"
   qasymphonyUrlPostfix: "{{ .Values.qTestManager.qasymphonyUrlPostfix }}"
@@ -62,7 +63,23 @@ data:
   qtest.od.private: "{{ .Values.qTestManager.qTest.ODPrivate }}"
   secret.volume.mount.path: "{{ .Values.qTestManager.secret.appVolumeMount }}"
   client.dbcp.maxActive: "{{ .Values.qTestManager.client.dbcp.maxActive }}"
+  {{ if .Values.testconductor.environment.isOnPremise }} 
+  async.thread.number: "{{ .Values.qTestManager.async.threadNo }}"
+  async.max.cpu: "{{ .Values.qTestManager.async.maxCpu }}"
+  async.max.database.cpu: "{{ .Values.qTestManager.async.databaseCpu }}"
+  action.task.executor.poolSize: "{{ .Values.qTestManager.action.task.executor.poolSize }}"  
+  blobStorage.type: "{{ .Values.qTestManager.blobStorage.type }}"
+  s3.accessKey: "{{ .Values.qTestManager.s3.accessKey }}"
+  s3.secretKey: "{{ .Values.qTestManager.s3.secretKey }}"
+  qtest.request.nonce.disabled: "{{ .Values.qTestManager.qTest.request.nonce.disabled }}"
+  qtest.request.nonce.mode: "{{ .Values.qTestManager.qTest.request.nonce.mode }}"
+  security.csrf.source.trust.pattern: "{{ .Values.qTestManager.security.csrf.source.trust.pattern }}"
+  cors.allowed.all: "{{ .Values.qTestManager.cors.allowed.all }}"
+  cors.allowed.domains: "{{ .Values.qTestManager.cors.allowed.domains }}"
+  vera.auto.testrun.beta.clients: "{{ .Values.qTestManager.vera.auto.testrun.beta.clients }}"
+  {{ end }}
 ---
+{{ if not .Values.testconductor.environment.singleInstance }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -88,6 +105,7 @@ data:
   s3.scan.url: "{{ .Values.qTestManager.s3.scanUrl }}"
   serverapp.useSecureCookie: "{{ .Values.qTestManager.serverAppUseSecureCookie }}"
   serverapp.ssl.required: "{{ .Values.qTestManager.serverAppSSLRequired }}"
+  serverapp.ssl.redirect.custom.status.enabled: "{{ .Values.qTestManager.serverAppSSLRequired }}"
   preUrl: "{{ .Values.qTestManager.preUrl }}"
   preUrl.https: "{{ .Values.qTestManager.preUrlHttps }}"
   qasymphonyUrlPostfix: "{{ .Values.qTestManager.qasymphonyUrlPostfix }}"
@@ -114,3 +132,4 @@ data:
   spring.profiles.active: "{{ .Values.qTestManager.notification.springProfilesActive }}"
   secret.volume.mount.path: "{{ .Values.qTestManager.secret.appVolumeMount }}"
   client.dbcp.maxActive: "{{ .Values.qTestManager.client.dbcp.maxActive }}"
+{{- end -}}
