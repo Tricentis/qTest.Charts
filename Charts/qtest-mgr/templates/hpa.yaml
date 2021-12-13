@@ -28,6 +28,7 @@ spec:
         targetAverageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
     {{- end }}
 ---
+{{ if not .Values.testconductor.environment.singleInstance }}
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
@@ -111,6 +112,7 @@ spec:
         name: cpu
         targetAverageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
     {{- end }}
+{{- end -}}
 {{- else }}
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
@@ -140,6 +142,7 @@ spec:
         targetAverageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
     {{- end }}
 ---
+{{ if not .Values.testconductor.environment.singleInstance }}
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
@@ -223,5 +226,6 @@ spec:
         name: cpu
         targetAverageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
     {{- end }}
+{{- end -}}
 {{- end }}
 {{- end }}

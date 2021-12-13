@@ -5,10 +5,8 @@
 # universal namespace for all qtest app services
 namespace:
   name: qtest
-
 reloader:
   enabled: false
-
 rollouts:
   enabled: false
   ingressClassName: alb
@@ -16,11 +14,19 @@ rollouts:
     canary:
       maxSurge: "25%"
       maxUnavailable: 0
-
-
+  steps:
+    - setWeight: 20
+    # if prometheus metrics are enabled
+    # - analysis:
+    #     templates:
+    #     - templateName: success-rates
+    #       clusterScope: true
+    #     args:
+    #     - name: service-name
+    - setWeight: 50
+    - pause: {duration: 10s}
 deployments:
   enabled: true
-
 liquibase:
   annotations:
     helm.sh/hook: pre-install, pre-upgrade
@@ -34,13 +40,9 @@ liquibase:
     # argocd.argoproj.io/hook: PreSync
     # argocd.argoproj.io/sync-wave: "-5"
     # argocd.argoproj.io/hook-delete-policy: HookSucceeded, BeforeHookCreation
-
 annotations: {}
-
 podAnnotations: {}
-
 env: []
-
 image:
   repository: qasymphony/manager
   liquibase: qasymphony/manager-liquibase
@@ -48,26 +50,22 @@ image:
   tag: "11.0.0-856ffe3"
   liquibasetag: "11.0.0-856ffe3"
   liquibasepullpolicy: IfNotPresent
-
 imageCredentials:
   enabled: false
-  name: ""
-  registry: ""
-  username: ""
-  password: ""
-  email: ""
-
+  # name: ""
+  # registry: ""
+  # username: ""
+  # password: ""
+  # email: ""
+  # existingImageCredentials: ""
 secrets:
   enabled: false
   # existingConfigs: ""
-  # existingImageCredentials: ""
-
 serviceAccount:
   create: true
   name:
   annotations: {}
   automountsatoken: false
-
 service:
   type: LoadBalancer
   annotations: {}
@@ -79,14 +77,20 @@ service:
   # servicePortHttps: 443
   # servicePortHttpName: http
   # servicePortHttpsName: https
-
 SigSci:
   enabled: false
   # existingSecret: "sigsci-secret"
   accesskeyid: ""
   secretaccesskey: ""
-
 qTestManager:
+  async:
+    threadNo: 100
+    maxCpu: 101
+    databaseCpu: 101
+  action:
+    task:
+      executor:
+        poolSize: 2
   client:
     jdbc:
       postgresUrl: "jdbc:postgresql://postgres.local:5432/qtest"
@@ -97,6 +101,10 @@ qTestManager:
       postgresReadOnlyPassword: ""
     dbcp:
       maxActive: 150
+  cors:
+    allowed:
+      all: true
+      domains: ""
   elasticSearch:
     init: false
     disable: true
@@ -109,9 +117,17 @@ qTestManager:
   blobStorage:
     region: us-east-1
     sharedBucket: "qtest"
+    type: disk_storage
   s3:
     folder: qtest/manager
     scanUrl: https://clamav-13.container-dev.qtestdev.com
+    accessKey: ""
+    secretKey: ""
+  security:
+    csrf:
+      source:
+        trust:
+          pattern: ""
   serverAppUseSecureCookie: true
   serverAppSSLRequired: false
   preUrl: http://nephele.qtest.local
@@ -122,12 +138,12 @@ qTestManager:
     enable: false
     bootstrapAddress: "kafka-broker.local:9092"
     schemaRegistryUrl: "https://schema-registry.local"
-  preSessionUrl: "http://sessions.local"
-  pulseUrlBase: "http://pulse.local"
-  insightsUrl: "http://insights.local"
-  launchUrlBase: "http://launch.local"
+  preSessionUrl: "https://sessions.qtest.local"
+  pulseUrlBase: "https://pulse.qtest.local"
+  insightsUrl: "https://insights.qtest.local"
+  launchUrlBase: "https://launch.qtest.local"
   notification:
-    urlExternal: "http://notification.qtest.local"
+    urlExternal: "https://notification.qtest.local"
     # com.qasymphony.qtest.event.service.ToscaQueueEventPublisher#maxDequeue
     ToscaQueueEventProcessingServiceMaxDequeue: 0
     springProfilesActive: postgres
@@ -136,7 +152,11 @@ qTestManager:
     serverMapUrl: "http://qtest.local/public/jira-widget/server-map"
     instance: US
     ODPrivate: false
-  tdmSettingUrl: "http://parameters-service"
+    request:
+      nonce:
+        disabled: true
+        mode: HighPrecision
+  tdmSettingUrl: "http://parameters.qtest.local"
   mail:
     host: "smtp.local"
     port: 465
@@ -146,25 +166,32 @@ qTestManager:
   integration:
     jira:
       testConnectionLegacyEndpointClients: ""
+  data:
+    volumeMount: /mnt/data/qtest
+  vera:
+    auto:
+      testrun:
+        beta:
+          clients: -1
   secret:
     volumeMount: /mnt/secrets/storage
     appVolumeMount: /mnt/secrets/storage/..data
-
 testconductor:
   environment:
-    isOnPremise: false
+    isOnPremise: true
+    singleInstance: true
     od:
+      single: production
       ui: ui.production
       api: api.production
       poller: poller.production
       notification: notification.production
     op:
+      single: onpremise
       ui: ui.onpremise
       api: api.onpremise
       poller: poller.onpremise
       notification: notification.onpremise
-
-
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
 ingressClass:
   enabled: true
@@ -173,8 +200,6 @@ ingressClass:
   isDefaultClass: true
   # Use to force a networking.k8s.io API Version for certain CI/CD applications. Ex. "v1"
   fallbackApiVersion: ""
-
-
 ingress:
   enabled: true
   name: mgr-ingress
@@ -183,59 +208,42 @@ ingress:
   canary:
     annotationPrefix: alb.ingress.kubernetes.io
     annotations: {}
-      # canary-by-header: []
-      # canary-by-header-pattern: []
+    # canary-by-header: []
+    # canary-by-header-pattern: []
   hosts: []
-    # host: qtest.svc.com
+  # host: qtest.svc.com
 
   paths:
     - path: /api
       pathType: Prefix
-      backend:
-        service:
-          name: mgr-service-api
-          port:
-            number: 8080
+      backendServiceName: mgr-service-api
+      backendPort: 8080
     - path: /api2
       pathType: Prefix
-      backend:
-        service:
-          name: mgr-service-api
-          port:
-            number: 8080
-    - path: /apiv3
+      backendServiceName: mgr-service-api
+      backendPort: 8080
+    - path: /api/v3
       pathType: Prefix
-      backend:
-        service:
-          name: mgr-service-api
-          port:
-            number: 8080
+      backendServiceName: mgr-service-api
+      backendPort: 8080
     - path: /public/integration/webhookcallback2
       pathType: Prefix
-      backend:
-        service:
-          name: mgr-service-api
-          port:
-            number: 8080
+      backendServiceName: mgr-service-api
+      backendPort: 8080
     - path: /realtime
       pathType: Prefix
-      backend:
-        service:
-          name: mgr-service-notification
-          port:
-            number: 8080
-
+      backendServiceName: mgr-service-notification
+      backendPort: 8080
   extraPaths:
-    - path: /*
-      pathType: ImplementationSpecific
-
-  tls:
-    []
-    # - secretName: qtest-svc-tls
-    #   hosts:
-    #     - svc.qtest.com
+    - path: /
+      pathType: Prefix
+      backendServiceName: mgr-service
+      backendPort: 8080
+  tls: []
+  # - secretName: qtest-svc-tls
+  #   hosts:
+  #     - svc.qtest.com
   https: false
-
 # CD Pipeline use only
 chaos:
   enabled: false
@@ -250,22 +258,18 @@ workflow:
   postman:
     repo: ""
     image: public.ecr.aws/b8y7a2x6/argo-agent:ubuntu.2
-
 # Metrics for nginx ingress controller for application and cluster analysis
 metrics:
   enabled: false
   prometheus:
     address: ""
     query: ""
-
 persistence:
   enabled: true
   annotations: {}
-  onPremiseStorageClaim: qtest-onpremise-pvc
-
   ## Specify an existing volume claim instead of creating a new one.
   ## When using this option all following options like storageClass, accessMode and size are ignored.
-  # existingClaim:
+  # existingClaim: qtest-onpremise-pvc
 
   ## If defined, storageClassName: <storageClass>
   ## If set to "-", storageClassName: "", which disables dynamic provisioning
@@ -276,18 +280,15 @@ persistence:
   storageClass:
   accessMode: ReadWriteMany
   size: 10Gi
-
   ## Specify extra volumes. Refer to ".spec.volumes" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
   volumes: []
   ## Specify extra mounts. Refer to ".spec.containers.volumeMounts" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
   mounts: []
-
 # VPA values
 vpaAutoscaling:
   enabled: false
   updatePolicy:
     updateMode: "Off"
-
 # HPA values
 autoscaling:
   enabled: true
@@ -305,42 +306,40 @@ autoscaling:
   targetCPUUtilizationPercentage: 70
   targetMemoryUtilizationPercentage: 70
   healthApiPath: /health-checker
-
 resourceQuota:
   enabled: true
   hard:
-    limits.cpu: '80'
+    limits.cpu: "80"
     limits.memory: 400Gi
-    requests.cpu: '64'
+    requests.cpu: "64"
     requests.memory: 160Gi
-    pods: '25'
-    persistentvolumeclaims: '50'
+    pods: "25"
+    persistentvolumeclaims: "50"
     requests.storage: 500Gi
 limitRange:
   enabled: true
   limits:
     - max:
-        cpu: '2'
+        cpu: "2"
         memory: 16Gi
       default:
-        cpu: '2'
+        cpu: "2"
         memory: 16Gi
       defaultRequest:
-        cpu: '2'
+        cpu: "2"
         memory: 4Gi
       type: Container
-
 resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+# We usually recommend not to specify default resources and to leave this as a conscious
+# choice for the user. This also increases chances charts run on environments with little
+# resources, such as Minikube. If you do want to specify resources, uncomment the following
+# lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+# limits:
+#   cpu: 100m
+#   memory: 128Mi
+# requests:
+#   cpu: 100m
+#   memory: 128Mi
 
 ## Readiness, liveness and startup probes
 livenessProbe:
@@ -363,9 +362,6 @@ startupProbe:
     port: 8080
   periodSeconds: 30
   failureThreshold: 20
-
 nodeSelector: {}
-
 tolerations: []
-
 affinity: {}

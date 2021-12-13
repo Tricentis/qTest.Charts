@@ -1,3 +1,4 @@
+{{- $iSingleInstance := .Values.testconductor.environment.singleInstance -}}
 {{- if .Values.rollouts.enabled -}}
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
@@ -6,6 +7,7 @@ metadata:
   namespace: {{ .Values.namespace.name }}
 spec:
   replicas: {{ .Values.autoscaling.minReplicas.ui }}
+  revisionHistoryLimit: 3
   workloadRef:
     apiVersion: apps/v1
     kind: Deployment
@@ -26,17 +28,10 @@ spec:
           ingress: mgr-ingress
           servicePort: 443
       steps:
-      - setWeight: 20
-      {{- if .Values.metrics.enabled }}
-      - analysis:
-          templates:
-          - templateName: success-rates
-            clusterScope: true
-          args:
-          - name: service-name
+      {{- with .Values.rollouts.steps -}}
+          {{- toYaml . | nindent 8 }}
       {{- end }}
-      - setWeight: 50
-      - pause: {}
+{{ if not $iSingleInstance }}
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
@@ -45,6 +40,7 @@ metadata:
   namespace: {{ .Values.namespace.name }}
 spec:
   replicas: {{ .Values.autoscaling.minReplicas.ui }}
+  revisionHistoryLimit: 3
   workloadRef:
     apiVersion: apps/v1
     kind: Deployment
@@ -54,17 +50,9 @@ spec:
       {{- toYaml . | nindent 4 }}
    {{- end }} 
       steps:
-      - setWeight: 20
-      {{- if .Values.metrics.enabled }}
-      - analysis:
-          templates:
-          - templateName: success-rates
-            clusterScope: true
-          args:
-          - name: service-name
+      {{- with .Values.rollouts.steps -}}
+          {{- toYaml . | nindent 8 }}
       {{- end }}
-      - setWeight: 50
-      - pause: {}
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
@@ -73,6 +61,7 @@ metadata:
   namespace: {{ .Values.namespace.name }}
 spec:
   replicas: {{ .Values.autoscaling.minReplicas.ui }}
+  revisionHistoryLimit: 3
   workloadRef:
     apiVersion: apps/v1
     kind: Deployment
@@ -93,17 +82,9 @@ spec:
           ingress: mgr-ingress
           servicePort: 443
       steps:
-      - setWeight: 20
-      {{- if .Values.metrics.enabled }}
-      - analysis:
-          templates:
-          - templateName: success-rates
-            clusterScope: true
-          args:
-          - name: service-name
+      {{- with .Values.rollouts.steps -}}
+          {{- toYaml . | nindent 8 }}
       {{- end }}
-      - setWeight: 50
-      - pause: {}
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
@@ -112,6 +93,7 @@ metadata:
   namespace: {{ .Values.namespace.name }}
 spec:
   replicas: {{ .Values.autoscaling.minReplicas.ui }}
+  revisionHistoryLimit: 3
   workloadRef:
     apiVersion: apps/v1
     kind: Deployment
@@ -132,15 +114,8 @@ spec:
           ingress: mgr-ingress
           servicePort: 443
       steps:
-      - setWeight: 20
-      {{- if .Values.metrics.enabled }}
-      - analysis:
-          templates:
-          - templateName: success-rates
-            clusterScope: true
-          args:
-          - name: service-name
+      {{- with .Values.rollouts.steps -}}
+          {{- toYaml . | nindent 8 }}
       {{- end }}
-      - setWeight: 50
-      - pause: {}
+{{- end }}
 {{- end }}

@@ -10,7 +10,7 @@ metadata:
 spec:
   containers:
     - name: wget
-      image: busybox
+      image: busybox:latest
       command: ['wget']
       args: ['{{ include "qtest-mgr.fullname" . }}:{{ .Values.service.port }}']
   restartPolicy: Never
