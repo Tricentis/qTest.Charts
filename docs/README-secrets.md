@@ -1,6 +1,6 @@
 ## qTest Secrets Using External Secrets
 Kubernetes External Secrets allows you to use external secret management systems, like AWS Secrets Manager or HashiCorp Vault, to securely add secrets in Kubernetes.
-# Configuration for AWS Secrets Manager Example
+### Configuration for AWS Secrets Manager Example
 ```
 apiVersion: "kubernetes-client.io/v1"
 kind: ExternalSecret
