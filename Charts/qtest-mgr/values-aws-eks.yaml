@@ -7,7 +7,7 @@ serviceAccount:
   name: qtest-mgr-sa
   create: true
   annotations:
-    # Replace role with your AWS Role with permissions in doc/README-EKS.md
+    # Replace role ARN with your AWS Role with permissions in doc/README-EKS.md
     eks.amazonaws.com/role-arn: arn:aws:iam::accountnumber:role/
 
 limitRange:

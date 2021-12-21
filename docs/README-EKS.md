@@ -2,7 +2,7 @@
 Controller needs access to the AWS S3 resources via IAM permissions. The IAM permissions can either be setup via IAM roles for ServiceAccount or can be attached directly to the worker node IAM roles. Policies required:
 ```
 Policies:
-- PolicyName: 'poliicy-name'
+- PolicyName: 'policy-name'
     PolicyDocument:
     Version: '2012-10-17'
     Statement:
