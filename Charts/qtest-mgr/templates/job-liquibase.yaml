@@ -29,15 +29,6 @@ spec:
             limits:
               memory: "1Gi"
               cpu: "0.5"
-    {{ if .Values.imageCredentials.enabled }}
-      {{ if .Values.imageCredentials.existingImageCredentials }}
-      imagePullSecrets:
-        - name: {{ $existingImageCredentials }}
-      {{ else }}
-      imagePullSecrets:
-        - name: {{ $imageCredentials }}
-      {{- end }}
-    {{- end }}
           env:
             - name: POSTGRES_URL
               valueFrom:
@@ -55,3 +46,12 @@ spec:
                   name: qtest-liquibase-secret
                   key: client.jdbc.postgres.password
       restartPolicy: OnFailure
+    {{ if .Values.imageCredentials.enabled }}
+      {{ if .Values.imageCredentials.existingImageCredentials }}
+      imagePullSecrets:
+        - name: {{ $existingImageCredentials }}
+      {{ else }}
+      imagePullSecrets:
+        - name: {{ $imageCredentials }}
+      {{- end }}
+    {{- end }}
