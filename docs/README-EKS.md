@@ -58,8 +58,7 @@ autoscaling:
   targetMemoryUtilizationPercentage: 70
 ```
 The default values would create an horizontal pod autoscaler in Kubernetes which is configured to:
-
---create at least 1 pods for the component
---scale the component up to a maximum of 3 pods
---observe the CPU usage of all replicas and try to scale between 1 and 3 replicas
---observe the memory usage of all replicas and try to scale between 1 and 3 replicas
+- create at least 1 pods for the component
+- scale the component up to a maximum of 3 pods
+- observe the CPU usage of all replicas and try to scale between 1 and 3 replicas
+- observe the memory usage of all replicas and try to scale between 1 and 3 replicas
