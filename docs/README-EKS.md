@@ -1,3 +1,6 @@
+# Setup qTest with AWS EKS
+
+This documents how to setup qTest to AWS EKS with S3, AWS LB Controller, and HPA Autoscaling
 ## Setup IAM Policy for ServiceAccount for qTest Manager if using S3
 Controller needs access to the AWS S3 resources via IAM permissions. The IAM permissions can either be setup via IAM roles for ServiceAccount or can be attached directly to the worker node IAM roles. Policies required:
 ```
