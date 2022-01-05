@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "qtest-launch.fullname" . }}
+  name: qtest-launch
   namespace: {{ .Values.namespace.name }}
   {{- with .Values.deployment.annotations }}
   annotations:
@@ -72,7 +72,12 @@ spec:
                   name: qtest-launch-configmap
                   key: qTestLaunchDBHostName
             - name: PG_URL
+              {{- if .Values.qTestLaunch.qTestLaunchDBSSLEnable }}
+              value: {{ printf "postgresql://$(LAUNCH_DB_USERNAME):$(LAUNCH_DB_PWD)@$(LAUNCH_DB_HOSTNAME)/$(LAUNCH_DB_NAME)%s" .Values.qTestLaunch.qTestLaunchDBSSL }}
+              {{- end }}
+              {{- if not .Values.qTestLaunch.qTestLaunchDBSSLEnable }}
               value: {{ printf "postgresql://$(LAUNCH_DB_USERNAME):$(LAUNCH_DB_PWD)@$(LAUNCH_DB_HOSTNAME)/$(LAUNCH_DB_NAME)" }}
+              {{- end }}
             - name: ROOT_URL
               valueFrom:
                 configMapKeyRef:
@@ -93,3 +98,12 @@ spec:
                 configMapKeyRef:
                   name: qtest-launch-configmap
                   key: qTestLaunchNodeTLSRejectUnAuthorized
+{{- if .Values.qTestLaunch.qTestLaunchDBSSLEnable }}
+          volumeMounts:
+          - name: qtest-launch-secret-volume
+            mountPath: {{ .Values.qTestLaunch.qTestLaunchDBSSLMountPath }}
+      volumes:
+      - name: qtest-launch-secret-volume
+        secret:
+          secretName: qtest-launch-root-secret
+{{- end -}}
