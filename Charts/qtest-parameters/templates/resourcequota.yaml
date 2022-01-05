@@ -1,0 +1,40 @@
+{{/*{{- if .Values.resourceQuota.enabled }}
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: qtest-parameters-resource-quota
+  namespace: {{ .Values.namespace.name }}
+spec:
+  hard:
+    limits.cpu: "4"
+    limits.memory: 4Gi
+    requests.cpu: "4"
+    requests.memory: 4Gi
+    pods: "4"
+    persistentvolumeclaims: "10"
+    requests.storage: "50Gi"
+{{- end }}
+---
+{{- if .Values.limitRange.enabled }}
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: qtest-parameters-limit-range
+  namespace: {{ .Values.namespace.name }}
+spec:
+  limits:
+    - max:
+        cpu: "1"
+        memory: 1Gi
+      min:
+        cpu: "1"
+        memory: 1Gi
+      default:
+        cpu: "1"
+        memory: 1Gi
+      defaultRequest:
+          cpu: "1"
+          memory: 1Gi
+      type: Container
+{{- end }}
+*/}}

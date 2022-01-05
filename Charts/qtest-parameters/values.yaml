@@ -1,48 +1,42 @@
 # Default values for qtest-parameters-chart.
 namespace:
   name: qtest
-
 reloader:
   enabled: false
-
 secrets:
   enabled: true
-
 image:
   repository: qasymphony/parameters
   pullPolicy: IfNotPresent
-  tag: "2.2.12"
-
+  tag: "2.2.14"
 deployment:
   annotations: {}
-
 service:
   type: LoadBalancer
   port: 5080
   targetPort: 5080
   serviceName: qtest-parameters-service
-
 qTestParameters:
   qTestParametersDBName: parameters
   qTestParametersDBUserName: postgres
-  qTestParametersDBPwd: Y2hhbmdlbWU=
+  qTestParametersDBPwd: cG9zdGdyZXM=
   qTestParametersDBHostName: postgres.local
   qTestParametersQTestHost: https://nephele.qtest.local
   qTestParametersNodeTLSRejectUnAuthorized: "0"
   qTestParametersNodeEnv: production
   qTestParametersPort: 5080
-
-
+  qTestParametersDBSSLEnable: false
+  qTestParametersDBSSLMountPath: ""
+  qTestParametersDBSSL: ""
+  qTestParametersDBCRT: ""
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
 ingressClass:
-  enabled: true
+  enabled: false
   labels: {}
   controller: ingress.k8s.aws/alb
   isDefaultClass: true
   # Use to force a networking.k8s.io API Version for certain CI/CD applications. Ex. "v1"
   fallbackApiVersion: ""
-
-
 ingress:
   enabled: true
   name: qtest-parameters-ingress
@@ -51,45 +45,37 @@ ingress:
   canary:
     annotationPrefix: ""
     annotations: {}
-      # canary-by-header: []
-      # canary-by-header-pattern: []
+    # canary-by-header: []
+    # canary-by-header-pattern: []
   hosts:
-    host: svc.qtest.com
-
+    host: parameters.qtest.local
   paths: []
-
   extraPaths:
     - path: /*
+      backendServiceName: qtest-parameters-service
       pathType: ImplementationSpecific
-
-  tls:
-    []
-    # - secretName: qtest-svc-tls
-    #   hosts:
-    #     - svc.qtest.com
+      backendPort: 5080
+  tls: []
+  # - secretName: qtest-svc-tls
+  #   hosts:
+  #     - svc.qtest.com
   https: false
-
-
 persistence:
   enabled: false
   ## Set annotations on pvc
   annotations: {}
-
   storageClass:
   accessMode: ReadWriteOnce
   size: 5Gi
-
   ## Specify extra volumes. Refer to ".spec.volumes" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
   volumes: []
   ## Specify extra mounts. Refer to ".spec.containers.volumeMounts" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
   mounts: []
-
 # VPA values
 vpaAutoscaling:
   enabled: false
   updatePolicy:
     updateMode: "Off"
-
 # HPA values
 autoscaling:
   enabled: true
@@ -100,7 +86,6 @@ autoscaling:
   failureThreshold: 4
   targetCPUUtilizationPercentage: 85
   targetMemoryUtilizationPercentage: 85
-
 resources:
   requests:
     cpu: 1
@@ -108,9 +93,7 @@ resources:
   limits:
     cpu: 1
     memory: 1Gi
-
 limitRange:
   enabled: false
-
 resourceQuota:
   enabled: false

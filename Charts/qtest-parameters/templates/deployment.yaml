@@ -67,7 +67,12 @@ spec:
                   name: qtest-parameters-configmap
                   key: qTestParametersDBHostName
             - name: PG_URL
+              {{- if .Values.qTestParameters.qTestParametersDBSSLEnable }}
+              value: {{ printf "postgresql://$(PARAMETERS_DB_USERNAME):$(PARAMETERS_DB_PWD)@$(PARAMETERS_DB_HOSTNAME)/$(PARAMETERS_DB_NAME)%s" .Values.qTestParameters.qTestParametersDBSSL }}
+              {{- end }}
+              {{- if not .Values.qTestParameters.qTestParametersDBSSLEnable }}
               value: {{ printf "postgresql://$(PARAMETERS_DB_USERNAME):$(PARAMETERS_DB_PWD)@$(PARAMETERS_DB_HOSTNAME)/$(PARAMETERS_DB_NAME)" }}
+              {{- end }}
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               valueFrom:
                 configMapKeyRef:
@@ -91,6 +96,10 @@ spec:
           volumeMounts:
           - name: qtest-parameter-logs
             mountPath: /usr/local/parameters/logs
+          {{- if .Values.qTestParameters.qTestParametersDBSSLEnable }}
+          - name: qtest-parameters-secret-volume
+            mountPath: {{ .Values.qTestParameters.qTestParametersDBSSLMountPath }}
+          {{- end }}
       volumes:
         - name: qtest-parameter-logs
           {{- if .Values.persistence.enabled }}
@@ -99,3 +108,8 @@ spec:
           {{- else }}
           emptyDir: {}
           {{- end }}
+        {{- if .Values.qTestParameters.qTestParametersDBSSLEnable }}
+        - name: qtest-parameters-secret-volume
+          secret:
+            secretName: qtest-parameters-root-secret
+        {{- end -}}
