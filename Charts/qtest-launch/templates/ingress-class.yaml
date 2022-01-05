@@ -10,6 +10,8 @@ metadata:
   namespace: {{ .Values.namespace.name }}
   annotations:
     ingressclass.kubernetes.io/is-default-class: {{ .Values.ingressClass.isDefaultClass | quote }}
+    helm.sh/hook: pre-install
+    helm.sh/hook-weight: "-4"
 spec:
   controller: {{ .Values.ingressClass.controller }}
 {{- end }}
