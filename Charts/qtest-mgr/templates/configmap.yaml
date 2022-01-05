@@ -1,3 +1,9 @@
+{{- $postgresUrl := .Values.qTestManager.client.jdbc.postgresUrl -}}
+{{- $postgresReadUrl := .Values.qTestManager.client.jdbc.postgresReadOnlyUrl -}}
+{{- if .Values.qTestManager.client.jdbc.sslEnable }}
+{{- $postgresUrl = printf "%s%s" .Values.qTestManager.client.jdbc.postgresUrl .Values.qTestManager.client.jdbc.sslPath -}}
+{{- $postgresReadUrl = printf "%s%s" .Values.qTestManager.client.jdbc.postgresReadOnlyUrl .Values.qTestManager.client.jdbc.sslPath -}}
+{{- end -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -10,7 +16,7 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 data:
-  client.jdbc.postgres.url: "{{ .Values.qTestManager.client.jdbc.postgresUrl }}"
+  client.jdbc.postgres.url: {{ $postgresUrl }}
   client.jdbc.postgres.username: "{{ .Values.qTestManager.client.jdbc.postgresUserName }}"
 ---
 apiVersion: v1
@@ -21,9 +27,9 @@ metadata:
   labels:
     app: qtest-mgr
 data:
-  client.jdbc.postgres.url: "{{ .Values.qTestManager.client.jdbc.postgresUrl }}"
+  client.jdbc.postgres.url: "{{ $postgresUrl }}"
   client.jdbc.postgres.username: "{{ .Values.qTestManager.client.jdbc.postgresUserName }}"
-  client.jdbc.postgres.readonly.url: "{{ .Values.qTestManager.client.jdbc.postgresReadOnlyUrl }}"
+  client.jdbc.postgres.readonly.url: "{{ $postgresReadUrl }}"
   client.jdbc.postgres.readonly.username: "{{ .Values.qTestManager.client.jdbc.postgresReadOnlyUserName }}"
   elasticsearch.init: "{{ .Values.qTestManager.elasticSearch.init }}"
   elasticsearch.disable: "{{ .Values.qTestManager.elasticSearch.disable }}"
@@ -88,9 +94,9 @@ metadata:
   labels:
     app: qtest-mgr
 data:
-  client.jdbc.postgres.url: "{{ .Values.qTestManager.client.jdbc.postgresUrl }}"
+  client.jdbc.postgres.url: "{{ $postgresUrl }}"
   client.jdbc.postgres.username: "{{ .Values.qTestManager.client.jdbc.postgresUserName }}"
-  client.jdbc.postgres.readonly.url: "{{ .Values.qTestManager.client.jdbc.postgresReadOnlyUrl }}"
+  client.jdbc.postgres.readonly.url: "{{ $postgresReadUrl }}"
   client.jdbc.postgres.readonly.username: "{{ .Values.qTestManager.client.jdbc.postgresReadOnlyUserName }}"
   elasticsearch.init: "{{ .Values.qTestManager.elasticSearch.init }}"
   elasticsearch.disable: "{{ .Values.qTestManager.elasticSearch.disable }}"

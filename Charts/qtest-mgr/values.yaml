@@ -44,8 +44,8 @@ annotations: {}
 podAnnotations: {}
 env: []
 image:
-  repository: tricentisimage/qtest-mgr
-  liquibase: tricentisimage/qtest-mgr-liquibase
+  repository: qasymphony/manager
+  liquibase: qasymphony/manager-liquibase
   pullPolicy: IfNotPresent
   tag: "11.0.0-a7f17e1"
   liquibasetag: "11.0.0-a7f17e1"
@@ -99,6 +99,10 @@ qTestManager:
       postgresReadOnlyUrl: "jdbc:postgresql://postgres_replica.local:5432/qtest"
       postgresReadOnlyUserName: "qtest"
       postgresReadOnlyPassword: ""
+      sslEnable: false
+      sslMountPath: ""
+      sslPath: ""
+      cert: ""
     dbcp:
       maxActive: 150
   cors:
@@ -140,7 +144,7 @@ qTestManager:
     schemaRegistryUrl: "https://schema-registry.local"
   preSessionUrl: "https://sessions.qtest.local"
   pulseUrlBase: "https://pulse.qtest.local"
-  insightsUrl: "https://insights.qtest.local"
+  insightsUrl: "http://insights-service:8080"
   launchUrlBase: "https://launch.qtest.local"
   notification:
     urlExternal: "https://notification.qtest.local"

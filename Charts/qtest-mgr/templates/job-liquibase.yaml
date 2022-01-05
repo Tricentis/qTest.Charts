@@ -45,6 +45,11 @@ spec:
                 secretKeyRef:
                   name: qtest-liquibase-secret
                   key: client.jdbc.postgres.password
+          {{- if .Values.qTestManager.client.jdbc.sslEnable }}
+          volumeMounts:
+          - name: qtest-manager-secret-root-volume
+            mountPath: {{ .Values.qTestManager.client.jdbc.sslMountPath }}
+          {{- end }}
       restartPolicy: OnFailure
     {{ if .Values.imageCredentials.enabled }}
       {{ if .Values.imageCredentials.existingImageCredentials }}
@@ -54,4 +59,10 @@ spec:
       imagePullSecrets:
         - name: {{ $imageCredentials }}
       {{- end }}
+    {{- end }}
+    {{- if .Values.qTestManager.client.jdbc.sslEnable }}
+      volumes:
+        - name: qtest-manager-secret-root-volume
+          secret:
+            secretName: qtest-manager-root-secret
     {{- end }}
