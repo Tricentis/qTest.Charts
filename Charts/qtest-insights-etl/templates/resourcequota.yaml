@@ -1,0 +1,39 @@
+{{/*{{- if .Values.resourceQuota.enabled }}
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: qtest-insights-etl-resource-quota
+  namespace: {{ .Values.namespace.name }}
+spec:
+  hard:
+    limits.cpu: "4"
+    limits.memory: 8Gi
+    requests.cpu: "4"
+    requests.memory: 8Gi
+    pods: "4"
+    persistentvolumeclaims: "50"
+    requests.storage: "500Gi"
+{{- end }}
+---
+{{- if .Values.limitRange.enabled }}
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: qtest-insights-etl-limit-range
+spec:
+  limits:
+    - max:
+        cpu: "1"
+        memory: 2Gi
+      min:
+        cpu: "1"
+        memory: 2Gi
+      default:
+        cpu: "1"
+        memory: 2Gi
+      defaultRequest:
+          cpu: "1"
+          memory: 2Gi
+      type: Container
+{{- end }}
+*/}}

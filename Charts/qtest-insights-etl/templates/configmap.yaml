@@ -16,4 +16,7 @@ data:
   SESSIONS_DB_NAME: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlSessionDBName }}"
   SESSIONS_DB_HOST: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlSessionDBHost }}"
   SESSIONS_DB_USER: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlSessionDBUser }}"
+  WRITE_SESSIONS_DB_HOST: "{{ .Values.qTestInsightsEtl.writeSessionsDBHost }}"
+  WRITE_SESSIONS_DB_NAME: "{{ .Values.qTestInsightsEtl.writeSessionsDBName }}"
+  WRITE_SESSIONS_DB_USER: "{{ .Values.qTestInsightsEtl.writeSessionsDBUser }}"
   UPDATEDB: "true"
