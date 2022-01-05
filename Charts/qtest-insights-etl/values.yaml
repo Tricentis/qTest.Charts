@@ -3,28 +3,22 @@
 # Declare variables to be passed into your templates.
 namespace:
   name: qtest
-
 reloader:
   enabled: false
-
 secrets:
   enabled: true
-
 replicaCount: 1
 image:
   repository: qasymphony/insights-etl
   pullPolicy: IfNotPresent
-  tag: "e287a47"
-
+  tag: "v6.9.28.op"
 deployment:
   annotations: {}
-
 service:
   type: LoadBalancer
   port: 8080
   targetPort: 8080
-  serviceName: qtest-insights-etl-service
-
+  serviceName: insights-etl-service
 qTestInsightsEtl:
   qTestLogPath: /logs
   qTestUpdateDB: true
@@ -40,8 +34,10 @@ qTestInsightsEtl:
   qTestInsightsEtlSessionDBUser: postgres
   qTestInsightsEtlSessionDBPassword: cG9zdGdyZXM=
   qTestInsightsEtlSessionDBHost: postgres.local
-
-
+  writeSessionsDBPassword: cG9zdGdyZXM=
+  writeSessionsDBHost: postgres.local
+  writeSessionsDBName: qtest
+  writeSessionsDBUser: postgres
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
 ingressClass:
   enabled: true
@@ -50,39 +46,31 @@ ingressClass:
   isDefaultClass: true
   # Use to force a networking.k8s.io API Version for certain CI/CD applications. Ex. "v1"
   fallbackApiVersion: ""
-
 ingress:
   enabled: true
-  name: qtest-insights-etl-ingress
+  name: insights-etl-ingress
   labels: {}
   annotations: {}
   canary:
     annotationPrefix: ""
     annotations: {}
-      # canary-by-header: []
-      # canary-by-header-pattern: []
+    # canary-by-header: []
+    # canary-by-header-pattern: []
   hosts:
-    host: svc.qtest.com
-
+    host: insights-etl.qtest.local
   paths: []
-
   extraPaths:
     - path: /*
       pathType: ImplementationSpecific
-
-  tls:
-    []
-    # - secretName: qtest-svc-tls
-    #   hosts:
-    #     - svc.qtest.com
+  tls: []
+  # - secretName: qtest-svc-tls
+  #   hosts:
+  #     - svc.qtest.com
   https: false
-
-
 persistence:
   enabled: false
   ## Set annotations on pvc
   annotations: {}
-
   ## Specify an existing volume claim instead of creating a new one.
   ## When using this option all following options like storageClass, accessMode and size are ignored.
   # existingClaim:
@@ -96,18 +84,15 @@ persistence:
   storageClass:
   accessMode: ReadWriteOnce
   size: 5Gi
-
   ## Specify extra volumes. Refer to ".spec.volumes" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
   volumes: []
   ## Specify extra mounts. Refer to ".spec.containers.volumeMounts" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
   mounts: []
-
 # VPA values
 vpaAutoscaling:
   enabled: false
   updatePolicy:
     updateMode: "Off"
-
 # HPA values
 autoscaling:
   enabled: true
@@ -119,7 +104,6 @@ autoscaling:
   failureThreshold: 4
   targetCPUUtilizationPercentage: 85
   targetMemoryUtilizationPercentage: 85
-
 resources:
   requests:
     cpu: 1
@@ -127,9 +111,7 @@ resources:
   limits:
     cpu: 1
     memory: 2Gi
-
 limitRange:
   enabled: false
-
 resourceQuota:
   enabled: false
