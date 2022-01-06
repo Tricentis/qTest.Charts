@@ -1,33 +1,27 @@
 # Default values for scenario App.
 namespace:
   name: qtest
-
 reloader:
   enabled: false
-
 secrets:
   enabled: true
-
 image:
   repository: qasymphony/scenario
   pullPolicy: IfNotPresent
-  tag: "3.3.4"
-
+  tag: "3.3.6"
 deployment:
   annotations: {}
-
 service:
   type: LoadBalancer
   port: 6080
   targetPort: 6080
   serviceName: qtest-scenario-service
   annotations: {}
-
 qTestScenario:
   qTestScenarioDBName: scenario
   qTestScenarioDBUserName: postgres
-  qTestScenarioDBPwd: Y2hhbmdlbWU=
-  qTestScenarioDBHostName: postgres.local
+  qTestScenarioDBPwd: cG9zdGdyZXM=
+  qTestScenarioDBHostName: host.docker.internal
   qTestScenarioPort: "6080"
   qTestScenarioLocalBaseURL: https://scenario.local
   qTestScenarioNodeTLSRejectUnAuthorized: "0"
@@ -35,7 +29,10 @@ qTestScenario:
   qTestScenarioRefreshTokenSecret: ""
   qTestScenarioAppKeyDescriptor: ""
   qTestScenarioQTestURL: https://nephele.qtest.local
-
+  qTestScenarioDBSSLEnable: false
+  qTestScenarioDBSSLMountPath: ""
+  qTestScenarioDBSSL: ""
+  qTestScenarioDBCRT: ""
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
 ingressClass:
   enabled: true
@@ -44,39 +41,34 @@ ingressClass:
   isDefaultClass: true
   # Use to force a networking.k8s.io API Version for certain CI/CD applications. Ex. "v1"
   fallbackApiVersion: ""
-
 ingress:
   enabled: true
-  name: qtest-scenario-ingress
+  name: scenario-nginx
   labels: {}
   annotations: {}
   canary:
     annotationPrefix: ""
     annotations: {}
-      # canary-by-header: []
-      # canary-by-header-pattern: []
+    # canary-by-header: []
+    # canary-by-header-pattern: []
   hosts:
     host: qtest.svc.com
-
   paths: []
-
   extraPaths:
     - path: /*
+      backendServiceName: qtest-scenario-service
       pathType: ImplementationSpecific
-
-  tls:
-    []
-    # - secretName: qtest-svc-tls
-    #   hosts:
-    #     - svc.qtest.com
+      backendPort: 6080
+  tls: []
+  # - secretName: qtest-svc-tls
+  #   hosts:
+  #     - svc.qtest.com
   https: false
-
 # VPA values
 vpaAutoscaling:
   enabled: false
   updatePolicy:
     updateMode: "Off"
-
 # HPA values
 autoscaling:
   enabled: true
@@ -87,7 +79,6 @@ autoscaling:
   failureThreshold: 4
   targetCPUUtilizationPercentage: 85
   targetMemoryUtilizationPercentage: 85
-
 resources:
   requests:
     cpu: 1
@@ -95,9 +86,7 @@ resources:
   limits:
     cpu: 1
     memory: 1Gi
-
 limitRange:
   enabled: false
-
 resourceQuota:
   enabled: false
