@@ -1,0 +1,32 @@
+secrets:
+  enabled: true
+
+service:
+  type: ClusterIP
+  port: 8080
+  targetPort: 8080
+  serviceName: qtest-session-service
+  annotations: {}
+
+ingressClass:
+  enabled: false
+  controller: k8s.io/ingress-nginx
+
+ingress:
+  className: nginx
+  hosts:
+  - session.qtest.local
+  paths:
+    - path: /
+      pathType: Prefix
+      backendServiceName: qtest-session-service
+      backendPort: 8080
+
+  extraPaths: []
+  tls:
+  - hosts:
+    - session.qtest.local
+
+autoscaling:
+  minReplicas: 1
+  maxReplicas: 2
