@@ -1,80 +1,72 @@
 # Default values for qtest-pulse-chart.
 namespace:
   name: qtest
-
 reloader:
   enabled: false
-
 secrets:
   enabled: true
-
 image:
   repository: qasymphony/pulse
   pullPolicy: IfNotPresent
-  tag: "9.3.5"
-
+  tag: "9.3.6"
 deployment:
   annotations: {}
-
 service:
   type: LoadBalancer
   port: 4080
   targetPort: 4080
   serviceName: qtest-pulse-service
-
 qTestPulse:
   qTestPulseDBName: pulse
   qTestPulseDBUserName: postgres
-  qTestPulseDBPwd: Y2hhbmdlbWU=
-  qTestPulseDBHostName: postgres.local
+  qTestPulseDBHostName: host.docker.internal
+  qTestPulseDBPwd: cG9zdGdyZXM=
   qTestPulsePort: "4080"
   qTestPulseNodeEnv: production
-  qTestPulseRootURL: https://pulse.local
+  qTestPulseRootURL: https://pulse.qtest.local
   qTestPulseQTestURL: https://nephele.qtest.local
   qTestPulseScenarioURL: https://scenario.local
   qTestPulseNodeTLSRejectUnAuthorized: "0"
-
+  qTestPulseDBSSLEnable: false
+  qTestPulseDBSSLMountPath: ""
+  qTestPulseDBSSL: ""
+  qTestPulseDBCRT: ""
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
 ingressClass:
-  enabled: true
+  enabled: false
   labels: {}
   controller: ingress.k8s.aws/alb
   isDefaultClass: true
   # Use to force a networking.k8s.io API Version for certain CI/CD applications. Ex. "v1"
   fallbackApiVersion: ""
-
 ingress:
   enabled: true
-  name: qtest-pulse-ingress
+  name: pulse-nginx
   labels: {}
   annotations: {}
   canary:
     annotationPrefix: ""
     annotations: {}
-      # canary-by-header: []
-      # canary-by-header-pattern: []
+    # canary-by-header: []
+    # canary-by-header-pattern: []
   hosts:
-    host: svc.qtest.com
-
+    host: pulse.qtest.local
   paths: []
-
   extraPaths:
     - path: /*
+      backendServiceName: qtest-pulse-service
       pathType: ImplementationSpecific
-
-  tls:
-    []
-    # - secretName: qtest-svc-tls
-    #   hosts:
-    #     - svc.qtest.com
+      backendPort: 4080
+  tls: []
+  # - secretName: pulse-qtest-local-tls
+  # hosts:
+  # - pulse.qtest.local
   https: false
-
 # VPA values
 vpaAutoscaling:
   enabled: false
   updatePolicy:
     updateMode: "Off"
-
 # HPA values
 autoscaling:
   enabled: true
@@ -85,7 +77,6 @@ autoscaling:
   failureThreshold: 4
   targetCPUUtilizationPercentage: 85
   targetMemoryUtilizationPercentage: 85
-
 resources:
   requests:
     cpu: 1
@@ -93,9 +84,7 @@ resources:
   limits:
     cpu: 1
     memory: 1Gi
-
 limitRange:
   enabled: false
-
 resourceQuota:
   enabled: false
