@@ -84,7 +84,12 @@ spec:
                   name: qtest-session-configmap
                   key: qTestSessionDBHostName
             - name: DB_CONNECTION
+              {{- if .Values.qTestSession.qTestSessionDBSSLEnable }}
+              value: {{ printf "postgresql://$(SESSION_DB_USERNAME):$(SESSION_DB_PWD)@$(SESSION_DB_HOSTNAME)/$(SESSION_DB_NAME)%s" .Values.qTestSession.qTestSessionDBSSL }}
+              {{- end }}
+              {{- if not .Values.qTestSession.qTestSessionDBSSLEnable }}
               value: {{ printf "postgresql://$(SESSION_DB_USERNAME):$(SESSION_DB_PWD)@$(SESSION_DB_HOSTNAME)/$(SESSION_DB_NAME)" }}
+              {{- end }}
             - name: QTEST_HOST
               valueFrom:
                 configMapKeyRef:
@@ -123,6 +128,11 @@ spec:
           volumeMounts:
           - name: qtest-session-data
             mountPath: /usr/local/sessions-js/logs
+          {{- if .Values.qTestSession.qTestSessionDBSSLEnable }}
+          - name: qtest-session-secret-volume
+            mountPath: {{ .Values.qTestSession.qTestSessionDBSSLMountPath }}
+            readOnly: true
+          {{- end }}
       volumes:
         - name: qtest-session-data
         {{- if .Values.persistence.existingClaim }}
@@ -134,3 +144,8 @@ spec:
         {{- else }}
           emptyDir: {}
         {{- end }}
+        {{- if .Values.qTestSession.qTestSessionDBSSLEnable }}
+        - name: qtest-session-secret-volume
+          secret:
+            secretName: qtest-session-root-secret
+        {{- end -}}
