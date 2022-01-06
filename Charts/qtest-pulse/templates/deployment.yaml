@@ -72,7 +72,12 @@ spec:
                   name: qtest-pulse-configmap
                   key: qTestPulseDBHostName
             - name: PG_URL
+              {{- if .Values.qTestPulse.qTestPulseDBSSLEnable }}
+              value: {{ printf "postgresql://$(PULSE_DB_USERNAME):$(PULSE_DB_PWD)@$(PULSE_DB_HOSTNAME)/$(PULSE_DB_NAME)%s" .Values.qTestPulse.qTestPulseDBSSL }}
+              {{- end }}
+              {{- if not .Values.qTestPulse.qTestPulseDBSSLEnable }}
               value: {{ printf "postgresql://$(PULSE_DB_USERNAME):$(PULSE_DB_PWD)@$(PULSE_DB_HOSTNAME)/$(PULSE_DB_NAME)" }}
+              {{- end }}
             - name: PORT
               valueFrom:
                 configMapKeyRef:
@@ -98,3 +103,12 @@ spec:
                 configMapKeyRef:
                   name: qtest-pulse-configmap
                   key: qTestPulseScenarioURL
+{{- if .Values.qTestPulse.qTestPulseDBSSLEnable }}
+          volumeMounts:
+          - name: qtest-pulse-secret-volume
+            mountPath: {{ .Values.qTestPulse.qTestPulseDBSSLMountPath }}
+      volumes:
+      - name: qtest-pulse-secret-volume
+        secret:
+          secretName: qtest-pulse-root-secret
+{{- end -}}
