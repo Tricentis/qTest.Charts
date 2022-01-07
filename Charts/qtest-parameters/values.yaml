@@ -8,7 +8,7 @@ secrets:
 image:
   repository: qasymphony/parameters
   pullPolicy: IfNotPresent
-  tag: "2.2.14"
+  tag: "test"
 deployment:
   annotations: {}
 service:
