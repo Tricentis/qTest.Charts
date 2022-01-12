@@ -21,6 +21,7 @@ Policies:
             - 's3:PutObjectTagging'
             - 's3:RestoreObject'
             - 's3:ListMultipartUploadParts'
+            - 's3:ListBucket'
 ```
 More information on creating an IAM role and policy for your service account are located in [AWS EKS Userguide](https://docs.aws.amazon.com/eks/latest/userguide/create-service-account-iam-policy-and-role.html).
 
