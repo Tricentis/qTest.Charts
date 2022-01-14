@@ -8,7 +8,6 @@ metadata:
 data:
   qTestParametersDBName: "{{ .Values.qTestParameters.qTestParametersDBName }}"
   qTestParametersDBUserName: "{{ .Values.qTestParameters.qTestParametersDBUserName }}"
-  qTestParametersDBPwd: "{{ .Values.qTestParameters.qTestParametersDBPwd }}"
   qTestParametersDBHostName: "{{ .Values.qTestParameters.qTestParametersDBHostName }}"
   qTestParametersQTestHost: "{{ .Values.qTestParameters.qTestParametersQTestHost }}"
   qTestParametersNodeTLSRejectUnAuthorized: "{{ .Values.qTestParameters.qTestParametersNodeTLSRejectUnAuthorized }}"

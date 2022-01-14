@@ -19,7 +19,6 @@ service:
 qTestParameters:
   qTestParametersDBName: parameters
   qTestParametersDBUserName: postgres
-  qTestParametersDBPwd: cG9zdGdyZXM=
   qTestParametersDBHostName: postgres.local
   qTestParametersQTestHost: https://nephele.qtest.local
   qTestParametersNodeTLSRejectUnAuthorized: "0"
