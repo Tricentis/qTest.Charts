@@ -82,6 +82,12 @@ SigSci:
   # existingSecret: "sigsci-secret"
   accesskeyid: ""
   secretaccesskey: ""
+lacework:
+  enabled: false
+  accessToken: ""
+  kubernetesCluster: ""
+  serverUrl: ""
+  appPath: /usr/local/tomcat/bin/startup.sh
 qTestManager:
   async:
     threadNo: 100

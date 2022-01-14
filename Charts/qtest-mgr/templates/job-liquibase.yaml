@@ -43,7 +43,7 @@ spec:
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: qtest-liquibase-secret
+                  name: qtest-manager-secret
                   key: client.jdbc.postgres.password
           {{- if .Values.qTestManager.client.jdbc.sslEnable }}
           volumeMounts:
@@ -64,5 +64,5 @@ spec:
       volumes:
         - name: qtest-manager-secret-root-volume
           secret:
-            secretName: qtest-manager-root-secret
+            secretName: qtest-db-root-secret
     {{- end }}
