@@ -64,8 +64,8 @@ spec:
             - name: PULSE_DB_PWD
               valueFrom:
                 secretKeyRef:
-                  name: qtest-pulse-secret
-                  key: qTestPulseDBPWD
+                  name: qtest-manager-secret
+                  key: client.jdbc.postgres.password
             - name: PULSE_DB_HOSTNAME
               valueFrom:
                 configMapKeyRef:
@@ -105,10 +105,10 @@ spec:
                   key: qTestPulseScenarioURL
 {{- if .Values.qTestPulse.qTestPulseDBSSLEnable }}
           volumeMounts:
-          - name: qtest-pulse-secret-volume
+          - name: qtest-db-secret-volume
             mountPath: {{ .Values.qTestPulse.qTestPulseDBSSLMountPath }}
       volumes:
-      - name: qtest-pulse-secret-volume
+      - name: qtest-db-secret-volume
         secret:
-          secretName: qtest-pulse-root-secret
+          secretName: qtest-db-root-secret
 {{- end -}}
