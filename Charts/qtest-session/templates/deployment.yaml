@@ -76,8 +76,8 @@ spec:
             - name: SESSION_DB_PWD
               valueFrom:
                 secretKeyRef:
-                  name: qtest-session-secret
-                  key: qTestSessionDBPWD
+                  name: qtest-manager-secret
+                  key: client.jdbc.postgres.password
             - name: SESSION_DB_HOSTNAME
               valueFrom:
                 configMapKeyRef:
@@ -123,13 +123,13 @@ spec:
             - name: SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                  name: qtest-session-secret
-                  key: qTestSessionSecretKey
+                  name: qtest-manager-secret
+                  key: client.jdbc.postgres.password
           volumeMounts:
           - name: qtest-session-data
             mountPath: /usr/local/sessions-js/logs
           {{- if .Values.qTestSession.qTestSessionDBSSLEnable }}
-          - name: qtest-session-secret-volume
+          - name: qtest-db-secret-volume
             mountPath: {{ .Values.qTestSession.qTestSessionDBSSLMountPath }}
             readOnly: true
           {{- end }}
@@ -145,7 +145,7 @@ spec:
           emptyDir: {}
         {{- end }}
         {{- if .Values.qTestSession.qTestSessionDBSSLEnable }}
-        - name: qtest-session-secret-volume
+        - name: qtest-db-secret-volume
           secret:
-            secretName: qtest-session-root-secret
+            secretName: qtest-db-root-secret
         {{- end -}}
