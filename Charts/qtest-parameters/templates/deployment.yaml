@@ -59,8 +59,8 @@ spec:
             - name: PARAMETERS_DB_PWD
               valueFrom:
                 secretKeyRef:
-                  name: qtest-parameters-secret
-                  key: qTestParametersDBPWD
+                  name: qtest-manager-secret
+                  key: client.jdbc.postgres.password
             - name: PARAMETERS_DB_HOSTNAME
               valueFrom:
                 configMapKeyRef:
@@ -97,7 +97,7 @@ spec:
           - name: qtest-parameter-logs
             mountPath: /usr/local/parameters/logs
           {{- if .Values.qTestParameters.qTestParametersDBSSLEnable }}
-          - name: qtest-parameters-secret-volume
+          - name: qtest-db-secret-volume
             mountPath: {{ .Values.qTestParameters.qTestParametersDBSSLMountPath }}
           {{- end }}
       volumes:
@@ -109,7 +109,7 @@ spec:
           emptyDir: {}
           {{- end }}
         {{- if .Values.qTestParameters.qTestParametersDBSSLEnable }}
-        - name: qtest-parameters-secret-volume
+        - name: qtest-db-secret-volume
           secret:
-            secretName: qtest-parameters-root-secret
+            secretName: qtest-db-root-secret
         {{- end -}}
