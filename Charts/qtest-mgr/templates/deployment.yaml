@@ -76,10 +76,25 @@ spec:
     {{- end }}
       serviceAccountName: {{ template "qtest-mgr.serviceAccountName" . }}
       automountServiceAccountToken: {{ .Values.serviceAccount.automountsatoken }}
+      {{- if .Values.lacework.enabled }}
+      shareProcessNamespace: true
+      initContainers:
+      - image: lacework/datacollector:latest-sidecar
+        imagePullPolicy: Always
+        name: lw-agent-sidecar
+        volumeMounts:
+        - name: lacework-volume
+          mountPath: /lacework-data
+        command: ["/bin/sh"]
+        args: ["-c", "cp -r /var/lib/lacework-backup/* /lacework-data"]
+      {{- end }}
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         name: {{ .Chart.Name }}
+        {{- if .Values.lacework.enabled }}
+        args: ["-c", "/var/lib/lacework-backup/lacework-sidecar.sh && {{ .Values.lacework.appPath }}"]
+        {{- end }}
         livenessProbe:
           {{ .Values.livenessProbe | toYaml | indent 10 | trim }}
         readinessProbe:
@@ -102,6 +117,15 @@ spec:
         {{ else }}
           value: {{ $uiProfile }}
         {{- end }}
+        {{- if .Values.lacework.enabled }}
+        - name: LW_KUBERNETES_NODENAME
+          valueFrom:
+            fieldRef:
+                apiVersion: v1
+                fieldPath: spec.nodeName
+        - name: LW_EXECUTION_ENV
+          value: "EKS_FARGATE"
+        {{- end }}
         volumeMounts:
         - name: qtest-data
           mountPath: {{ .Values.qTestManager.data.volumeMount }}
@@ -112,6 +136,14 @@ spec:
         - name: qtest-manager-secret-root-volume
           mountPath: {{ .Values.qTestManager.client.jdbc.sslMountPath }}
           readOnly: true
+        {{- end }}
+        {{- if .Values.lacework.enabled }}
+        - name: lacework-volume
+          mountPath: /var/lib/lacework-backup
+        - name: cfgmap
+          mountPath: /var/lib/lacework/config
+        - name: podinfo
+          mountPath: /etc/podinfo
         {{- end }}
       {{- if .Values.SigSci.enabled }}
       - name: sigsci-agent
@@ -158,10 +190,29 @@ spec:
       {{- if .Values.qTestManager.client.jdbc.sslEnable }}
       - name: qtest-manager-secret-root-volume
         secret:
-          secretName: qtest-manager-root-secret
+          secretName: qtest-db-root-secret
       {{- end }}
       {{- if .Values.SigSci.enabled }}
       - name: sigsci-tmp
+      {{- end }}
+      {{- if .Values.lacework.enabled }}
+      - name: lacework-volume
+        emptyDir: {}
+      - name: cfgmap
+        configMap:
+          name: lacework-config
+          items:
+          - key: config.json
+            path: config.json
+      - name: podinfo
+        downwardAPI:
+          items:
+          - path: "labels"
+            fieldRef:
+              fieldPath: metadata.labels
+          - path: "annotations"
+            fieldRef:
+              fieldPath: metadata.annotations
       {{- end }}
       - name: qtest-data
       {{- if .Values.persistence.existingClaim }}
@@ -237,10 +288,25 @@ spec:
     {{- end }}
       serviceAccountName: {{ template "qtest-mgr.serviceAccountName" . }}
       automountServiceAccountToken: {{ .Values.serviceAccount.automountsatoken }}
+      {{- if .Values.lacework.enabled }}
+      shareProcessNamespace: true
+      initContainers:
+      - image: lacework/datacollector:latest-sidecar
+        imagePullPolicy: Always
+        name: lw-agent-sidecar
+        volumeMounts:
+        - name: lacework-volume
+          mountPath: /lacework-data
+        command: ["/bin/sh"]
+        args: ["-c", "cp -r /var/lib/lacework-backup/* /lacework-data"]
+      {{- end }}
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         name: {{ .Chart.Name }}
+        {{- if .Values.lacework.enabled }}
+        args: ["-c", "/var/lib/lacework-backup/lacework-sidecar.sh && {{ .Values.lacework.appPath }}"]
+        {{- end }}
         livenessProbe:
           {{ .Values.livenessProbe | toYaml | indent 10 | trim }}
         readinessProbe:
@@ -259,6 +325,15 @@ spec:
         env:
         - name: testconductor.environment
           value: {{ $pollerProfile }}
+        {{- if .Values.lacework.enabled }}
+        - name: LW_KUBERNETES_NODENAME
+          valueFrom:
+            fieldRef:
+                apiVersion: v1
+                fieldPath: spec.nodeName
+        - name: LW_EXECUTION_ENV
+          value: "EKS_FARGATE"
+        {{- end }}
         volumeMounts:
         - name: qtest-data
           mountPath: {{ .Values.qTestManager.data.volumeMount }}
@@ -270,6 +345,14 @@ spec:
           mountPath: {{ .Values.qTestManager.client.jdbc.sslMountPath }}
           readOnly: true
         {{- end }}
+        {{- if .Values.lacework.enabled }}
+        - name: lacework-volume
+          mountPath: /var/lib/lacework-backup
+        - name: cfgmap
+          mountPath: /var/lib/lacework/config
+        - name: podinfo
+          mountPath: /etc/podinfo
+        {{- end }}
       volumes:
       - name: qtest-manager-secret-storage
         secret:
@@ -278,7 +361,7 @@ spec:
       {{- if .Values.qTestManager.client.jdbc.sslEnable }}
       - name: qtest-manager-secret-root-volume
         secret:
-          secretName: qtest-manager-root-secret
+          secretName: qtest-db-root-secret
       {{- end }}
       {{- if .Values.persistence.existingClaim }}
         persistentVolumeClaim:
@@ -288,6 +371,25 @@ spec:
           claimName: {{ template "qtest-mgr.fullname" . }}
       {{- else }}
         emptyDir: {}
+      {{- end }}
+      {{- if .Values.lacework.enabled }}
+      - name: lacework-volume
+        emptyDir: {}
+      - name: cfgmap
+        configMap:
+          name: lacework-config
+          items:
+          - key: config.json
+            path: config.json
+      - name: podinfo
+        downwardAPI:
+          items:
+          - path: "labels"
+            fieldRef:
+              fieldPath: metadata.labels
+          - path: "annotations"
+            fieldRef:
+              fieldPath: metadata.annotations
       {{- end }}
 ---
 apiVersion: apps/v1
@@ -352,10 +454,25 @@ spec:
     {{- end }}
       serviceAccountName: {{ template "qtest-mgr.serviceAccountName" . }}
       automountServiceAccountToken: {{ .Values.serviceAccount.automountsatoken }}
+      {{- if .Values.lacework.enabled }}
+      shareProcessNamespace: true
+      initContainers:
+      - image: lacework/datacollector:latest-sidecar
+        imagePullPolicy: Always
+        name: lw-agent-sidecar
+        volumeMounts:
+        - name: lacework-volume
+          mountPath: /lacework-data
+        command: ["/bin/sh"]
+        args: ["-c", "cp -r /var/lib/lacework-backup/* /lacework-data"]
+      {{- end }}
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         name: {{ .Chart.Name }}
+        {{- if .Values.lacework.enabled }}
+        args: ["-c", "/var/lib/lacework-backup/lacework-sidecar.sh && {{ .Values.lacework.appPath }}"]
+        {{- end }}
         livenessProbe:
           {{ .Values.livenessProbe | toYaml | indent 10 | trim }}
         readinessProbe:
@@ -374,6 +491,15 @@ spec:
         env:
         - name: testconductor.environment
           value: {{ $notificationProfile }}
+        {{- if .Values.lacework.enabled }}
+        - name: LW_KUBERNETES_NODENAME
+          valueFrom:
+            fieldRef:
+                apiVersion: v1
+                fieldPath: spec.nodeName
+        - name: LW_EXECUTION_ENV
+          value: "EKS_FARGATE"
+        {{- end }}
         volumeMounts:
         - name: qtest-data
           mountPath: {{ .Values.qTestManager.data.volumeMount }}
@@ -384,6 +510,14 @@ spec:
         - name: qtest-manager-secret-root-volume
           mountPath: {{ .Values.qTestManager.client.jdbc.sslMountPath }}
           readOnly: true
+        {{- end }}
+        {{- if .Values.lacework.enabled }}
+        - name: lacework-volume
+          mountPath: /var/lib/lacework-backup
+        - name: cfgmap
+          mountPath: /var/lib/lacework/config
+        - name: podinfo
+          mountPath: /etc/podinfo
         {{- end }}
       {{- if .Values.SigSci.enabled }}
       - name: sigsci-agent
@@ -433,7 +567,7 @@ spec:
       {{- if .Values.qTestManager.client.jdbc.sslEnable }}
       - name: qtest-manager-secret-root-volume
         secret:
-          secretName: qtest-manager-root-secret
+          secretName: qtest-db-root-secret
       {{- end }}
       - name: qtest-data
       {{- if .Values.persistence.existingClaim }}
@@ -444,6 +578,25 @@ spec:
           claimName: {{ template "qtest-mgr.fullname" . }}
       {{- else }}
         emptyDir: {}
+      {{- end }}
+      {{- if .Values.lacework.enabled }}
+      - name: lacework-volume
+        emptyDir: {}
+      - name: cfgmap
+        configMap:
+          name: lacework-config
+          items:
+          - key: config.json
+            path: config.json
+      - name: podinfo
+        downwardAPI:
+          items:
+          - path: "labels"
+            fieldRef:
+              fieldPath: metadata.labels
+          - path: "annotations"
+            fieldRef:
+              fieldPath: metadata.annotations
       {{- end }}
 ---
 apiVersion: apps/v1
@@ -508,9 +661,25 @@ spec:
     {{- end }}
       serviceAccountName: {{ template "qtest-mgr.serviceAccountName" . }}
       automountServiceAccountToken: {{ .Values.serviceAccount.automountsatoken }}
+      {{- if .Values.lacework.enabled }}
+      shareProcessNamespace: true
+      initContainers:
+      - image: lacework/datacollector:latest-sidecar
+        imagePullPolicy: Always
+        name: lw-agent-sidecar
+        volumeMounts:
+        - name: lacework-volume
+          mountPath: /lacework-data
+        command: ["/bin/sh"]
+        args: ["-c", "cp -r /var/lib/lacework-backup/* /lacework-data"]
+      {{- end }}
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+        name: {{ .Chart.Name }}
+        {{- if .Values.lacework.enabled }}
+        args: ["-c", "/var/lib/lacework-backup/lacework-sidecar.sh && {{ .Values.lacework.appPath }}"]
+        {{- end }}
         livenessProbe:
           {{ .Values.livenessProbe | toYaml | indent 10 | trim }}
         readinessProbe:
@@ -519,7 +688,6 @@ spec:
           {{ .Values.startupProbe | toYaml | indent 10 | trim }}
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
-        name: {{ .Chart.Name }}
         ports:
         - containerPort: {{ .Values.service.targetPort }}
           name: http
@@ -530,6 +698,15 @@ spec:
         env:
         - name: testconductor.environment
           value: {{ $apiProfile }}
+        {{- if .Values.lacework.enabled }}
+        - name: LW_KUBERNETES_NODENAME
+          valueFrom:
+            fieldRef:
+                apiVersion: v1
+                fieldPath: spec.nodeName
+        - name: LW_EXECUTION_ENV
+          value: "EKS_FARGATE"
+        {{- end }}
         volumeMounts:
         - name: qtest-data
           mountPath: {{ .Values.qTestManager.data.volumeMount }}
@@ -540,6 +717,14 @@ spec:
         - name: qtest-manager-secret-root-volume
           mountPath: {{ .Values.qTestManager.client.jdbc.sslMountPath }}
           readOnly: true
+        {{- end }}
+        {{- if .Values.lacework.enabled }}
+        - name: lacework-volume
+          mountPath: /var/lib/lacework-backup
+        - name: cfgmap
+          mountPath: /var/lib/lacework/config
+        - name: podinfo
+          mountPath: /etc/podinfo
         {{- end }}
       {{- if .Values.SigSci.enabled }}
       - name: sigsci-agent
@@ -589,7 +774,7 @@ spec:
       {{- if .Values.qTestManager.client.jdbc.sslEnable }}
       - name: qtest-manager-secret-root-volume
         secret:
-          secretName: qtest-manager-root-secret
+          secretName: qtest-db-root-secret
       {{- end }}
       - name: qtest-data
       {{- if .Values.persistence.existingClaim }}
@@ -600,5 +785,24 @@ spec:
           claimName: {{ template "qtest-mgr.fullname" . }}
       {{- else }}
         emptyDir: {}
+      {{- end }}
+      {{- if .Values.lacework.enabled }}
+      - name: lacework-volume
+        emptyDir: {}
+      - name: cfgmap
+        configMap:
+          name: lacework-config
+          items:
+          - key: config.json
+            path: config.json
+      - name: podinfo
+        downwardAPI:
+          items:
+          - path: "labels"
+            fieldRef:
+              fieldPath: metadata.labels
+          - path: "annotations"
+            fieldRef:
+              fieldPath: metadata.annotations
       {{- end }}
 {{- end }}

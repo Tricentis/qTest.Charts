@@ -1,0 +1,21 @@
+{{- if .Values.lacework.enabled }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: qtest-lacework-clusterrole
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - nodes
+      - pods
+      - nodes/metrics
+      - nodes/spec
+      - nodes/stats
+      - nodes/proxy
+      - nodes/pods
+      - nodes/healthz
+    verbs:
+      - get
+      - list
+{{- end }}
