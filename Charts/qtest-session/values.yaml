@@ -27,7 +27,6 @@ qTestSession:
   qTestSessionPort: "8080"
   qTestSessionDBName: sessions
   qTestSessionDBUserName: postgres
-  qTestSessionDBPwd: cG9zdGdyZXM=
   qTestSessionDBHostName: host.docker.internal
   qTestManagerHost: https://nephele.qtest.local
   qTestSessionMasterToken: Qtoy
