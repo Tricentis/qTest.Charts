@@ -48,8 +48,27 @@ spec:
           envFrom:
             - configMapRef:
                 name: qtest-insights-etl-configmap
-            - secretRef:
-                name: qtest-insights-etl-secret
+          env:
+            - name: QTEST_DB_PW
+              valueFrom:
+                secretKeyRef:
+                  name: qtest-manager-secret
+                  key: client.jdbc.postgres.password
+            - name: WRITE_QTEST_DB_PW
+              valueFrom:
+                secretKeyRef:
+                  name: qtest-manager-secret
+                  key: client.jdbc.postgres.password
+            - name: SESSIONS_DB_PW
+              valueFrom:
+                secretKeyRef:
+                  name: qtest-manager-secret
+                  key: client.jdbc.postgres.password
+            - name: WRITE_SESSIONS_DB_PW
+              valueFrom:
+                secretKeyRef:
+                  name: qtest-manager-secret
+                  key: client.jdbc.postgres.password
           resources:
           {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:

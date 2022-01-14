@@ -24,17 +24,13 @@ qTestInsightsEtl:
   qTestUpdateDB: true
   qTestInsightsEtlDBName: qtest
   qTestInsightsEtlDBUser: postgres
-  qTestInsightsEtlDBPassword: cG9zdGdyZXM=
   qTestInsightsEtlDBHost: postgres.local
   qTestInsightsEtlWriteQTestDBName: qtest
   qTestInsightsEtlWriteQTestDBUser: postgres
-  qTestInsightsEtlWriteQTestDBPassword: cG9zdGdyZXM=
   qTestInsightsEtlWriteQTestDBHost: postgres.local
   qTestInsightsEtlSessionDBName: sessions
   qTestInsightsEtlSessionDBUser: postgres
-  qTestInsightsEtlSessionDBPassword: cG9zdGdyZXM=
   qTestInsightsEtlSessionDBHost: postgres.local
-  writeSessionsDBPassword: cG9zdGdyZXM=
   writeSessionsDBHost: postgres.local
   writeSessionsDBName: qtest
   writeSessionsDBUser: postgres
