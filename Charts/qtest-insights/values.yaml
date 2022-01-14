@@ -20,15 +20,12 @@ qTestInsights:
   qTestInsightsCatalinaOpts: \"-server -d64 -Xms512m -Xmx2048m -XX:MaxPermSize=256m -XX:CompileThreshold=8000 -XX:-DisableExplicitGC -XX:HeapDumpPath=/logs -Djava.awt.headless=true\"
   qTestInsightsDBName: qtest
   qTestInsightsDBUser: postgres
-  qTestInsightsDBPassword: cG9zdGdyZXM=
   qTestInsightsDBHost: postgres.local
   qTestInsightsWriteQTestDBName: qtest
   qTestInsightsWriteQTestDBUser: postgres
-  qTestInsightsWriteQTestDBPassword: cG9zdGdyZXM=
   qTestInsightsWriteQTestDBHost: postgres.local
   qTestInsightsSessionDBName: sessions
   qTestInsightsSessionDBUser: postgres
-  qTestInsightsSessionDBPassword: cG9zdGdyZXM=
   qTestInsightsSessionDBHost: postgres.local
   qTestInsightsCSRFAllowPattern: \"$insights_security_csrf_trusted_source_pattern\"
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####

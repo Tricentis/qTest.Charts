@@ -48,8 +48,22 @@ spec:
           envFrom:
             - configMapRef:
                 name: qtest-insights-configmap
-            - secretRef:
-                name: qtest-insights-secret
+          env:
+            - name: QTEST_DB_PW
+              valueFrom:
+                secretKeyRef:
+                  name: qtest-manager-secret
+                  key: client.jdbc.postgres.password
+            - name: WRITE_QTEST_DB_PW
+              valueFrom:
+                secretKeyRef:
+                  name: qtest-manager-secret
+                  key: client.jdbc.postgres.password
+            - name: SESSIONS_DB_PW
+              valueFrom:
+                secretKeyRef:
+                  name: qtest-manager-secret
+                  key: client.jdbc.postgres.password
           volumeMounts:
             - name: qtest-insights
               mountPath: /usr/local/tomcat/logs/
