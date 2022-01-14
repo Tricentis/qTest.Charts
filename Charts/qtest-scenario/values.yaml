@@ -20,7 +20,6 @@ service:
 qTestScenario:
   qTestScenarioDBName: scenario
   qTestScenarioDBUserName: postgres
-  qTestScenarioDBPwd: cG9zdGdyZXM=
   qTestScenarioDBHostName: host.docker.internal
   qTestScenarioPort: "6080"
   qTestScenarioLocalBaseURL: https://scenario.local
