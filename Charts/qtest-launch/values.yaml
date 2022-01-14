@@ -19,7 +19,6 @@ service:
 qTestLaunch:
   qTestLaunchDBName: qtest
   qTestLaunchDBUserName: postgres
-  qTestLaunchDBPwd: cG9zdGdyZXM=
   qTestLaunchDBHostName: postgres.local
   qTestLaunchRootURL: https://launch.local
   qTestLaunchQTestURL: https://nephele.qtest.local

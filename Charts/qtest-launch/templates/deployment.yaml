@@ -64,8 +64,8 @@ spec:
             - name: LAUNCH_DB_PWD
               valueFrom:
                 secretKeyRef:
-                  name: qtest-launch-secret
-                  key: qTestLaunchDBPWD
+                  name: qtest-manager-secret
+                  key: client.jdbc.postgres.password
             - name: LAUNCH_DB_HOSTNAME
               valueFrom:
                 configMapKeyRef:
@@ -100,10 +100,10 @@ spec:
                   key: qTestLaunchNodeTLSRejectUnAuthorized
 {{- if .Values.qTestLaunch.qTestLaunchDBSSLEnable }}
           volumeMounts:
-          - name: qtest-launch-secret-volume
+          - name: qtest-db-secret-volume
             mountPath: {{ .Values.qTestLaunch.qTestLaunchDBSSLMountPath }}
       volumes:
-      - name: qtest-launch-secret-volume
+      - name: qtest-db-secret-volume
         secret:
-          secretName: qtest-launch-root-secret
+          secretName: qtest-db-root-secret
 {{- end -}}
