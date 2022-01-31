@@ -27,6 +27,10 @@ metadata:
   labels:
     app: qtest-mgr
 data:
+  analytics.url.base: "{{ .Values.qTestManager.analyticsUrlBase }}"
+  configure.timeout.token.application.enabled: "{{ .Values.qTestManager.configureTimeoutTokenApplicationEnabled }}"
+  cors.allowed.domains: "{{ .Values.qTestManager.cors.allowed.domains }}"
+  client.dbcp.testWhileIdle: "{{ .Values.qTestManager.client.dbcp.testWhileIdle }}"
   client.jdbc.postgres.url: "{{ $postgresUrl }}"
   client.jdbc.postgres.username: "{{ .Values.qTestManager.client.jdbc.postgresUserName }}"
   client.jdbc.postgres.readonly.url: "{{ $postgresReadUrl }}"
@@ -36,6 +40,7 @@ data:
   elasticsearch.scheme: "{{ .Values.qTestManager.elasticSearch.scheme }}"
   elasticsearch.host: "{{ .Values.qTestManager.elasticSearch.host }}"
   elasticsearch.port: "{{ .Values.qTestManager.elasticSearch.port }}"
+  elasticsearch.maximum_objects_per_index_request: "{{ .Values.qTestManager.elasticSearch.maximumObjectsPerIndexRequest }}"
   attachment.folder.path: "{{ .Values.qTestManager.attachmentFolderPath }}"
   license.folder.path: "{{ .Values.qTestManager.licenseFolderPath }}"
   elasticsearch.permitted_clients: "{{ .Values.qTestManager.elasticSearch.permittedClients }}"
@@ -46,6 +51,7 @@ data:
   serverapp.useSecureCookie: "{{ .Values.qTestManager.serverAppUseSecureCookie }}"
   serverapp.ssl.required: "{{ .Values.qTestManager.serverAppSSLRequired }}"
   serverapp.ssl.redirect.custom.status.enabled: "{{ .Values.qTestManager.serverAppSSLRequired }}"
+  pentaho.usingClientId: "{{ .Values.qTestManager.pentaho.usingClientId }}"
   preUrl: "{{ .Values.qTestManager.preUrl }}"
   preUrl.https: "{{ .Values.qTestManager.preUrlHttps }}"
   qasymphonyUrlPostfix: "{{ .Values.qTestManager.qasymphonyUrlPostfix }}"
@@ -59,21 +65,26 @@ data:
   insights.url: "{{ .Values.qTestManager.insightsUrl }}"
   launch.url.base: "{{ .Values.qTestManager.launchUrlBase }}"
   notification.url.external: "{{ .Values.qTestManager.notification.urlExternal }}"
+  notification.url.internal: "{{ .Values.qTestManager.notification.urlInternal }}"
   qtest.servermap.url: "{{ .Values.qTestManager.qTest.serverMapUrl }}"
   tdm.setting.url: "{{ .Values.qTestManager.tdmSettingUrl }}"
   mail.host: "{{ .Values.qTestManager.mail.host }}"
   mail.port: "{{ .Values.qTestManager.mail.port }}"
   mail.username: "{{ .Values.qTestManager.mail.userName }}"
+  mail.block.external: "{{ .Values.qTestManager.mail.blockExternal }}"
   supportEmailAddress: "{{ .Values.qTestManager.mail.supportEmailAddress }}"
   integration.jira.testConnection.legacyEndpoint.clients: "{{ .Values.qTestManager.integration.jira.testConnectionLegacyEndpointClients }}"
   qtest.od.private: "{{ .Values.qTestManager.qTest.ODPrivate }}"
   secret.volume.mount.path: "{{ .Values.qTestManager.secret.appVolumeMount }}"
-  client.dbcp.maxActive: "{{ .Values.qTestManager.client.dbcp.maxActive }}"
+  emailchange.allow.clients: "{{ .Values.qTestManager.emailchange.allowClients }}"
+  report.http.url: "{{ .Values.qTestManager.report.httpUrl }}"
+  report.url: "{{ .Values.qTestManager.report.url }}"
+  request.execution.time.upper.threshold: "{{ .Values.qTestManager.requestExecutionTimeUpperThreshold }}"
+  task.execution.time.upper.threshold: "{{ .Values.qTestManager.taskExecutionTimeUpperThreshold }}"
+  vera.auto.testrun.beta.clients: "{{ .Values.qTestManager.vera.auto.testrun.beta.clients }}"
   {{ if .Values.testconductor.environment.isOnPremise }} 
-  async.thread.number: "{{ .Values.qTestManager.async.threadNo }}"
   async.max.cpu: "{{ .Values.qTestManager.async.maxCpu }}"
   async.max.database.cpu: "{{ .Values.qTestManager.async.databaseCpu }}"
-  action.task.executor.poolSize: "{{ .Values.qTestManager.action.task.executor.poolSize }}"  
   blobStorage.type: "{{ .Values.qTestManager.blobStorage.type }}"
   s3.accessKey: "{{ .Values.qTestManager.s3.accessKey }}"
   s3.secretKey: "{{ .Values.qTestManager.s3.secretKey }}"
@@ -81,9 +92,23 @@ data:
   qtest.request.nonce.mode: "{{ .Values.qTestManager.qTest.request.nonce.mode }}"
   security.csrf.source.trust.pattern: "{{ .Values.qTestManager.security.csrf.source.trust.pattern }}"
   cors.allowed.all: "{{ .Values.qTestManager.cors.allowed.all }}"
-  cors.allowed.domains: "{{ .Values.qTestManager.cors.allowed.domains }}"
-  vera.auto.testrun.beta.clients: "{{ .Values.qTestManager.vera.auto.testrun.beta.clients }}"
   {{ end }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: qtest-manager-ui-config
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    app: qtest-mgr
+data:
+  action.task.executor.poolSize: "{{ .Values.ui.action.task.executor.poolSize }}"
+  async.thread.number: "{{ .Values.ui.asyncThreadNumber }}"
+  background.event.maxThreshold: "{{ .Values.ui.backgroundEventMaxThreshold }}"
+  client.dbcp.maxActive: "{{ .Values.ui.client.dbcp.maxActive }}"
+  client.dbcp.readonly.maxActive: "{{ .Values.ui.client.dbcp.readOnlyMaxActive }}"
+  spring.profiles.active: "{{ .Values.ui.springProfilesActive }}"
+  useriq.enabled: "{{ .Values.ui.useriqEnabled }}"
 ---
 {{ if not .Values.testconductor.environment.singleInstance }}
 apiVersion: v1
@@ -94,48 +119,59 @@ metadata:
   labels:
     app: qtest-mgr
 data:
-  client.jdbc.postgres.url: "{{ $postgresUrl }}"
-  client.jdbc.postgres.username: "{{ .Values.qTestManager.client.jdbc.postgresUserName }}"
-  client.jdbc.postgres.readonly.url: "{{ $postgresReadUrl }}"
-  client.jdbc.postgres.readonly.username: "{{ .Values.qTestManager.client.jdbc.postgresReadOnlyUserName }}"
-  elasticsearch.init: "{{ .Values.qTestManager.elasticSearch.init }}"
-  elasticsearch.disable: "{{ .Values.qTestManager.elasticSearch.disable }}"
-  elasticsearch.scheme: "{{ .Values.qTestManager.elasticSearch.scheme }}"
-  elasticsearch.host: "{{ .Values.qTestManager.elasticSearch.host }}"
-  elasticsearch.port: "{{ .Values.qTestManager.elasticSearch.port }}"
-  attachment.folder.path: "{{ .Values.qTestManager.attachmentFolderPath }}"
-  elasticsearch.permitted_clients: "{{ .Values.qTestManager.elasticSearch.permittedClients }}"
-  blobStorage.region: "{{ .Values.qTestManager.blobStorage.region }}"
-  blobStorage.sharedBucket: "{{ .Values.qTestManager.blobStorage.sharedBucket }}"
-  s3.folder: "{{ .Values.qTestManager.s3.folder }}"
-  s3.scan.url: "{{ .Values.qTestManager.s3.scanUrl }}"
-  serverapp.useSecureCookie: "{{ .Values.qTestManager.serverAppUseSecureCookie }}"
-  serverapp.ssl.required: "{{ .Values.qTestManager.serverAppSSLRequired }}"
-  serverapp.ssl.redirect.custom.status.enabled: "{{ .Values.qTestManager.serverAppSSLRequired }}"
-  preUrl: "{{ .Values.qTestManager.preUrl }}"
-  preUrl.https: "{{ .Values.qTestManager.preUrlHttps }}"
-  qasymphonyUrlPostfix: "{{ .Values.qTestManager.qasymphonyUrlPostfix }}"
-  qas.directory.address: "{{ .Values.qTestManager.qasDirectoryAddress }}"
-  qTest.instance: "{{ .Values.qTestManager.qTest.instance }}"
-  kafka.bootstrapAddress: "{{ .Values.qTestManager.kafka.bootstrapAddress }}"
-  kafka.schemaRegistryUrl: "{{ .Values.qTestManager.kafka.schemaRegistryUrl }}"
-  qtest.kafka.enable: "{{ .Values.qTestManager.kafka.enable }}"
-  pre.session.url: "{{ .Values.qTestManager.preSessionUrl }}"
-  pulse.url.base: "{{ .Values.qTestManager.pulseUrlBase }}"
-  insights.url: "{{ .Values.qTestManager.insightsUrl }}"
-  launch.url.base: "{{ .Values.qTestManager.launchUrlBase }}"
-  notification.url.external: "{{ .Values.qTestManager.notification.urlExternal }}"
-  qtest.servermap.url: "{{ .Values.qTestManager.qTest.serverMapUrl }}"
-  tdm.setting.url: "{{ .Values.qTestManager.tdmSettingUrl }}"
-  mail.host: "{{ .Values.qTestManager.mail.host }}"
-  mail.port: "{{ .Values.qTestManager.mail.port }}"
-  mail.username: "{{ .Values.qTestManager.mail.userName }}"
-  supportEmailAddress: "{{ .Values.qTestManager.mail.supportEmailAddress }}"
-  integration.jira.testConnection.legacyEndpoint.clients: "{{ .Values.qTestManager.integration.jira.testConnectionLegacyEndpointClients }}"
-  qtest.od.private: "{{ .Values.qTestManager.qTest.ODPrivate }}"
-  com.qasymphony.qtest.event.service.ToscaQueueEventProcessingService.MAX_DEQUEUE: "{{ .Values.qTestManager.notification.ToscaQueueEventProcessingServiceMaxDequeue }}"
-  action.task.executor.poolSize: "{{ .Values.qTestManager.notification.actionTaskExecutorPoolSize }}"
-  spring.profiles.active: "{{ .Values.qTestManager.notification.springProfilesActive }}"
-  secret.volume.mount.path: "{{ .Values.qTestManager.secret.appVolumeMount }}"
-  client.dbcp.maxActive: "{{ .Values.qTestManager.client.dbcp.maxActive }}"
+  app.name: "{{ .Values.notification.appName }}"
+  async.thread.number: "{{ .Values.notification.asyncThreadNumber }}"
+  background.event.api.threshold: "{{ .Values.notification.background.event.apiThreshold }}"
+  background.event.cleanUp.interval: "{{ .Values.notification.background.event.cleanUpInterval }}"
+  background.event.jira_cloud.threshold: "{{ .Values.notification.background.event.jiraCloudThreshold }}"
+  background.event.jira_server.threshold: "{{ .Values.notification.background.event.jiraServerThreshold }}"
+  background.event.maxThreshold: "{{ .Values.notification.background.event.maxThreshold }}"
+  background.event.old_defect_tracking_systems.threshold: "{{ .Values.notification.background.event.oldDefectTrackingSystemsThreshold }}"
+  background.event.test_execution_api.retry_times: "{{ .Values.notification.background.event.testExecutionApiRetryTime }}"
+  background.event.test_execution_api.threshold: "{{ .Values.notification.background.event.testExecutionApiThreshold }}"
+  client.dbcp.maxActive: "{{ .Values.notification.client.dbcp.maxActive }}"
+  spring.profiles.active: "{{ .Values.notification.springProfilesActive }}"
+  scheduler.blobHandle.maxRetryTimes: "{{ .Values.notification.schedulerBlobHandleMaxRetryTimes }}"
+  action.task.executor.poolSize: "{{ .Values.notification.action.task.executor.poolSize }}"
+  com.qasymphony.qtest.event.service.ToscaQueueEventProcessingService.MAX_DEQUEUE: "{{ .Values.notification.queuePublisherMaxDequeue }}"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: qtest-manager-api-config
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    app: qtest-mgr
+data:
+  app.name: "{{ .Values.api.appName }}"
+  async.thread.number: "{{ .Values.api.asyncThreadNumber }}"
+  background.event.api.threshold: "{{ .Values.api.background.event.apiThreshold }}"
+  background.event.cleanUp.interval: "{{ .Values.api.background.event.cleanUpInterval }}"
+  background.event.jira_cloud.threshold: "{{ .Values.api.background.event.jiraCloudThreshold }}"
+  background.event.jira_server.threshold: "{{ .Values.api.background.event.jiraServerThreshold }}"
+  background.event.maxThreshold: "{{ .Values.api.background.event.maxThreshold }}"
+  background.event.old_defect_tracking_systems.threshold: "{{ .Values.api.background.event.oldDefectTrackingSystemsThreshold }}"
+  background.event.test_execution_api.retry_times: "{{ .Values.api.background.event.testExecutionApiRetryTime }}"
+  background.event.test_execution_api.threshold: "{{ .Values.api.background.event.testExecutionApiThreshold }}"
+  client.dbcp.maxActive: "{{ .Values.api.client.dbcp.maxActive }}"
+  spring.profiles.active: "{{ .Values.api.springProfilesActive }}"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: qtest-manager-poller-config
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    app: qtest-mgr
+data:
+  app.name: "{{ .Values.poller.appName }}"
+  async.thread.number: "{{ .Values.poller.asyncThreadNumber }}"
+  background.event.cleanUp.interval: "{{ .Values.poller.background.event.cleanUpInterval }}"
+  background.event.maxThreshold: "{{ .Values.poller.background.event.maxThreshold }}"
+  client.dbcp.maxActive: "{{ .Values.poller.client.dbcp.maxActive }}"
+  com.qasymphony.qtest.event.service.QueuePublisher.MAX_DEQUEUE:  "{{ .Values.poller.queuePublisherMaxDequeue }}"
+  scheduler.blobHandle.maxRetryTimes: "{{ .Values.poller.schedulerBlobHandleMaxRetryTimes }}"
+  site.field.template.assigning.project.batch.size: "{{ .Values.poller.siteFieldTemplateAssigningProjectBatchSize }}"
+  spring.profiles.active: "{{ .Values.poller.springProfilesActive }}"
+  testconductor.app.path: "{{ .Values.poller.testconductorAppPath }}"
 {{- end -}}
