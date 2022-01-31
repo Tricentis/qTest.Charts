@@ -1,6 +1,27 @@
 dependencies:
+- name: qtest-launch
+  repository: https://qas-labs.github.io/qtest-chart
+  version: 0.1.20
+- name: qtest-insights
+  repository: https://qas-labs.github.io/qtest-chart
+  version: 0.1.22
+- name: qtest-insights-etl
+  repository: https://qas-labs.github.io/qtest-chart
+  version: 0.1.18
+- name: qtest-parameters
+  repository: https://qas-labs.github.io/qtest-chart
+  version: 0.1.17
+- name: qtest-pulse
+  repository: https://qas-labs.github.io/qtest-chart
+  version: 0.1.20
+- name: qtest-scenario
+  repository: https://qas-labs.github.io/qtest-chart
+  version: 0.1.19
+- name: qtest-session
+  repository: https://qas-labs.github.io/qtest-chart
+  version: 0.1.23
 - name: reloader
   repository: https://stakater.github.io/stakater-charts
-  version: v0.0.99
-digest: sha256:4f0f63366bc298bdb5a702f22e8143f366d55f5f162b8b6bb919d2f71e778e86
-generated: "2021-09-14T12:46:31.422798-04:00"
+  version: v0.0.104
+digest: sha256:6681c7a41f4c166e01f5af08424374198d950513f67b4951730b684f562456f2
+generated: "2022-01-11T13:26:37.167865-05:00"

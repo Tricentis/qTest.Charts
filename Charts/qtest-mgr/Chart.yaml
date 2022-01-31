@@ -10,7 +10,43 @@ description: A Helm chart for qTest Manager
 # a dependency of application charts to inject those utilities and functions into the rendering
 # pipeline. Library charts do not define any templates and therefore cannot be deployed.
 type: application
+keywords:
+  - qtest-launch
+  - qtest-insights
+  - qtest-insights-etl
+  - qtest-parameters
+  - qtest-pulse
+  - qtest-scenario
+  - qtest-session
 dependencies:
+  - name: qtest-launch
+    repository: "https://qas-labs.github.io/qtest-chart"
+    version: "*"
+    condition: qtest-launch.enabled
+  - name: qtest-insights
+    repository: "https://qas-labs.github.io/qtest-chart"
+    version: "*"
+    condition: qtest-insights.enabled
+  - name: qtest-insights-etl
+    repository: "https://qas-labs.github.io/qtest-chart"
+    version: "*"
+    condition: qtest-insights-etl.enabled
+  - name: qtest-parameters
+    repository: "https://qas-labs.github.io/qtest-chart"
+    version: "*"
+    condition: qtest-parameters.enabled
+  - name: qtest-pulse
+    repository: "https://qas-labs.github.io/qtest-chart"
+    version: "*"
+    condition: qtest-pulse.enabled
+  - name: qtest-scenario
+    repository: "https://qas-labs.github.io/qtest-chart"
+    version: "*"
+    condition: qtest-scenario.enabled
+  - name: qtest-session
+    repository: "https://qas-labs.github.io/qtest-chart"
+    version: "*"
+    condition: qtest-session.enabled
   - name: reloader
     version: "*"
     repository: "https://stakater.github.io/stakater-charts"
@@ -35,7 +71,7 @@ icon: https://images.g2crowd.com/uploads/product/image/social_landscape/social_l
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
 
-version: 1.0.0
+version: 1.0.1
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.

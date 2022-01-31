@@ -1,0 +1,106 @@
+reloader:
+  enabled: true
+# deployment annotations
+annotations:
+  reloader.stakater.com/search: "true"
+serviceAccount:
+  name: qtest-mgr-sa
+  create: true
+  annotations:
+    # Replace role ARN with your AWS Role with permissions in doc/README-EKS.md
+    eks.amazonaws.com/role-arn: arn:aws:iam::accountnumber:role/
+
+limitRange:
+  enabled: true
+  limits:
+    - max:
+        cpu: "2"
+        memory: 8Gi
+      default:
+        cpu: "2"
+        memory: 8Gi
+      defaultRequest:
+        cpu: "2"
+        memory: 8Gi
+      type: Container
+
+## create a secret called qtest-manager-secret before installing helm chart
+secrets:
+  enabled: true
+  existingConfigs: qtest-manager-secret
+imageCredentials:
+  enabled: false
+  # name: ""
+  # registry: https://index.docker.io/v1/
+  # username: ""
+  # password: ""
+  # email: ""
+  # existingImageCredentials: ""
+service:
+  type: NodePort
+  port: 8080
+  targetPort: 8080
+ingressClass:
+  enabled: true
+  controller: ingress.k8s.aws/alb
+ingress:
+  enabled: true
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    # Replace certificate
+    alb.ingress.kubernetes.io/certificate-arn: <Cert ARN>
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/healthcheck-path: /health-checker
+    alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+  paths: []
+  extraPaths:
+    - path: /*
+      pathType: ImplementationSpecific
+      backendServiceName: mgr-service
+      backendPort: 8080
+    - path: /*
+      pathType: ImplementationSpecific
+      backendServiceName: ssl-redirect
+      backendPort: 8080
+qTestManager:
+  client:
+    jdbc:
+      postgresUrl: <Postgres_url>
+      postgresUserName: <Postgres_user>
+      postgresReadOnlyUrl: <Postgres_url-readonly>
+      postgresReadOnlyUserName: <Postgres_user>
+  elasticSearch:
+    init: true
+    disable: false
+    scheme: https
+    host: <ES Host>
+    port: 443
+    permittedClients: <Client names>
+  blobStorage:
+    region: us-east-1
+    sharedBucket: <storage bucket>
+  s3:
+    folder: qtest/manager
+    # scanUrl: "https://clamav.hostedzone"
+  preUrl: http://<sitename>.hostedzone
+  preUrlHttps: https://<sitename>.hostedzone
+  qasymphonyUrlPostfix: .staging.hostedzone
+  preSessionUrl: https://sessions.hostedzone
+  pulseUrlBase: https://pulse.hostedzone
+  insightsUrl: https://insights.hostedzone
+  launchUrlBase: https://launch.hostedzone
+  qasDirectoryAddress: https://authstaging.hostedzone
+  tdmSettingUrl: https://parameters.hostedzone
+  notification:
+    urlExternal: https://sitename.hostedzone
+  qTest:
+    serverMapUrl: https://qtest.qtestnet.com/public/jira-widget/server-map
+  mail:
+    host: email-smtp.host
+    port: 465
+    userName: <mail_user>
+    supportEmailAddress: <email>
+persistence:
+  enabled: false
