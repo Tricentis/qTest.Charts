@@ -110,6 +110,8 @@ spec:
         envFrom:
         - configMapRef:
             name: qtest-manager-config
+        - configMapRef:
+            name: qtest-manager-ui-config
         env:
         - name: testconductor.environment
         {{- if $iSingleInstance }}
@@ -322,6 +324,8 @@ spec:
         envFrom:
         - configMapRef:
             name: qtest-manager-config
+        - configMapRef:
+            name: qtest-manager-poller-config
         env:
         - name: testconductor.environment
           value: {{ $pollerProfile }}
@@ -486,6 +490,8 @@ spec:
           name: http
           protocol: TCP
         envFrom:
+        - configMapRef:
+            name: qtest-manager-config
         - configMapRef:
             name: qtest-manager-notification-config
         env:
@@ -695,6 +701,8 @@ spec:
         envFrom:
         - configMapRef:
             name: qtest-manager-config
+        - configMapRef:
+            name: qtest-manager-api-config
         env:
         - name: testconductor.environment
           value: {{ $apiProfile }}
