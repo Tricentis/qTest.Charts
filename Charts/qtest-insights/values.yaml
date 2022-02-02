@@ -28,6 +28,9 @@ qTestInsights:
   qTestInsightsSessionDBUser: postgres
   qTestInsightsSessionDBHost: postgres.local
   qTestInsightsCSRFAllowPattern: \"$insights_security_csrf_trusted_source_pattern\"
+  smtp:
+    server: "smtp.local"
+    account: "qtest"
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
 ingressClass:
   enabled: false
