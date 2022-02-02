@@ -8,7 +8,7 @@ secrets:
 image:
   repository: qasymphony/launch
   pullPolicy: IfNotPresent
-  tag: "1.6.7"
+  tag: "1.6.10"
 deployment:
   annotations: {}
 service:
