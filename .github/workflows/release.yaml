@@ -25,7 +25,9 @@ jobs:
         with:
           version: 3.4.0 #renovate: datasource=github-releases depName=helm/helm
       - name: Add external Helm repos
-        run: helm repo add reloader https://stakater.github.io/stakater-charts
+        run: |
+          helm repo add reloader https://stakater.github.io/stakater-charts
+          helm repo add qtest https://tricentis.github.io/qTest.Charts
 
       # - name: Build chart dependencies
       #   run: |
