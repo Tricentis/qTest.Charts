@@ -64,6 +64,11 @@ spec:
                 secretKeyRef:
                   name: qtest-manager-secret
                   key: client.jdbc.postgres.password
+            - name: SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: qtest-manager-secret
+                  key: mail.password
           volumeMounts:
             - name: qtest-insights
               mountPath: /usr/local/tomcat/logs/
