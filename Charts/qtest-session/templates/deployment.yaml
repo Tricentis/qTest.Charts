@@ -9,6 +9,7 @@ metadata:
   {{- end }}
 spec:
   replicas: {{ .Values.autoscaling.minReplicas }}
+  revisionHistoryLimit: 3
   selector:
     matchLabels:
       app: qtest-session
@@ -45,7 +46,7 @@ spec:
           resources:
           {{- toYaml .Values.resources | nindent 12 }}
           ports:
-            - containerPort: {{ .Values.service.port }}
+            - containerPort: {{ .Values.service.targetPort }}
               name: http
           env:
             - name: SESSION_JS_HOME
