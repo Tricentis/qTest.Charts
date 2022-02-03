@@ -8,6 +8,7 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
+  revisionHistoryLimit: 3
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
@@ -43,7 +44,7 @@ spec:
           resources:
           {{- toYaml .Values.resources | nindent 12 }}
           ports:
-            - containerPort: {{ .Values.service.port }}
+            - containerPort: {{ .Values.service.targetPort }}
               name: http
           envFrom:
             - configMapRef:
