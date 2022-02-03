@@ -950,6 +950,32 @@ entries:
   qtest-pulse:
   - apiVersion: v2
     appVersion: 9.3.6
+    created: "2022-02-03T00:10:35.506927053Z"
+    dependencies:
+    - condition: reloader.enabled
+      name: reloader
+      repository: https://stakater.github.io/stakater-charts
+      version: '*'
+    description: A Helm chart for Kubernetes cluster of qtest-pulse
+    digest: 088ed3ceb2c0782903ddde34ffe7ef12dd9cbf1db11506a5c2a38b81398e3d16
+    home: https://github.com/QAS-Labs/qtest-chart.git
+    kubeVersion: '>=1.18.0-0'
+    maintainers:
+    - email: b.yang@tricentis.com
+      name: byangtri
+    - email: p.jaladi@ext.tricentis.com
+      name: pjaladi21
+    - email: l.nguyen@tricentis.com
+      name: liemng
+    - email: t.wallick@ext.tricentis.com
+      name: tomasw
+    name: qtest-pulse
+    type: application
+    urls:
+    - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-pulse-1.0.1/qtest-pulse-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
+    appVersion: 9.3.6
     created: "2022-01-14T17:24:44.143934612Z"
     dependencies:
     - condition: reloader.enabled
@@ -1187,4 +1213,4 @@ entries:
     urls:
     - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-session-0.1.0/qtest-session-0.1.0.tgz
     version: 0.1.0
-generated: "2022-02-03T00:09:16.55288294Z"
+generated: "2022-02-03T00:10:35.507102159Z"
