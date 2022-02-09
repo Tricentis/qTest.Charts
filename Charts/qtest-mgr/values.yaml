@@ -77,17 +77,13 @@ service:
   # servicePortHttps: 443
   # servicePortHttpName: http
   # servicePortHttpsName: https
-SigSci:
-  enabled: false
-  # existingSecret: "sigsci-secret"
-  accesskeyid: ""
-  secretaccesskey: ""
-lacework:
-  enabled: false
-  accessToken: ""
-  kubernetesCluster: ""
-  serverUrl: ""
-  appPath: /usr/local/tomcat/bin/startup.sh
+shareProcessNamespace: "true"
+extraInitContainers: []
+extraContainers: []
+extraArgs: []
+extraEnv: []
+extraVolumeMounts: []
+extraVolumes: []
 qTestManager:
   analyticsUrlBase: "http://local"
   configureTimeoutTokenApplicationEnabled: true
@@ -279,6 +275,7 @@ testconductor:
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
 ingressClass:
   enabled: true
+  # existingclassName:
   labels: {}
   controller: ingress.k8s.aws/alb
   isDefaultClass: true
@@ -401,7 +398,6 @@ resourceQuota:
     persistentvolumeclaims: "50"
     requests.storage: 500Gi
 limitRange:
-  enabled: true
   limits:
     - max:
         cpu: "2"

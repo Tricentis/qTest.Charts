@@ -17,10 +17,12 @@ metadata:
   {{- end }}
   {{- end }}
 spec:
-  {{- if .Values.ingress.className }}
-  ingressClassName: {{ .Values.ingress.className }} 
+  {{ if .Values.ingressClass.enabled }}
+    {{ if .Values.ingressClass.existingclassName }}
+  ingressClassName: {{ .Values.ingressClass.existingclassName }}
 {{ else }}
   ingressClassName: "{{ include "qtest-mgr.fullname" . }}-ingressclass"
+{{- end }}
 {{- end }}
   rules:
   {{- if .Values.ingress.hosts }}

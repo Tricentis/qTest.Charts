@@ -1,7 +1,4 @@
 {{- $targetPort := .Values.service.targetPort }}
-{{- if .Values.SigSci.enabled }}
-{{- $targetPort = .Values.service.targetSigSciPort }}
-{{- end }}
 apiVersion: v1
 kind: Service
 metadata:

@@ -76,25 +76,28 @@ spec:
     {{- end }}
       serviceAccountName: {{ template "qtest-mgr.serviceAccountName" . }}
       automountServiceAccountToken: {{ .Values.serviceAccount.automountsatoken }}
-      {{- if .Values.lacework.enabled }}
-      shareProcessNamespace: true
+      shareProcessNamespace: {{ .Values.shareProcessNamespace }}
+      {{- if .Values.extraInitContainers }}
+      # Currently some extra blocks accept strings
+      # to continue with backwards compatibility this is being kept
+      # whilst also allowing for yaml to be specified too.
       initContainers:
-      - image: lacework/datacollector:latest-sidecar
-        imagePullPolicy: Always
-        name: lw-agent-sidecar
-        volumeMounts:
-        - name: lacework-volume
-          mountPath: /lacework-data
-        command: ["/bin/sh"]
-        args: ["-c", "cp -r /var/lib/lacework-backup/* /lacework-data"]
+      {{- if eq "string" (printf "%T" .Values.extraInitContainers) }}
+{{ tpl .Values.extraInitContainers . | indent 6 }}
+      {{- else }}
+{{ toYaml .Values.extraInitContainers | indent 6 }}
+      {{- end }}
       {{- end }}
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         name: {{ .Chart.Name }}
-        {{- if .Values.lacework.enabled }}
-        args: ["-c", "/var/lib/lacework-backup/lacework-sidecar.sh && {{ .Values.lacework.appPath }}"]
-        {{- end }}
+{{- if .Values.extraArgs }}
+        args:
+{{- with .Values.extraArgs }}
+{{ toYaml . | indent 10 }}
+{{- end }}
+{{- end }}
         livenessProbe:
           {{ .Values.livenessProbe | toYaml | indent 10 | trim }}
         readinessProbe:
@@ -119,15 +122,9 @@ spec:
         {{ else }}
           value: {{ $uiProfile }}
         {{- end }}
-        {{- if .Values.lacework.enabled }}
-        - name: LW_KUBERNETES_NODENAME
-          valueFrom:
-            fieldRef:
-                apiVersion: v1
-                fieldPath: spec.nodeName
-        - name: LW_EXECUTION_ENV
-          value: "EKS_FARGATE"
-        {{- end }}
+{{- with .Values.extraEnv }}
+{{ toYaml . | indent 8 }}
+{{- end }}
         volumeMounts:
         - name: qtest-data
           mountPath: {{ .Values.qTestManager.data.volumeMount }}
@@ -139,51 +136,18 @@ spec:
           mountPath: {{ .Values.qTestManager.client.jdbc.sslMountPath }}
           readOnly: true
         {{- end }}
-        {{- if .Values.lacework.enabled }}
-        - name: lacework-volume
-          mountPath: /var/lib/lacework-backup
-        - name: cfgmap
-          mountPath: /var/lib/lacework/config
-        - name: podinfo
-          mountPath: /etc/podinfo
-        {{- end }}
-      {{- if .Values.SigSci.enabled }}
-      - name: sigsci-agent
-        image: signalsciences/sigsci-agent:latest
-        imagePullPolicy: Always
-        resources:
-          requests:
-            memory: "0.5Gi"
-            cpu: "0.5"
-          limits:
-            memory: "1Gi"
-            cpu: "1"
-        env:
-        - name: SIGSCI_ACCESSKEYID
-          valueFrom:
-            secretKeyRef:
-              name: sigsci-secret
-              key: accesskeyid
-        - name: SIGSCI_SECRETACCESSKEY
-          valueFrom:
-            secretKeyRef:
-              name: sigsci-secret
-              key: secretaccesskey
-        # Configure the revproxy listener to listen on the original web application port 8000
-        # forwarding to the app on the alternate port 8001 as the upstream
-        - name: SIGSCI_REVPROXY_LISTENER
-          value: "http:{listener='http://0.0.0.0:{{ .Values.service.targetSigSciPort }}',upstreams='http://127.0.0.1:{{ .Values.service.targetPort }}',access-log='/dev/stdout'}"
-        ports:
-        - containerPort: {{ .Values.service.targetSigSciPort }}
-        securityContext:
-          # The sigsci-agent container should run with its root filesystem read only
-          readOnlyRootFilesystem: true
-        volumeMounts:
-        # Default volume mount location for sigsci-agent writeable data
-        # NOTE: Also change `SIGSCI_SHARED_CACHE_DIR` (default `/sigsci/tmp/cache`)
-        #       if mountPath is changed, but best not to change.
-        - name: sigsci-tmp
-          mountPath: /sigsci/tmp
+{{- with .Values.extraVolumeMounts }}
+{{ toYaml . | indent 8 }}
+{{- end }}
+      {{- if .Values.extraContainers }}
+      # Currently some extra blocks accept strings
+      # to continue with backwards compatibility this is being kept
+      # whilst also allowing for yaml to be specified too.
+      {{- if eq "string" (printf "%T" .Values.extraContainers) }}
+{{ tpl .Values.extraContainers . | indent 6 }}
+      {{- else }}
+{{ toYaml .Values.extraContainers | indent 6 }}
+      {{- end }}
       {{- end }}
       volumes:
       - name: qtest-manager-secret-storage
@@ -193,28 +157,6 @@ spec:
       - name: qtest-manager-secret-root-volume
         secret:
           secretName: qtest-db-root-secret
-      {{- end }}
-      {{- if .Values.SigSci.enabled }}
-      - name: sigsci-tmp
-      {{- end }}
-      {{- if .Values.lacework.enabled }}
-      - name: lacework-volume
-        emptyDir: {}
-      - name: cfgmap
-        configMap:
-          name: lacework-config
-          items:
-          - key: config.json
-            path: config.json
-      - name: podinfo
-        downwardAPI:
-          items:
-          - path: "labels"
-            fieldRef:
-              fieldPath: metadata.labels
-          - path: "annotations"
-            fieldRef:
-              fieldPath: metadata.annotations
       {{- end }}
       - name: qtest-data
       {{- if .Values.persistence.existingClaim }}
@@ -226,6 +168,9 @@ spec:
       {{- else }}
         emptyDir: {}
       {{- end }}
+{{- with .Values.extraVolumes }}
+{{ toYaml . | indent 6 }}
+{{- end }}
 ---
 {{ if not $iSingleInstance }}
 apiVersion: apps/v1
@@ -290,25 +235,28 @@ spec:
     {{- end }}
       serviceAccountName: {{ template "qtest-mgr.serviceAccountName" . }}
       automountServiceAccountToken: {{ .Values.serviceAccount.automountsatoken }}
-      {{- if .Values.lacework.enabled }}
-      shareProcessNamespace: true
+      shareProcessNamespace: {{ .Values.shareProcessNamespace }}
+      {{- if .Values.extraInitContainers }}
+      # Currently some extra blocks accept strings
+      # to continue with backwards compatibility this is being kept
+      # whilst also allowing for yaml to be specified too.
       initContainers:
-      - image: lacework/datacollector:latest-sidecar
-        imagePullPolicy: Always
-        name: lw-agent-sidecar
-        volumeMounts:
-        - name: lacework-volume
-          mountPath: /lacework-data
-        command: ["/bin/sh"]
-        args: ["-c", "cp -r /var/lib/lacework-backup/* /lacework-data"]
+      {{- if eq "string" (printf "%T" .Values.extraInitContainers) }}
+{{ tpl .Values.extraInitContainers . | indent 6 }}
+      {{- else }}
+{{ toYaml .Values.extraInitContainers | indent 6 }}
+      {{- end }}
       {{- end }}
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         name: {{ .Chart.Name }}
-        {{- if .Values.lacework.enabled }}
-        args: ["-c", "/var/lib/lacework-backup/lacework-sidecar.sh && {{ .Values.lacework.appPath }}"]
-        {{- end }}
+{{- if .Values.extraArgs }}
+        args:
+{{- with .Values.extraArgs }}
+{{ toYaml . | indent 10 }}
+{{- end }}
+{{- end }}
         livenessProbe:
           {{ .Values.livenessProbe | toYaml | indent 10 | trim }}
         readinessProbe:
@@ -329,15 +277,9 @@ spec:
         env:
         - name: testconductor.environment
           value: {{ $pollerProfile }}
-        {{- if .Values.lacework.enabled }}
-        - name: LW_KUBERNETES_NODENAME
-          valueFrom:
-            fieldRef:
-                apiVersion: v1
-                fieldPath: spec.nodeName
-        - name: LW_EXECUTION_ENV
-          value: "EKS_FARGATE"
-        {{- end }}
+{{- with .Values.extraEnv }}
+{{ toYaml . | indent 8 }}
+{{- end }}
         volumeMounts:
         - name: qtest-data
           mountPath: {{ .Values.qTestManager.data.volumeMount }}
@@ -349,14 +291,19 @@ spec:
           mountPath: {{ .Values.qTestManager.client.jdbc.sslMountPath }}
           readOnly: true
         {{- end }}
-        {{- if .Values.lacework.enabled }}
-        - name: lacework-volume
-          mountPath: /var/lib/lacework-backup
-        - name: cfgmap
-          mountPath: /var/lib/lacework/config
-        - name: podinfo
-          mountPath: /etc/podinfo
-        {{- end }}
+{{- with .Values.extraVolumeMounts }}
+{{ toYaml . | indent 8 }}
+{{- end }}
+      {{- if .Values.extraContainers }}
+      # Currently some extra blocks accept strings
+      # to continue with backwards compatibility this is being kept
+      # whilst also allowing for yaml to be specified too.
+      {{- if eq "string" (printf "%T" .Values.extraContainers) }}
+{{ tpl .Values.extraContainers . | indent 6 }}
+      {{- else }}
+{{ toYaml .Values.extraContainers | indent 6 }}
+      {{- end }}
+      {{- end }}
       volumes:
       - name: qtest-manager-secret-storage
         secret:
@@ -376,25 +323,9 @@ spec:
       {{- else }}
         emptyDir: {}
       {{- end }}
-      {{- if .Values.lacework.enabled }}
-      - name: lacework-volume
-        emptyDir: {}
-      - name: cfgmap
-        configMap:
-          name: lacework-config
-          items:
-          - key: config.json
-            path: config.json
-      - name: podinfo
-        downwardAPI:
-          items:
-          - path: "labels"
-            fieldRef:
-              fieldPath: metadata.labels
-          - path: "annotations"
-            fieldRef:
-              fieldPath: metadata.annotations
-      {{- end }}
+{{- with .Values.extraVolumes }}
+{{ toYaml . | indent 6 }}
+{{- end }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -458,25 +389,28 @@ spec:
     {{- end }}
       serviceAccountName: {{ template "qtest-mgr.serviceAccountName" . }}
       automountServiceAccountToken: {{ .Values.serviceAccount.automountsatoken }}
-      {{- if .Values.lacework.enabled }}
-      shareProcessNamespace: true
+      shareProcessNamespace: {{ .Values.shareProcessNamespace }}
+      {{- if .Values.extraInitContainers }}
+      # Currently some extra blocks accept strings
+      # to continue with backwards compatibility this is being kept
+      # whilst also allowing for yaml to be specified too.
       initContainers:
-      - image: lacework/datacollector:latest-sidecar
-        imagePullPolicy: Always
-        name: lw-agent-sidecar
-        volumeMounts:
-        - name: lacework-volume
-          mountPath: /lacework-data
-        command: ["/bin/sh"]
-        args: ["-c", "cp -r /var/lib/lacework-backup/* /lacework-data"]
+      {{- if eq "string" (printf "%T" .Values.extraInitContainers) }}
+{{ tpl .Values.extraInitContainers . | indent 6 }}
+      {{- else }}
+{{ toYaml .Values.extraInitContainers | indent 6 }}
+      {{- end }}
       {{- end }}
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         name: {{ .Chart.Name }}
-        {{- if .Values.lacework.enabled }}
-        args: ["-c", "/var/lib/lacework-backup/lacework-sidecar.sh && {{ .Values.lacework.appPath }}"]
-        {{- end }}
+{{- if .Values.extraArgs }}
+        args:
+{{- with .Values.extraArgs }}
+{{ toYaml . | indent 10 }}
+{{- end }}
+{{- end }}
         livenessProbe:
           {{ .Values.livenessProbe | toYaml | indent 10 | trim }}
         readinessProbe:
@@ -497,15 +431,9 @@ spec:
         env:
         - name: testconductor.environment
           value: {{ $notificationProfile }}
-        {{- if .Values.lacework.enabled }}
-        - name: LW_KUBERNETES_NODENAME
-          valueFrom:
-            fieldRef:
-                apiVersion: v1
-                fieldPath: spec.nodeName
-        - name: LW_EXECUTION_ENV
-          value: "EKS_FARGATE"
-        {{- end }}
+{{- with .Values.extraEnv }}
+{{ toYaml . | indent 8 }}
+{{- end }}
         volumeMounts:
         - name: qtest-data
           mountPath: {{ .Values.qTestManager.data.volumeMount }}
@@ -517,59 +445,23 @@ spec:
           mountPath: {{ .Values.qTestManager.client.jdbc.sslMountPath }}
           readOnly: true
         {{- end }}
-        {{- if .Values.lacework.enabled }}
-        - name: lacework-volume
-          mountPath: /var/lib/lacework-backup
-        - name: cfgmap
-          mountPath: /var/lib/lacework/config
-        - name: podinfo
-          mountPath: /etc/podinfo
-        {{- end }}
-      {{- if .Values.SigSci.enabled }}
-      - name: sigsci-agent
-        image: signalsciences/sigsci-agent:latest
-        imagePullPolicy: Always
-        resources:
-          requests:
-            memory: "0.5Gi"
-            cpu: "0.5"
-          limits:
-            memory: "1Gi"
-            cpu: "1"
-        env:
-        - name: SIGSCI_ACCESSKEYID
-          valueFrom:
-            secretKeyRef:
-              name: sigsci-secret
-              key: accesskeyid
-        - name: SIGSCI_SECRETACCESSKEY
-          valueFrom:
-            secretKeyRef:
-              name: sigsci-secret
-              key: secretaccesskey
-        # Configure the revproxy listener to listen on the original web application port 8000
-        # forwarding to the app on the alternate port 8001 as the upstream
-        - name: SIGSCI_REVPROXY_LISTENER
-          value: "http:{listener='http://0.0.0.0:{{ .Values.service.targetSigSciPort }}',upstreams='http://127.0.0.1:{{ .Values.service.targetPort }}',access-log='/dev/stdout',inspect-websocket=true}"
-        ports:
-        - containerPort: {{ .Values.service.targetSigSciPort }}
-        securityContext:
-          # The sigsci-agent container should run with its root filesystem read only
-          readOnlyRootFilesystem: true
-        volumeMounts:
-        # Default volume mount location for sigsci-agent writeable data
-        # NOTE: Also change `SIGSCI_SHARED_CACHE_DIR` (default `/sigsci/tmp/cache`)
-        #       if mountPath is changed, but best not to change.
-        - name: sigsci-tmp
-          mountPath: /sigsci/tmp
+{{- with .Values.extraVolumeMounts }}
+{{ toYaml . | indent 8 }}
+{{- end }}
+      {{- if .Values.extraContainers }}
+      # Currently some extra blocks accept strings
+      # to continue with backwards compatibility this is being kept
+      # whilst also allowing for yaml to be specified too.
+      {{- if eq "string" (printf "%T" .Values.extraContainers) }}
+{{ tpl .Values.extraContainers . | indent 6 }}
+      {{- else }}
+{{ toYaml .Values.extraContainers | indent 6 }}
+      {{- end }}
       {{- end }}
       volumes:
       - name: qtest-manager-secret-storage
         secret:
           secretName: qtest-manager-secret
-      {{- if .Values.SigSci.enabled }}
-      - name: sigsci-tmp
-      {{- end }}
       {{- if .Values.qTestManager.client.jdbc.sslEnable }}
       - name: qtest-manager-secret-root-volume
         secret:
@@ -585,25 +477,9 @@ spec:
       {{- else }}
         emptyDir: {}
       {{- end }}
-      {{- if .Values.lacework.enabled }}
-      - name: lacework-volume
-        emptyDir: {}
-      - name: cfgmap
-        configMap:
-          name: lacework-config
-          items:
-          - key: config.json
-            path: config.json
-      - name: podinfo
-        downwardAPI:
-          items:
-          - path: "labels"
-            fieldRef:
-              fieldPath: metadata.labels
-          - path: "annotations"
-            fieldRef:
-              fieldPath: metadata.annotations
-      {{- end }}
+{{- with .Values.extraVolumes }}
+{{ toYaml . | indent 6 }}
+{{- end }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -667,25 +543,28 @@ spec:
     {{- end }}
       serviceAccountName: {{ template "qtest-mgr.serviceAccountName" . }}
       automountServiceAccountToken: {{ .Values.serviceAccount.automountsatoken }}
-      {{- if .Values.lacework.enabled }}
-      shareProcessNamespace: true
+      shareProcessNamespace: {{ .Values.shareProcessNamespace }}
+      {{- if .Values.extraInitContainers }}
+      # Currently some extra blocks accept strings
+      # to continue with backwards compatibility this is being kept
+      # whilst also allowing for yaml to be specified too.
       initContainers:
-      - image: lacework/datacollector:latest-sidecar
-        imagePullPolicy: Always
-        name: lw-agent-sidecar
-        volumeMounts:
-        - name: lacework-volume
-          mountPath: /lacework-data
-        command: ["/bin/sh"]
-        args: ["-c", "cp -r /var/lib/lacework-backup/* /lacework-data"]
+      {{- if eq "string" (printf "%T" .Values.extraInitContainers) }}
+{{ tpl .Values.extraInitContainers . | indent 6 }}
+      {{- else }}
+{{ toYaml .Values.extraInitContainers | indent 6 }}
+      {{- end }}
       {{- end }}
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         name: {{ .Chart.Name }}
-        {{- if .Values.lacework.enabled }}
-        args: ["-c", "/var/lib/lacework-backup/lacework-sidecar.sh && {{ .Values.lacework.appPath }}"]
-        {{- end }}
+{{- if .Values.extraArgs }}
+        args:
+{{- with .Values.extraArgs }}
+{{ toYaml . | indent 10 }}
+{{- end }}
+{{- end }}
         livenessProbe:
           {{ .Values.livenessProbe | toYaml | indent 10 | trim }}
         readinessProbe:
@@ -706,15 +585,9 @@ spec:
         env:
         - name: testconductor.environment
           value: {{ $apiProfile }}
-        {{- if .Values.lacework.enabled }}
-        - name: LW_KUBERNETES_NODENAME
-          valueFrom:
-            fieldRef:
-                apiVersion: v1
-                fieldPath: spec.nodeName
-        - name: LW_EXECUTION_ENV
-          value: "EKS_FARGATE"
-        {{- end }}
+{{- with .Values.extraEnv }}
+{{ toYaml . | indent 8 }}
+{{- end }}
         volumeMounts:
         - name: qtest-data
           mountPath: {{ .Values.qTestManager.data.volumeMount }}
@@ -726,59 +599,23 @@ spec:
           mountPath: {{ .Values.qTestManager.client.jdbc.sslMountPath }}
           readOnly: true
         {{- end }}
-        {{- if .Values.lacework.enabled }}
-        - name: lacework-volume
-          mountPath: /var/lib/lacework-backup
-        - name: cfgmap
-          mountPath: /var/lib/lacework/config
-        - name: podinfo
-          mountPath: /etc/podinfo
-        {{- end }}
-      {{- if .Values.SigSci.enabled }}
-      - name: sigsci-agent
-        image: signalsciences/sigsci-agent:latest
-        imagePullPolicy: Always
-        resources:
-          requests:
-            memory: "0.5Gi"
-            cpu: "0.5"
-          limits:
-            memory: "1Gi"
-            cpu: "1"
-        env:
-        - name: SIGSCI_ACCESSKEYID
-          valueFrom:
-            secretKeyRef:
-              name: sigsci-secret
-              key: accesskeyid
-        - name: SIGSCI_SECRETACCESSKEY
-          valueFrom:
-            secretKeyRef:
-              name: sigsci-secret
-              key: secretaccesskey
-        # Configure the revproxy listener to listen on the original web application port 8000
-        # forwarding to the app on the alternate port 8001 as the upstream
-        - name: SIGSCI_REVPROXY_LISTENER
-          value: "http:{listener='http://0.0.0.0:{{ .Values.service.targetSigSciPort }}',upstreams='http://127.0.0.1:{{ .Values.service.targetPort }}',access-log='/dev/stdout'}"
-        ports:
-        - containerPort: {{ .Values.service.targetSigSciPort }}
-        securityContext:
-          # The sigsci-agent container should run with its root filesystem read only
-          readOnlyRootFilesystem: true
-        volumeMounts:
-        # Default volume mount location for sigsci-agent writeable data
-        # NOTE: Also change `SIGSCI_SHARED_CACHE_DIR` (default `/sigsci/tmp/cache`)
-        #       if mountPath is changed, but best not to change.
-        - name: sigsci-tmp
-          mountPath: /sigsci/tmp
+{{- with .Values.extraVolumeMounts }}
+{{ toYaml . | indent 8 }}
+{{- end }}
+      {{- if .Values.extraContainers }}
+      # Currently some extra blocks accept strings
+      # to continue with backwards compatibility this is being kept
+      # whilst also allowing for yaml to be specified too.
+      {{- if eq "string" (printf "%T" .Values.extraContainers) }}
+{{ tpl .Values.extraContainers . | indent 6 }}
+      {{- else }}
+{{ toYaml .Values.extraContainers | indent 6 }}
+      {{- end }}
       {{- end }}
       volumes:
       - name: qtest-manager-secret-storage
         secret:
           secretName: qtest-manager-secret
-      {{- if .Values.SigSci.enabled }}
-      - name: sigsci-tmp
-      {{- end }}
       {{- if .Values.qTestManager.client.jdbc.sslEnable }}
       - name: qtest-manager-secret-root-volume
         secret:
@@ -794,23 +631,7 @@ spec:
       {{- else }}
         emptyDir: {}
       {{- end }}
-      {{- if .Values.lacework.enabled }}
-      - name: lacework-volume
-        emptyDir: {}
-      - name: cfgmap
-        configMap:
-          name: lacework-config
-          items:
-          - key: config.json
-            path: config.json
-      - name: podinfo
-        downwardAPI:
-          items:
-          - path: "labels"
-            fieldRef:
-              fieldPath: metadata.labels
-          - path: "annotations"
-            fieldRef:
-              fieldPath: metadata.annotations
-      {{- end }}
+{{- with .Values.extraVolumes }}
+{{ toYaml . | indent 6 }}
+{{- end }}
 {{- end }}
