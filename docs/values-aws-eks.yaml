@@ -1,0 +1,39 @@
+## create a secret called qtest-manager-secret before installing helm chart
+secrets:
+  enabled: true
+  existingConfigs: qtest-manager-secret
+
+## Set to true for private Tricentis dockerhub
+imageCredentials:
+  enabled: false
+  # name: ""
+  # registry: https://index.docker.io/v1/
+  # username: ""
+  # password: ""
+  # email: ""
+  # existingImageCredentials: ""
+
+qTestManager:
+  client:
+    jdbc:
+      postgresUrl: <Postgres_url>
+      postgresUserName: <Postgres_user>
+      postgresReadOnlyUrl: <Postgres_url-readonly>
+      postgresReadOnlyUserName: <Postgres_user>
+  elasticSearch:
+    init: true
+    disable: false
+    scheme: https
+    host: <ES Host>
+    port: 443
+
+  preUrl: http:<Manager URL>
+  preUrlHttps: https://<Manager URL>
+  preSessionUrl: <Sessions url>
+  pulseUrlBase: <Pulse url>
+  insightsUrl: <Insights URL>
+  launchUrlBase: <Launch URL>
+  tdmSettingUrl: <Parameters URL>
+
+persistence:
+  enabled: false

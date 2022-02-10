@@ -66,6 +66,32 @@ helm uninstall qtest-manager
 ## Configurations
 The following table lists the configurable parameters for qTest Manager and its applications.
 
+## HPA Autoscaling
+Autoscaling are define in values.yaml and enabled by default. To turn off HPA autoscaling,  `autoscaling.enabled` must be set to `false`.
+The metrics.k8s.io API is usually provided by an add on named Metrics Server, which needs to be launched separately.
+```
+autoscaling:
+  enabled: true
+  minReplicas:
+    ui: 1
+    api: 1
+    notification: 1
+    poller: 1
+    default: 1
+  maxReplicas:
+    ui: 3
+    api: 3
+    notification: 3
+    poller: 1
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 70
+```
+The default values would create an horizontal pod autoscaler in Kubernetes which is configured to:
+- create at least 1 pods for the component
+- scale the component up to a maximum of 3 pods
+- observe the CPU usage of all replicas and try to scale between 1 and 3 replicas
+- observe the memory usage of all replicas and try to scale between 1 and 3 replicas
+
 ### Ingress Controller
 qTest relies an IngressController to route ingress traffic into the cluster. We recommend SSL offloading/termination be done at the IngressController. Specific TLS setup instructions depend on the IngressController you have.
 
