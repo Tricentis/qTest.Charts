@@ -26,7 +26,11 @@ qTestManager:
     scheme: https
     host: <ES Host>
     port: 443
-
+  blobStorage:
+    region: us-east-1
+    sharedBucket: <storage bucket>
+  s3:
+    folder: qtest/manager
   preUrl: http:<Manager URL>
   preUrlHttps: https://<Manager URL>
   preSessionUrl: <Sessions url>
