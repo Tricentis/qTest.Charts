@@ -12,6 +12,19 @@ imageCredentials:
   # password: ""
   # email: ""
   # existingImageCredentials: ""
+  
+ingressClass:
+  enabled: true
+  # existingclassName:
+  labels: {}
+  controller: ""
+
+ingress:
+  enabled: true
+  labels: {}
+  annotations: {}
+  hosts: []
+  # host: qtest.svc.com
 
 qTestManager:
   client:
@@ -31,6 +44,7 @@ qTestManager:
     sharedBucket: <storage bucket>
   s3:
     folder: qtest/manager
+
   preUrl: http:<Manager URL>
   preUrlHttps: https://<Manager URL>
   preSessionUrl: <Sessions url>
