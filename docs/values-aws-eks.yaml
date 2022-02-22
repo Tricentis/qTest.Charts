@@ -73,9 +73,8 @@ qTestManager:
     sharedBucket: <storage bucket>
   s3:
     folder: qtest/manager
-
-  preUrl: http:<Manager URL>
-  preUrlHttps: https://<Manager URL>
+  preUrl: http://<sitename>.<domain> ## Example: http://<sitename>.tricentis.com
+  preUrlHttps: https://<sitename>.<domain> ## Example: http://<sitename>.tricentis.com
   preSessionUrl: <Sessions url>
   pulseUrlBase: <Pulse url>
   insightsUrl: <Insights URL>
