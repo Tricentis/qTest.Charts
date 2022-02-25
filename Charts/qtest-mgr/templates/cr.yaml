@@ -1,0 +1,26 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "qtest-mgr.fullname" . }}-cr
+rules:
+  - apiGroups:
+      - policy
+    resourceNames:
+      - {{ include "qtest-mgr.fullname" . }}-psp
+    resources:
+      - podsecuritypolicies
+    verbs:
+      - use
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "qtest-mgr.fullname" . }}-crb
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "qtest-mgr.fullname" . }}-cr
+subjects:
+  - kind: ServiceAccount
+    name: {{ template "qtest-mgr.serviceAccountName" . }}
+    namespace: {{ .Values.namespace.name }}

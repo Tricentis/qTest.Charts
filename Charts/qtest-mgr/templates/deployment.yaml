@@ -152,7 +152,11 @@ spec:
       volumes:
       - name: qtest-manager-secret-storage
         secret:
+      {{ if .Values.secrets.existingConfigs }}
+          secretName: {{ .Values.secrets.existingConfigs }}
+      {{ else }}
           secretName: qtest-manager-secret
+      {{- end }}
       {{- if .Values.qTestManager.client.jdbc.sslEnable }}
       - name: qtest-manager-secret-root-volume
         secret:
@@ -307,13 +311,17 @@ spec:
       volumes:
       - name: qtest-manager-secret-storage
         secret:
+      {{ if .Values.secrets.existingConfigs }}
+          secretName: {{ .Values.secrets.existingConfigs }}
+      {{ else }}
           secretName: qtest-manager-secret
-      - name: qtest-data
+      {{- end }}
       {{- if .Values.qTestManager.client.jdbc.sslEnable }}
       - name: qtest-manager-secret-root-volume
         secret:
           secretName: qtest-db-root-secret
       {{- end }}
+      - name: qtest-data
       {{- if .Values.persistence.existingClaim }}
         persistentVolumeClaim:
           claimName: {{ .Values.persistence.existingClaim }}
@@ -461,7 +469,11 @@ spec:
       volumes:
       - name: qtest-manager-secret-storage
         secret:
+      {{ if .Values.secrets.existingConfigs }}
+          secretName: {{ .Values.secrets.existingConfigs }}
+      {{ else }}
           secretName: qtest-manager-secret
+      {{- end }}
       {{- if .Values.qTestManager.client.jdbc.sslEnable }}
       - name: qtest-manager-secret-root-volume
         secret:
@@ -615,7 +627,11 @@ spec:
       volumes:
       - name: qtest-manager-secret-storage
         secret:
+      {{ if .Values.secrets.existingConfigs }}
+          secretName: {{ .Values.secrets.existingConfigs }}
+      {{ else }}
           secretName: qtest-manager-secret
+      {{- end }}
       {{- if .Values.qTestManager.client.jdbc.sslEnable }}
       - name: qtest-manager-secret-root-volume
         secret:

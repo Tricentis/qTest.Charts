@@ -43,7 +43,11 @@ spec:
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
+                  {{ if .Values.secrets.existingConfigs }}
+                  name: {{ .Values.secrets.existingConfigs }}
+                  {{ else }}
                   name: qtest-manager-secret
+                  {{- end }}
                   key: client.jdbc.postgres.password
           {{- if .Values.qTestManager.client.jdbc.sslEnable }}
           volumeMounts:
