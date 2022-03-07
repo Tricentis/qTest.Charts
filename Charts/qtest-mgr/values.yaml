@@ -294,27 +294,28 @@ ingress:
   hosts: []
   # host: qtest.svc.com
 
-  paths:
-    - path: /api
-      pathType: Prefix
-      backendServiceName: mgr-service-api
-      backendPort: 8080
-    - path: /api2
-      pathType: Prefix
-      backendServiceName: mgr-service-api
-      backendPort: 8080
-    - path: /api/v3
-      pathType: Prefix
-      backendServiceName: mgr-service-api
-      backendPort: 8080
-    - path: /public/integration/webhookcallback2
-      pathType: Prefix
-      backendServiceName: mgr-service-api
-      backendPort: 8080
-    - path: /realtime
-      pathType: Prefix
-      backendServiceName: mgr-service-notification
-      backendPort: 8080
+  paths: []
+  # - path: /api
+  #   pathType: Prefix
+  #   backendServiceName: mgr-service-api
+  #   backendPort: 8080
+  # - path: /api2
+  #   pathType: Prefix
+  #   backendServiceName: mgr-service-api
+  #   backendPort: 8080
+  # - path: /api/v3
+  #   pathType: Prefix
+  #   backendServiceName: mgr-service-api
+  #   backendPort: 8080
+  # - path: /public/integration/webhookcallback2
+  #   pathType: Prefix
+  #   backendServiceName: mgr-service-api
+  #   backendPort: 8080
+  # - path: /realtime
+  #   pathType: Prefix
+  #   backendServiceName: mgr-service-notification
+  #   backendPort: 8080
+
   extraPaths:
     - path: /
       pathType: Prefix
