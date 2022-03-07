@@ -61,7 +61,7 @@ spec:
         - name: {{ $existingImageCredentials }}
       {{ else }}
       imagePullSecrets:
-        - name: {{ $imageCredentials }}
+        - name: {{ $imageCredentials }}-liquibase
       {{- end }}
     {{- end }}
     {{- if .Values.qTestManager.client.jdbc.sslEnable }}
