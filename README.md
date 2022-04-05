@@ -1,4 +1,6 @@
 # Helm Repository for qTest Manager and qTest Applications
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Chart Publish](https://github.com/Tricentis/qTest.Charts/actions/workflows/release.yaml/badge.svg?branch=main)](https://github.com/Tricentis/qTest.Charts/actions/workflows/release.yaml)
 [Tricentis qTest](https://www.tricentis.com/products/unified-test-management-qtest/) is a centralized test management platform to help unify, manage, and rapidly scale testing across the enterprise, so teams can collaborate to ship faster with less risk.
 
 ## Introduction
