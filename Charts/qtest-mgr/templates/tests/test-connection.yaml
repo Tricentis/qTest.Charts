@@ -12,5 +12,5 @@ spec:
     - name: wget
       image: busybox:latest
       command: ['wget']
-      args: ['{{ include "qtest-mgr.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ .Values.service.serviceName }}:{{ .Values.service.port }}']
   restartPolicy: Never

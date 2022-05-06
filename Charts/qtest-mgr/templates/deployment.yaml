@@ -25,9 +25,8 @@ metadata:
   {{- end }}
   labels:
     app: qtest-mgr
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
   {{- if .Values.rollouts.enabled }}
   replicas: 0
@@ -49,9 +48,11 @@ spec:
       {{- end }}
       labels:
         app: qtest-mgr
-        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
         release: "{{ .Release.Name }}"
-        heritage: "{{ .Release.Service }}"
+        {{- include "qtest-mgr.labels" . | nindent 8 }}
+        {{- if .Values.podLabels}}
+        {{ toYaml .Values.podLabels | nindent 8 }}
+        {{- end}}
     spec:
     {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -87,6 +88,9 @@ spec:
       {{- else }}
 {{ toYaml .Values.extraInitContainers | indent 6 }}
       {{- end }}
+      {{- end }}
+      {{- if .Values.qTestManager.securityContext }}
+      securityContext: {{- toYaml .Values.qTestManager.securityContext | nindent 8 }}
       {{- end }}
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -188,9 +192,8 @@ metadata:
   {{- end }}
   labels:
     app: qtest-mgr-poller
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
   {{- if .Values.rollouts.enabled }}
   replicas: 0
@@ -212,9 +215,11 @@ spec:
       {{- end }}
       labels:
         app: qtest-mgr-poller
-        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
         release: "{{ .Release.Name }}"
-        heritage: "{{ .Release.Service }}"
+        {{- include "qtest-mgr.labels" . | nindent 8 }}
+        {{- if .Values.podLabels}}
+        {{ toYaml .Values.podLabels | nindent 8 }}
+        {{- end}}
     spec:
     {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -250,6 +255,9 @@ spec:
       {{- else }}
 {{ toYaml .Values.extraInitContainers | indent 6 }}
       {{- end }}
+      {{- end }}
+      {{- if .Values.qTestManager.securityContext }}
+      securityContext: {{- toYaml .Values.qTestManager.securityContext | nindent 8 }}
       {{- end }}
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -346,9 +354,8 @@ metadata:
   {{- end }}
   labels:
     app: qtest-mgr-notification
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
   {{- if .Values.rollouts.enabled }}
   replicas: 0
@@ -370,9 +377,11 @@ spec:
       {{- end }}
       labels:
         app: qtest-mgr-notification
-        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
         release: "{{ .Release.Name }}"
-        heritage: "{{ .Release.Service }}"
+        {{- include "qtest-mgr.labels" . | nindent 8 }}
+        {{- if .Values.podLabels}}
+        {{ toYaml .Values.podLabels | nindent 8 }}
+        {{- end}}
     spec:
     {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -408,6 +417,9 @@ spec:
       {{- else }}
 {{ toYaml .Values.extraInitContainers | indent 6 }}
       {{- end }}
+      {{- end }}
+      {{- if .Values.qTestManager.securityContext }}
+      securityContext: {{- toYaml .Values.qTestManager.securityContext | nindent 8 }}
       {{- end }}
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -504,9 +516,8 @@ metadata:
   {{- end }}
   labels:
     app: qtest-mgr-api
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
   {{- if .Values.rollouts.enabled }}
   replicas: 0
@@ -528,9 +539,11 @@ spec:
       {{- end }}
       labels:
         app: qtest-mgr-api
-        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
         release: "{{ .Release.Name }}"
-        heritage: "{{ .Release.Service }}"
+        {{- include "qtest-mgr.labels" . | nindent 8 }}
+        {{- if .Values.podLabels}}
+        {{ toYaml .Values.podLabels | nindent 8 }}
+        {{- end}}
     spec:
     {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -566,6 +579,9 @@ spec:
       {{- else }}
 {{ toYaml .Values.extraInitContainers | indent 6 }}
       {{- end }}
+      {{- end }}
+      {{- if .Values.qTestManager.securityContext }}
+      securityContext: {{- toYaml .Values.qTestManager.securityContext | nindent 8 }}
       {{- end }}
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
