@@ -18,6 +18,9 @@ spec:
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
     spec:
+      {{- if .Values.liquibase.securityContext }}
+      securityContext: {{- toYaml .Values.liquibase.securityContext | nindent 8 }}
+      {{- end }}
       containers:
         - name: qtestliquibase
           image: "{{ .Values.image.liquibase }}:{{ .Values.image.liquibasetag }}"

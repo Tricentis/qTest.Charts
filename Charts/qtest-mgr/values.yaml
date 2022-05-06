@@ -28,6 +28,12 @@ rollouts:
 deployments:
   enabled: true
 liquibase:
+  securityContext: {}
+  # Sets securityContext at the pod level.
+  # The following values for securityContext are recommended but may depend on your specific volume and filesystem settings
+  #  runAsNonRoot: true
+  # runAsUser: 1000
+  # runAsGroup: 1000
   annotations:
     helm.sh/hook: pre-install, pre-upgrade
     helm.sh/hook-delete-policy: before-hook-creation, hook-succeeded
@@ -42,7 +48,7 @@ liquibase:
     # argocd.argoproj.io/hook-delete-policy: HookSucceeded, BeforeHookCreation
 annotations: {}
 podAnnotations: {}
-env: []
+podLabels: {}
 image:
   repository: tricentisimage/qtest-mgr
   liquibase: tricentisimage/qtest-mgr-liquibase
@@ -85,6 +91,10 @@ extraEnv: []
 extraVolumeMounts: []
 extraVolumes: []
 qTestManager:
+  securityContext:
+    runAsUser: 8877
+    runAsNonRoot: true
+    fsGroup: 8877
   analyticsUrlBase: "http://local"
   configureTimeoutTokenApplicationEnabled: true
   async:
@@ -116,8 +126,8 @@ qTestManager:
     port: 9200
     permittedClients: ""
     maximumObjectsPerIndexRequest: 1000
-  attachmentFolderPath: /usr/local/tomcat/temp
-  licenseFolderPath: /usr/local/tomcat/temp
+  attachmentFolderPath: /mnt/data/qtest/attachments
+  licenseFolderPath: /mnt/data/qtest
   blobStorage:
     region: us-east-1
     sharedBucket: "qtest"
@@ -178,6 +188,7 @@ qTestManager:
   integration:
     jira:
       testConnectionLegacyEndpointClients: ""
+  parameterPageSize: 50
   data:
     volumeMount: /mnt/data/qtest
   vera:
@@ -202,7 +213,7 @@ ui:
   springProfilesActive: postgres,readOnlyEnable
   useriqEnabled: false
 api:
-  appName: app
+  appName: api
   asyncThreadNumber: 100
   background:
     event:
@@ -217,7 +228,7 @@ api:
   client:
     dbcp:
       maxActive: 400
-  springProfilesActive: postgres,readOnlyEnable
+  springProfilesActive: postgres,disableAllTasksMode,readOnlyEnable,backgroundQueue
 poller:
   appName: notification
   asyncThreadNumber: 100
@@ -366,11 +377,15 @@ persistence:
   volumes: []
   ## Specify extra mounts. Refer to ".spec.containers.volumeMounts" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
   mounts: []
-# VPA values
+  # VPA values
 vpaAutoscaling:
   enabled: false
   updatePolicy:
     updateMode: "Off"
+  resourcePolicy:
+    containerPolicies:
+      - containerName: '*'
+        controlledValues: RequestsAndLimits
 # HPA values
 autoscaling:
   enabled: true
@@ -499,6 +514,10 @@ qtest-launch:
     enabled: false
     updatePolicy:
       updateMode: "Off"
+    resourcePolicy:
+      containerPolicies:
+        - containerName: '*'
+          controlledValues: RequestsAndLimits
   # HPA values
   autoscaling:
     enabled: true
@@ -591,6 +610,10 @@ qtest-insights:
     enabled: false
     updatePolicy:
       updateMode: "Off"
+    resourcePolicy:
+      containerPolicies:
+        - containerName: '*'
+          controlledValues: RequestsAndLimits
   # HPA values
   autoscaling:
     enabled: true
@@ -685,6 +708,10 @@ qtest-insights-etl:
     enabled: false
     updatePolicy:
       updateMode: "Off"
+    resourcePolicy:
+      containerPolicies:
+        - containerName: '*'
+          controlledValues: RequestsAndLimits
   # HPA values
   autoscaling:
     enabled: true
@@ -766,6 +793,10 @@ qtest-parameters:
     enabled: false
     updatePolicy:
       updateMode: "Off"
+    resourcePolicy:
+      containerPolicies:
+        - containerName: '*'
+          controlledValues: RequestsAndLimits
   # HPA values
   autoscaling:
     enabled: true
@@ -837,6 +868,10 @@ qtest-pulse:
     enabled: false
     updatePolicy:
       updateMode: "Off"
+    resourcePolicy:
+      containerPolicies:
+        - containerName: '*'
+          controlledValues: RequestsAndLimits
   # HPA values
   autoscaling:
     enabled: true
@@ -910,6 +945,10 @@ qtest-scenario:
     enabled: false
     updatePolicy:
       updateMode: "Off"
+    resourcePolicy:
+      containerPolicies:
+        - containerName: '*'
+          controlledValues: RequestsAndLimits
   # HPA values
   autoscaling:
     enabled: true
@@ -1003,6 +1042,10 @@ qtest-session:
     enabled: false
     updatePolicy:
       updateMode: "Off"
+    resourcePolicy:
+      containerPolicies:
+        - containerName: '*'
+          controlledValues: RequestsAndLimits
   # HPA values
   autoscaling:
     enabled: true

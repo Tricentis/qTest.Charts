@@ -51,6 +51,7 @@ data:
   serverapp.useSecureCookie: "{{ .Values.qTestManager.serverAppUseSecureCookie }}"
   serverapp.ssl.required: "{{ .Values.qTestManager.serverAppSSLRequired }}"
   serverapp.ssl.redirect.custom.status.enabled: "{{ .Values.qTestManager.serverAppSSLRequired }}"
+  parameter.page.size: "{{ .Values.qTestManager.parameterPageSize }}"
   pentaho.usingClientId: "{{ .Values.qTestManager.pentaho.usingClientId }}"
   preUrl: "{{ .Values.qTestManager.preUrl }}"
   preUrl.https: "{{ .Values.qTestManager.preUrlHttps }}"

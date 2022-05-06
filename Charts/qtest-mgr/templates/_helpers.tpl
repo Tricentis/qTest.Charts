@@ -37,11 +37,25 @@ Create chart name and version as used by the chart label.
 {{- end }}
 
 {{/*
+Create unified labels for qtest-mgr components
+*/}}
+{{- define "qtest-mgr.common.matchLabels" -}}
+app: {{ template "qtest-mgr.name" . }}
+release: {{ .Release.Name }}
+{{- end -}}
+
+{{- define "qtest-mgr.common.metaLabels" -}}
+chart: {{ template "qtest-mgr.chart" . }}
+heritage: {{ .Release.Service }}
+{{- end -}}
+
+{{/*
 Common labels
 */}}
 {{- define "qtest-mgr.labels" -}}
 helm.sh/chart: {{ include "qtest-mgr.chart" . }}
 {{ include "qtest-mgr.selectorLabels" . }}
+{{ include "qtest-mgr.common.metaLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
