@@ -24,6 +24,7 @@ qTestInsightsEtl:
   qTestUpdateDB: true
   qTestInsightsEtlDBName: qtest
   qTestInsightsEtlDBUser: postgres
+  qTestInsightsEtlDBSchemaName: public
   qTestInsightsEtlDBHost: postgres.local
   qTestInsightsEtlWriteQTestDBName: qtest
   qTestInsightsEtlWriteQTestDBUser: postgres
@@ -89,6 +90,10 @@ vpaAutoscaling:
   enabled: false
   updatePolicy:
     updateMode: "Off"
+  resourcePolicy:
+    containerPolicies:
+      - containerName: '*'
+        controlledValues: RequestsAndLimits
 # HPA values
 autoscaling:
   enabled: true
