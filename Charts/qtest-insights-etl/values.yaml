@@ -11,7 +11,7 @@ replicaCount: 1
 image:
   repository: qasymphony/insights-etl
   pullPolicy: IfNotPresent
-  tag: "v6.9.28.op"
+  tag: "v6.9.29.op"
 deployment:
   annotations: {}
 service:
