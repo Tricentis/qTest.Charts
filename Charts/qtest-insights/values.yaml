@@ -83,11 +83,15 @@ persistence:
   volumes: []
   ## Specify extra mounts. Refer to ".spec.containers.volumeMounts" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
   mounts: []
-# VPA values
+  # VPA values
 vpaAutoscaling:
   enabled: false
   updatePolicy:
     updateMode: "Off"
+  resourcePolicy:
+    containerPolicies:
+      - containerName: '*'
+        controlledValues: RequestsAndLimits
 # HPA values
 autoscaling:
   enabled: true
