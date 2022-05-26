@@ -13,4 +13,9 @@ spec:
     name: {{ include "qtest-insights.fullname" . }}
   updatePolicy:
     updateMode: {{ .Values.vpaAutoscaling.updatePolicy.updateMode }}
+  resourcePolicy:
+    {{- with .Values.vpaAutoscaling.resourcePolicy -}}
+        {{- toYaml . | nindent 4 }}
+    {{- end }}
+      controlledResources: ["cpu", "memory"]
 {{- end }}
