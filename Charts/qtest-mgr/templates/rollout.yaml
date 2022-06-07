@@ -39,7 +39,7 @@ metadata:
   name: mgr-poller-rollout
   namespace: {{ .Values.namespace.name }}
 spec:
-  replicas: {{ .Values.autoscaling.minReplicas.ui }}
+  replicas: {{ .Values.autoscaling.minReplicas.poller }}
   revisionHistoryLimit: 3
   workloadRef:
     apiVersion: apps/v1
@@ -60,7 +60,7 @@ metadata:
   name: mgr-notification-rollout
   namespace: {{ .Values.namespace.name }}
 spec:
-  replicas: {{ .Values.autoscaling.minReplicas.ui }}
+  replicas: {{ .Values.autoscaling.minReplicas.notification }}
   revisionHistoryLimit: 3
   workloadRef:
     apiVersion: apps/v1
@@ -92,7 +92,7 @@ metadata:
   name: mgr-api-rollout
   namespace: {{ .Values.namespace.name }}
 spec:
-  replicas: {{ .Values.autoscaling.minReplicas.ui }}
+  replicas: {{ .Values.autoscaling.minReplicas.api }}
   revisionHistoryLimit: 3
   workloadRef:
     apiVersion: apps/v1
