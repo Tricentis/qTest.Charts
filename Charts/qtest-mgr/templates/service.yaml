@@ -15,10 +15,17 @@ metadata:
     chart: {{ template "qtest-mgr.chart" . }}
 spec:
   ports:
+    {{- if .Values.qTestManager.serverAppSSLRequired }}
+    - name: https
+      protocol: TCP
+      port: {{ .Values.service.targetHttpsPort }}
+      targetPort: {{ .Values.service.targetHttpsPort }}
+    {{- else }}
     - name: http
       protocol: TCP
       port: {{ .Values.service.port }}
       targetPort: {{ $targetPort }}
+    {{- end }}
   selector:
     app: qtest-mgr
     release: {{ .Release.Name }}
@@ -41,10 +48,17 @@ metadata:
     chart: {{ template "qtest-mgr.chart" . }}
 spec:
   ports:
+    {{- if .Values.qTestManager.serverAppSSLRequired }}
+    - name: https
+      protocol: TCP
+      port: {{ .Values.service.targetHttpsPort }}
+      targetPort: {{ .Values.service.targetHttpsPort }}
+    {{- else }}
     - name: http
       protocol: TCP
       port: {{ .Values.service.port }}
       targetPort: {{ $targetPort }}
+    {{- end }}
   selector:
     app: qtest-mgr-api
     release: {{ .Release.Name }}
@@ -66,10 +80,17 @@ metadata:
     chart: {{ template "qtest-mgr.chart" . }}
 spec:
   ports:
+    {{- if .Values.qTestManager.serverAppSSLRequired }}
+    - name: https
+      protocol: TCP
+      port: {{ .Values.service.targetHttpsPort }}
+      targetPort: {{ .Values.service.targetHttpsPort }}
+    {{- else }}
     - name: http
       protocol: TCP
       port: {{ .Values.service.port }}
       targetPort: {{ $targetPort }}
+    {{- end }}
   selector:
     app: qtest-mgr-notification
     release: {{ .Release.Name }}

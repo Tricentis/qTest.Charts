@@ -83,6 +83,8 @@ data:
   request.execution.time.upper.threshold: "{{ .Values.qTestManager.requestExecutionTimeUpperThreshold }}"
   task.execution.time.upper.threshold: "{{ .Values.qTestManager.taskExecutionTimeUpperThreshold }}"
   vera.auto.testrun.beta.clients: "{{ .Values.qTestManager.vera.auto.testrun.beta.clients }}"
+  sslMountPath: "{{ .Values.qTestManager.server.sslMountPath }}"
+  isSSLRequired: "{{ .Values.qTestManager.serverAppSSLRequired }}"
   {{ if .Values.testconductor.environment.isOnPremise }} 
   async.max.cpu: "{{ .Values.qTestManager.async.maxCpu }}"
   async.max.database.cpu: "{{ .Values.qTestManager.async.databaseCpu }}"

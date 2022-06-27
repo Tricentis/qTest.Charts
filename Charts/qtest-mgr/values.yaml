@@ -66,6 +66,7 @@ imageCredentials:
   # existingImageCredentials: ""
 secrets:
   enabled: false
+  useExistingTls: false
   # existingConfigs: ""
 serviceAccount:
   create: true
@@ -77,6 +78,7 @@ service:
   annotations: {}
   port: 8080
   targetPort: 8080
+  targetHttpsPort: 8443
   targetSigSciPort: 8081
   serviceName: mgr-service
   # servicePortHttp: 80
@@ -100,6 +102,8 @@ qTestManager:
   async:
     maxCpu: 101
     databaseCpu: 101
+  server:
+    sslMountPath: "/mnt/secrets/tls"
   client:
     jdbc:
       postgresUrl: "jdbc:postgresql://postgres.local:5432/qtest"
@@ -264,7 +268,7 @@ notification:
       jiraCloudRateLimitDelayTime: 0
       jiraCloudRateLimitRetryPeriod: 5
       jiraCloudRateLimitRetryTimes: 3
-      jiraCloudRateLimitThreshold: 20
+      jiraCloudRateLimitThreshold: 500
       jiraServerThreshold: 20
       oldDefectTrackingSystemsThreshold: 20
       testExecutionApiRetryTime: 0
@@ -453,6 +457,14 @@ livenessProbe:
   initialDelaySeconds: 70
   periodSeconds: 30
   failureThreshold: 20
+livenessSslProbe:
+  httpGet:
+    path: /health-checker
+    scheme: HTTPS
+    port: 8443
+  initialDelaySeconds: 70
+  periodSeconds: 30
+  failureThreshold: 20
 readinessProbe:
   httpGet:
     path: /health-checker
@@ -460,10 +472,25 @@ readinessProbe:
   initialDelaySeconds: 30
   periodSeconds: 30
   failureThreshold: 20
+readinessSslProbe:
+  httpGet:
+    path: /health-checker
+    scheme: HTTPS
+    port: 8443
+  initialDelaySeconds: 30
+  periodSeconds: 30
+  failureThreshold: 20
 startupProbe:
   httpGet:
     path: /health-checker
     port: 8080
+  periodSeconds: 30
+  failureThreshold: 20
+startupSslProbe:
+  httpGet:
+    path: /health-checker
+    scheme: HTTPS
+    port: 8443
   periodSeconds: 30
   failureThreshold: 20
 nodeSelector: {}
