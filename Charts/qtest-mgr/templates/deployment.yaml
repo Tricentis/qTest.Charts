@@ -103,17 +103,35 @@ spec:
 {{- end }}
 {{- end }}
         livenessProbe:
+        {{- if .Values.qTestManager.serverAppSSLRequired }}
+          {{ .Values.livenessSslProbe | toYaml | indent 10 | trim }}
+        {{- else }}
           {{ .Values.livenessProbe | toYaml | indent 10 | trim }}
+        {{- end }}
         readinessProbe:
+        {{- if .Values.qTestManager.serverAppSSLRequired }}
+          {{ .Values.readinessSslProbe | toYaml | indent 10 | trim }}
+        {{- else }}
           {{ .Values.readinessProbe | toYaml | indent 10 | trim }}
+        {{- end }}
         startupProbe:
+        {{- if .Values.qTestManager.serverAppSSLRequired }}
+          {{ .Values.startupSslProbe | toYaml | indent 10 | trim }}
+        {{- else }}
           {{ .Values.startupProbe | toYaml | indent 10 | trim }}
+        {{- end }}
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
         ports:
+        {{- if .Values.qTestManager.serverAppSSLRequired }}
+        - containerPort: {{ .Values.service.targetHttpsPort }}
+          name: https
+          protocol: TCP
+        {{- else }}
         - containerPort: {{ .Values.service.targetPort }}
           name: http
           protocol: TCP
+        {{- end }}
         envFrom:
         - configMapRef:
             name: qtest-manager-config
@@ -138,6 +156,11 @@ spec:
         {{- if .Values.qTestManager.client.jdbc.sslEnable }}
         - name: qtest-manager-secret-root-volume
           mountPath: {{ .Values.qTestManager.client.jdbc.sslMountPath }}
+          readOnly: true
+        {{- end }}
+        {{- if .Values.qTestManager.serverAppSSLRequired }}
+        - name: qtest-manager-secret-ssl-volume
+          mountPath: {{ .Values.qTestManager.server.sslMountPath }}
           readOnly: true
         {{- end }}
 {{- with .Values.extraVolumeMounts }}
@@ -165,6 +188,11 @@ spec:
       - name: qtest-manager-secret-root-volume
         secret:
           secretName: qtest-db-root-secret
+      {{- end }}
+      {{- if .Values.qTestManager.serverAppSSLRequired }}
+      - name: qtest-manager-secret-ssl-volume
+        secret:
+          secretName: qtest-ssl-root-secret
       {{- end }}
       - name: qtest-data
       {{- if .Values.persistence.existingClaim }}
@@ -270,17 +298,35 @@ spec:
 {{- end }}
 {{- end }}
         livenessProbe:
+        {{- if .Values.qTestManager.serverAppSSLRequired }}
+          {{ .Values.livenessSslProbe | toYaml | indent 10 | trim }}
+        {{- else }}
           {{ .Values.livenessProbe | toYaml | indent 10 | trim }}
+        {{- end }}
         readinessProbe:
+        {{- if .Values.qTestManager.serverAppSSLRequired }}
+          {{ .Values.readinessSslProbe | toYaml | indent 10 | trim }}
+        {{- else }}
           {{ .Values.readinessProbe | toYaml | indent 10 | trim }}
+        {{- end }}
         startupProbe:
+        {{- if .Values.qTestManager.serverAppSSLRequired }}
+          {{ .Values.startupSslProbe | toYaml | indent 10 | trim }}
+        {{- else }}
           {{ .Values.startupProbe | toYaml | indent 10 | trim }}
+        {{- end }}
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
         ports:
+        {{- if .Values.qTestManager.serverAppSSLRequired }}
+        - containerPort: {{ .Values.service.targetHttpsPort }}
+          name: https
+          protocol: TCP
+        {{- else }}
         - containerPort: {{ .Values.service.targetPort }}
           name: http
           protocol: TCP
+        {{- end }}
         envFrom:
         - configMapRef:
             name: qtest-manager-config
@@ -301,6 +347,11 @@ spec:
          {{- if .Values.qTestManager.client.jdbc.sslEnable }}
         - name: qtest-manager-secret-root-volume
           mountPath: {{ .Values.qTestManager.client.jdbc.sslMountPath }}
+          readOnly: true
+        {{- end }}
+        {{- if .Values.qTestManager.serverAppSSLRequired }}
+        - name: qtest-manager-secret-ssl-volume
+          mountPath: {{ .Values.qTestManager.server.sslMountPath }}
           readOnly: true
         {{- end }}
 {{- with .Values.extraVolumeMounts }}
@@ -328,6 +379,11 @@ spec:
       - name: qtest-manager-secret-root-volume
         secret:
           secretName: qtest-db-root-secret
+      {{- end }}
+      {{- if .Values.qTestManager.serverAppSSLRequired }}
+      - name: qtest-manager-secret-ssl-volume
+        secret:
+          secretName: qtest-ssl-root-secret
       {{- end }}
       - name: qtest-data
       {{- if .Values.persistence.existingClaim }}
@@ -432,17 +488,35 @@ spec:
 {{- end }}
 {{- end }}
         livenessProbe:
+        {{- if .Values.qTestManager.serverAppSSLRequired }}
+          {{ .Values.livenessSslProbe | toYaml | indent 10 | trim }}
+        {{- else }}
           {{ .Values.livenessProbe | toYaml | indent 10 | trim }}
+        {{- end }}
         readinessProbe:
+        {{- if .Values.qTestManager.serverAppSSLRequired }}
+          {{ .Values.readinessSslProbe | toYaml | indent 10 | trim }}
+        {{- else }}
           {{ .Values.readinessProbe | toYaml | indent 10 | trim }}
+        {{- end }}
         startupProbe:
+        {{- if .Values.qTestManager.serverAppSSLRequired }}
+          {{ .Values.startupSslProbe | toYaml | indent 10 | trim }}
+        {{- else }}
           {{ .Values.startupProbe | toYaml | indent 10 | trim }}
+        {{- end }}
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
         ports:
+        {{- if .Values.qTestManager.serverAppSSLRequired }}
+        - containerPort: {{ .Values.service.targetHttpsPort }}
+          name: https
+          protocol: TCP
+        {{- else }}
         - containerPort: {{ .Values.service.targetPort }}
           name: http
           protocol: TCP
+        {{- end }}
         envFrom:
         - configMapRef:
             name: qtest-manager-config
@@ -463,6 +537,11 @@ spec:
         {{- if .Values.qTestManager.client.jdbc.sslEnable }}
         - name: qtest-manager-secret-root-volume
           mountPath: {{ .Values.qTestManager.client.jdbc.sslMountPath }}
+          readOnly: true
+        {{- end }}
+        {{- if .Values.qTestManager.serverAppSSLRequired }}
+        - name: qtest-manager-secret-ssl-volume
+          mountPath: {{ .Values.qTestManager.server.sslMountPath }}
           readOnly: true
         {{- end }}
 {{- with .Values.extraVolumeMounts }}
@@ -490,6 +569,11 @@ spec:
       - name: qtest-manager-secret-root-volume
         secret:
           secretName: qtest-db-root-secret
+      {{- end }}
+      {{- if .Values.qTestManager.serverAppSSLRequired }}
+      - name: qtest-manager-secret-ssl-volume
+        secret:
+          secretName: qtest-ssl-root-secret
       {{- end }}
       - name: qtest-data
       {{- if .Values.persistence.existingClaim }}
@@ -594,17 +678,35 @@ spec:
 {{- end }}
 {{- end }}
         livenessProbe:
+        {{- if .Values.qTestManager.serverAppSSLRequired }}
+          {{ .Values.livenessSslProbe | toYaml | indent 10 | trim }}
+        {{- else }}
           {{ .Values.livenessProbe | toYaml | indent 10 | trim }}
+        {{- end }}
         readinessProbe:
+        {{- if .Values.qTestManager.serverAppSSLRequired }}
+          {{ .Values.readinessSslProbe | toYaml | indent 10 | trim }}
+        {{- else }}
           {{ .Values.readinessProbe | toYaml | indent 10 | trim }}
+        {{- end }}
         startupProbe:
+        {{- if .Values.qTestManager.serverAppSSLRequired }}
+          {{ .Values.startupSslProbe | toYaml | indent 10 | trim }}
+        {{- else }}
           {{ .Values.startupProbe | toYaml | indent 10 | trim }}
+        {{- end }}
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
         ports:
+        {{- if .Values.qTestManager.serverAppSSLRequired }}
+        - containerPort: {{ .Values.service.targetHttpsPort }}
+          name: https
+          protocol: TCP
+        {{- else }}
         - containerPort: {{ .Values.service.targetPort }}
           name: http
           protocol: TCP
+        {{- end }}
         envFrom:
         - configMapRef:
             name: qtest-manager-config
@@ -625,6 +727,11 @@ spec:
         {{- if .Values.qTestManager.client.jdbc.sslEnable }}
         - name: qtest-manager-secret-root-volume
           mountPath: {{ .Values.qTestManager.client.jdbc.sslMountPath }}
+          readOnly: true
+        {{- end }}
+        {{- if .Values.qTestManager.serverAppSSLRequired }}
+        - name: qtest-manager-secret-ssl-volume
+          mountPath: {{ .Values.qTestManager.server.sslMountPath }}
           readOnly: true
         {{- end }}
 {{- with .Values.extraVolumeMounts }}
@@ -652,6 +759,11 @@ spec:
       - name: qtest-manager-secret-root-volume
         secret:
           secretName: qtest-db-root-secret
+      {{- end }}
+      {{- if .Values.qTestManager.serverAppSSLRequired }}
+      - name: qtest-manager-secret-ssl-volume
+        secret:
+          secretName: qtest-ssl-root-secret
       {{- end }}
       - name: qtest-data
       {{- if .Values.persistence.existingClaim }}
