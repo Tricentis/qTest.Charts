@@ -53,8 +53,8 @@ image:
   repository: tricentisimage/qtest-mgr
   liquibase: tricentisimage/qtest-mgr-liquibase
   pullPolicy: IfNotPresent
-  tag: "11.1.6-448af05"
-  liquibasetag: "11.1.6-448af05"
+  tag: "11.1.6-637a242"
+  liquibasetag: "11.1.6-637a242"
   liquibasepullpolicy: IfNotPresent
 imageCredentials:
   enabled: false
