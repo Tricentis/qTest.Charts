@@ -158,7 +158,7 @@ data:
   background.event.jira_cloud_ratelimit.delay_time: "{{ .Values.notification.background.event.jiraCloudRateLimitDelayTime }}"
   background.event.jira_cloud_ratelimit.retry_period: "{{ .Values.notification.background.event.jiraCloudRateLimitRetryPeriod }}"
   background.event.jira_cloud_ratelimit.retry_times: "{{ .Values.notification.background.event.jiraCloudRateLimitRetryTimes }}"
-  background.event.jira_cloud_ratelimit.threshold: "{{ .Values.notification.background.event.jiraCloudRateLimitThreshold }}"
+  background.event.jira_cloud_ratelimit.threshold: "{{ .Values.api.background.event.jiraCloudRateLimitThreshold }}"
   background.event.jira_server.threshold: "{{ .Values.api.background.event.jiraServerThreshold }}"
   background.event.maxThreshold: "{{ .Values.api.background.event.maxThreshold }}"
   background.event.old_defect_tracking_systems.threshold: "{{ .Values.api.background.event.oldDefectTrackingSystemsThreshold }}"
