@@ -1,3 +1,5 @@
+{{- $sslCert := printf "%s/tls.crt" .Values.qTestParameters.qTestParametersSSLMountPath -}}
+{{- $sslKey := printf "%s/tls.key" .Values.qTestParameters.qTestParametersSSLMountPath -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -12,4 +14,12 @@ data:
   qTestParametersQTestHost: "{{ .Values.qTestParameters.qTestParametersQTestHost }}"
   qTestParametersNodeTLSRejectUnAuthorized: "{{ .Values.qTestParameters.qTestParametersNodeTLSRejectUnAuthorized }}"
   qTestParametersNodeEnv: "{{ .Values.qTestParameters.qTestParametersNodeEnv }}"
-  qTestParametersPort: "{{ .Values.qTestParameters.qTestParametersPort }}"
+  qTestParametersSSLMountPath: "{{ .Values.qTestParameters.qTestParametersSSLMountPath }}"
+  qTestParametersIsSSLRequired: "{{ .Values.qTestParameters.qTestParametersSSLRequired }}"
+  {{- if .Values.qTestParameters.qTestParametersSSLRequired }}
+  qTestParametersSSLCert: "{{ $sslCert }}"
+  qTestParametersSSLKey: "{{ $sslKey }}"
+  qTestParametersPort: "{{ .Values.service.targetHttpsPort }}"
+  {{- else }}
+  qTestParametersPort: "{{ .Values.service.targetPort }}"
+  {{- end -}}

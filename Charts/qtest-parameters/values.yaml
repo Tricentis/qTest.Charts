@@ -8,13 +8,20 @@ secrets:
 image:
   repository: qasymphony/parameters
   pullPolicy: IfNotPresent
-  tag: "2.2.14"
+  tag: "2.2.17"
 deployment:
   annotations: {}
+extraInitContainers: []
+extraContainers: []
+extraArgs: []
+extraEnv: []
+extraVolumeMounts: []
+extraVolumes: []
 service:
   type: LoadBalancer
   port: 5080
   targetPort: 5080
+  targetHttpsPort: 5443
   serviceName: qtest-parameters-service
 qTestParameters:
   qTestParametersDBName: parameters
@@ -28,6 +35,8 @@ qTestParameters:
   qTestParametersDBSSLMountPath: ""
   qTestParametersDBSSL: ""
   qTestParametersDBCRT: ""
+  qTestParametersSSLRequired: false
+  qTestParametersSSLMountPath: "/mnt/secrets/tls"
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
 ingressClass:
   enabled: false
@@ -75,6 +84,10 @@ vpaAutoscaling:
   enabled: false
   updatePolicy:
     updateMode: "Off"
+  resourcePolicy:
+    containerPolicies:
+      - containerName: '*'
+        controlledValues: RequestsAndLimits
 # HPA values
 autoscaling:
   enabled: true
@@ -96,3 +109,38 @@ limitRange:
   enabled: false
 resourceQuota:
   enabled: false
+livenessProbe:
+  httpGet:
+    path: /health-check
+    port: 5080
+  periodSeconds: 30
+livenessSslProbe:
+  httpGet:
+    path: /health-check
+    scheme: HTTPS
+    port: 5443
+  periodSeconds: 30
+readinessProbe:
+  httpGet:
+    path: /health-check
+    port: 5080
+  periodSeconds: 30
+readinessSslProbe:
+  httpGet:
+    path: /health-check
+    scheme: HTTPS
+    port: 5443
+  periodSeconds: 30
+startupProbe:
+  httpGet:
+    path: /health-check
+    port: 5080
+  failureThreshold: 4
+  periodSeconds: 30
+startupSslProbe:
+  httpGet:
+    path: /health-check
+    scheme: HTTPS
+    port: 5443
+  failureThreshold: 4
+  periodSeconds: 30
