@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: qtest-session
+  name: {{ include "qtest-session.fullname" . }}
   namespace: {{ .Values.namespace.name }}
   {{- with .Values.deployment.annotations }}
   annotations:
@@ -64,32 +64,58 @@ spec:
                 configMapKeyRef:
                   name: qtest-session-configmap
                   key: qTestSessionPort
-            - name: SESSION_DB_NAME
+            - name: DB_NAME
               valueFrom:
                 configMapKeyRef:
                   name: qtest-session-configmap
                   key: qTestSessionDBName
-            - name: SESSION_DB_USERNAME
+            - name: DB_USER
               valueFrom:
                 configMapKeyRef:
                   name: qtest-session-configmap
                   key: qTestSessionDBUserName
-            - name: SESSION_DB_PWD
+            - name: DB_PASS
               valueFrom:
                 secretKeyRef:
                   name: qtest-manager-secret
                   key: client.jdbc.postgres.password
-            - name: SESSION_DB_HOSTNAME
+            - name: DB_HOST
               valueFrom:
                 configMapKeyRef:
                   name: qtest-session-configmap
                   key: qTestSessionDBHostName
+            {{- if .Values.qTestSession.qTestSessionCustomSchemaEnable }}
+            - name: DATABASE_SCHEMA_SESSION
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-session-configmap
+                  key: qTestSessionCustomSchemaName
+            {{- end }}   
             - name: DB_CONNECTION
-              {{- if .Values.qTestSession.qTestSessionDBSSLEnable }}
-              value: {{ printf "postgresql://$(SESSION_DB_USERNAME):$(SESSION_DB_PWD)@$(SESSION_DB_HOSTNAME)/$(SESSION_DB_NAME)%s" .Values.qTestSession.qTestSessionDBSSL }}
+              {{- if and (.Values.qTestSession.qTestSessionDBSSLEnable) (.Values.qTestSession.qTestSessionCustomSchemaEnable) }}
+              value: {{ printf "postgresql://$(DB_USER):$(DB_PASS)@$(DB_HOST)/$(DB_NAME)?schema=$(DATABASE_SCHEMA_SESSION)%s" .Values.qTestSession.qTestSessionDBSSL }}
               {{- end }}
-              {{- if not .Values.qTestSession.qTestSessionDBSSLEnable }}
-              value: {{ printf "postgresql://$(SESSION_DB_USERNAME):$(SESSION_DB_PWD)@$(SESSION_DB_HOSTNAME)/$(SESSION_DB_NAME)" }}
+              {{- if and (.Values.qTestSession.qTestSessionDBSSLEnable) (not .Values.qTestSession.qTestSessionCustomSchemaEnable) }}
+              value: {{ printf "postgresql://$(DB_USER):$(DB_PASS)@$(DB_HOST)/$(DB_NAME)%s" .Values.qTestSession.qTestSessionDBSSL }}
+              {{- end }}
+              {{- if and (not .Values.qTestSession.qTestSessionDBSSLEnable) (.Values.qTestSession.qTestSessionCustomSchemaEnable) }}
+              value: {{ printf "postgresql://$(DB_USER):$(DB_PASS)@$(DB_HOST)/$(DB_NAME)?schema=$(DATABASE_SCHEMA_SESSION)" }}
+              {{- end }}
+              {{- if and (not .Values.qTestSession.qTestSessionDBSSLEnable) (not .Values.qTestSession.qTestSessionCustomSchemaEnable)}}
+              value: {{ printf "postgresql://$(DB_USER):$(DB_PASS)@$(DB_HOST)/$(DB_NAME)" }}
+              {{- end }}
+            - name: DATABASE_URL
+              {{- if and (.Values.qTestSession.qTestSessionDBSSLEnable) (.Values.qTestSession.qTestSessionCustomSchemaEnable) }}
+              value: {{ printf "postgresql://$(DB_USER):$(DB_PASS)@$(DB_HOST)/$(DB_NAME)?schema=$(DATABASE_SCHEMA_SESSION)%s" .Values.qTestSession.qTestSessionDBSSL }}
+              {{- end }}
+              {{- if and (.Values.qTestSession.qTestSessionDBSSLEnable) (not .Values.qTestSession.qTestSessionCustomSchemaEnable) }}
+              value: {{ printf "postgresql://$(DB_USER):$(DB_PASS)@$(DB_HOST)/$(DB_NAME)%s" .Values.qTestSession.qTestSessionDBSSL }}
+              {{- end }}
+              {{- if and (not .Values.qTestSession.qTestSessionDBSSLEnable) (.Values.qTestSession.qTestSessionCustomSchemaEnable) }}
+              value: {{ printf "postgresql://$(DB_USER):$(DB_PASS)@$(DB_HOST)/$(DB_NAME)?schema=$(DATABASE_SCHEMA_SESSION)" }}
+              {{- end }}
+              {{- if and (not .Values.qTestSession.qTestSessionDBSSLEnable) (not .Values.qTestSession.qTestSessionCustomSchemaEnable)}}
+              value: {{ printf "postgresql://$(DB_USER):$(DB_PASS)@$(DB_HOST)/$(DB_NAME)" }}
               {{- end }}
             - name: QTEST_HOST
               valueFrom:
