@@ -18,3 +18,5 @@ data:
   qTestSessionClamavURL: "{{ .Values.qTestSession.qTestSessionClamavURL }}"
   qTestStorageBucketName: "{{ .Values.qTestSession.qTestStorageBucketName }}"
   qTestSessionStorageType : "{{ .Values.qTestSession.qTestSessionStorageType }}"
+  qTestSessionCustomSchemaEnable : "{{ .Values.qTestSession.qTestSessionCustomSchemaEnable }}"
+  qTestSessionCustomSchemaName : "{{ .Values.qTestSession.qTestSessionCustomSchemaName }}"
