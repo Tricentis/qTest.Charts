@@ -21,31 +21,43 @@ spec:
         release: "{{ .Release.Name }}"
         heritage: "{{ .Release.Service }}"
     spec:
+      {{- if .Values.securityContext }}
+      securityContext: {{- toYaml .Values.securityContext | nindent 8 }}
+      {{- end }}
       containers:
         - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: {{ .Chart.Name }}
           livenessProbe:
-            httpGet:
-              path: {{ .Values.autoscaling.healthApiPath }}
-              port: {{ .Values.service.targetPort }}
-            periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          {{- if .Values.qTestInsights.serverAppSSLRequired }}
+           {{- toYaml .Values.autoscaling.livenessSslProbe | nindent 12 }}
+          {{- else }}
+           {{- toYaml .Values.autoscaling.livenessProbe | nindent 12 }}
+          {{- end }}
           readinessProbe:
-            httpGet:
-              path: {{ .Values.autoscaling.healthApiPath }}
-              port: {{ .Values.service.targetPort }}
-            periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          {{- if .Values.qTestInsights.serverAppSSLRequired }}
+           {{- toYaml .Values.autoscaling.readinessSslProbe | nindent 12 }}
+          {{- else }}
+           {{- toYaml .Values.autoscaling.readinessProbe | nindent 12 }}
+          {{- end }}
           startupProbe:
-            httpGet:
-              path: {{ .Values.autoscaling.healthApiPath }}
-              port: {{ .Values.service.targetPort }}
-            failureThreshold: {{ .Values.autoscaling.failureThreshold }}
-            periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          {{- if .Values.qTestInsights.serverAppSSLRequired }}
+           {{- toYaml .Values.autoscaling.startupSslProbe | nindent 12 }}
+          {{- else }}
+           {{- toYaml .Values.autoscaling.startupProbe | nindent 12 }}
+          {{- end }}
           resources:
           {{- toYaml .Values.resources | nindent 12 }}
           ports:
-            - containerPort: {{ .Values.service.targetPort }}
-              name: http
+          {{- if .Values.qTestInsights.serverAppSSLRequired }}
+          - containerPort: {{ .Values.service.targetHttpsPort }}
+            name: https
+            protocol: TCP
+          {{- else }}
+          - containerPort: {{ .Values.service.targetPort }}
+            name: http
+            protocol: TCP
+          {{- end }}
           envFrom:
             - configMapRef:
                 name: qtest-insights-configmap
@@ -85,6 +97,11 @@ spec:
               mountPath: /usr/local/tomcat/webapps/ROOT/rdDataCache
             - name: qtest-insights
               mountPath: /usr/local/tomcat/webapps/ROOT/rdDownload
+            {{- if .Values.qTestInsights.serverAppSSLRequired }}
+            - name: qtest-insights-secret-ssl-volume
+              mountPath: {{ .Values.qTestInsights.server.sslMountPath }}
+              readOnly: true
+            {{- end }}
       volumes:
         - name: qtest-insights
         {{- if .Values.persistence.existingClaim }}
@@ -95,4 +112,9 @@ spec:
             claimName: {{ template "qtest-insights.fullname" . }}
         {{- else }}
           emptyDir: {}
+        {{- end }}
+        {{- if .Values.qTestInsights.serverAppSSLRequired }}
+        - name: qtest-insights-secret-ssl-volume
+          secret:
+            secretName: qtest-ssl-root-secret
         {{- end }}
