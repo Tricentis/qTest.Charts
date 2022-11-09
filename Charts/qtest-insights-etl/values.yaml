@@ -11,7 +11,7 @@ replicaCount: 1
 image:
   repository: qasymphony/insights-etl
   pullPolicy: IfNotPresent
-  tag: "v6.9.29.op"
+  tag: "v6.9.32.op"
 deployment:
   annotations: {}
 service:
@@ -32,9 +32,11 @@ qTestInsightsEtl:
   qTestInsightsEtlSessionDBName: sessions
   qTestInsightsEtlSessionDBUser: postgres
   qTestInsightsEtlSessionDBHost: postgres.local
+  qTestInsightsEtlSessionDBSchema: session
   writeSessionsDBHost: postgres.local
   writeSessionsDBName: qtest
   writeSessionsDBUser: postgres
+  writeSessionsDBSchema: session
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
 ingressClass:
   enabled: true
