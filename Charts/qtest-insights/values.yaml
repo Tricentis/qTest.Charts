@@ -8,26 +8,37 @@ secrets:
 image:
   repository: qasymphony/insights
   pullPolicy: IfNotPresent
-  tag: "v1.21.31.op"
+  tag: "v1.21.34.op"
 deployment:
   annotations: {}
 service:
   type: LoadBalancer
   port: 8080
   targetPort: 8080
+  targetHttpsPort: 8443
   serviceName: insights-service
+securityContext:
+  runAsUser: 8877
+  runAsNonRoot: true
+  fsGroup: 8877
 qTestInsights:
-  qTestInsightsCatalinaOpts: \"-server -d64 -Xms512m -Xmx2048m -XX:MaxPermSize=256m -XX:CompileThreshold=8000 -XX:-DisableExplicitGC -XX:HeapDumpPath=/logs -Djava.awt.headless=true\"
+  qTestInsightsCatalinaOpts: "-server -d64 -Xms512m -Xmx2048m -XX:MaxPermSize=256m -XX:CompileThreshold=8000 -XX:-DisableExplicitGC -Djava.awt.headless=true -XX:HeapDumpPath=/logs"
   qTestInsightsDBName: qtest
   qTestInsightsDBUser: postgres
   qTestInsightsDBHost: postgres.local
+  qTestInsightsDBSchema: public
   qTestInsightsWriteQTestDBName: qtest
   qTestInsightsWriteQTestDBUser: postgres
   qTestInsightsWriteQTestDBHost: postgres.local
+  qTestInsightsWriteQTestDBSchema: public
   qTestInsightsSessionDBName: sessions
   qTestInsightsSessionDBUser: postgres
   qTestInsightsSessionDBHost: postgres.local
+  qTestInsightsSessionDBSchema: session
   qTestInsightsCSRFAllowPattern: \"$insights_security_csrf_trusted_source_pattern\"
+  serverAppSSLRequired: false
+  server:
+    sslMountPath: "/mnt/secrets/tls"
   smtp:
     server: "smtp.local"
     account: "qtest"
@@ -97,9 +108,50 @@ autoscaling:
   enabled: true
   minReplicas: 1
   maxReplicas: 1
-  healthApiPath: /rdLogon.aspx
-  periodSeconds: 30
-  failureThreshold: 4
+  livenessProbe:
+    httpGet:
+      path: /rdLogon.aspx
+      scheme: HTTP
+      port: 8080
+    initialDelaySeconds: 70
+    periodSeconds: 30
+  livenessSslProbe:
+    httpGet:
+      path: /rdLogon.aspx
+      scheme: HTTPS
+      port: 8443
+    initialDelaySeconds: 70
+    periodSeconds: 30
+  readinessProbe:
+    httpGet:
+      path: /rdLogon.aspx
+      scheme: HTTP
+      port: 8080
+    initialDelaySeconds: 70
+    periodSeconds: 30
+  readinessSslProbe:
+    httpGet:
+      path: /rdLogon.aspx
+      scheme: HTTPS
+      port: 8443
+    initialDelaySeconds: 70
+    periodSeconds: 30
+  startupProbe:
+    httpGet:
+      path: /rdLogon.aspx
+      scheme: HTTP
+      port: 8080
+    initialDelaySeconds: 70
+    periodSeconds: 30
+    failureThreshold: 20
+  startupSslProbe:
+    httpGet:
+      path: /rdLogon.aspx
+      scheme: HTTPS
+      port: 8443
+    initialDelaySeconds: 70
+    periodSeconds: 30
+    failureThreshold: 20
   targetCPUUtilizationPercentage: 85
   targetMemoryUtilizationPercentage: 85
 resources:
