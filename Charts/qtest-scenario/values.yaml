@@ -21,6 +21,8 @@ qTestScenario:
   qTestScenarioDBName: scenario
   qTestScenarioDBUserName: postgres
   qTestScenarioDBHostName: host.docker.internal
+  postgresDBPassword:
+    secret: qtest-manager-secret
   qTestScenarioPort: "6080"
   qTestScenarioLocalBaseURL: https://scenario.local
   qTestScenarioNodeTLSRejectUnAuthorized: "0"

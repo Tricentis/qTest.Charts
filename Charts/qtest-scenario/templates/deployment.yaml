@@ -60,7 +60,7 @@ spec:
             - name: SCENARIO_DB_PWD
               valueFrom:
                 secretKeyRef:
-                  name: qtest-manager-secret
+                  name: {{ .Values.qTestScenario.postgresDBPassword.secret }}
                   key: client.jdbc.postgres.password
             - name: SCENARIO_DB_HOSTNAME
               valueFrom:
