@@ -21,15 +21,17 @@ metadata:
   {{- end }}
   {{- end }}
 spec:
+  {{- if .Values.ingressClass.enabled }}
   {{- if .Values.ingress.className }}
   ingressClassName: {{ .Values.ingress.className }} 
 {{ else }}
   ingressClassName: "{{ include "qtest-scenario.fullname" . }}-ingressclass"
 {{- end }}
+{{- end }}
   rules:
   {{- if .Values.ingress.hosts }}
   {{- range $host := .Values.ingress.hosts }}
-    - host: {{ $host }}
+    - host: {{ .host | quote }}
       http:
         paths:
   {{- range $p := $paths }}
