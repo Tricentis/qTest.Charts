@@ -37,6 +37,9 @@ qTestInsightsEtl:
   writeSessionsDBName: qtest
   writeSessionsDBUser: postgres
   writeSessionsDBSchema: session
+  postgresDBPassword:
+    secret: qtest-manager-secret
+    sessionsSecret: qtest-manager-secret
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
 ingressClass:
   enabled: true
