@@ -35,6 +35,9 @@ qTestInsights:
   qTestInsightsSessionDBUser: postgres
   qTestInsightsSessionDBHost: postgres.local
   qTestInsightsSessionDBSchema: session
+  postgresDBPassword:
+    secret: qtest-manager-secret
+    sessionsSecret: qtest-manager-secret
   qTestInsightsCSRFAllowPattern: \"$insights_security_csrf_trusted_source_pattern\"
   serverAppSSLRequired: false
   server:
