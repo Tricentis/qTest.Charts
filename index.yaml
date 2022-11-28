@@ -3,6 +3,39 @@ entries:
   qtest-insights:
   - apiVersion: v2
     appVersion: v1.21.34.op
+    created: "2022-11-28T22:05:42.774707975Z"
+    dependencies:
+    - condition: reloader.enabled
+      name: reloader
+      repository: https://stakater.github.io/stakater-charts
+      version: '*'
+    description: A Helm chart for qTest Insights
+    digest: 59ceb67214e5bda1a54afbab6282158f574179458b1dfffdb353178bca6b50c5
+    home: https://github.com/QAS-Labs/qtest-chart.git
+    icon: https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_c2d6524c36c94138504f7a18bf179d76/tricentis-qtest.png
+    kubeVersion: '>=1.18.0-0'
+    maintainers:
+    - email: b.yang@tricentis.com
+      name: byangtri
+    - email: p.jaladi@ext.tricentis.com
+      name: pjaladi21
+    - email: l.nguyen@tricentis.com
+      name: liemng
+    - email: m.vankendine@ext.tricentis.com
+      name: mtricentis
+    - email: s.reddy-ganjikunta@ext.tricentis.com
+      name: subbuATB1
+    - email: k.kanojiya@tricentis.com
+      name: KaranKanojiya
+    - email: t.wallick@ext.tricentis.com
+      name: tomasw
+    name: qtest-insights
+    type: application
+    urls:
+    - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-insights-1.0.6/qtest-insights-1.0.6.tgz
+    version: 1.0.6
+  - apiVersion: v2
+    appVersion: v1.21.34.op
     created: "2022-11-09T22:33:25.173349581Z"
     dependencies:
     - condition: reloader.enabled
@@ -3742,4 +3775,4 @@ entries:
     urls:
     - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-session-0.1.0/qtest-session-0.1.0.tgz
     version: 0.1.0
-generated: "2022-11-28T22:03:45.139428355Z"
+generated: "2022-11-28T22:05:42.775178585Z"
