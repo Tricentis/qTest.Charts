@@ -65,17 +65,22 @@ spec:
             - name: QTEST_DB_PW
               valueFrom:
                 secretKeyRef:
-                  name: qtest-manager-secret
+                  name: {{ .Values.qTestInsights.postgresDBPassword.secret }}
                   key: client.jdbc.postgres.password
             - name: WRITE_QTEST_DB_PW
               valueFrom:
                 secretKeyRef:
-                  name: qtest-manager-secret
+                  name: {{ .Values.qTestInsights.postgresDBPassword.secret }}
                   key: client.jdbc.postgres.password
             - name: SESSIONS_DB_PW
               valueFrom:
                 secretKeyRef:
-                  name: qtest-manager-secret
+                  name: {{ .Values.qTestInsights.postgresDBPassword.sessionsSecret }}
+                  key: client.jdbc.postgres.password
+            - name: WRITE_SESSIONS_DB_PW
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.qTestInsights.postgresDBPassword.sessionsSecret }}
                   key: client.jdbc.postgres.password
             - name: SMTP_PASSWORD
               valueFrom:
