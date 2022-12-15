@@ -18,6 +18,7 @@ metadata:
 data:
   client.jdbc.postgres.url: {{ $postgresUrl }}
   client.jdbc.postgres.username: "{{ .Values.qTestManager.client.jdbc.postgresUserName }}"
+  client.jdbc.postgres.sessionsschema: "{{ .Values.qTestManager.client.jdbc.sessionsSchema }}"
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -33,6 +34,7 @@ data:
   client.dbcp.testWhileIdle: "{{ .Values.qTestManager.client.dbcp.testWhileIdle }}"
   client.jdbc.postgres.url: "{{ $postgresUrl }}"
   client.jdbc.postgres.username: "{{ .Values.qTestManager.client.jdbc.postgresUserName }}"
+  client.jdbc.postgres.sessionsschema: "{{ .Values.qTestManager.client.jdbc.sessionsSchema }}"
   client.jdbc.postgres.readonly.url: "{{ $postgresReadUrl }}"
   client.jdbc.postgres.readonly.username: "{{ .Values.qTestManager.client.jdbc.postgresReadOnlyUserName }}"
   elasticsearch.init: "{{ .Values.qTestManager.elasticSearch.init }}"
