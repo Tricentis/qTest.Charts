@@ -108,6 +108,7 @@ qTestManager:
     jdbc:
       postgresUrl: "jdbc:postgresql://postgres.local:5432/qtest"
       postgresUserName: "qtest"
+      sessionsSchema: "public"
       postgresPassword: ""
       postgresReadOnlyUrl: "jdbc:postgresql://postgres_replica.local:5432/qtest"
       postgresReadOnlyUserName: "qtest"
@@ -251,7 +252,7 @@ poller:
   siteFieldTemplateAssigningProjectBatchSize: 50
   testconductorAppPath: testconductor-app.localhost.xml
   queuePublisherMaxDequeue: 300
-  springProfilesActive: postgres
+  springProfilesActive: postgres,oldTrackingDefect,disableAllTasksMode
 notification:
   action:
     task:
@@ -877,7 +878,7 @@ qtest-pulse:
     fallbackApiVersion: ""
   ingress:
     enabled: true
-    name: pulse-nginx
+    name: pulse-ingress
     labels: {}
     annotations: {}
     canary:
@@ -954,7 +955,7 @@ qtest-scenario:
     fallbackApiVersion: ""
   ingress:
     enabled: true
-    name: scenario-nginx
+    name: scenario-ingress
     labels: {}
     annotations: {}
     canary:
@@ -1033,7 +1034,7 @@ qtest-session:
     fallbackApiVersion: ""
   ingress:
     enabled: true
-    name: session-nginx
+    name: session-ingress
     labels: {}
     annotations: {}
     canary:

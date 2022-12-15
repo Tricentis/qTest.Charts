@@ -52,6 +52,11 @@ spec:
                   name: qtest-manager-secret
                   {{- end }}
                   key: client.jdbc.postgres.password
+            - name: SESSIONS_DB_SCHEMA_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-liquibase-config
+                  key: client.jdbc.postgres.sessionsschema
           {{- if .Values.qTestManager.client.jdbc.sslEnable }}
           volumeMounts:
           - name: qtest-manager-secret-root-volume
