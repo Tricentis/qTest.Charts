@@ -532,6 +532,32 @@ entries:
     version: 0.1.0
   qtest-launch:
   - apiVersion: v2
+    appVersion: 1.6.12
+    created: "2023-01-12T22:01:29.338245077Z"
+    dependencies:
+    - condition: reloader.enabled
+      name: reloader
+      repository: https://stakater.github.io/stakater-charts
+      version: '*'
+    description: A Helm chart for Kubernetes cluster of qtest-launch
+    digest: 34713af3ecb8c105e349a6be0c1f2bbe3dd0c025edddd5dc8a8d7ea226b75efc
+    home: https://github.com/QAS-Labs/qtest-chart.git
+    kubeVersion: '>=1.18.0-0'
+    maintainers:
+    - email: b.yang@tricentis.com
+      name: byangtri
+    - email: p.jaladi@ext.tricentis.com
+      name: pjaladi21
+    - email: l.nguyen@tricentis.com
+      name: liemng
+    - email: t.wallick@ext.tricentis.com
+      name: tomasw
+    name: qtest-launch
+    type: application
+    urls:
+    - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-launch-1.0.3/qtest-launch-1.0.3.tgz
+    version: 1.0.3
+  - apiVersion: v2
     appVersion: 1.6.10
     created: "2022-02-03T00:08:00.174111647Z"
     dependencies:
@@ -3967,4 +3993,4 @@ entries:
     urls:
     - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-session-0.1.0/qtest-session-0.1.0.tgz
     version: 0.1.0
-generated: "2023-01-12T21:57:37.214335294Z"
+generated: "2023-01-12T22:01:29.338807008Z"
