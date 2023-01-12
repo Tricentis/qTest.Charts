@@ -4,13 +4,46 @@ namespace:
 reloader:
   enabled: false
 secrets:
-  enabled: true
+  name: qtest-manager-secret
+  sessionsName: qtest-manager-secret
 image:
   repository: qasymphony/insights
   pullPolicy: IfNotPresent
   tag: "v1.21.34.op"
+imageCredentials:
+  enabled: false
+  # name: ""
+  # registry: ""
+  # username: ""
+  # password: ""
+  # email: ""
+  # existingImageCredentials: ""
 deployment:
   annotations: {}
+rollouts:
+  enabled: false
+  ingressClassName: alb
+  strategy:
+    canary:
+      maxSurge: "25%"
+      maxUnavailable: 0
+  steps:
+    - setWeight: 20
+    # if prometheus metrics are enabled
+    # - analysis:
+    #     templates:
+    #     - templateName: success-rates
+    #       clusterScope: true
+    #     args:
+    #     - name: service-name
+    - setWeight: 50
+    - pause: {duration: 10s}
+extraInitContainers: []
+extraContainers: []
+extraArgs: []
+extraEnv: []
+extraVolumeMounts: []
+extraVolumes: []
 service:
   type: LoadBalancer
   port: 8080
@@ -35,9 +68,6 @@ qTestInsights:
   qTestInsightsSessionDBUser: postgres
   qTestInsightsSessionDBHost: postgres.local
   qTestInsightsSessionDBSchema: session
-  postgresDBPassword:
-    secret: qtest-manager-secret
-    sessionsSecret: qtest-manager-secret
   qTestInsightsCSRFAllowPattern: \"$insights_security_csrf_trusted_source_pattern\"
   serverAppSSLRequired: false
   server:

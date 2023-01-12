@@ -1,3 +1,5 @@
+{{- $existingImageCredentials := .Values.imageCredentials.existingImageCredentials -}}
+{{- $imageCredentials := .Values.imageCredentials.name -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -8,7 +10,11 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
+  {{- if .Values.rollouts.enabled }}
+  replicas: 0
+  {{- else }}
   replicas: {{ .Values.autoscaling.minReplicas }}
+  {{- end }}
   revisionHistoryLimit: 3
   selector:
     matchLabels:
@@ -24,10 +30,36 @@ spec:
       {{- if .Values.securityContext }}
       securityContext: {{- toYaml .Values.securityContext | nindent 8 }}
       {{- end }}
+      {{- if .Values.extraInitContainers }}
+      # Currently some extra blocks accept strings
+      # to continue with backwards compatibility this is being kept
+      # whilst also allowing for yaml to be specified too.
+      initContainers:
+      {{- if eq "string" (printf "%T" .Values.extraInitContainers) }}
+{{ tpl .Values.extraInitContainers . | indent 8 }}
+      {{- else }}
+{{ toYaml .Values.extraInitContainers | indent 8 }}
+      {{- end }}
+      {{- end }}
+    {{ if .Values.imageCredentials.enabled }}
+      {{ if .Values.imageCredentials.existingImageCredentials }}
+      imagePullSecrets:
+        - name: {{ $existingImageCredentials }}
+      {{ else }}
+      imagePullSecrets:
+        - name: {{ $imageCredentials }}
+      {{- end }}
+    {{- end }}
       containers:
         - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: {{ .Chart.Name }}
+{{- if .Values.extraArgs }}
+          args:
+{{- with .Values.extraArgs }}
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- end }}
           livenessProbe:
           {{- if .Values.qTestInsights.serverAppSSLRequired }}
            {{- toYaml .Values.autoscaling.livenessSslProbe | nindent 12 }}
@@ -65,28 +97,31 @@ spec:
             - name: QTEST_DB_PW
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.qTestInsights.postgresDBPassword.secret }}
+                  name: {{ .Values.secrets.name }}
                   key: client.jdbc.postgres.password
             - name: WRITE_QTEST_DB_PW
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.qTestInsights.postgresDBPassword.secret }}
+                  name: {{ .Values.secrets.name }}
                   key: client.jdbc.postgres.password
             - name: SESSIONS_DB_PW
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.qTestInsights.postgresDBPassword.sessionsSecret }}
+                  name: {{ .Values.secrets.sessionsName }}
                   key: client.jdbc.postgres.password
             - name: WRITE_SESSIONS_DB_PW
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.qTestInsights.postgresDBPassword.sessionsSecret }}
+                  name: {{ .Values.secrets.sessionsName }}
                   key: client.jdbc.postgres.password
             - name: SMTP_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: qtest-manager-secret
                   key: mail.password
+{{- with .Values.extraEnv }}
+{{ toYaml . | indent 12 }}
+{{- end }}
           volumeMounts:
             - name: qtest-insights
               mountPath: /usr/local/tomcat/logs/
@@ -107,6 +142,19 @@ spec:
               mountPath: {{ .Values.qTestInsights.server.sslMountPath }}
               readOnly: true
             {{- end }}
+{{- with .Values.extraVolumeMounts }}
+{{ toYaml . | indent 12 }}
+{{- end }}
+      {{- if .Values.extraContainers }}
+      # Currently some extra blocks accept strings
+      # to continue with backwards compatibility this is being kept
+      # whilst also allowing for yaml to be specified too.
+      {{- if eq "string" (printf "%T" .Values.extraContainers) }}
+{{ tpl .Values.extraContainers . | indent 8 }}
+      {{- else }}
+{{ toYaml .Values.extraContainers | indent 8 }}
+      {{- end }}
+      {{- end }}
       volumes:
         - name: qtest-insights
         {{- if .Values.persistence.existingClaim }}
@@ -123,3 +171,6 @@ spec:
           secret:
             secretName: qtest-ssl-root-secret
         {{- end }}
+{{- with .Values.extraVolumes }}
+{{ toYaml . | indent 6 }}
+{{- end }}
