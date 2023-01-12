@@ -1,3 +1,5 @@
+{{- $existingImageCredentials := .Values.imageCredentials.existingImageCredentials -}}
+{{- $imageCredentials := .Values.imageCredentials.name -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -8,7 +10,11 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
+  {{- if .Values.rollouts.enabled }}
+  replicas: 0
+  {{- else }}
   replicas: {{ .Values.autoscaling.minReplicas }}
+  {{- end }}
   revisionHistoryLimit: 3
   selector:
     matchLabels:
@@ -21,6 +27,15 @@ spec:
         release: "{{ .Release.Name }}"
         heritage: "{{ .Release.Service }}"
     spec:
+    {{ if .Values.imageCredentials.enabled }}
+      {{ if .Values.imageCredentials.existingImageCredentials }}
+      imagePullSecrets:
+        - name: {{ $existingImageCredentials }}
+      {{ else }}
+      imagePullSecrets:
+        - name: {{ $imageCredentials }}
+      {{- end }}
+    {{- end }}
       {{- if .Values.extraInitContainers }}
       # Currently some extra blocks accept strings
       # to continue with backwards compatibility this is being kept
@@ -84,7 +99,7 @@ spec:
             - name: PARAMETERS_DB_PWD
               valueFrom:
                 secretKeyRef:
-                  name: qtest-manager-secret
+                  name: {{ .Values.secrets.name }}
                   key: client.jdbc.postgres.password
             - name: PARAMETERS_DB_HOSTNAME
               valueFrom:
