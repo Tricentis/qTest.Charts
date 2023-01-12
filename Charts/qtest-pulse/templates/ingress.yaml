@@ -21,11 +21,13 @@ metadata:
   {{- end }}
   {{- end }}
 spec:
+  {{- if .Values.ingressClass.enabled }}
   {{- if .Values.ingress.className }}
   ingressClassName: {{ .Values.ingress.className }} 
 {{ else }}
   ingressClassName: "{{ include "qtest-pulse.fullname" . }}-ingressclass"
-{{- end }}
+  {{- end }}
+  {{- end }}
   rules:
   {{- if .Values.ingress.hosts }}
   {{- range $host := .Values.ingress.hosts }}

@@ -1,14 +1,20 @@
+{{- $existingImageCredentials := .Values.imageCredentials.existingImageCredentials -}}
+{{- $imageCredentials := .Values.imageCredentials.name -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: qtest-pulse
+  name: {{ include "qtest-pulse.fullname" . }}
   namespace: {{ .Values.namespace.name }}
   {{- with .Values.deployment.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
+  {{- if .Values.rollouts.enabled }}
+  replicas: 0
+  {{- else }}
   replicas: {{ .Values.autoscaling.minReplicas }}
+  {{- end }}
   revisionHistoryLimit: 3
   selector:
     matchLabels:
@@ -21,10 +27,36 @@ spec:
         release: "{{ .Release.Name }}"
         heritage: "{{ .Release.Service }}"
     spec:
+    {{ if .Values.imageCredentials.enabled }}
+      {{ if .Values.imageCredentials.existingImageCredentials }}
+      imagePullSecrets:
+        - name: {{ $existingImageCredentials }}
+      {{ else }}
+      imagePullSecrets:
+        - name: {{ $imageCredentials }}
+      {{- end }}
+    {{- end }}
+      {{- if .Values.extraInitContainers }}
+      # Currently some extra blocks accept strings
+      # to continue with backwards compatibility this is being kept
+      # whilst also allowing for yaml to be specified too.
+      initContainers:
+      {{- if eq "string" (printf "%T" .Values.extraInitContainers) }}
+{{ tpl .Values.extraInitContainers . | indent 8 }}
+      {{- else }}
+{{ toYaml .Values.extraInitContainers | indent 8 }}
+      {{- end }}
+      {{- end }}
       containers:
         - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: {{ .Chart.Name }}
+{{- if .Values.extraArgs }}
+          args:
+{{- with .Values.extraArgs }}
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- end }}
           livenessProbe:
             httpGet:
               path: {{ .Values.autoscaling.healthApiPath }}
@@ -65,7 +97,7 @@ spec:
             - name: PULSE_DB_PWD
               valueFrom:
                 secretKeyRef:
-                  name: qtest-manager-secret
+                  name: {{ .Values.secrets.name }}
                   key: client.jdbc.postgres.password
             - name: PULSE_DB_HOSTNAME
               valueFrom:
@@ -104,12 +136,33 @@ spec:
                 configMapKeyRef:
                   name: qtest-pulse-configmap
                   key: qTestPulseScenarioURL
+{{- with .Values.extraEnv }}
+{{ toYaml . | indent 12 }}
+{{- end }}
 {{- if .Values.qTestPulse.qTestPulseDBSSLEnable }}
           volumeMounts:
           - name: qtest-db-secret-volume
             mountPath: {{ .Values.qTestPulse.qTestPulseDBSSLMountPath }}
+{{- with .Values.extraVolumeMounts }}
+{{ toYaml . | indent 10 }}
+{{- end }}
+{{- end }}
+      {{- if .Values.extraContainers }}
+      # Currently some extra blocks accept strings
+      # to continue with backwards compatibility this is being kept
+      # whilst also allowing for yaml to be specified too.
+      {{- if eq "string" (printf "%T" .Values.extraContainers) }}
+{{ tpl .Values.extraContainers . | indent 8 }}
+      {{- else }}
+{{ toYaml .Values.extraContainers | indent 8 }}
+      {{- end }}
+      {{- end }}
+{{- if .Values.qTestPulse.qTestPulseDBSSLEnable }}
       volumes:
       - name: qtest-db-secret-volume
         secret:
           secretName: qtest-db-root-secret
+{{- with .Values.extraVolumes }}
+{{ toYaml . | indent 8 }}
+{{- end }}
 {{- end -}}
