@@ -17,4 +17,25 @@ spec:
     app: qtest-launch
     release: {{ .Release.Name }}
   type: {{ .Values.service.type }}
-
+---
+{{- if .Values.rollouts.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.service.serviceName }}-canary
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    app: qtest-launch
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  ports:
+    - protocol: TCP
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+  selector:
+    app: qtest-launch
+    release: {{ .Release.Name }}
+  type: {{ .Values.service.type }}
+{{- end }}
