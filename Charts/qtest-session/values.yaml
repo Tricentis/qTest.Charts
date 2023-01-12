@@ -4,13 +4,40 @@ namespace:
 reloader:
   enabled: false
 secrets:
-  enabled: true
+  name: qtest-manager-secret
+  sessionsSecretKey: client.jdbc.postgres.password
 image:
   repository: qasymphony/sessions
   pullPolicy: IfNotPresent
   tag: "4.3.13"
+imageCredentials:
+  enabled: false
+  # name: ""
+  # registry: ""
+  # username: ""
+  # password: ""
+  # email: ""
+  # existingImageCredentials: ""
 deployment:
   annotations: {}
+rollouts:
+  enabled: false
+  ingressClassName: alb
+  strategy:
+    canary:
+      maxSurge: "25%"
+      maxUnavailable: 0
+  steps:
+    - setWeight: 20
+    # if prometheus metrics are enabled
+    # - analysis:
+    #     templates:
+    #     - templateName: success-rates
+    #       clusterScope: true
+    #     args:
+    #     - name: service-name
+    - setWeight: 50
+    - pause: {duration: 10s}
 serviceAccount:
   create: true
   name:
@@ -21,6 +48,12 @@ service:
   port: 8080
   targetPort: 8080
   serviceName: qtest-session-service
+extraInitContainers: []
+extraContainers: []
+extraArgs: []
+extraEnv: []
+extraVolumeMounts: []
+extraVolumes: []
 qTestSession:
   qTestSessionJSHome: /usr/local/sessions-js
   qTestSessionNodeEnvironment: production
@@ -41,6 +74,8 @@ qTestSession:
   qTestSessionDBCRT: ""
   qTestSessionCustomSchemaEnable: false
   qTestSessionCustomSchemaName: public
+  postgresDBPassword:
+    secret: qtest-manager-secret
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
 ingressClass:
   enabled: true
