@@ -4,30 +4,61 @@ namespace:
 reloader:
   enabled: false
 secrets:
-  enabled: true
+  enabled: false
+  name: qtest-manager-secret
 image:
   repository: qasymphony/scenario
   pullPolicy: IfNotPresent
   tag: "3.3.6"
+imageCredentials:
+  enabled: false
+  # name: ""
+  # registry: ""
+  # username: ""
+  # password: ""
+  # email: ""
+  # existingImageCredentials: ""
 deployment:
   annotations: {}
+rollouts:
+  enabled: false
+  ingressClassName: alb
+  strategy:
+    canary:
+      maxSurge: "25%"
+      maxUnavailable: 0
+  steps:
+    - setWeight: 20
+    # if prometheus metrics are enabled
+    # - analysis:
+    #     templates:
+    #     - templateName: success-rates
+    #       clusterScope: true
+    #     args:
+    #     - name: service-name
+    - setWeight: 50
+    - pause: {duration: 10s}
 service:
   type: LoadBalancer
   port: 6080
   targetPort: 6080
   serviceName: qtest-scenario-service
   annotations: {}
+extraInitContainers: []
+extraContainers: []
+extraArgs: []
+extraEnv: []
+extraVolumeMounts: []
+extraVolumes: []
 qTestScenario:
   qTestScenarioDBName: scenario
   qTestScenarioDBUserName: postgres
   qTestScenarioDBHostName: host.docker.internal
-  postgresDBPassword:
-    secret: qtest-manager-secret
   qTestScenarioPort: "6080"
   qTestScenarioLocalBaseURL: https://scenario.local
   qTestScenarioNodeTLSRejectUnAuthorized: "0"
   qTestScenarioNodeEnvironment: production
-  qTestScenarioRefreshTokenSecret: ""
+  qTestScenarioRefreshTokenSecret: "secret"
   qTestScenarioAppKeyDescriptor: ""
   qTestScenarioQTestURL: https://nephele.qtest.local
   qTestScenarioDBSSLEnable: false
@@ -44,7 +75,7 @@ ingressClass:
   fallbackApiVersion: ""
 ingress:
   enabled: true
-  name: scenario-nginx
+  name: scenario-ingress
   labels: {}
   annotations: {}
   canary:
