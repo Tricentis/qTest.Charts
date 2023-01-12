@@ -6,19 +6,52 @@ namespace:
 reloader:
   enabled: false
 secrets:
-  enabled: true
+  name: qtest-manager-secret
+  sessionsName: qtest-manager-secret
 replicaCount: 1
 image:
   repository: qasymphony/insights-etl
   pullPolicy: IfNotPresent
   tag: "v6.9.32.op"
+imageCredentials:
+  enabled: false
+  # name: ""
+  # registry: ""
+  # username: ""
+  # password: ""
+  # email: ""
+  # existingImageCredentials: ""
 deployment:
   annotations: {}
+rollouts:
+  enabled: false
+  ingressClassName: alb
+  strategy:
+    canary:
+      maxSurge: "25%"
+      maxUnavailable: 0
+  steps:
+    - setWeight: 20
+    # if prometheus metrics are enabled
+    # - analysis:
+    #     templates:
+    #     - templateName: success-rates
+    #       clusterScope: true
+    #     args:
+    #     - name: service-name
+    - setWeight: 50
+    - pause: {duration: 10s}
 service:
   type: LoadBalancer
   port: 8080
   targetPort: 8080
   serviceName: insights-etl-service
+extraInitContainers: []
+extraContainers: []
+extraArgs: []
+extraEnv: []
+extraVolumeMounts: []
+extraVolumes: []
 qTestInsightsEtl:
   qTestLogPath: /logs
   qTestUpdateDB: true
@@ -37,9 +70,6 @@ qTestInsightsEtl:
   writeSessionsDBName: qtest
   writeSessionsDBUser: postgres
   writeSessionsDBSchema: session
-  postgresDBPassword:
-    secret: qtest-manager-secret
-    sessionsSecret: qtest-manager-secret
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
 ingressClass:
   enabled: true
