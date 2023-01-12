@@ -1,21 +1,54 @@
 # Default values for qtest-launch app.
+
 namespace:
   name: qtest
 reloader:
   enabled: false
 secrets:
-  enabled: true
+  name: qtest-manager-secret
 image:
   repository: qasymphony/launch
   pullPolicy: IfNotPresent
-  tag: "1.6.10"
+  tag: "1.6.12"
+imageCredentials:
+  enabled: false
+  # name: ""
+  # registry: ""
+  # username: ""
+  # password: ""
+  # email: ""
+  # existingImageCredentials: ""
 deployment:
   annotations: {}
+rollouts:
+  enabled: false
+  ingressClassName: alb
+  strategy:
+    canary:
+      maxSurge: "25%"
+      maxUnavailable: 0
+  steps:
+    - setWeight: 20
+    # if prometheus metrics are enabled
+    # - analysis:
+    #     templates:
+    #     - templateName: success-rates
+    #       clusterScope: true
+    #     args:
+    #     - name: service-name
+    - setWeight: 50
+    - pause: {duration: 10s}
 service:
   type: LoadBalancer
   port: 3080
   targetPort: 3080
   serviceName: qtest-launch-service
+extraInitContainers: []
+extraContainers: []
+extraArgs: []
+extraEnv: []
+extraVolumeMounts: []
+extraVolumes: []
 qTestLaunch:
   qTestLaunchDBName: qtest
   qTestLaunchDBUserName: postgres
@@ -65,6 +98,10 @@ vpaAutoscaling:
   enabled: false
   updatePolicy:
     updateMode: "Off"
+  resourcePolicy:
+    containerPolicies:
+      - containerName: '*'
+        controlledValues: RequestsAndLimits
 # HPA values
 autoscaling:
   enabled: true
