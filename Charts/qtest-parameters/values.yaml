@@ -4,13 +4,39 @@ namespace:
 reloader:
   enabled: false
 secrets:
-  enabled: true
+  name: qtest-manager-secret
 image:
   repository: qasymphony/parameters
   pullPolicy: IfNotPresent
   tag: "2.2.17"
+imageCredentials:
+  enabled: false
+  # name: ""
+  # registry: ""
+  # username: ""
+  # password: ""
+  # email: ""
+  # existingImageCredentials: ""
 deployment:
   annotations: {}
+rollouts:
+  enabled: false
+  ingressClassName: alb
+  strategy:
+    canary:
+      maxSurge: "25%"
+      maxUnavailable: 0
+  steps:
+    - setWeight: 20
+    # if prometheus metrics are enabled
+    # - analysis:
+    #     templates:
+    #     - templateName: success-rates
+    #       clusterScope: true
+    #     args:
+    #     - name: service-name
+    - setWeight: 50
+    - pause: {duration: 10s}
 extraInitContainers: []
 extraContainers: []
 extraArgs: []
