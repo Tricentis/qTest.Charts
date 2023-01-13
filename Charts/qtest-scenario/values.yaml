@@ -4,7 +4,7 @@ namespace:
 reloader:
   enabled: false
 secrets:
-  enabled: false
+  enabled: true
   name: qtest-manager-secret
 image:
   repository: qasymphony/scenario
