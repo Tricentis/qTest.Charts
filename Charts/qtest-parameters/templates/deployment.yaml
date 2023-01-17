@@ -35,6 +35,7 @@ spec:
       imagePullSecrets:
         - name: {{ $imageCredentials }}
       {{- end }}
+      serviceAccountName: {{ include "qtest-parameters.serviceAccountName" . }}
     {{- end }}
       {{- if .Values.extraInitContainers }}
       # Currently some extra blocks accept strings
