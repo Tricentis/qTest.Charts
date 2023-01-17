@@ -27,6 +27,7 @@ spec:
         release: "{{ .Release.Name }}"
         heritage: "{{ .Release.Service }}"
     spec:
+      serviceAccountName: {{ include "qtest-insights-etl.serviceAccountName" . }}
     {{ if .Values.imageCredentials.enabled }}
       {{ if .Values.imageCredentials.existingImageCredentials }}
       imagePullSecrets:
