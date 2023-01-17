@@ -36,6 +36,7 @@ spec:
         - name: {{ $imageCredentials }}
       {{- end }}
     {{- end }}
+      serviceAccountName: {{ include "qtest-launch.serviceAccountName" . }}
       {{- if .Values.extraInitContainers }}
       # Currently some extra blocks accept strings
       # to continue with backwards compatibility this is being kept
