@@ -3817,32 +3817,6 @@ entries:
   qtest-pulse:
   - apiVersion: v2
     appVersion: 9.3.8
-    created: "2023-01-18T18:16:34.38358583Z"
-    dependencies:
-    - condition: reloader.enabled
-      name: reloader
-      repository: https://stakater.github.io/stakater-charts
-      version: '*'
-    description: A Helm chart for Kubernetes cluster of qtest-pulse
-    digest: 23d031a9ff6ffee3045078e618c569a87ef5de14112325c7364f064b46554ad8
-    home: https://github.com/QAS-Labs/qtest-chart.git
-    kubeVersion: '>=1.18.0-0'
-    maintainers:
-    - email: b.yang@tricentis.com
-      name: byangtri
-    - email: p.jaladi@ext.tricentis.com
-      name: pjaladi21
-    - email: l.nguyen@tricentis.com
-      name: liemng
-    - email: t.wallick@ext.tricentis.com
-      name: tomasw
-    name: qtest-pulse
-    type: application
-    urls:
-    - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-pulse-1.0.5/qtest-pulse-1.0.5.tgz
-    version: 1.0.5
-  - apiVersion: v2
-    appVersion: 9.3.8
     created: "2023-01-17T23:08:25.802794444Z"
     dependencies:
     - condition: reloader.enabled
@@ -3998,6 +3972,33 @@ entries:
     - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-pulse-0.1.0/qtest-pulse-0.1.0.tgz
     version: 0.1.0
   qtest-scenario:
+  - apiVersion: v2
+    appVersion: 3.3.6
+    created: "2023-01-18T18:18:29.397290531Z"
+    dependencies:
+    - condition: reloader.enabled
+      name: reloader
+      repository: https://stakater.github.io/stakater-charts
+      version: '*'
+    description: A Helm chart for Kubernetes cluster of qtest-scenario
+    digest: 2030b1ab2700fae8b098354fafe2947c7a54bfd80d98e6dfe419577d4efdb247
+    home: https://github.com/QAS-Labs/qtest-chart.git
+    icon: https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_c2d6524c36c94138504f7a18bf179d76/tricentis-qtest.png
+    kubeVersion: '>=1.18.0-0'
+    maintainers:
+    - email: b.yang@tricentis.com
+      name: byangtri
+    - email: p.jaladi@ext.tricentis.com
+      name: pjaladi21
+    - email: l.nguyen@tricentis.com
+      name: liemng
+    - email: t.wallick@ext.tricentis.com
+      name: tomasw
+    name: qtest-scenario
+    type: application
+    urls:
+    - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-scenario-1.0.9/qtest-scenario-1.0.9.tgz
+    version: 1.0.9
   - apiVersion: v2
     appVersion: 3.3.6
     created: "2023-01-17T19:56:33.322025038Z"
@@ -4477,4 +4478,4 @@ entries:
     urls:
     - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-session-0.1.0/qtest-session-0.1.0.tgz
     version: 0.1.0
-generated: "2023-01-18T18:16:34.384749734Z"
+generated: "2023-01-18T18:18:29.39780394Z"
