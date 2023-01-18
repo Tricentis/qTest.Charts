@@ -26,9 +26,8 @@ serviceAccount:
   create: true
   # Annotations to add to the service account
   annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name: ""
+  # A service account will be created for you if set to true. Set to false if you want to use your own.
+  name: "qtest-insightsetl-sa"
 deployment:
   annotations: {}
 rollouts:
