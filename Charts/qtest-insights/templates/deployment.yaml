@@ -126,18 +126,6 @@ spec:
           volumeMounts:
             - name: qtest-insights
               mountPath: /usr/local/tomcat/logs/
-            - name: qtest-insights
-              mountPath: /usr/local/tomcat/webapps/ROOT/ErrorLog/
-            - name: qtest-insights
-              mountPath: /usr/local/tomcat/webapps/ROOT/SavedDashboards/
-            - name: qtest-insights
-              mountPath: /usr/local/tomcat/webapps/ROOT/SavedBookmarks/
-            - name: qtest-insights
-              mountPath: /usr/local/tomcat/webapps/ROOT/CustomReports/
-            - name: qtest-insights
-              mountPath: /usr/local/tomcat/webapps/ROOT/rdDataCache
-            - name: qtest-insights
-              mountPath: /usr/local/tomcat/webapps/ROOT/rdDownload
             {{- if .Values.qTestInsights.serverAppSSLRequired }}
             - name: qtest-insights-secret-ssl-volume
               mountPath: {{ .Values.qTestInsights.server.sslMountPath }}
@@ -173,5 +161,5 @@ spec:
             secretName: qtest-ssl-root-secret
         {{- end }}
 {{- with .Values.extraVolumes }}
-{{ toYaml . | indent 6 }}
+{{ toYaml . | indent 8 }}
 {{- end }}

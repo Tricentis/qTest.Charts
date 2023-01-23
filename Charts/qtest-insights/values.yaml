@@ -49,7 +49,19 @@ extraInitContainers: []
 extraContainers: []
 extraArgs: []
 extraEnv: []
-extraVolumeMounts: []
+extraVolumeMounts:
+  - name: qtest-insights
+    mountPath: /usr/local/tomcat/webapps/ROOT/ErrorLog/
+  - name: qtest-insights
+    mountPath: /usr/local/tomcat/webapps/ROOT/SavedDashboards/
+  - name: qtest-insights
+    mountPath: /usr/local/tomcat/webapps/ROOT/SavedBookmarks/
+  - name: qtest-insights
+    mountPath: /usr/local/tomcat/webapps/ROOT/CustomReports/
+  - name: qtest-insights
+    mountPath: /usr/local/tomcat/webapps/ROOT/rdDataCache
+  - name: qtest-insights
+    mountPath: /usr/local/tomcat/webapps/ROOT/rdDownload
 extraVolumes: []
 service:
   type: LoadBalancer
