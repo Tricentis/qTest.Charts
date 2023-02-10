@@ -35,8 +35,8 @@ spec:
       imagePullSecrets:
         - name: {{ $imageCredentials }}
       {{- end }}
-      serviceAccountName: {{ .Values.serviceAccount.name }}
     {{- end }}
+      serviceAccountName: {{ .Values.serviceAccount.name }}
       {{- if .Values.extraInitContainers }}
       # Currently some extra blocks accept strings
       # to continue with backwards compatibility this is being kept
