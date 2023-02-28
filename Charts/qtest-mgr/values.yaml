@@ -3,6 +3,7 @@
 # Declare variables to be passed into your templates.
 
 # universal namespace for all qtest app services
+
 namespace:
   name: qtest
 reloader:
@@ -298,7 +299,7 @@ testconductor:
       notification: notification.onpremise
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
 ingressClass:
-  enabled: true
+  enabled: false
   # existingclassName:
   labels: {}
   controller: ingress.k8s.aws/alb
@@ -691,7 +692,7 @@ qtest-insights-etl:
     writeSessionsDBUser: postgres
   #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
   ingressClass:
-    enabled: true
+    enabled: false
     labels: {}
     controller: ingress.k8s.aws/alb
     isDefaultClass: true
@@ -947,7 +948,7 @@ qtest-scenario:
     qTestScenarioDBCRT: ""
   #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
   ingressClass:
-    enabled: true
+    enabled: false
     labels: {}
     controller: ingress.k8s.aws/alb
     isDefaultClass: true
@@ -1026,7 +1027,7 @@ qtest-session:
     qTestSessionDBCRT: ""
   #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
   ingressClass:
-    enabled: true
+    enabled: false
     labels: {}
     controller: ingress.k8s.aws/alb
     isDefaultClass: true
