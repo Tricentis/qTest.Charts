@@ -111,6 +111,7 @@ spec:
           volumeMounts:
             - name: qtest-insights-etl-logs
               mountPath: /usr/local/insights-etl/logs
+              subPath: data/etl-logs
 {{- with .Values.extraVolumeMounts }}
 {{ toYaml . | indent 12 }}
 {{- end }}

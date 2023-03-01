@@ -79,7 +79,7 @@ qTestInsightsEtl:
   writeSessionsDBSchema: session
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
 ingressClass:
-  enabled: true
+  enabled: false
   labels: {}
   controller: ingress.k8s.aws/alb
   isDefaultClass: true
