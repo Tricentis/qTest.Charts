@@ -126,6 +126,7 @@ spec:
           volumeMounts:
             - name: qtest-insights
               mountPath: /usr/local/tomcat/logs/
+              subPath: data/logs
             {{- if .Values.qTestInsights.serverAppSSLRequired }}
             - name: qtest-insights-secret-ssl-volume
               mountPath: {{ .Values.qTestInsights.server.sslMountPath }}

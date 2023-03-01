@@ -50,18 +50,24 @@ extraContainers: []
 extraArgs: []
 extraEnv: []
 extraVolumeMounts:
-  - name: qtest-insights
-    mountPath: /usr/local/tomcat/webapps/ROOT/ErrorLog/
-  - name: qtest-insights
-    mountPath: /usr/local/tomcat/webapps/ROOT/SavedDashboards/
-  - name: qtest-insights
-    mountPath: /usr/local/tomcat/webapps/ROOT/SavedBookmarks/
-  - name: qtest-insights
-    mountPath: /usr/local/tomcat/webapps/ROOT/CustomReports/
-  - name: qtest-insights
-    mountPath: /usr/local/tomcat/webapps/ROOT/rdDataCache
-  - name: qtest-insights
-    mountPath: /usr/local/tomcat/webapps/ROOT/rdDownload
+  - mountPath: /usr/local/tomcat/webapps/ROOT/ErrorLog/
+    name: qtest-insights
+    subPath: data/ErrorLog
+  - mountPath: /usr/local/tomcat/webapps/ROOT/SavedDashboards/
+    name: qtest-insights
+    subPath: data/dashboards
+  - mountPath: /usr/local/tomcat/webapps/ROOT/SavedBookmarks/
+    name: qtest-insights
+    subPath: data/bookmarks
+  - mountPath: /usr/local/tomcat/webapps/ROOT/CustomReports/
+    name: qtest-insights
+    subPath: data/custom-reports
+  - mountPath: /usr/local/tomcat/webapps/ROOT/rdDataCache
+    name: qtest-insights
+    subPath: data/cache
+  - mountPath: /usr/local/tomcat/webapps/ROOT/rdDownload
+    name: qtest-insights
+    subPath: data/download
 extraVolumes: []
 service:
   type: LoadBalancer
