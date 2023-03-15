@@ -858,7 +858,6 @@ qtest-pulse:
     qTestPulseDBName: pulse
     qTestPulseDBUserName: postgres
     qTestPulseDBHostName: host.docker.internal
-    qTestPulseDBPwd: cG9zdGdyZXM=
     qTestPulsePort: "4080"
     qTestPulseNodeEnv: production
     qTestPulseRootURL: https://pulse.qtest.local
@@ -888,7 +887,7 @@ qtest-pulse:
       # canary-by-header: []
       # canary-by-header-pattern: []
     hosts:
-      host: pulse.qtest.local
+      - host: pulse.qtest.local
     paths: []
     extraPaths:
       - path: /*
@@ -926,6 +925,7 @@ qtest-pulse:
     limits:
       cpu: 1
       memory: 1Gi
+
 ### qtest-scenario ###################################################
 # git@github.com:QAS-Labs/qtest-scenario.git
 qtest-scenario:
@@ -933,13 +933,12 @@ qtest-scenario:
   qTestScenario:
     qTestScenarioDBName: scenario
     qTestScenarioDBUserName: postgres
-    qTestScenarioDBPwd: cG9zdGdyZXM=
     qTestScenarioDBHostName: host.docker.internal
     qTestScenarioPort: "6080"
     qTestScenarioLocalBaseURL: https://scenario.local
     qTestScenarioNodeTLSRejectUnAuthorized: "0"
     qTestScenarioNodeEnvironment: production
-    qTestScenarioRefreshTokenSecret: ""
+    qTestScenarioRefreshTokenSecret: "secret"
     qTestScenarioAppKeyDescriptor: ""
     qTestScenarioQTestURL: https://nephele.qtest.local
     qTestScenarioDBSSLEnable: false
@@ -962,10 +961,8 @@ qtest-scenario:
     canary:
       annotationPrefix: ""
       annotations: {}
-      # canary-by-header: []
-      # canary-by-header-pattern: []
     hosts:
-      host: qtest.svc.com
+      - host: qtest.svc.com
     paths: []
     extraPaths:
       - path: /*
