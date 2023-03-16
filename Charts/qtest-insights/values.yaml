@@ -85,14 +85,17 @@ qTestInsights:
   qTestInsightsDBUser: postgres
   qTestInsightsDBHost: postgres.local
   qTestInsightsDBSchema: public
+  qTestInsightsDBPort: 5432
   qTestInsightsWriteQTestDBName: qtest
   qTestInsightsWriteQTestDBUser: postgres
   qTestInsightsWriteQTestDBHost: postgres.local
   qTestInsightsWriteQTestDBSchema: public
+  qTestInsightsWriteQTestDBPort: 5432
   qTestInsightsSessionDBName: sessions
   qTestInsightsSessionDBUser: postgres
   qTestInsightsSessionDBHost: postgres.local
   qTestInsightsSessionDBSchema: session
+  qTestInsightsSessionDBPort: 5432
   qTestInsightsCSRFAllowPattern: \"$insights_security_csrf_trusted_source_pattern\"
   serverAppSSLRequired: false
   server:
