@@ -98,7 +98,7 @@ ingress:
     # canary-by-header: []
     # canary-by-header-pattern: []
   hosts:
-    host: qtest.svc.com
+    - host: qtest.svc.com
   paths: []
   extraPaths:
     - path: /*
