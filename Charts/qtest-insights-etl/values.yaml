@@ -12,7 +12,7 @@ replicaCount: 1
 image:
   repository: qasymphony/insights-etl
   pullPolicy: IfNotPresent
-  tag: "v6.9.32.op"
+  tag: "v6.9.32.1.op"
 imageCredentials:
   enabled: false
   # name: ""
@@ -64,18 +64,22 @@ qTestInsightsEtl:
   qTestUpdateDB: true
   qTestInsightsEtlDBName: qtest
   qTestInsightsEtlDBUser: postgres
+  qTestInsightsEtlDBPort: 5432
   qTestInsightsEtlDBSchemaName: public
   qTestInsightsEtlDBHost: postgres.local
   qTestInsightsEtlWriteQTestDBName: qtest
   qTestInsightsEtlWriteQTestDBUser: postgres
   qTestInsightsEtlWriteQTestDBHost: postgres.local
+  qTestInsightsEtlWriteQTestDBPort: 5432
   qTestInsightsEtlSessionDBName: sessions
   qTestInsightsEtlSessionDBUser: postgres
   qTestInsightsEtlSessionDBHost: postgres.local
+  qTestInsightsEtlSessionDBPort: session
   qTestInsightsEtlSessionDBSchema: session
   writeSessionsDBHost: postgres.local
   writeSessionsDBName: qtest
   writeSessionsDBUser: postgres
+  writeSessionsDBPort: 5432
   writeSessionsDBSchema: session
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
 ingressClass:
@@ -96,7 +100,7 @@ ingress:
     # canary-by-header: []
     # canary-by-header-pattern: []
   hosts:
-    host: insights-etl.qtest.local
+    - host: insights-etl.qtest.local
   paths: []
   extraPaths:
     - path: /*
