@@ -9,7 +9,7 @@ secrets:
 image:
   repository: qasymphony/insights
   pullPolicy: IfNotPresent
-  tag: "v1.21.34.op"
+  tag: "v1.21.34.3.op"
 imageCredentials:
   enabled: false
   # name: ""
@@ -112,7 +112,7 @@ ingressClass:
   # Use to force a networking.k8s.io API Version for certain CI/CD applications. Ex. "v1"
   fallbackApiVersion: ""
 ingress:
-  enabled: true
+  enabled: false
   name: qtest-insights-ingress
   labels: {}
   annotations: {}
@@ -122,7 +122,7 @@ ingress:
     # canary-by-header: []
     # canary-by-header-pattern: []
   hosts:
-    host: insights.qtest.local
+    - host: insights.qtest.local
   paths: []
   extraPaths:
     - path: /*
