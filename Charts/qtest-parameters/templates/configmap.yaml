@@ -14,6 +14,7 @@ data:
   qTestParametersQTestHost: "{{ .Values.qTestParameters.qTestParametersQTestHost }}"
   qTestParametersNodeTLSRejectUnAuthorized: "{{ .Values.qTestParameters.qTestParametersNodeTLSRejectUnAuthorized }}"
   qTestParametersNodeEnv: "{{ .Values.qTestParameters.qTestParametersNodeEnv }}"
+  qTestParametersCorsOrigin: "{{ .Values.qTestParameters.qTestParametersCorsOrigin }}"
   qTestParametersSSLMountPath: "{{ .Values.qTestParameters.qTestParametersSSLMountPath }}"
   qTestParametersIsSSLRequired: "{{ .Values.qTestParameters.qTestParametersSSLRequired }}"
   {{- if .Values.qTestParameters.qTestParametersSSLRequired }}

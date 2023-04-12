@@ -70,6 +70,7 @@ qTestParameters:
   qTestParametersDBCRT: ""
   qTestParametersSSLRequired: false
   qTestParametersSSLMountPath: "/mnt/secrets/tls"
+  qTestParametersCorsOrigin: "tricentis.com"
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
 ingressClass:
   enabled: false
@@ -89,7 +90,7 @@ ingress:
     # canary-by-header: []
     # canary-by-header-pattern: []
   hosts:
-    host: parameters.qtest.local
+    - host: parameters.qtest.local
   paths: []
   extraPaths:
     - path: /*
