@@ -87,6 +87,11 @@ spec:
               name: http
             {{- end }}
           env:
+            - name: CORS_ORIGINS
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-parameters-configmap
+                  key: qTestParametersCorsOrigin
             - name: PARAMETERS_DB_NAME
               valueFrom:
                 configMapKeyRef:
