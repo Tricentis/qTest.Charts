@@ -4,7 +4,8 @@
 # configuration to add them, e.g.:
 # kubectl port-forward deploy/qtest-manager-ui-deployment 8080:8080
 
-## create a secret called qtest-manager-secret before installing helm chart
+## Create an Opaque type secret called qtest-manager-secret before installing helm chart
+## Secret must contain within data section: client.jdbc.postgres.password, client.jdbc.postgres.readonly.password, mail.password
 secrets:
   enabled: true
   existingConfigs: qtest-manager-secret
