@@ -1,13 +1,15 @@
-# Default values for qtest-manager-chart.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+## Default values for qtest-manager-chart.
+## This is a YAML-formatted file.
+## Declare variables to be passed into your templates.
 
-# universal namespace for all qtest app services
-
+## universal namespace for all qtest app services
 namespace:
   name: qtest
+## Deploys Stakater Reloader https://github.com/stakater/Reloader
 reloader:
   enabled: false
+## When Argo Rollouts is enabled, this will set Kubernetes deployment to Rollouts
+## https://argoproj.github.io/rollouts/
 rollouts:
   enabled: false
   ingressClassName: alb
@@ -17,7 +19,7 @@ rollouts:
       maxUnavailable: 0
   steps:
     - setWeight: 20
-    # if prometheus metrics are enabled
+    ## if prometheus metrics are enabled
     # - analysis:
     #     templates:
     #     - templateName: success-rates
@@ -26,13 +28,11 @@ rollouts:
     #     - name: service-name
     - setWeight: 50
     - pause: {duration: 10s}
-deployments:
-  enabled: true
 liquibase:
   securityContext: {}
-  # Sets securityContext at the pod level.
-  # The following values for securityContext are recommended but may depend on your specific volume and filesystem settings
-  #  runAsNonRoot: true
+  ## Sets securityContext at the pod level.
+  ## The following values for securityContext are recommended but may depend on your specific volume and filesystem settings
+  # runAsNonRoot: true
   # runAsUser: 1000
   # runAsGroup: 1000
   annotations:
@@ -54,8 +54,8 @@ image:
   repository: tricentisimage/qtest-mgr
   liquibase: tricentisimage/qtest-mgr-liquibase
   pullPolicy: IfNotPresent
-  tag: "11.3.0-26c149a"
-  liquibasetag: "11.3.0-26c149a"
+  tag: "11.4.0-0270b1d"
+  liquibasetag: "11.4.0-0270b1d"
   liquibasepullpolicy: IfNotPresent
 imageCredentials:
   enabled: false
@@ -68,7 +68,8 @@ imageCredentials:
 secrets:
   enabled: false
   useExistingTls: false
-  # existingConfigs: ""
+  ## existingConfigs must be qtest-manager-secret
+  # existingConfigs: "qtest-manager-secret"
 serviceAccount:
   create: true
   name:
@@ -186,7 +187,8 @@ qTestManager:
     host: "smtp.local"
     port: 465
     userName: "qtest"
-    password: ""
+    ## default password
+    password: "dGVzdHBhc3N3b3Jk"
     supportEmailAddress: supports@tricentis.com
     blockExternal: true
   emailchange:
@@ -216,6 +218,7 @@ ui:
     dbcp:
       maxActive: 200
       readOnlyMaxActive: 100
+  ## if single instance then change to postgres
   springProfilesActive: postgres,readOnlyEnable
   useriqEnabled: false
 api:
@@ -304,7 +307,7 @@ ingressClass:
   labels: {}
   controller: ingress.k8s.aws/alb
   isDefaultClass: true
-  # Use to force a networking.k8s.io API Version for certain CI/CD applications. Ex. "v1"
+  ## Use to force a networking.k8s.io API Version for certain CI/CD applications. Ex. "v1"
   fallbackApiVersion: ""
 ingress:
   enabled: true
@@ -351,26 +354,6 @@ ingress:
   #   hosts:
   #     - svc.qtest.com
   https: false
-# CD Pipeline use only
-chaos:
-  enabled: false
-workflow:
-  enabled: false
-  annotations: {}
-  adminModeNamespace: litmus
-  serviceAccountName: ""
-  podGC: OnWorkflowSuccess
-  secret: ""
-  revision: ""
-  postman:
-    repo: ""
-    image: public.ecr.aws/b8y7a2x6/argo-agent:ubuntu.2
-# Metrics for nginx ingress controller for application and cluster analysis
-metrics:
-  enabled: false
-  prometheus:
-    address: ""
-    query: ""
 persistence:
   enabled: true
   annotations: {}
@@ -440,10 +423,10 @@ limitRange:
         memory: 4Gi
       type: Container
 resources: {}
-# We usually recommend not to specify default resources and to leave this as a conscious
-# choice for the user. This also increases chances charts run on environments with little
-# resources, such as Minikube. If you do want to specify resources, uncomment the following
-# lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+## We usually recommend not to specify default resources and to leave this as a conscious
+## choice for the user. This also increases chances charts run on environments with little
+## resources, such as Minikube. If you do want to specify resources, uncomment the following
+## lines, adjust them as necessary, and remove the curly braces after 'resources:'.
 # limits:
 #   cpu: 100m
 #   memory: 128Mi
@@ -501,599 +484,21 @@ affinity: {}
 ### qtest-launch ###################################################
 qtest-launch:
   enabled: false
-  qTestLaunch:
-    qTestLaunchDBName: qtest
-    qTestLaunchDBUserName: postgres
-    qTestLaunchDBPwd: cG9zdGdyZXM=
-    qTestLaunchDBHostName: postgres.local
-    qTestLaunchRootURL: https://launch.local
-    qTestLaunchQTestURL: https://nephele.qtest.local
-    qTestLaunchNodeTLSRejectUnAuthorized: "0"
-    qTestLaunchTCPWD: "qTest"
-    qTestLaunchPort: "3080"
-    qTestLaunchDBSSLEnable: false
-    qTestLaunchDBSSLMountPath: ""
-    qTestLaunchDBSSL: ""
-    qTestLaunchDBCRT: ""
-  #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
-  ingressClass:
-    enabled: false
-    labels: {}
-    controller: ingress.k8s.aws/alb
-    isDefaultClass: true
-    # Use to force a networking.k8s.io API Version for certain CI/CD applications. Ex. "v1"
-    fallbackApiVersion: ""
-  ingress:
-    enabled: true
-    name: qtest-launch-ingress
-    labels: {}
-    annotations: {}
-    canary:
-      annotationPrefix: ""
-      annotations: {}
-      # canary-by-header: []
-      # canary-by-header-pattern: []
-    hosts:
-      host: launch.qtest.local
-    paths: []
-    extraPaths:
-      - path: /*
-        backendServiceName: qtest-launch-service
-        pathType: ImplementationSpecific
-        backendPort: 3080
-    tls: []
-    # - secretName: qtest-svc-tls
-    #   hosts:
-    #     - svc.qtest.com
-    https: false
-  # VPA values
-  vpaAutoscaling:
-    enabled: false
-    updatePolicy:
-      updateMode: "Off"
-    resourcePolicy:
-      containerPolicies:
-        - containerName: '*'
-          controlledValues: RequestsAndLimits
-  # HPA values
-  autoscaling:
-    enabled: true
-    minReplicas: 2
-    maxReplicas: 4
-    healthApiPath: /health-check
-    periodSeconds: 30
-    failureThreshold: 4
-    targetCPUUtilizationPercentage: 85
-    targetMemoryUtilizationPercentage: 85
-  resources:
-    requests:
-      cpu: 1
-      memory: 1Gi
-    limits:
-      cpu: 1
-      memory: 1Gi
 ### qtest-insights ###################################################
 qtest-insights:
   enabled: false
-  qTestInsights:
-    qTestInsightsCatalinaOpts: \"-server -d64 -Xms512m -Xmx2048m -XX:MaxPermSize=256m -XX:CompileThreshold=8000 -XX:-DisableExplicitGC -XX:HeapDumpPath=/logs -Djava.awt.headless=true\"
-    qTestInsightsDBName: qtest
-    qTestInsightsDBUser: postgres
-    qTestInsightsDBPassword: cG9zdGdyZXM=
-    qTestInsightsDBHost: postgres.local
-    qTestInsightsWriteQTestDBName: qtest
-    qTestInsightsWriteQTestDBUser: postgres
-    qTestInsightsWriteQTestDBPassword: cG9zdGdyZXM=
-    qTestInsightsWriteQTestDBHost: postgres.local
-    qTestInsightsSessionDBName: sessions
-    qTestInsightsSessionDBUser: postgres
-    qTestInsightsSessionDBPassword: cG9zdGdyZXM=
-    qTestInsightsSessionDBHost: postgres.local
-    qTestInsightsCSRFAllowPattern: \"$insights_security_csrf_trusted_source_pattern\"
-  #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
-  ingressClass:
-    enabled: false
-    labels: {}
-    controller: ingress.k8s.aws/alb
-    isDefaultClass: true
-    # Use to force a networking.k8s.io API Version for certain CI/CD applications. Ex. "v1"
-    fallbackApiVersion: ""
-  ingress:
-    enabled: true
-    name: qtest-insights-ingress
-    labels: {}
-    annotations: {}
-    canary:
-      annotationPrefix: ""
-      annotations: {}
-      # canary-by-header: []
-      # canary-by-header-pattern: []
-    hosts:
-      host: insights.qtest.local
-    paths: []
-    extraPaths:
-      - path: /*
-        backendServiceName: insights-service
-        pathType: ImplementationSpecific
-        backendPort: 8080
-    tls: []
-    # - secretName: qtest-svc-tls
-    #   hosts:
-    #     - svc.qtest.com
-    https: false
-  persistence:
-    enabled: false
-    ## Set annotations on k8s pvc
-    annotations: {}
-    ## Specify an existing volume claim instead of creating a new one.
-    ## When using this option all following options like storageClass, accessMode and size are ignored.
-    ## existingClaim:
-
-    ## If defined, storageClassName: <storageClass>
-    ## If set to "-", storageClassName: "", which disables dynamic provisioning
-    ## If undefined (the default) or set to null, no storageClassName spec is
-    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
-    ##   GKE, AWS & OpenStack)
-    ##
-    storageClass:
-    accessMode: ReadWriteOnce
-    size: 5Gi
-    ## Specify extra volumes. Refer to ".spec.volumes" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
-    volumes: []
-    ## Specify extra mounts. Refer to ".spec.containers.volumeMounts" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
-    mounts: []
-  # VPA values
-  vpaAutoscaling:
-    enabled: false
-    updatePolicy:
-      updateMode: "Off"
-    resourcePolicy:
-      containerPolicies:
-        - containerName: '*'
-          controlledValues: RequestsAndLimits
-  # HPA values
-  autoscaling:
-    enabled: true
-    minReplicas: 1
-    maxReplicas: 1
-    healthApiPath: /rdLogon.aspx
-    periodSeconds: 30
-    failureThreshold: 4
-    targetCPUUtilizationPercentage: 85
-    targetMemoryUtilizationPercentage: 85
-  resources:
-    requests:
-      cpu: 1
-      memory: 2Gi
-    limits:
-      cpu: 1
-      memory: 2Gi
 ### qtest-insights-etl ###################################################
 qtest-insights-etl:
   enabled: false
-  qTestInsightsEtl:
-    qTestLogPath: /logs
-    qTestUpdateDB: true
-    qTestInsightsEtlDBName: qtest
-    qTestInsightsEtlDBUser: postgres
-    qTestInsightsEtlDBPassword: cG9zdGdyZXM=
-    qTestInsightsEtlDBHost: postgres.local
-    qTestInsightsEtlWriteQTestDBName: qtest
-    qTestInsightsEtlWriteQTestDBUser: postgres
-    qTestInsightsEtlWriteQTestDBPassword: cG9zdGdyZXM=
-    qTestInsightsEtlWriteQTestDBHost: postgres.local
-    qTestInsightsEtlSessionDBName: sessions
-    qTestInsightsEtlSessionDBUser: postgres
-    qTestInsightsEtlSessionDBPassword: cG9zdGdyZXM=
-    qTestInsightsEtlSessionDBHost: postgres.local
-    writeSessionsDBPassword: cG9zdGdyZXM=
-    writeSessionsDBHost: postgres.local
-    writeSessionsDBName: qtest
-    writeSessionsDBUser: postgres
-  #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
-  ingressClass:
-    enabled: false
-    labels: {}
-    controller: ingress.k8s.aws/alb
-    isDefaultClass: true
-    # Use to force a networking.k8s.io API Version for certain CI/CD applications. Ex. "v1"
-    fallbackApiVersion: ""
-  ingress:
-    enabled: true
-    name: insights-etl-ingress
-    labels: {}
-    annotations: {}
-    canary:
-      annotationPrefix: ""
-      annotations: {}
-      # canary-by-header: []
-      # canary-by-header-pattern: []
-    hosts:
-      host: insights-etl.qtest.local
-    paths: []
-    extraPaths:
-      - path: /*
-        pathType: ImplementationSpecific
-    tls: []
-    # - secretName: qtest-svc-tls
-    #   hosts:
-    #     - svc.qtest.com
-    https: false
-  persistence:
-    enabled: false
-    ## Set annotations on pvc
-    annotations: {}
-    ## Specify an existing volume claim instead of creating a new one.
-    ## When using this option all following options like storageClass, accessMode and size are ignored.
-    # existingClaim:
-
-    ## If defined, storageClassName: <storageClass>
-    ## If set to "-", storageClassName: "", which disables dynamic provisioning
-    ## If undefined (the default) or set to null, no storageClassName spec is
-    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
-    ##   GKE, AWS & OpenStack)
-    ##
-    storageClass:
-    accessMode: ReadWriteOnce
-    size: 5Gi
-    ## Specify extra volumes. Refer to ".spec.volumes" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
-    volumes: []
-    ## Specify extra mounts. Refer to ".spec.containers.volumeMounts" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
-    mounts: []
-  # VPA values
-  vpaAutoscaling:
-    enabled: false
-    updatePolicy:
-      updateMode: "Off"
-    resourcePolicy:
-      containerPolicies:
-        - containerName: '*'
-          controlledValues: RequestsAndLimits
-  # HPA values
-  autoscaling:
-    enabled: true
-    minReplicas: 1
-    maxReplicas: 1
-    healthApiPath: /ping
-    targetPort: 8765
-    periodSeconds: 30
-    failureThreshold: 4
-    targetCPUUtilizationPercentage: 85
-    targetMemoryUtilizationPercentage: 85
-  resources:
-    requests:
-      cpu: 1
-      memory: 2Gi
-    limits:
-      cpu: 1
-      memory: 2Gi
 ### qtest-parameters ###################################################
 qtest-parameters:
   enabled: false
-  qTestParameters:
-    qTestParametersDBName: parameters
-    qTestParametersDBUserName: postgres
-    qTestParametersDBPwd: cG9zdGdyZXM=
-    qTestParametersDBHostName: postgres.local
-    qTestParametersQTestHost: https://nephele.qtest.local
-    qTestParametersNodeTLSRejectUnAuthorized: "0"
-    qTestParametersNodeEnv: production
-    qTestParametersPort: 5080
-    qTestParametersDBSSLEnable: false
-    qTestParametersDBSSLMountPath: ""
-    qTestParametersDBSSL: ""
-    qTestParametersDBCRT: ""
-  #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
-  ingressClass:
-    enabled: false
-    labels: {}
-    controller: ingress.k8s.aws/alb
-    isDefaultClass: true
-    # Use to force a networking.k8s.io API Version for certain CI/CD applications. Ex. "v1"
-    fallbackApiVersion: ""
-  ingress:
-    enabled: true
-    name: qtest-parameters-ingress
-    labels: {}
-    annotations: {}
-    canary:
-      annotationPrefix: ""
-      annotations: {}
-      # canary-by-header: []
-      # canary-by-header-pattern: []
-    hosts:
-      host: parameters.qtest.local
-    paths: []
-    extraPaths:
-      - path: /*
-        backendServiceName: qtest-parameters-service
-        pathType: ImplementationSpecific
-        backendPort: 5080
-    tls: []
-    # - secretName: qtest-svc-tls
-    #   hosts:
-    #     - svc.qtest.com
-    https: false
-  persistence:
-    enabled: false
-    ## Set annotations on pvc
-    annotations: {}
-    storageClass:
-    accessMode: ReadWriteOnce
-    size: 5Gi
-    ## Specify extra volumes. Refer to ".spec.volumes" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
-    volumes: []
-    ## Specify extra mounts. Refer to ".spec.containers.volumeMounts" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
-    mounts: []
-  # VPA values
-  vpaAutoscaling:
-    enabled: false
-    updatePolicy:
-      updateMode: "Off"
-    resourcePolicy:
-      containerPolicies:
-        - containerName: '*'
-          controlledValues: RequestsAndLimits
-  # HPA values
-  autoscaling:
-    enabled: true
-    minReplicas: 2
-    maxReplicas: 4
-    healthApiPath: /health-check
-    periodSeconds: 30
-    failureThreshold: 4
-    targetCPUUtilizationPercentage: 85
-    targetMemoryUtilizationPercentage: 85
-  resources:
-    requests:
-      cpu: 1
-      memory: 1Gi
-    limits:
-      cpu: 1
-      memory: 1Gi
 ### qtest-pulse ###################################################
 qtest-pulse:
   enabled: false
-  qTestPulse:
-    qTestPulseDBName: pulse
-    qTestPulseDBUserName: postgres
-    qTestPulseDBHostName: host.docker.internal
-    qTestPulsePort: "4080"
-    qTestPulseNodeEnv: production
-    qTestPulseRootURL: https://pulse.qtest.local
-    qTestPulseQTestURL: https://nephele.qtest.local
-    qTestPulseScenarioURL: https://scenario.local
-    qTestPulseNodeTLSRejectUnAuthorized: "0"
-    qTestPulseDBSSLEnable: false
-    qTestPulseDBSSLMountPath: ""
-    qTestPulseDBSSL: ""
-    qTestPulseDBCRT: ""
-  #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
-  ingressClass:
-    enabled: false
-    labels: {}
-    controller: ingress.k8s.aws/alb
-    isDefaultClass: true
-    # Use to force a networking.k8s.io API Version for certain CI/CD applications. Ex. "v1"
-    fallbackApiVersion: ""
-  ingress:
-    enabled: true
-    name: pulse-ingress
-    labels: {}
-    annotations: {}
-    canary:
-      annotationPrefix: ""
-      annotations: {}
-      # canary-by-header: []
-      # canary-by-header-pattern: []
-    hosts:
-      - host: pulse.qtest.local
-    paths: []
-    extraPaths:
-      - path: /*
-        backendServiceName: qtest-pulse-service
-        pathType: ImplementationSpecific
-        backendPort: 4080
-    tls: []
-    # - secretName: pulse-qtest-local-tls
-    # hosts:
-    # - pulse.qtest.local
-    https: false
-  # VPA values
-  vpaAutoscaling:
-    enabled: false
-    updatePolicy:
-      updateMode: "Off"
-    resourcePolicy:
-      containerPolicies:
-        - containerName: '*'
-          controlledValues: RequestsAndLimits
-  # HPA values
-  autoscaling:
-    enabled: true
-    minReplicas: 2
-    maxReplicas: 4
-    healthApiPath: /
-    periodSeconds: 30
-    failureThreshold: 4
-    targetCPUUtilizationPercentage: 85
-    targetMemoryUtilizationPercentage: 85
-  resources:
-    requests:
-      cpu: 1
-      memory: 1Gi
-    limits:
-      cpu: 1
-      memory: 1Gi
-
 ### qtest-scenario ###################################################
-# git@github.com:QAS-Labs/qtest-scenario.git
 qtest-scenario:
   enabled: false
-  qTestScenario:
-    qTestScenarioDBName: scenario
-    qTestScenarioDBUserName: postgres
-    qTestScenarioDBHostName: host.docker.internal
-    qTestScenarioPort: "6080"
-    qTestScenarioLocalBaseURL: https://scenario.local
-    qTestScenarioNodeTLSRejectUnAuthorized: "0"
-    qTestScenarioNodeEnvironment: production
-    qTestScenarioRefreshTokenSecret: "secret"
-    qTestScenarioAppKeyDescriptor: ""
-    qTestScenarioQTestURL: https://nephele.qtest.local
-    qTestScenarioDBSSLEnable: false
-    qTestScenarioDBSSLMountPath: ""
-    qTestScenarioDBSSL: ""
-    qTestScenarioDBCRT: ""
-  #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
-  ingressClass:
-    enabled: false
-    labels: {}
-    controller: ingress.k8s.aws/alb
-    isDefaultClass: true
-    # Use to force a networking.k8s.io API Version for certain CI/CD applications. Ex. "v1"
-    fallbackApiVersion: ""
-  ingress:
-    enabled: true
-    name: scenario-ingress
-    labels: {}
-    annotations: {}
-    canary:
-      annotationPrefix: ""
-      annotations: {}
-    hosts:
-      - host: qtest.svc.com
-    paths: []
-    extraPaths:
-      - path: /*
-        backendServiceName: qtest-scenario-service
-        pathType: ImplementationSpecific
-        backendPort: 6080
-    tls: []
-    # - secretName: qtest-svc-tls
-    #   hosts:
-    #     - svc.qtest.com
-    https: false
-  # VPA values
-  vpaAutoscaling:
-    enabled: false
-    updatePolicy:
-      updateMode: "Off"
-    resourcePolicy:
-      containerPolicies:
-        - containerName: '*'
-          controlledValues: RequestsAndLimits
-  # HPA values
-  autoscaling:
-    enabled: true
-    minReplicas: 2
-    maxReplicas: 4
-    healthApiPath: /atlassian-connect.json
-    periodSeconds: 30
-    failureThreshold: 4
-    targetCPUUtilizationPercentage: 85
-    targetMemoryUtilizationPercentage: 85
-  resources:
-    requests:
-      cpu: 1
-      memory: 1Gi
-    limits:
-      cpu: 1
-      memory: 1Gi
 ### qtest-session ###################################################
 qtest-session:
   enabled: false
-  qTestSession:
-    qTestSessionJSHome: /usr/local/sessions-js
-    qTestSessionNodeEnvironment: production
-    qTestSessionPort: "8080"
-    qTestSessionDBName: sessions
-    qTestSessionDBUserName: postgres
-    qTestSessionDBPwd: cG9zdGdyZXM=
-    qTestSessionDBHostName: host.docker.internal
-    qTestManagerHost: https://nephele.qtest.local
-    qTestSessionMasterToken: Qtoy
-    qTestSessionStorageRootPath: /data
-    qTestSessionSecretKey: Q3AyVEJYQ0lHb3N3dWs1eklwTG1nQm1QRkxWMDVrU1RKRHBWMXNaM3Y4VVBoWFBZMERzaERVdmwwOW1seVdETw==
-    qTestStorageBucketName: aws-session-bucket-name
-    qTestSessionClamavURL: http://clam.qtest.local
-    qTestSessionStorageType: amazon_s3
-    qTestSessionDBSSLEnable: false
-    qTestSessionDBSSLMountPath: ""
-    qTestSessionDBSSL: ""
-    qTestSessionDBCRT: ""
-  #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
-  ingressClass:
-    enabled: false
-    labels: {}
-    controller: ingress.k8s.aws/alb
-    isDefaultClass: true
-    # Use to force a networking.k8s.io API Version for certain CI/CD applications. Ex. "v1"
-    fallbackApiVersion: ""
-  ingress:
-    enabled: true
-    name: session-ingress
-    labels: {}
-    annotations: {}
-    canary:
-      annotationPrefix: ""
-      annotations: {}
-      # canary-by-header: []
-      # canary-by-header-pattern: []
-    hosts:
-      host: qtest.svc.com
-    paths: []
-    extraPaths:
-      - path: /*
-        backendServiceName: qtest-session-service
-        pathType: ImplementationSpecific
-        backendPort: 8080
-    tls: []
-    https: false
-  persistence:
-    enabled: false
-    ## Set annotations on pvc
-    annotations: {}
-    ## Specify an existing volume claim instead of creating a new one.
-    ## When using this option all following options like storageClass, accessMode and size are ignored.
-    # existingClaim:
-
-    ## If defined, storageClassName: <storageClass>
-    ## If set to "-", storageClassName: "", which disables dynamic provisioning
-    ## If undefined (the default) or set to null, no storageClassName spec is
-    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
-    ##   GKE, AWS & OpenStack)
-    ##
-    storageClass:
-    accessMode: ReadWriteOnce
-    size: 5Gi
-    ## Specify extra volumes. Refer to ".spec.volumes" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
-    volumes: []
-    ## Specify extra mounts. Refer to ".spec.containers.volumeMounts" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
-    mounts: []
-  # VPA values
-  vpaAutoscaling:
-    enabled: false
-    updatePolicy:
-      updateMode: "Off"
-    resourcePolicy:
-      containerPolicies:
-        - containerName: '*'
-          controlledValues: RequestsAndLimits
-  # HPA values
-  autoscaling:
-    enabled: true
-    minReplicas: 2
-    maxReplicas: 4
-    healthApiPath: /health-check
-    periodSeconds: 30
-    failureThreshold: 4
-    targetCPUUtilizationPercentage: 85
-    targetMemoryUtilizationPercentage: 85
-  resources:
-    requests:
-      cpu: 1
-      memory: 1Gi
-    limits:
-      cpu: 1
-      memory: 1Gi

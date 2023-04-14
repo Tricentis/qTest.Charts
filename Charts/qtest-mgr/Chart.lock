@@ -1,27 +1,27 @@
 dependencies:
 - name: qtest-launch
   repository: https://tricentis.github.io/qTest.Charts
-  version: 1.0.6
+  version: 1.0.2
 - name: qtest-insights
   repository: https://tricentis.github.io/qTest.Charts
-  version: 1.0.14
+  version: 1.0.2
 - name: qtest-insights-etl
   repository: https://tricentis.github.io/qTest.Charts
-  version: 1.0.10
+  version: 1.0.1
 - name: qtest-parameters
   repository: https://tricentis.github.io/qTest.Charts
-  version: 1.0.7
+  version: 1.0.1
 - name: qtest-pulse
   repository: https://tricentis.github.io/qTest.Charts
-  version: 1.0.7
+  version: 1.0.1
 - name: qtest-scenario
   repository: https://tricentis.github.io/qTest.Charts
-  version: 1.0.11
+  version: 1.0.1
 - name: qtest-session
   repository: https://tricentis.github.io/qTest.Charts
-  version: 1.1.5
+  version: 1.0.1
 - name: reloader
   repository: https://stakater.github.io/stakater-charts
-  version: v1.0.15
-digest: sha256:d232b1f5a73664baee2a6dd798f38af65271d941cd5d5bddd697f1e4ee57344b
-generated: "2023-03-15T15:06:15.591447-04:00"
+  version: v0.0.104
+digest: sha256:dcfa775d8b6986fe9292ec4b00a8dc16acad5e6f23461be66dedc327065ede2c
+generated: "2022-02-02T19:16:03.561959-05:00"
