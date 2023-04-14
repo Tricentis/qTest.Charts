@@ -1,0 +1,58 @@
+# Basic configuration for qTest Manager without the ingress controller
+# This installation does not create an Ingress or LoadBalancer Service for
+# qTest Manager. It requires port-forwards to access without further
+# configuration to add them, e.g.:
+# kubectl port-forward deploy/qtest-manager-ui-deployment 8080:8080
+
+## create a secret called qtest-manager-secret before installing helm chart
+secrets:
+  enabled: true
+  existingConfigs: qtest-manager-secret
+
+## Set to true for private Tricentis dockerhub
+imageCredentials:
+  enabled: true
+  existingImageCredentials: "secretName"
+
+qTestManager:
+  client:
+    jdbc:
+      postgresUrl: <Postgres_url>
+      postgresUserName: <Postgres_user>
+      postgresReadOnlyUrl: <Postgres_url-readonly>
+      postgresReadOnlyUserName: <Postgres_user>
+  elasticSearch:
+    init: true
+    disable: false
+    scheme: https
+    host: <ES Host>
+    port: 443
+  ## If using AWS S3, type: amazon_s3_instance_profile
+  blobStorage:
+    type: disk_storage
+  s3:
+    folder: qtest/manager
+  preUrl: http://<sitename>.<domain> ## Example: http://<sitename>.tricentis.com
+  preUrlHttps: https://<sitename>.<domain> ## Example: https://<sitename>.tricentis.com
+  ## Folder path for attachments and license
+  attachmentFolderPath: /mnt/data/qtest/attachments
+  licenseFolderPath: /mnt/data/qtest/license
+
+service:
+  type: ClusterIP
+
+ingress:
+  enabled: false
+
+ui:
+  springProfilesActive: postgres
+
+testconductor:
+  environment:
+    isOnPremise: true
+    singleInstance: true
+
+## Enable with existing Persistent Volume Claim for license and attachments
+persistence:
+  enabled: true
+  existingClaim: qtest-mgr-pvc-name
