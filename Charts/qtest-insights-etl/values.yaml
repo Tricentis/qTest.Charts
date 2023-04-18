@@ -81,35 +81,6 @@ qTestInsightsEtl:
   writeSessionsDBUser: postgres
   writeSessionsDBPort: 5432
   writeSessionsDBSchema: session
-#### Ingress/IngressClass (> K8s 1.18-1.22+) #####
-ingressClass:
-  enabled: false
-  labels: {}
-  controller: ingress.k8s.aws/alb
-  isDefaultClass: true
-  # Use to force a networking.k8s.io API Version for certain CI/CD applications. Ex. "v1"
-  fallbackApiVersion: ""
-ingress:
-  enabled: true
-  name: insights-etl-ingress
-  labels: {}
-  annotations: {}
-  canary:
-    annotationPrefix: ""
-    annotations: {}
-    # canary-by-header: []
-    # canary-by-header-pattern: []
-  hosts:
-    - host: insights-etl.qtest.local
-  paths: []
-  extraPaths:
-    - path: /*
-      pathType: ImplementationSpecific
-  tls: []
-  # - secretName: qtest-svc-tls
-  #   hosts:
-  #     - svc.qtest.com
-  https: false
 persistence:
   enabled: false
   ## Set annotations on pvc
