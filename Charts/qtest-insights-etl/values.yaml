@@ -12,7 +12,7 @@ replicaCount: 1
 image:
   repository: qasymphony/insights-etl
   pullPolicy: IfNotPresent
-  tag: "v6.9.32.1.op"
+  tag: "v1.21.34.op"
 imageCredentials:
   enabled: false
   # name: ""
@@ -90,7 +90,7 @@ ingressClass:
   # Use to force a networking.k8s.io API Version for certain CI/CD applications. Ex. "v1"
   fallbackApiVersion: ""
 ingress:
-  enabled: true
+  enabled: false
   name: insights-etl-ingress
   labels: {}
   annotations: {}
