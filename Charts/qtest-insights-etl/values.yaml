@@ -81,6 +81,7 @@ qTestInsightsEtl:
   writeSessionsDBUser: postgres
   writeSessionsDBPort: 5432
   writeSessionsDBSchema: session
+  autoRefreshDBLink: true
 persistence:
   enabled: false
   ## Set annotations on pvc

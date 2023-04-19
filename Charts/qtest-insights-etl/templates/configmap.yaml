@@ -27,3 +27,4 @@ data:
   WRITE_SESSIONS_DB_PORT: "{{ .Values.qTestInsightsEtl.writeSessionsDBPort }}"
   WRITE_SESSIONS_DB_SCHEMA: "{{ .Values.qTestInsightsEtl.writeSessionsDBSchema }}"
   UPDATEDB: "true"
+  AUTO_REFRESH_DBLINK: "{{ .Values.qTestInsightsEtl.autoRefreshDBLink }}"
