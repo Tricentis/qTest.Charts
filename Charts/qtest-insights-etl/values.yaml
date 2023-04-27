@@ -49,10 +49,7 @@ rollouts:
     - setWeight: 50
     - pause: {duration: 10s}
 service:
-  type: LoadBalancer
-  port: 8080
   targetPort: 8080
-  serviceName: insights-etl-service
 extraInitContainers: []
 extraContainers: []
 extraArgs: []
