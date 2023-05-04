@@ -80,6 +80,9 @@ spec:
       serviceAccountName: {{ template "qtest-mgr.serviceAccountName" . }}
       automountServiceAccountToken: {{ .Values.serviceAccount.automountsatoken }}
       shareProcessNamespace: {{ .Values.shareProcessNamespace }}
+      {{- if .Values.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      {{- end }}
       {{- if .Values.extraInitContainers }}
       # Currently some extra blocks accept strings
       # to continue with backwards compatibility this is being kept
@@ -124,6 +127,10 @@ spec:
         {{- end }}
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
+        {{- with .Values.lifecycle }}
+        lifecycle:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
         ports:
         {{- if .Values.qTestManager.serverAppSSLRequired }}
         - containerPort: {{ .Values.service.targetHttpsPort }}
@@ -277,6 +284,9 @@ spec:
       serviceAccountName: {{ template "qtest-mgr.serviceAccountName" . }}
       automountServiceAccountToken: {{ .Values.serviceAccount.automountsatoken }}
       shareProcessNamespace: {{ .Values.shareProcessNamespace }}
+      {{- if .Values.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      {{- end }}
       {{- if .Values.extraInitContainers }}
       # Currently some extra blocks accept strings
       # to continue with backwards compatibility this is being kept
@@ -321,6 +331,10 @@ spec:
         {{- end }}
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
+        {{- with .Values.lifecycle }}
+        lifecycle:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
         ports:
         {{- if .Values.qTestManager.serverAppSSLRequired }}
         - containerPort: {{ .Values.service.targetHttpsPort }}
@@ -469,6 +483,9 @@ spec:
       serviceAccountName: {{ template "qtest-mgr.serviceAccountName" . }}
       automountServiceAccountToken: {{ .Values.serviceAccount.automountsatoken }}
       shareProcessNamespace: {{ .Values.shareProcessNamespace }}
+      {{- if .Values.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      {{- end }}
       {{- if .Values.extraInitContainers }}
       # Currently some extra blocks accept strings
       # to continue with backwards compatibility this is being kept
@@ -513,6 +530,10 @@ spec:
         {{- end }}
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
+        {{- with .Values.lifecycle }}
+        lifecycle:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
         ports:
         {{- if .Values.qTestManager.serverAppSSLRequired }}
         - containerPort: {{ .Values.service.targetHttpsPort }}
@@ -661,6 +682,9 @@ spec:
       serviceAccountName: {{ template "qtest-mgr.serviceAccountName" . }}
       automountServiceAccountToken: {{ .Values.serviceAccount.automountsatoken }}
       shareProcessNamespace: {{ .Values.shareProcessNamespace }}
+      {{- if .Values.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      {{- end }}
       {{- if .Values.extraInitContainers }}
       # Currently some extra blocks accept strings
       # to continue with backwards compatibility this is being kept
@@ -705,6 +729,10 @@ spec:
         {{- end }}
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
+        {{- with .Values.lifecycle }}
+        lifecycle:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
         ports:
         {{- if .Values.qTestManager.serverAppSSLRequired }}
         - containerPort: {{ .Values.service.targetHttpsPort }}
