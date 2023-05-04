@@ -29,6 +29,7 @@ rollouts:
     - setWeight: 50
     - pause: {duration: 10s}
 liquibase:
+  enabled: true
   securityContext: {}
   ## Sets securityContext at the pod level.
   ## The following values for securityContext are recommended but may depend on your specific volume and filesystem settings
@@ -88,6 +89,12 @@ service:
   # servicePortHttpName: http
   # servicePortHttpsName: https
 shareProcessNamespace: "true"
+## @param terminationGracePeriodSeconds Seconds qTest Manager pod needs to terminate gracefully
+## ref: https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods
+##
+terminationGracePeriodSeconds: ""
+# -- Specify postStart and preStop lifecycle hooks for your qTest Manager containers
+lifecycle: {}
 extraInitContainers: []
 extraContainers: []
 extraArgs: []

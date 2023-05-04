@@ -4,6 +4,7 @@
 {{- $postgresUrl = printf "%s%s" .Values.qTestManager.client.jdbc.postgresUrl .Values.qTestManager.client.jdbc.sslPath -}}
 {{- $postgresReadUrl = printf "%s%s" .Values.qTestManager.client.jdbc.postgresReadOnlyUrl .Values.qTestManager.client.jdbc.sslPath -}}
 {{- end -}}
+{{ if .Values.liquibase.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -20,6 +21,7 @@ data:
   client.jdbc.postgres.username: "{{ .Values.qTestManager.client.jdbc.postgresUserName }}"
   client.jdbc.postgres.sessionsschema: "{{ .Values.qTestManager.client.jdbc.sessionsSchema }}"
 ---
+{{- end -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
