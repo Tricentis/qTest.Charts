@@ -83,17 +83,17 @@ spec:
             - name: NODE_ENV
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-pulse-configmap
+                  name: {{ include "qtest-pulse.fullname" . }}-configmap
                   key: qTestPulseNodeEnv
             - name: PULSE_DB_NAME
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-pulse-configmap
+                  name: {{ include "qtest-pulse.fullname" . }}-configmap
                   key: qTestPulseDBName
             - name: PULSE_DB_USERNAME
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-pulse-configmap
+                  name: {{ include "qtest-pulse.fullname" . }}-configmap
                   key: qTestPulseDBUserName
             - name: PULSE_DB_PWD
               valueFrom:
@@ -103,7 +103,7 @@ spec:
             - name: PULSE_DB_HOSTNAME
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-pulse-configmap
+                  name: {{ include "qtest-pulse.fullname" . }}-configmap
                   key: qTestPulseDBHostName
             - name: PG_URL
               {{- if .Values.qTestPulse.qTestPulseDBSSLEnable }}
@@ -115,28 +115,38 @@ spec:
             - name: PORT
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-pulse-configmap
+                  name: {{ include "qtest-pulse.fullname" . }}-configmap
                   key: qTestPulsePort
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-pulse-configmap
+                  name: {{ include "qtest-pulse.fullname" . }}-configmap
                   key: qTestPulseNodeTLSRejectUnAuthorized
             - name: ROOT_URL
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-pulse-configmap
+                  name: {{ include "qtest-pulse.fullname" . }}-configmap
                   key: qTestPulseRootURL
             - name: QTEST_URL
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-pulse-configmap
+                  name: {{ include "qtest-pulse.fullname" . }}-configmap
                   key: qTestPulseQTestURL
             - name: SCENARIO_URL
               valueFrom:
                 configMapKeyRef:
-                  name: qtest-pulse-configmap
+                  name: {{ include "qtest-pulse.fullname" . }}-configmap
                   key: qTestPulseScenarioURL
+            - name: TYPE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "qtest-pulse.fullname" . }}-configmap
+                  key: qTestPulseType
+            - name: EXECUTOR_URL
+              valueFrom: 
+                configMapKeyRef:
+                  name: {{ include "qtest-pulse.fullname" . }}-configmap
+                  key: qtestPulseExecutorUrl
 {{- with .Values.extraEnv }}
 {{ toYaml . | indent 12 }}
 {{- end }}
