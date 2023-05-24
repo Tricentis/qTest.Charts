@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: qtest-pulse-configmap
+  name: {{ include "qtest-pulse.fullname" . }}-configmap
   namespace: {{ .Values.namespace.name }}
   labels:
     app: qTestPulse
@@ -15,3 +15,5 @@ data:
   qTestPulseNodeTLSRejectUnAuthorized: "{{ .Values.qTestPulse.qTestPulseNodeTLSRejectUnAuthorized }}"
   qTestPulsePort: "{{ .Values.qTestPulse.qTestPulsePort }}"
   qTestPulseNodeEnv: "{{ .Values.qTestPulse.qTestPulseNodeEnv }}"
+  qTestPulseType: "{{ .Values.qTestPulse.qTestPulseType }}"
+  qtestPulseExecutorUrl: "{{ .Values.qTestPulse.qtestPulseExecutorUrl }}"
