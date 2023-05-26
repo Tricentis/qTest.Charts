@@ -147,6 +147,11 @@ spec:
                 configMapKeyRef:
                   name: {{ include "qtest-pulse.fullname" . }}-configmap
                   key: qtestPulseExecutorUrl
+            - name: SWAGGER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "qtest-pulse.fullname" . }}-configmap
+                  key: swaggerUrl
 {{- with .Values.extraEnv }}
 {{ toYaml . | indent 12 }}
 {{- end }}
