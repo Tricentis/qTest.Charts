@@ -17,3 +17,4 @@ data:
   qTestPulseNodeEnv: "{{ .Values.qTestPulse.qTestPulseNodeEnv }}"
   qTestPulseType: "{{ .Values.qTestPulse.qTestPulseType }}"
   qtestPulseExecutorUrl: "{{ .Values.qTestPulse.qtestPulseExecutorUrl }}"
+  swaggerUrl: "{{ .Values.qTestPulse.swaggerUrl }}"
