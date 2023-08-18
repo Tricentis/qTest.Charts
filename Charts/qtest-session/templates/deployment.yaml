@@ -5,8 +5,9 @@ kind: Deployment
 metadata:
   name: {{ include "qtest-session.fullname" . }}
   namespace: {{ .Values.namespace.name }}
-  {{- with .Values.deployment.annotations }}
   annotations:
+    checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+  {{- with .Values.deployment.annotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
@@ -21,6 +22,11 @@ spec:
       app: qtest-session
   template:
     metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
         app: qtest-session
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
@@ -60,26 +66,33 @@ spec:
 {{- end }}
 {{- end }}
           livenessProbe:
-            httpGet:
-              path: {{ .Values.autoscaling.healthApiPath }}
-              port: {{ .Values.service.targetPort }}
-            periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          {{- if .Values.qTestSession.qTestSessionSSLRequired }}
+            {{ .Values.livenessSslProbe | toYaml | indent 12 | trim }}
+          {{- else }}
+            {{ .Values.livenessProbe | toYaml | indent 12 | trim }}
+          {{- end }}
           readinessProbe:
-            httpGet:
-              path: {{ .Values.autoscaling.healthApiPath }}
-              port: {{ .Values.service.targetPort }}
-            periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          {{- if .Values.qTestSession.qTestSessionSSLRequired }}
+            {{ .Values.readinessSslProbe | toYaml | indent 12 | trim }}
+          {{- else }}
+            {{ .Values.readinessProbe | toYaml | indent 12 | trim }}
+          {{- end }}
           startupProbe:
-            httpGet:
-              path: {{ .Values.autoscaling.healthApiPath }}
-              port: {{ .Values.service.targetPort }}
-            failureThreshold: {{ .Values.autoscaling.failureThreshold }}
-            periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          {{- if .Values.qTestSession.qTestSessionSSLRequired }}
+            {{ .Values.startupSslProbe | toYaml | indent 12 | trim }}
+          {{- else }}
+            {{ .Values.startupProbe | toYaml | indent 12 | trim }}
+          {{- end }}
           resources:
           {{- toYaml .Values.resources | nindent 12 }}
           ports:
+            {{- if .Values.qTestSession.qTestSessionSSLRequired }}
+            - containerPort: {{ .Values.service.targetHttpsPort }}
+              name: https
+            {{- else }}
             - containerPort: {{ .Values.service.targetPort }}
               name: http
+            {{- end }}
           env:
             - name: SESSION_JS_HOME
               valueFrom:
@@ -116,6 +129,11 @@ spec:
                 configMapKeyRef:
                   name: qtest-session-configmap
                   key: qTestSessionDBHostName
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-session-configmap
+                  key: qTestSessionDBPort
             {{- if .Values.qTestSession.qTestSessionCustomSchemaEnable }}
             - name: DATABASE_SCHEMA_SESSION
               valueFrom:
@@ -125,29 +143,29 @@ spec:
             {{- end }}   
             - name: DB_CONNECTION
               {{- if and (.Values.qTestSession.qTestSessionDBSSLEnable) (.Values.qTestSession.qTestSessionCustomSchemaEnable) }}
-              value: {{ printf "postgresql://$(DB_USER):$(DB_PASS)@$(DB_HOST)/$(DB_NAME)?schema=$(DATABASE_SCHEMA_SESSION)%s" .Values.qTestSession.qTestSessionDBSSL }}
+              value: {{ printf "postgresql://$(DB_USER):$(DB_PASS)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)?schema=$(DATABASE_SCHEMA_SESSION)%s" .Values.qTestSession.qTestSessionDBSSL }}
               {{- end }}
               {{- if and (.Values.qTestSession.qTestSessionDBSSLEnable) (not .Values.qTestSession.qTestSessionCustomSchemaEnable) }}
-              value: {{ printf "postgresql://$(DB_USER):$(DB_PASS)@$(DB_HOST)/$(DB_NAME)%s" .Values.qTestSession.qTestSessionDBSSL }}
+              value: {{ printf "postgresql://$(DB_USER):$(DB_PASS)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)%s" .Values.qTestSession.qTestSessionDBSSL }}
               {{- end }}
               {{- if and (not .Values.qTestSession.qTestSessionDBSSLEnable) (.Values.qTestSession.qTestSessionCustomSchemaEnable) }}
-              value: {{ printf "postgresql://$(DB_USER):$(DB_PASS)@$(DB_HOST)/$(DB_NAME)?schema=$(DATABASE_SCHEMA_SESSION)" }}
+              value: {{ printf "postgresql://$(DB_USER):$(DB_PASS)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)?schema=$(DATABASE_SCHEMA_SESSION)" }}
               {{- end }}
               {{- if and (not .Values.qTestSession.qTestSessionDBSSLEnable) (not .Values.qTestSession.qTestSessionCustomSchemaEnable)}}
-              value: {{ printf "postgresql://$(DB_USER):$(DB_PASS)@$(DB_HOST)/$(DB_NAME)" }}
+              value: {{ printf "postgresql://$(DB_USER):$(DB_PASS)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)" }}
               {{- end }}
             - name: DATABASE_URL
               {{- if and (.Values.qTestSession.qTestSessionDBSSLEnable) (.Values.qTestSession.qTestSessionCustomSchemaEnable) }}
-              value: {{ printf "postgresql://$(DB_USER):$(DB_PASS)@$(DB_HOST)/$(DB_NAME)?schema=$(DATABASE_SCHEMA_SESSION)%s" .Values.qTestSession.qTestSessionDBSSL }}
+              value: {{ printf "postgresql://$(DB_USER):$(DB_PASS)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)?schema=$(DATABASE_SCHEMA_SESSION)%s" .Values.qTestSession.qTestSessionDBSSL }}
               {{- end }}
               {{- if and (.Values.qTestSession.qTestSessionDBSSLEnable) (not .Values.qTestSession.qTestSessionCustomSchemaEnable) }}
-              value: {{ printf "postgresql://$(DB_USER):$(DB_PASS)@$(DB_HOST)/$(DB_NAME)%s" .Values.qTestSession.qTestSessionDBSSL }}
+              value: {{ printf "postgresql://$(DB_USER):$(DB_PASS)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)%s" .Values.qTestSession.qTestSessionDBSSL }}
               {{- end }}
               {{- if and (not .Values.qTestSession.qTestSessionDBSSLEnable) (.Values.qTestSession.qTestSessionCustomSchemaEnable) }}
-              value: {{ printf "postgresql://$(DB_USER):$(DB_PASS)@$(DB_HOST)/$(DB_NAME)?schema=$(DATABASE_SCHEMA_SESSION)" }}
+              value: {{ printf "postgresql://$(DB_USER):$(DB_PASS)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)?schema=$(DATABASE_SCHEMA_SESSION)" }}
               {{- end }}
               {{- if and (not .Values.qTestSession.qTestSessionDBSSLEnable) (not .Values.qTestSession.qTestSessionCustomSchemaEnable)}}
-              value: {{ printf "postgresql://$(DB_USER):$(DB_PASS)@$(DB_HOST)/$(DB_NAME)" }}
+              value: {{ printf "postgresql://$(DB_USER):$(DB_PASS)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)" }}
               {{- end }}
             - name: QTEST_HOST
               valueFrom:
@@ -184,6 +202,23 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secrets.name }}
                   key: {{ .Values.secrets.sessionsSecretKey }}
+            - name: SSL_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-session-configmap
+                  key: qTestSessionIsSSLRequired
+            {{- if .Values.qTestSession.qTestSessionSSLRequired }}
+            - name: SSL_CERT
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-session-configmap
+                  key: qTestSessionSSLCert
+            - name: SSL_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-session-configmap
+                  key: qTestSessionSSLKey
+                  {{- end -}}
 {{- with .Values.extraEnv }}
 {{ toYaml . | indent 12 }}
 {{- end }}
@@ -193,6 +228,11 @@ spec:
           {{- if .Values.qTestSession.qTestSessionDBSSLEnable }}
           - name: qtest-db-secret-volume
             mountPath: {{ .Values.qTestSession.qTestSessionDBSSLMountPath }}
+            readOnly: true
+          {{- end }}
+          {{- if .Values.qTestSession.qTestSessionSSLRequired }}
+          - name: qtest-session-secret-ssl-volume
+            mountPath: {{ .Values.qTestSession.qTestSessionSSLMountPath }}
             readOnly: true
           {{- end }}
 {{- with .Values.extraVolumeMounts }}
@@ -224,6 +264,11 @@ spec:
           secret:
             secretName: qtest-db-root-secret
         {{- end -}}
+        {{- if .Values.qTestSession.qTestSessionSSLRequired }}
+        - name: qtest-session-secret-ssl-volume
+          secret:
+            secretName: qtest-ssl-root-secret
+        {{- end }}
 {{- with .Values.extraVolumes }}
 {{ toYaml . | indent 8 }}
 {{- end }}
