@@ -27,6 +27,7 @@ serviceAccount:
   name: "qtest-insights-sa"
 deployment:
   annotations: {}
+podAnnotations: {}
 rollouts:
   enabled: false
   ingressClassName: alb

@@ -21,6 +21,11 @@ spec:
       app: qtest-insights
   template:
     metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
         app: qtest-insights
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
