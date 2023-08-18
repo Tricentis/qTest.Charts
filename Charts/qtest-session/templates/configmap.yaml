@@ -1,3 +1,5 @@
+{{- $sslCert := printf "%s/tls.crt" .Values.qTestSession.qTestSessionSSLMountPath -}}
+{{- $sslKey := printf "%s/tls.key" .Values.qTestSession.qTestSessionSSLMountPath -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -8,10 +10,10 @@ metadata:
 data:
   qTestSessionJSHome: "{{ .Values.qTestSession.qTestSessionJSHome }}"
   qTestSessionNodeEnvironment: "{{ .Values.qTestSession.qTestSessionNodeEnvironment }}"
-  qTestSessionPort: "{{ .Values.qTestSession.qTestSessionPort }}"
   qTestSessionDBName: "{{ .Values.qTestSession.qTestSessionDBName }}"
   qTestSessionDBUserName: "{{ .Values.qTestSession.qTestSessionDBUserName }}"
   qTestSessionDBHostName: "{{ .Values.qTestSession.qTestSessionDBHostName }}"
+  qTestSessionDBPort: "{{ .Values.qTestSession.qTestSessionDBPort }}"
   QTestManagerHost: "{{ .Values.qTestSession.qTestManagerHost }}"
   qTestSessionMasterToken: "{{ .Values.qTestSession.qTestSessionMasterToken }}"
   qTestSessionStorageRootPath: "{{ .Values.qTestSession.qTestSessionStorageRootPath }}"
@@ -20,3 +22,11 @@ data:
   qTestSessionStorageType : "{{ .Values.qTestSession.qTestSessionStorageType }}"
   qTestSessionCustomSchemaEnable : "{{ .Values.qTestSession.qTestSessionCustomSchemaEnable }}"
   qTestSessionCustomSchemaName : "{{ .Values.qTestSession.qTestSessionCustomSchemaName }}"
+  qTestSessionIsSSLRequired: "{{ .Values.qTestSession.qTestSessionSSLRequired }}"
+  {{- if .Values.qTestSession.qTestSessionSSLRequired }}
+  qTestSessionSSLCert: "{{ $sslCert }}"
+  qTestSessionSSLKey: "{{ $sslKey }}"
+  qTestSessionPort: "{{ .Values.service.targetHttpsPort }}"
+  {{- else }}
+  qTestSessionPort: "{{ .Values.service.targetPort }}"
+  {{- end -}}

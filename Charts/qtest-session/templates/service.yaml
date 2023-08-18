@@ -10,9 +10,16 @@ metadata:
     heritage: "{{ .Release.Service }}"
 spec:
   ports:
+    {{- if .Values.qTestSession.qTestSessionSSLRequired }}
+    - name: https
+      protocol: TCP
+      port: {{ .Values.service.targetHttpsPort }}
+      targetPort: {{ .Values.service.targetHttpsPort }}
+    {{- else }}
     - protocol: TCP
       port: {{ .Values.service.port }}
       targetPort: {{ .Values.service.targetPort }}
+    {{- end }}
   selector:
     app: qtest-session
     release: {{ .Release.Name }}
@@ -31,9 +38,16 @@ metadata:
     heritage: "{{ .Release.Service }}"
 spec:
   ports:
+    {{- if .Values.qTestSession.qTestSessionSSLRequired }}
+    - name: https
+      protocol: TCP
+      port: {{ .Values.service.targetHttpsPort }}
+      targetPort: {{ .Values.service.targetHttpsPort }}
+    {{- else }}
     - protocol: TCP
       port: {{ .Values.service.port }}
       targetPort: {{ .Values.service.targetPort }}
+    {{- end }}
   selector:
     app: qtest-session
     release: {{ .Release.Name }}
