@@ -21,6 +21,11 @@ spec:
       app: qtest-parameters
   template:
     metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
         app: qtest-parameters
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
@@ -112,12 +117,17 @@ spec:
                 configMapKeyRef:
                   name: qtest-parameters-configmap
                   key: qTestParametersDBHostName
+            - name: PARAMETERS_DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-parameters-configmap
+                  key: qTestParametersDBPort
             - name: PG_URL
               {{- if .Values.qTestParameters.qTestParametersDBSSLEnable }}
-              value: {{ printf "postgresql://$(PARAMETERS_DB_USERNAME):$(PARAMETERS_DB_PWD)@$(PARAMETERS_DB_HOSTNAME)/$(PARAMETERS_DB_NAME)%s" .Values.qTestParameters.qTestParametersDBSSL }}
+              value: {{ printf "postgresql://$(PARAMETERS_DB_USERNAME):$(PARAMETERS_DB_PWD)@$(PARAMETERS_DB_HOSTNAME):$(PARAMETERS_DB_PORT)/$(PARAMETERS_DB_NAME)%s" .Values.qTestParameters.qTestParametersDBSSL }}
               {{- end }}
               {{- if not .Values.qTestParameters.qTestParametersDBSSLEnable }}
-              value: {{ printf "postgresql://$(PARAMETERS_DB_USERNAME):$(PARAMETERS_DB_PWD)@$(PARAMETERS_DB_HOSTNAME)/$(PARAMETERS_DB_NAME)" }}
+              value: {{ printf "postgresql://$(PARAMETERS_DB_USERNAME):$(PARAMETERS_DB_PWD)@$(PARAMETERS_DB_HOSTNAME):$(PARAMETERS_DB_PORT)/$(PARAMETERS_DB_NAME)" }}
               {{- end }}
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               valueFrom:
@@ -139,6 +149,11 @@ spec:
                 configMapKeyRef:
                   name: qtest-parameters-configmap
                   key: qTestParametersPort
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: {{ .Values.secrets.secretKey }}
             - name: SSL_ENABLED
               valueFrom:
                 configMapKeyRef:
@@ -161,7 +176,7 @@ spec:
 {{- end }}
           volumeMounts:
           - name: qtest-parameter-logs
-            mountPath: /usr/local/parameters/logs
+            mountPath: /webapp/logs
           {{- if .Values.qTestParameters.qTestParametersDBSSLEnable }}
           - name: qtest-db-secret-volume
             mountPath: {{ .Values.qTestParameters.qTestParametersDBSSLMountPath }}

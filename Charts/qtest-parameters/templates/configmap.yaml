@@ -11,6 +11,7 @@ data:
   qTestParametersDBName: "{{ .Values.qTestParameters.qTestParametersDBName }}"
   qTestParametersDBUserName: "{{ .Values.qTestParameters.qTestParametersDBUserName }}"
   qTestParametersDBHostName: "{{ .Values.qTestParameters.qTestParametersDBHostName }}"
+  qTestParametersDBPort: "{{ .Values.qTestParameters.qTestParametersDBPort }}"
   qTestParametersQTestHost: "{{ .Values.qTestParameters.qTestParametersQTestHost }}"
   qTestParametersNodeTLSRejectUnAuthorized: "{{ .Values.qTestParameters.qTestParametersNodeTLSRejectUnAuthorized }}"
   qTestParametersNodeEnv: "{{ .Values.qTestParameters.qTestParametersNodeEnv }}"
