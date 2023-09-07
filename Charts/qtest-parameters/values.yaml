@@ -5,6 +5,7 @@ reloader:
   enabled: false
 secrets:
   name: qtest-manager-secret
+  secretKey: client.jdbc.postgres.password
 image:
   repository: qasymphony/parameters
   pullPolicy: IfNotPresent
@@ -26,6 +27,7 @@ serviceAccount:
   name: "qtest-parameters-sa"
 deployment:
   annotations: {}
+podAnnotations: {}
 rollouts:
   enabled: false
   ingressClassName: alb
@@ -60,12 +62,13 @@ qTestParameters:
   qTestParametersDBName: parameters
   qTestParametersDBUserName: postgres
   qTestParametersDBHostName: postgres.local
+  qTestParametersDBPort: "5432"
   qTestParametersQTestHost: https://nephele.qtest.local
   qTestParametersNodeTLSRejectUnAuthorized: "0"
   qTestParametersNodeEnv: production
   qTestParametersPort: 5080
   qTestParametersDBSSLEnable: false
-  qTestParametersDBSSLMountPath: ""
+  qTestParametersDBSSLMountPath: "/etc/ssl"
   qTestParametersDBSSL: ""
   qTestParametersDBCRT: ""
   qTestParametersSSLRequired: false
