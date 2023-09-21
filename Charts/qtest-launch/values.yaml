@@ -9,7 +9,7 @@ secrets:
 image:
   repository: qasymphony/launch
   pullPolicy: IfNotPresent
-  tag: "1.6.12"
+  tag: "2023.5.0"
 imageCredentials:
   enabled: false
   # name: ""
@@ -27,6 +27,7 @@ serviceAccount:
   name: "qtest-launch-sa"
 deployment:
   annotations: {}
+podAnnotations: {}
 rollouts:
   enabled: false
   ingressClassName: alb
@@ -49,6 +50,7 @@ service:
   type: LoadBalancer
   port: 3080
   targetPort: 3080
+  targetHttpsPort: 3443
   serviceName: qtest-launch-service
 extraInitContainers: []
 extraContainers: []
@@ -60,13 +62,15 @@ qTestLaunch:
   qTestLaunchDBName: qtest
   qTestLaunchDBUserName: postgres
   qTestLaunchDBHostName: postgres.local
+  qTestLaunchDBPort: "5432"
   qTestLaunchRootURL: https://launch.local
   qTestLaunchQTestURL: https://nephele.qtest.local
   qTestLaunchNodeTLSRejectUnAuthorized: "0"
   qTestLaunchTCPWD: "qTest"
-  qTestLaunchPort: "3080"
+  qTestLaunchSSLRequired: false
+  qTestLaunchSSLMountPath: "/mnt/secrets/tls"
   qTestLaunchDBSSLEnable: false
-  qTestLaunchDBSSLMountPath: ""
+  qTestLaunchDBSSLMountPath: "/etc/ssl"
   qTestLaunchDBSSL: ""
   qTestLaunchDBCRT: ""
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
@@ -100,6 +104,17 @@ ingress:
   #   hosts:
   #     - svc.qtest.com
   https: false
+persistence:
+  enabled: false
+  ## Set annotations on pvc
+  annotations: {}
+  storageClass:
+  accessMode: ReadWriteOnce
+  size: 5Gi
+  ## Specify extra volumes. Refer to ".spec.volumes" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
+  volumes: []
+  ## Specify extra mounts. Refer to ".spec.containers.volumeMounts" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
+  mounts: []
 # VPA values
 vpaAutoscaling:
   enabled: false
@@ -130,3 +145,38 @@ limitRange:
   enabled: false
 resourceQuota:
   enabled: false
+livenessProbe:
+  httpGet:
+    path: /health-check
+    port: 3080
+  periodSeconds: 30
+livenessSslProbe:
+  httpGet:
+    path: /health-check
+    scheme: HTTPS
+    port: 3443
+  periodSeconds: 30
+readinessProbe:
+  httpGet:
+    path: /health-check
+    port: 3080
+  periodSeconds: 30
+readinessSslProbe:
+  httpGet:
+    path: /health-check
+    scheme: HTTPS
+    port: 3443
+  periodSeconds: 30
+startupProbe:
+  httpGet:
+    path: /health-check
+    port: 3080
+  failureThreshold: 4
+  periodSeconds: 30
+startupSslProbe:
+  httpGet:
+    path: /health-check
+    scheme: HTTPS
+    port: 3443
+  failureThreshold: 4
+  periodSeconds: 30
