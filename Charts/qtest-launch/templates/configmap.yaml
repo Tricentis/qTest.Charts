@@ -1,3 +1,5 @@
+{{- $sslCert := printf "%s/tls.crt" .Values.qTestLaunch.qTestLaunchSSLMountPath -}}
+{{- $sslKey := printf "%s/tls.key" .Values.qTestLaunch.qTestLaunchSSLMountPath -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -9,8 +11,16 @@ data:
   qTestLaunchDBName: "{{ .Values.qTestLaunch.qTestLaunchDBName }}"
   qTestLaunchDBUserName: "{{ .Values.qTestLaunch.qTestLaunchDBUserName }}"
   qTestLaunchDBHostName: "{{ .Values.qTestLaunch.qTestLaunchDBHostName }}"
+  qTestLaunchDBPort: "{{ .Values.qTestLaunch.qTestLaunchDBPort }}"
   qTestLaunchRootURL: "{{ .Values.qTestLaunch.qTestLaunchRootURL }}"
   qTestLaunchQTestURL: "{{ .Values.qTestLaunch.qTestLaunchQTestURL }}"
   qTestLaunchTCPWD: "{{ .Values.qTestLaunch.qTestLaunchTCPWD }}"
   qTestLaunchNodeTLSRejectUnAuthorized: "{{ .Values.qTestLaunch.qTestLaunchNodeTLSRejectUnAuthorized }}"
-  qTestLaunchPort: "{{ .Values.qTestLaunch.qTestLaunchPort }}"
+  qTestLaunchIsSSLRequired: "{{ .Values.qTestLaunch.qTestLaunchSSLRequired }}"
+  {{- if .Values.qTestLaunch.qTestLaunchSSLRequired }}
+  qTestLaunchSSLCert: "{{ $sslCert }}"
+  qTestLaunchSSLKey: "{{ $sslKey }}"
+  qTestLaunchPort: "{{ .Values.service.targetHttpsPort }}"
+  {{- else }}
+  qTestLaunchPort: "{{ .Values.service.targetPort }}"
+  {{- end -}}

@@ -21,6 +21,11 @@ spec:
       app: qtest-launch
   template:
     metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
         app: qtest-launch
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
@@ -59,26 +64,33 @@ spec:
 {{- end }}
 {{- end }}
           livenessProbe:
-            httpGet:
-              path: {{ .Values.autoscaling.healthApiPath }}
-              port: {{ .Values.service.targetPort }}
-            periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          {{- if .Values.qTestLaunch.qTestLaunchSSLRequired }}
+            {{ .Values.livenessSslProbe | toYaml | indent 12 | trim }}
+          {{- else }}
+            {{ .Values.livenessProbe | toYaml | indent 12 | trim }}
+           {{- end }}
           readinessProbe:
-            httpGet:
-              path: {{ .Values.autoscaling.healthApiPath }}
-              port: {{ .Values.service.targetPort }}
-            periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          {{- if .Values.qTestLaunch.qTestLaunchSSLRequired }}
+            {{ .Values.readinessSslProbe | toYaml | indent 12 | trim }}
+          {{- else }}
+            {{ .Values.readinessProbe | toYaml | indent 12 | trim }}
+          {{- end }}
           startupProbe:
-            httpGet:
-              path: {{ .Values.autoscaling.healthApiPath }}
-              port: {{ .Values.service.targetPort }}
-            failureThreshold: {{ .Values.autoscaling.failureThreshold }}
-            periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          {{- if .Values.qTestLaunch.qTestLaunchSSLRequired }}
+            {{ .Values.startupSslProbe | toYaml | indent 12 | trim }}
+          {{- else }}
+            {{ .Values.startupProbe | toYaml | indent 12 | trim }}
+          {{- end }}
           resources:
           {{- toYaml .Values.resources | nindent 12 }}
           ports:
-            - containerPort: {{ .Values.service.targetPort }}
-              name: http
+             {{- if .Values.qTestLaunch.qTestLaunchSSLRequired }}
+             - containerPort: {{ .Values.service.targetHttpsPort }}
+               name: https
+             {{- else }}
+             - containerPort: {{ .Values.service.targetPort }}
+               name: http
+             {{- end }}
           env:
             - name: PORT
               valueFrom:
@@ -105,12 +117,17 @@ spec:
                 configMapKeyRef:
                   name: qtest-launch-configmap
                   key: qTestLaunchDBHostName
+            - name: LAUNCH_DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-launch-configmap
+                  key: qTestLaunchDBPort
             - name: PG_URL
               {{- if .Values.qTestLaunch.qTestLaunchDBSSLEnable }}
-              value: {{ printf "postgresql://$(LAUNCH_DB_USERNAME):$(LAUNCH_DB_PWD)@$(LAUNCH_DB_HOSTNAME)/$(LAUNCH_DB_NAME)%s" .Values.qTestLaunch.qTestLaunchDBSSL }}
+              value: {{ printf "postgresql://$(LAUNCH_DB_USERNAME):$(LAUNCH_DB_PWD)@$(LAUNCH_DB_HOSTNAME):$(LAUNCH_DB_PORT)/$(LAUNCH_DB_NAME)%s" .Values.qTestLaunch.qTestLaunchDBSSL }}
               {{- end }}
               {{- if not .Values.qTestLaunch.qTestLaunchDBSSLEnable }}
-              value: {{ printf "postgresql://$(LAUNCH_DB_USERNAME):$(LAUNCH_DB_PWD)@$(LAUNCH_DB_HOSTNAME)/$(LAUNCH_DB_NAME)" }}
+              value: {{ printf "postgresql://$(LAUNCH_DB_USERNAME):$(LAUNCH_DB_PWD)@$(LAUNCH_DB_HOSTNAME):$(LAUNCH_DB_PORT)/$(LAUNCH_DB_NAME)" }}
               {{- end }}
             - name: ROOT_URL
               valueFrom:
@@ -132,16 +149,40 @@ spec:
                 configMapKeyRef:
                   name: qtest-launch-configmap
                   key: qTestLaunchNodeTLSRejectUnAuthorized
+            - name: SSL_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-launch-configmap
+                  key: qTestLaunchIsSSLRequired
+            {{- if .Values.qTestLaunch.qTestLaunchSSLRequired }}
+            - name: SSL_CERT
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-launch-configmap
+                  key: qTestLaunchSSLCert
+            - name: SSL_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-launch-configmap
+                  key: qTestLaunchSSLKey
+            {{- end -}}
 {{- with .Values.extraEnv }}
 {{ toYaml . | indent 12 }}
 {{- end }}
-{{- if .Values.qTestLaunch.qTestLaunchDBSSLEnable }}
           volumeMounts:
-          - name: qtest-db-secret-volume
-            mountPath: {{ .Values.qTestLaunch.qTestLaunchDBSSLMountPath }}
+            - name: qtest-launch-logs
+              mountPath: /webapp/logs
+          {{- if .Values.qTestLaunch.qTestLaunchDBSSLEnable }}
+            - name: qtest-db-secret-volume
+              mountPath: {{ .Values.qTestLaunch.qTestLaunchDBSSLMountPath }}
+          {{- end }}
+          {{- if .Values.qTestLaunch.qTestLaunchSSLRequired }}
+            - name: qtest-launch-ssl-volume
+              mountPath: {{ .Values.qTestLaunch.qTestLaunchSSLMountPath }}
+              readOnly: true
+          {{- end }}
 {{- with .Values.extraVolumeMounts }}
 {{ toYaml . | indent 8 }}
-{{- end }}
 {{- end }}
       {{- if .Values.extraContainers }}
       # Currently some extra blocks accept strings
@@ -153,12 +194,24 @@ spec:
 {{ toYaml .Values.extraContainers | indent 8 }}
       {{- end }}
       {{- end }}
-{{- if .Values.qTestLaunch.qTestLaunchDBSSLEnable }}
       volumes:
-      - name: qtest-db-secret-volume
-        secret:
-          secretName: qtest-db-root-secret
+        - name: qtest-launch-logs
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ template "qtest-launch.fullname" . }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+      {{- if .Values.qTestLaunch.qTestLaunchDBSSLEnable }}
+        - name: qtest-db-secret-volume
+          secret:
+            secretName: qtest-db-root-secret
+      {{- end -}}
+      {{- if .Values.qTestLaunch.qTestLaunchSSLRequired }}
+        - name: qtest-launch-ssl-volume
+          secret:
+            secretName: qtest-ssl-root-secret
+      {{- end }}
 {{- with .Values.extraVolumes }}
 {{ toYaml . | indent 8 }}
-{{- end }}
 {{- end -}}
