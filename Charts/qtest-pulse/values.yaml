@@ -8,7 +8,7 @@ secrets:
 image:
   repository: qasymphony/pulse
   pullPolicy: IfNotPresent
-  tag: "9.3.10"
+  tag: "2023.5.0"
 imageCredentials:
   enabled: false
   # name: ""
@@ -26,6 +26,7 @@ serviceAccount:
   name: "qtest-pulse-sa"
 deployment:
   annotations: {}
+podAnnotations: {}
 rollouts:
   enabled: false
   ingressClassName: alb
@@ -48,6 +49,7 @@ service:
   type: LoadBalancer
   port: 4080
   targetPort: 4080
+  targetHttpsPort: 4443
   serviceName: qtest-pulse-service
 extraInitContainers: []
 extraContainers: []
@@ -59,14 +61,16 @@ qTestPulse:
   qTestPulseDBName: pulse
   qTestPulseDBUserName: postgres
   qTestPulseDBHostName: host.docker.internal
-  qTestPulsePort: "4080"
+  qTestPulseDBPort: "5432"
   qTestPulseNodeEnv: production
   qTestPulseRootURL: https://pulse.qtest.local
   qTestPulseQTestURL: https://nephele.qtest.local
   qTestPulseScenarioURL: https://scenario.local
   qTestPulseNodeTLSRejectUnAuthorized: "0"
   qTestPulseDBSSLEnable: false
-  qTestPulseDBSSLMountPath: ""
+  qTestPulseSSLRequired: false
+  qTestPulseSSLMountPath: "/mnt/secrets/tls"
+  qTestPulseDBSSLMountPath: "/etc/ssl"
   qTestPulseDBSSL: ""
   qTestPulseDBCRT: ""
   qTestPulseType: "qtest-pulse"
@@ -104,6 +108,17 @@ ingress:
   # hosts:
   # - pulse.qtest.local
   https: false
+persistence:
+  enabled: false
+  ## Set annotations on pvc
+  annotations: {}
+  storageClass:
+  accessMode: ReadWriteOnce
+  size: 5Gi
+  ## Specify extra volumes. Refer to ".spec.volumes" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
+  volumes: []
+  ## Specify extra mounts. Refer to ".spec.containers.volumeMounts" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
+  mounts: []
 # VPA values
 vpaAutoscaling:
   enabled: false
@@ -134,3 +149,38 @@ limitRange:
   enabled: false
 resourceQuota:
   enabled: false
+livenessProbe:
+  httpGet:
+    path: /
+    port: 4080
+  periodSeconds: 30
+livenessSslProbe:
+  httpGet:
+    path: /
+    scheme: HTTPS
+    port: 4443
+  periodSeconds: 30
+readinessProbe:
+  httpGet:
+    path: /
+    port: 4080
+  periodSeconds: 30
+readinessSslProbe:
+  httpGet:
+    path: /
+    scheme: HTTPS
+    port: 4443
+  periodSeconds: 30
+startupProbe:
+  httpGet:
+    path: /
+    port: 4080
+  failureThreshold: 4
+  periodSeconds: 30
+startupSslProbe:
+  httpGet:
+    path: /
+    scheme: HTTPS
+    port: 4443
+  failureThreshold: 4
+  periodSeconds: 30
