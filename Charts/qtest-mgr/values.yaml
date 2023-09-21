@@ -55,8 +55,8 @@ image:
   repository: tricentisimage/qtest-mgr
   liquibase: tricentisimage/qtest-mgr-liquibase
   pullPolicy: IfNotPresent
-  tag: "11.4.0-0270b1d"
-  liquibasetag: "11.4.0-0270b1d"
+  tag: "2023.5.op"
+  liquibasetag: "2023.5.op"
   liquibasepullpolicy: IfNotPresent
 imageCredentials:
   enabled: false
@@ -101,6 +101,7 @@ extraArgs: []
 extraEnv: []
 extraVolumeMounts: []
 extraVolumes: []
+extraLabels: {}
 qTestManager:
   securityContext:
     runAsUser: 8877
@@ -123,7 +124,7 @@ qTestManager:
       postgresReadOnlyUserName: "qtest"
       postgresReadOnlyPassword: ""
       sslEnable: false
-      sslMountPath: ""
+      sslMountPath: "/etc/ssl"
       sslPath: ""
       cert: ""
     dbcp:
@@ -199,7 +200,7 @@ qTestManager:
     supportEmailAddress: supports@tricentis.com
     blockExternal: true
   emailchange:
-    allowClients: ""
+    allowClients: "null"
   integration:
     jira:
       testConnectionLegacyEndpointClients: ""
@@ -210,7 +211,7 @@ qTestManager:
     auto:
       testrun:
         beta:
-          clients: -1
+          clients: "null"
   secret:
     volumeMount: /mnt/secrets/storage
     appVolumeMount: /mnt/secrets/storage/..data
