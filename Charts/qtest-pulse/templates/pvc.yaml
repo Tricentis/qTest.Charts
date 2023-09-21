@@ -1,0 +1,25 @@
+{{- if and .Values.persistence.enabled (not .Values.persistence.existingClaim) }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ template "qtest-pulse.fullname" . }}
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    app: qtest-pulse
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+{{ if .Values.persistence.annotations}}
+  annotations:
+    {{- range $key, $value := .Values.persistence.annotations }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
+{{- end }}
+spec:
+  accessModes:
+    - {{ .Values.persistence.accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.size | quote }}
+  {{ include "common.storage.class" (dict "persistence" .Values.persistence) }}
+{{- end }}

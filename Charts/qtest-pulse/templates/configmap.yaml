@@ -1,3 +1,5 @@
+{{- $sslCert := printf "%s/tls.crt" .Values.qTestPulse.qTestPulseSSLMountPath -}}
+{{- $sslKey := printf "%s/tls.key" .Values.qTestPulse.qTestPulseSSLMountPath -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -9,12 +11,20 @@ data:
   qTestPulseDBName: "{{ .Values.qTestPulse.qTestPulseDBName }}"
   qTestPulseDBUserName: "{{ .Values.qTestPulse.qTestPulseDBUserName }}"
   qTestPulseDBHostName: "{{ .Values.qTestPulse.qTestPulseDBHostName }}"
+  qTestPulseDBPort: "{{ .Values.qTestPulse.qTestPulseDBPort }}"
   qTestPulseRootURL: "{{ .Values.qTestPulse.qTestPulseRootURL }}"
   qTestPulseQTestURL: "{{ .Values.qTestPulse.qTestPulseQTestURL }}"
   qTestPulseScenarioURL: "{{ .Values.qTestPulse.qTestPulseScenarioURL }}"
   qTestPulseNodeTLSRejectUnAuthorized: "{{ .Values.qTestPulse.qTestPulseNodeTLSRejectUnAuthorized }}"
-  qTestPulsePort: "{{ .Values.qTestPulse.qTestPulsePort }}"
   qTestPulseNodeEnv: "{{ .Values.qTestPulse.qTestPulseNodeEnv }}"
   qTestPulseType: "{{ .Values.qTestPulse.qTestPulseType }}"
   qtestPulseExecutorUrl: "{{ .Values.qTestPulse.qtestPulseExecutorUrl }}"
   swaggerUrl: "{{ .Values.qTestPulse.swaggerUrl }}"
+  qTestPulseIsSSLRequired: "{{ .Values.qTestPulse.qTestPulseSSLRequired }}"
+  {{- if .Values.qTestPulse.qTestPulseSSLRequired }}
+  qTestPulseSSLCert: "{{ $sslCert }}"
+  qTestPulseSSLKey: "{{ $sslKey }}"
+  qTestPulsePort: "{{ .Values.service.targetHttpsPort }}"
+  {{- else }}
+  qTestPulsePort: "{{ .Values.service.targetPort }}"
+  {{- end -}}
