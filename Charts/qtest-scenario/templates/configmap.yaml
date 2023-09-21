@@ -1,3 +1,5 @@
+{{- $sslCert := printf "%s/tls.crt" .Values.qTestScenario.qTestScenarioSSLMountPath -}}
+{{- $sslKey := printf "%s/tls.key" .Values.qTestScenario.qTestScenarioSSLMountPath -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -9,9 +11,18 @@ data:
   qTestScenarioDBName: "{{ .Values.qTestScenario.qTestScenarioDBName }}"
   qTestScenarioDBUserName: "{{ .Values.qTestScenario.qTestScenarioDBUserName }}"
   qTestScenarioDBHostName: "{{ .Values.qTestScenario.qTestScenarioDBHostName }}"
+  qTestScenarioDBPort: "{{ .Values.qTestScenario.qTestScenarioDBPort }}"
   qTestScenarioLocalBaseURL: "{{ .Values.qTestScenario.qTestScenarioLocalBaseURL }}"
+  qTestScenarioSwaggerUrl: "{{ .Values.qTestScenario.qTestScenarioSwaggerUrl }}"
   qTestScenarioNodeTLSRejectUnAuthorized: "{{ .Values.qTestScenario.qTestScenarioNodeTLSRejectUnAuthorized }}"
   qTestScenarioNodeEnvironment : "{{ .Values.qTestScenario.qTestScenarioNodeEnvironment }}"
-  qTestScenarioPort: "{{ .Values.qTestScenario.qTestScenarioPort }}"
   qTestScenarioAppKeyDescriptor: "{{ .Values.qTestScenario.qTestScenarioAppKeyDescriptor }}"
   qTestScenarioQTestURL: "{{ .Values.qTestScenario.qTestScenarioQTestURL }}"
+  qTestScenarioIsSSLRequired: "{{ .Values.qTestScenario.qTestScenarioSSLRequired }}"
+  {{- if .Values.qTestScenario.qTestScenarioSSLRequired }}
+  qTestScenarioSSLCert: "{{ $sslCert }}"
+  qTestScenarioSSLKey: "{{ $sslKey }}"
+  qTestScenarioPort: "{{ .Values.service.targetHttpsPort }}"
+  {{- else }}
+  qTestScenarioPort: "{{ .Values.service.targetPort }}"
+  {{- end -}}

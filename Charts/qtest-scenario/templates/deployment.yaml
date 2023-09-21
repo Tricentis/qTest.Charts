@@ -21,6 +21,11 @@ spec:
       app: qtest-scenario
   template:
     metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
         app: qtest-scenario
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
@@ -59,26 +64,33 @@ spec:
 {{- end }}
 {{- end }}
           livenessProbe:
-            httpGet:
-              path: {{ .Values.autoscaling.healthApiPath }}
-              port: {{ .Values.service.targetPort }}
-            periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          {{- if .Values.qTestScenario.qTestScenarioSSLRequired }}
+            {{ .Values.livenessSslProbe | toYaml | indent 12 | trim }}
+          {{- else }}
+            {{ .Values.livenessProbe | toYaml | indent 12 | trim }}
+          {{- end }}
           readinessProbe:
-            httpGet:
-              path: {{ .Values.autoscaling.healthApiPath }}
-              port: {{ .Values.service.targetPort }}
-            periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          {{- if .Values.qTestScenario.qTestScenarioSSLRequired }}
+            {{ .Values.readinessSslProbe | toYaml | indent 12 | trim }}
+          {{- else }}
+            {{ .Values.readinessProbe | toYaml | indent 12 | trim }}
+          {{- end }}
           startupProbe:
-            httpGet:
-              path: {{ .Values.autoscaling.healthApiPath }}
-              port: {{ .Values.service.targetPort }}
-            failureThreshold: {{ .Values.autoscaling.failureThreshold }}
-            periodSeconds: {{ .Values.autoscaling.periodSeconds }}
+          {{- if .Values.qTestScenario.qTestScenarioSSLRequired }}
+            {{ .Values.startupSslProbe | toYaml | indent 12 | trim }}
+          {{- else }}
+            {{ .Values.startupProbe | toYaml | indent 12 | trim }}
+          {{- end }}
           resources:
           {{- toYaml .Values.resources | nindent 12 }}
           ports:
+            {{- if .Values.qTestScenario.qTestScenarioSSLRequired }}
+            - containerPort: {{ .Values.service.targetHttpsPort }}
+              name: https
+            {{- else }}
             - containerPort: {{ .Values.service.targetPort }}
               name: http
+            {{- end }}
           env:
             - name: SCENARIO_DB_NAME
               valueFrom:
@@ -100,12 +112,17 @@ spec:
                 configMapKeyRef:
                   name: qtest-scenario-configmap
                   key: qTestScenarioDBHostName
+            - name: SCENARIO_DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-scenario-configmap
+                  key: qTestScenarioDBPort
             - name: DATABASE_URL
               {{- if .Values.qTestScenario.qTestScenarioDBSSLEnable }}
-              value: {{ printf "postgresql://$(SCENARIO_DB_USERNAME):$(SCENARIO_DB_PWD)@$(SCENARIO_DB_HOSTNAME)/$(SCENARIO_DB_NAME)%s" .Values.qTestScenario.qTestScenarioDBSSL }}
+              value: {{ printf "postgresql://$(SCENARIO_DB_USERNAME):$(SCENARIO_DB_PWD)@$(SCENARIO_DB_HOSTNAME):$(SCENARIO_DB_PORT)/$(SCENARIO_DB_NAME)%s" .Values.qTestScenario.qTestScenarioDBSSL }}
               {{- end }}
               {{- if not .Values.qTestScenario.qTestScenarioDBSSLEnable }}
-              value: {{ printf "postgresql://$(SCENARIO_DB_USERNAME):$(SCENARIO_DB_PWD)@$(SCENARIO_DB_HOSTNAME)/$(SCENARIO_DB_NAME)" }}
+              value: {{ printf "postgresql://$(SCENARIO_DB_USERNAME):$(SCENARIO_DB_PWD)@$(SCENARIO_DB_HOSTNAME):$(SCENARIO_DB_PORT)/$(SCENARIO_DB_NAME)" }}
               {{- end }}
             - name: PORT
               valueFrom:
@@ -117,6 +134,11 @@ spec:
                 configMapKeyRef:
                   name: qtest-scenario-configmap
                   key: qTestScenarioLocalBaseURL
+            - name: SWAGGER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-scenario-configmap
+                  key: qTestScenarioSwaggerUrl
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               valueFrom:
                 configMapKeyRef:
@@ -142,16 +164,40 @@ spec:
                 secretKeyRef:
                   name: qtest-scenario-secret
                   key: qTestScenarioRefreshTokenSecret
+            - name: SSL_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-scenario-configmap
+                  key: qTestScenarioIsSSLRequired
+          {{- if .Values.qTestScenario.qTestScenarioSSLRequired }}
+            - name: SSL_CERT
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-scenario-configmap
+                  key: qTestScenarioSSLCert
+            - name: SSL_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-scenario-configmap
+                  key: qTestScenarioSSLKey
+          {{- end }}
 {{- with .Values.extraEnv }}
 {{ toYaml . | indent 12 }}
 {{- end }}
-{{- if .Values.qTestScenario.qTestScenarioDBSSLEnable }}
           volumeMounts:
+          - name: qtest-scenario-logs
+            mountPath: /root/.pm2/logs
+        {{- if .Values.qTestScenario.qTestScenarioDBSSLEnable }}
           - name: qtest-db-secret-volume
-            mountPath: {{ .Values.qTestScenario.qTestScenarioDBSSLMountPath }}     
+            mountPath: {{ .Values.qTestScenario.qTestScenarioDBSSLMountPath }}
+        {{- end }}
+        {{- if .Values.qTestScenario.qTestScenarioSSLRequired }}
+          - name: qtest-scenario-secret-ssl-volume
+            mountPath: {{ .Values.qTestScenario.qTestScenarioSSLMountPath }}
+            readOnly: true
+        {{- end }}
 {{- with .Values.extraVolumeMounts }}
 {{ toYaml . | indent 8 }}
-{{- end }}
 {{- end }}
       {{- if .Values.extraContainers }}
       # Currently some extra blocks accept strings
@@ -163,12 +209,24 @@ spec:
 {{ toYaml .Values.extraContainers | indent 8 }}
       {{- end }}
       {{- end }}
-{{- if .Values.qTestScenario.qTestScenarioDBSSLEnable }}
       volumes:
+        - name: qtest-scenario-logs
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ template "qtest-scenario.fullname" . }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        {{- if .Values.qTestScenario.qTestScenarioDBSSLEnable }}
         - name: qtest-db-secret-volume
           secret:
             secretName: qtest-db-root-secret
+        {{- end }}
+        {{- if .Values.qTestScenario.qTestScenarioSSLRequired }}
+        - name: qtest-scenario-secret-ssl-volume
+          secret:
+            secretName: qtest-ssl-root-secret
+        {{- end }}
 {{- with .Values.extraVolumes }}
 {{ toYaml . | indent 8 }}
-{{- end }}
 {{- end -}}

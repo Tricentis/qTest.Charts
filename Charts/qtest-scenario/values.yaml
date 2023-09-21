@@ -9,7 +9,7 @@ secrets:
 image:
   repository: qasymphony/scenario
   pullPolicy: IfNotPresent
-  tag: "3.3.6"
+  tag: "2023.5.0"
 imageCredentials:
   enabled: false
   # name: ""
@@ -27,6 +27,7 @@ serviceAccount:
   name: "qtest-scenario-sa"
 deployment:
   annotations: {}
+podAnnotations: {}
 rollouts:
   enabled: false
   ingressClassName: alb
@@ -49,6 +50,7 @@ service:
   type: LoadBalancer
   port: 6080
   targetPort: 6080
+  targetHttpsPort: 6443
   serviceName: qtest-scenario-service
   annotations: {}
 extraInitContainers: []
@@ -61,15 +63,19 @@ qTestScenario:
   qTestScenarioDBName: scenario
   qTestScenarioDBUserName: postgres
   qTestScenarioDBHostName: host.docker.internal
+  qTestScenarioDBPort: "5432"
   qTestScenarioPort: "6080"
   qTestScenarioLocalBaseURL: https://scenario.local
+  qTestScenarioSwaggerUrl: https://qtest.dev.tricentis.com
   qTestScenarioNodeTLSRejectUnAuthorized: "0"
   qTestScenarioNodeEnvironment: production
   qTestScenarioRefreshTokenSecret: "secret"
   qTestScenarioAppKeyDescriptor: ""
   qTestScenarioQTestURL: https://nephele.qtest.local
   qTestScenarioDBSSLEnable: false
-  qTestScenarioDBSSLMountPath: ""
+  qTestScenarioSSLRequired: false
+  qTestScenarioSSLMountPath: "/mnt/secrets/tls"
+  qTestScenarioDBSSLMountPath: "/etc/ssl"
   qTestScenarioDBSSL: ""
   qTestScenarioDBCRT: ""
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
@@ -101,6 +107,17 @@ ingress:
   #   hosts:
   #     - svc.qtest.com
   https: false
+persistence:
+  enabled: false
+  ## Set annotations on pvc
+  annotations: {}
+  storageClass:
+  accessMode: ReadWriteOnce
+  size: 5Gi
+  ## Specify extra volumes. Refer to ".spec.volumes" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
+  volumes: []
+  ## Specify extra mounts. Refer to ".spec.containers.volumeMounts" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
+  mounts: []
 # VPA values
 vpaAutoscaling:
   enabled: false
@@ -131,3 +148,38 @@ limitRange:
   enabled: false
 resourceQuota:
   enabled: false
+livenessProbe:
+  httpGet:
+    path: /atlassian-connect.json
+    port: 6080
+  periodSeconds: 30
+livenessSslProbe:
+  httpGet:
+    path: /atlassian-connect.json
+    scheme: HTTPS
+    port: 6443
+  periodSeconds: 30
+readinessProbe:
+  httpGet:
+    path: /atlassian-connect.json
+    port: 6080
+  periodSeconds: 30
+readinessSslProbe:
+  httpGet:
+    path: /atlassian-connect.json
+    scheme: HTTPS
+    port: 6443
+  periodSeconds: 30
+startupProbe:
+  httpGet:
+    path: /atlassian-connect.json
+    port: 6080
+  failureThreshold: 4
+  periodSeconds: 30
+startupSslProbe:
+  httpGet:
+    path: /atlassian-connect.json
+    scheme: HTTPS
+    port: 6443
+  failureThreshold: 4
+  periodSeconds: 30
