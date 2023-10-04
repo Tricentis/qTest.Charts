@@ -149,10 +149,7 @@ spec:
           protocol: TCP
         {{- end }}
         envFrom:
-        - configMapRef:
-            name: qtest-manager-config
-        - configMapRef:
-            name: qtest-manager-ui-config
+        {{- toYaml .Values.envFrom.ui | nindent 8 }}
         env:
         - name: testconductor.environment
         {{- if $iSingleInstance }}
@@ -360,10 +357,7 @@ spec:
           protocol: TCP
         {{- end }}
         envFrom:
-        - configMapRef:
-            name: qtest-manager-config
-        - configMapRef:
-            name: qtest-manager-poller-config
+        {{- toYaml .Values.envFrom.poller | nindent 8 }}
         env:
         - name: testconductor.environment
           value: {{ $pollerProfile }}
@@ -566,10 +560,7 @@ spec:
           protocol: TCP
         {{- end }}
         envFrom:
-        - configMapRef:
-            name: qtest-manager-config
-        - configMapRef:
-            name: qtest-manager-notification-config
+        {{- toYaml .Values.envFrom.notification | nindent 8 }}
         env:
         - name: testconductor.environment
           value: {{ $notificationProfile }}
@@ -772,10 +763,7 @@ spec:
           protocol: TCP
         {{- end }}
         envFrom:
-        - configMapRef:
-            name: qtest-manager-config
-        - configMapRef:
-            name: qtest-manager-api-config
+        {{- toYaml .Values.envFrom.api | nindent 8 }}
         env:
         - name: testconductor.environment
           value: {{ $apiProfile }}

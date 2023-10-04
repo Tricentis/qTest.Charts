@@ -102,6 +102,28 @@ extraEnv: []
 extraVolumeMounts: []
 extraVolumes: []
 extraLabels: {}
+extraDeploy: []
+envFrom:
+  ui:
+    - configMapRef:
+        name: qtest-manager-config
+    - configMapRef:
+        name: qtest-manager-ui-config
+  api:
+    - configMapRef:
+        name: qtest-manager-config
+    - configMapRef:
+        name: qtest-manager-api-config
+  notification:
+    - configMapRef:
+        name: qtest-manager-config
+    - configMapRef:
+        name: qtest-manager-notification-config
+  poller:
+    - configMapRef:
+        name: qtest-manager-config
+    - configMapRef:
+        name: qtest-manager-poller-config
 qTestManager:
   securityContext:
     runAsUser: 8877
@@ -409,7 +431,7 @@ autoscaling:
   targetMemoryUtilizationPercentage: 70
   healthApiPath: /health-checker
 resourceQuota:
-  enabled: true
+  enabled: false
   hard:
     limits.cpu: "80"
     limits.memory: 400Gi
@@ -419,6 +441,7 @@ resourceQuota:
     persistentvolumeclaims: "50"
     requests.storage: 500Gi
 limitRange:
+  enabled: false
   limits:
     - max:
         cpu: "2"
