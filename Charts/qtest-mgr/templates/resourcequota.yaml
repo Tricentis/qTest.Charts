@@ -8,8 +8,8 @@ spec:
   hard:
     {{ .Values.resourceQuota.hard | toYaml | indent 4 | trim }}
 {{- end }}
----
 {{- if .Values.limitRange.enabled }}
+---
 apiVersion: v1
 kind: LimitRange
 metadata:
