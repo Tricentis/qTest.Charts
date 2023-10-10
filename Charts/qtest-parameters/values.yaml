@@ -54,6 +54,7 @@ extraVolumeMounts: []
 extraVolumes: []
 service:
   type: LoadBalancer
+  annotations: {}
   port: 5080
   targetPort: 5080
   targetHttpsPort: 5443
