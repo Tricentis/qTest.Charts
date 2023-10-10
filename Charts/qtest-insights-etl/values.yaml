@@ -12,7 +12,7 @@ replicaCount: 1
 image:
   repository: qasymphony/insights-etl
   pullPolicy: IfNotPresent
-  tag: "v6.9.32.1.op"
+  tag: "v6.9.32.2.op"
 imageCredentials:
   enabled: false
   # name: ""
@@ -30,6 +30,7 @@ serviceAccount:
   name: "qtest-insightsetl-sa"
 deployment:
   annotations: {}
+podAnnotations: {}
 rollouts:
   enabled: false
   ingressClassName: alb
@@ -71,7 +72,7 @@ qTestInsightsEtl:
   qTestInsightsEtlSessionDBName: sessions
   qTestInsightsEtlSessionDBUser: postgres
   qTestInsightsEtlSessionDBHost: postgres.local
-  qTestInsightsEtlSessionDBPort: session
+  qTestInsightsEtlSessionDBPort: 5432
   qTestInsightsEtlSessionDBSchema: session
   writeSessionsDBHost: postgres.local
   writeSessionsDBName: qtest
