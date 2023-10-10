@@ -72,6 +72,7 @@ extraVolumeMounts:
 extraVolumes: []
 service:
   type: LoadBalancer
+  annotations: {}
   port: 8080
   targetPort: 8080
   targetHttpsPort: 8443
