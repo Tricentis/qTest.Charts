@@ -14,13 +14,18 @@ spec:
   {{- if .Values.rollouts.enabled }}
   replicas: 0
   {{- else }}
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.autoscaling.minReplicas }}
   {{- end }}
   selector:
     matchLabels:
       app: qtest-insights-etl
   template:
     metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
         app: qtest-insights-etl
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
