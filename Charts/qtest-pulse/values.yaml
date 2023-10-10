@@ -47,6 +47,7 @@ rollouts:
     - pause: {duration: 10s}
 service:
   type: LoadBalancer
+  annotations: {}
   port: 4080
   targetPort: 4080
   targetHttpsPort: 4443

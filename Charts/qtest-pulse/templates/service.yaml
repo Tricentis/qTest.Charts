@@ -3,6 +3,10 @@ kind: Service
 metadata:
   name: {{ .Values.service.serviceName }}
   namespace: {{ .Values.namespace.name }}
+  {{- with .Values.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   labels:
     app: qtest-pulse
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
@@ -31,6 +35,10 @@ kind: Service
 metadata:
   name: {{ .Values.service.serviceName }}-canary
   namespace: {{ .Values.namespace.name }}
+  {{- with .Values.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   labels:
     app: qtest-pulse
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
