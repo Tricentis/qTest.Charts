@@ -48,11 +48,11 @@ rollouts:
     - pause: {duration: 10s}
 service:
   type: LoadBalancer
+  annotations: {}
   port: 6080
   targetPort: 6080
   targetHttpsPort: 6443
   serviceName: qtest-scenario-service
-  annotations: {}
 extraInitContainers: []
 extraContainers: []
 extraArgs: []
