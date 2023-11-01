@@ -82,7 +82,7 @@ securityContext:
   runAsNonRoot: true
   fsGroup: 8877
 qTestInsights:
-  qTestInsightsCatalinaOpts: "-server -d64 -Xms512m -Xmx2048m -XX:MaxPermSize=256m -XX:CompileThreshold=8000 -XX:-DisableExplicitGC -Djava.awt.headless=true -XX:HeapDumpPath=/logs"
+  qTestInsightsCatalinaOpts: "-server -Xms512m -Xmx2048m -XX:CompileThreshold=8000 -XX:-DisableExplicitGC -Djava.awt.headless=true -XX:HeapDumpPath=/logs"
   qTestInsightsDBName: qtest
   qTestInsightsDBUser: postgres
   qTestInsightsDBHost: postgres.local
@@ -96,7 +96,7 @@ qTestInsights:
   qTestInsightsSessionDBName: sessions
   qTestInsightsSessionDBUser: postgres
   qTestInsightsSessionDBHost: postgres.local
-  qTestInsightsSessionDBSchema: session
+  qTestInsightsSessionDBSchema: public
   qTestInsightsSessionDBPort: 5432
   qTestInsightsCSRFAllowPattern: \"$insights_security_csrf_trusted_source_pattern\"
   serverAppSSLRequired: false
