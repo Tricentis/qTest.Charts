@@ -73,12 +73,12 @@ qTestInsightsEtl:
   qTestInsightsEtlSessionDBUser: postgres
   qTestInsightsEtlSessionDBHost: postgres.local
   qTestInsightsEtlSessionDBPort: 5432
-  qTestInsightsEtlSessionDBSchema: session
+  qTestInsightsEtlSessionDBSchema: public
   writeSessionsDBHost: postgres.local
   writeSessionsDBName: qtest
   writeSessionsDBUser: postgres
   writeSessionsDBPort: 5432
-  writeSessionsDBSchema: session
+  writeSessionsDBSchema: public
   autoRefreshDBLink: true
 persistence:
   enabled: false
