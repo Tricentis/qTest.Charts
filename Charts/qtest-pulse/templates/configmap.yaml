@@ -27,4 +27,5 @@ data:
   qTestPulsePort: "{{ .Values.service.targetHttpsPort }}"
   {{- else }}
   qTestPulsePort: "{{ .Values.service.targetPort }}"
+  qTestPulseDeploymentEnv: "{{ .Values.qTestPulse.qTestPulseDeploymentEnv }}"
   {{- end -}}
