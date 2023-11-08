@@ -169,6 +169,11 @@ spec:
                 configMapKeyRef:
                   name: {{ include "qtest-pulse.fullname" . }}-configmap
                   key: swaggerUrl
+            - name: DEPLOYMENT_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "qtest-pulse.fullname" . }}-configmap
+                  key: qTestPulseDeploymentEnv
             - name: SSL_ENABLED
               valueFrom:
                 configMapKeyRef:

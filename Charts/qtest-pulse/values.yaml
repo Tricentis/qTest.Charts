@@ -78,6 +78,7 @@ qTestPulse:
   # Optional Value to specify a seperate Pulse executor URL.
   qtestPulseExecutorUrl: ""
   swaggerUrl: https://qtest.dev.tricentis.com
+  qTestPulseDeploymentEnv: "saas"
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
 ingressClass:
   enabled: false
