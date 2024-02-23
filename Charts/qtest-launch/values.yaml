@@ -9,7 +9,7 @@ secrets:
 image:
   repository: qasymphony/launch
   pullPolicy: IfNotPresent
-  tag: "2023.5.0"
+  tag: "2023.5.6"
 imageCredentials:
   enabled: false
   # name: ""
