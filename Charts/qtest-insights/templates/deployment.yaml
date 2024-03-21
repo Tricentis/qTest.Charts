@@ -161,6 +161,8 @@ spec:
         {{- else }}
           emptyDir: {}
         {{- end }}
+        - name: qtest-insights-ephemeral
+          emptyDir: {}
         {{- if .Values.qTestInsights.serverAppSSLRequired }}
         - name: qtest-insights-secret-ssl-volume
           secret:
