@@ -9,7 +9,7 @@ secrets:
 image:
   repository: qasymphony/insights
   pullPolicy: IfNotPresent
-  tag: "v2023.5.6.op"
+  tag: "v2023.5.7.op"
 imageCredentials:
   enabled: false
   # name: ""
@@ -52,8 +52,8 @@ extraArgs: []
 extraEnv: []
 extraVolumeMounts:
   - mountPath: /usr/local/tomcat/webapps/ROOT/ErrorLog/
-    name: qtest-insights
-    subPath: data/ErrorLog
+    name: qtest-insights-ephemeral
+    subPath: ErrorLog
   - mountPath: /usr/local/tomcat/webapps/ROOT/SavedDashboards/
     name: qtest-insights
     subPath: data/dashboards
@@ -64,11 +64,11 @@ extraVolumeMounts:
     name: qtest-insights
     subPath: data/custom-reports
   - mountPath: /usr/local/tomcat/webapps/ROOT/rdDataCache
-    name: qtest-insights
-    subPath: data/cache
+    name: qtest-insights-ephemeral
+    subPath: cache
   - mountPath: /usr/local/tomcat/webapps/ROOT/rdDownload
-    name: qtest-insights
-    subPath: data/download
+    name: qtest-insights-ephemeral
+    subPath: download
 extraVolumes: []
 service:
   type: LoadBalancer
