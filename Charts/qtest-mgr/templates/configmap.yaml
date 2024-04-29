@@ -99,6 +99,7 @@ data:
   qtest.request.nonce.mode: "{{ .Values.qTestManager.qTest.request.nonce.mode }}"
   security.csrf.source.trust.pattern: "{{ .Values.qTestManager.security.csrf.source.trust.pattern }}"
   cors.allowed.all: "{{ .Values.qTestManager.cors.allowed.all }}"
+  manager.test.configuration: "{{ .Values.qTestManager.featureFlagOpOverrides.managerTestConfiguration.enabled }}"
   {{ end }}
 ---
 apiVersion: v1
