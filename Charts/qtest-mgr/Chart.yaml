@@ -59,13 +59,13 @@ maintainers:
   - name: liemng
     email: l.nguyen@tricentis.com
 home: https://github.com/Tricentis-qTest/qtest-chart.git
-kubeVersion: ">=1.18.0-0"
+kubeVersion: ">=1.24.0-0"
 icon: https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_c2d6524c36c94138504f7a18bf179d76/tricentis-qtest.png
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
 
-version: 1.4.1
+version: 2.0.0
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.

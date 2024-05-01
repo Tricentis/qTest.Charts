@@ -74,7 +74,7 @@ qTestLaunch:
   qTestLaunchDBSSLMountPath: "/etc/ssl"
   qTestLaunchDBSSL: ""
   qTestLaunchDBCRT: ""
-#### Ingress/IngressClass (> K8s 1.18-1.22+) #####
+#### Ingress/IngressClass (> K8s 1.24-1.29+) #####
 ingressClass:
   enabled: false
   labels: {}
