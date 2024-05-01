@@ -237,6 +237,9 @@ qTestManager:
   secret:
     volumeMount: /mnt/secrets/storage
     appVolumeMount: /mnt/secrets/storage/..data
+  featureFlagOpOverrides:
+    managerTestConfiguration:
+      enabled: false
 ui:
   action:
     task:
