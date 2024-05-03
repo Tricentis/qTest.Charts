@@ -75,7 +75,7 @@ qTestParameters:
   qTestParametersSSLRequired: false
   qTestParametersSSLMountPath: "/mnt/secrets/tls"
   qTestParametersCorsOrigin: "tricentis.com"
-#### Ingress/IngressClass (> K8s 1.18-1.22+) #####
+#### Ingress/IngressClass (> K8s 1.24-1.30+) #####
 ingressClass:
   enabled: false
   labels: {}
