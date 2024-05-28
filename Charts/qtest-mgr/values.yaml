@@ -55,8 +55,8 @@ image:
   repository: tricentisimage/qtest-mgr
   liquibase: tricentisimage/qtest-mgr-liquibase
   pullPolicy: IfNotPresent
-  tag: "2023.5.7-f096636"
-  liquibasetag: "2023.5.7-f096636"
+  tag: "2024.1.op"
+  liquibasetag: "2024.1.op"
   liquibasepullpolicy: IfNotPresent
 imageCredentials:
   enabled: false
@@ -254,6 +254,7 @@ ui:
   ## if single instance then change to postgres
   springProfilesActive: postgres,readOnlyEnable
   useriqEnabled: false
+  resources: {}
 api:
   appName: api
   asyncThreadNumber: 100
@@ -275,6 +276,7 @@ api:
     dbcp:
       maxActive: 400
   springProfilesActive: postgres,disableAllTasksMode,readOnlyEnable,backgroundQueue
+  resources: {}
 poller:
   appName: notification
   asyncThreadNumber: 100
@@ -290,6 +292,7 @@ poller:
   testconductorAppPath: testconductor-app.localhost.xml
   queuePublisherMaxDequeue: 300
   springProfilesActive: postgres,oldTrackingDefect,disableAllTasksMode
+  resources: {}
 notification:
   action:
     task:
@@ -317,6 +320,7 @@ notification:
   springProfilesActive: postgres,backgroundQueue
   schedulerBlobHandleMaxRetryTimes: 5
   queuePublisherMaxDequeue: 300
+  resources: {}
 testconductor:
   environment:
     isOnPremise: true
@@ -333,6 +337,16 @@ testconductor:
       api: api.onpremise
       poller: poller.onpremise
       notification: notification.onpremise
+#### Shared Resources definition for app Mgr pods in case you don't want to to define it on per pod basis
+### You may also define per Mgr pod Resources above
+resources: {}
+# limits:
+#   cpu: 100m
+#   memory: 128Mi
+# requests:
+#   cpu: 100m
+#   memory: 128Mi
+
 #### Ingress/IngressClass (> K8s 1.24-1.30+) #####
 ingressClass:
   enabled: false
@@ -456,18 +470,6 @@ limitRange:
         cpu: "2"
         memory: 4Gi
       type: Container
-resources: {}
-## We usually recommend not to specify default resources and to leave this as a conscious
-## choice for the user. This also increases chances charts run on environments with little
-## resources, such as Minikube. If you do want to specify resources, uncomment the following
-## lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-# limits:
-#   cpu: 100m
-#   memory: 128Mi
-# requests:
-#   cpu: 100m
-#   memory: 128Mi
-
 ## Readiness, liveness and startup probes
 livenessProbe:
   httpGet:
