@@ -9,7 +9,7 @@ secrets:
 image:
   repository: qasymphony/sessions
   pullPolicy: IfNotPresent
-  tag: "2023.5.5"
+  tag: "2024.1.op"
 imageCredentials:
   enabled: false
   # name: ""
@@ -70,7 +70,6 @@ qTestSession:
   qTestManagerHost: https://nephele.qtest.local
   qTestSessionMasterToken: Qtoy
   qTestSessionStorageRootPath: /data
-  qTestSessionSecretKey: Q3AyVEJYQ0lHb3N3dWs1eklwTG1nQm1QRkxWMDVrU1RKRHBWMXNaM3Y4VVBoWFBZMERzaERVdmwwOW1seVdETw==
   qTestStorageBucketName: aws-session-bucket-name
   qTestSessionClamavURL: http://clam.qtest.local
   qTestSessionStorageType: amazon_s3
@@ -84,7 +83,7 @@ qTestSession:
   qTestSessionCustomSchemaName: public
   postgresDBPassword:
     secret: qtest-manager-secret
-#### Ingress/IngressClass (> K8s 1.24-1.30+) #####
+#### Ingress/IngressClass (> K8s 1.18-1.22+) #####
 ingressClass:
   enabled: false
   labels: {}
