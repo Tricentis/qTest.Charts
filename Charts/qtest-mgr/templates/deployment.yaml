@@ -133,7 +133,7 @@ spec:
           {{ .Values.startupProbe | toYaml | indent 10 | trim }}
         {{- end }}
         resources:
-          {{- toYaml .Values.resources | nindent 10 }}
+          {{- .Values.ui.resources | default .Values.resources | toYaml | nindent 10 }}
         {{- with .Values.lifecycle }}
         lifecycle:
           {{- toYaml . | nindent 10 }}
@@ -341,7 +341,7 @@ spec:
           {{ .Values.startupProbe | toYaml | indent 10 | trim }}
         {{- end }}
         resources:
-          {{- toYaml .Values.resources | nindent 10 }}
+          {{- .Values.poller.resources | default .Values.resources | toYaml | nindent 10 }}
         {{- with .Values.lifecycle }}
         lifecycle:
           {{- toYaml . | nindent 10 }}
@@ -544,7 +544,7 @@ spec:
           {{ .Values.startupProbe | toYaml | indent 10 | trim }}
         {{- end }}
         resources:
-          {{- toYaml .Values.resources | nindent 10 }}
+          {{- .Values.notification.resources | default .Values.resources | toYaml | nindent 10 }}
         {{- with .Values.lifecycle }}
         lifecycle:
           {{- toYaml . | nindent 10 }}
@@ -747,7 +747,7 @@ spec:
           {{ .Values.startupProbe | toYaml | indent 10 | trim }}
         {{- end }}
         resources:
-          {{- toYaml .Values.resources | nindent 10 }}
+          {{- .Values.api.resources | default .Values.resources | toYaml | nindent 10 }}
         {{- with .Values.lifecycle }}
         lifecycle:
           {{- toYaml . | nindent 10 }}
