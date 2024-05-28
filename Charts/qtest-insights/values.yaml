@@ -9,7 +9,7 @@ secrets:
 image:
   repository: qasymphony/insights
   pullPolicy: IfNotPresent
-  tag: "v2023.5.7.op"
+  tag: "v2024.1.op"
 imageCredentials:
   enabled: false
   # name: ""
