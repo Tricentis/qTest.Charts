@@ -154,6 +154,11 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secrets.name }}
                   key: {{ .Values.secrets.secretKey }}
+            - name: DEPLOYMENT_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-parameters-configmap
+                  key: qTestParametersDeploymentEnv
             - name: SSL_ENABLED
               valueFrom:
                 configMapKeyRef:
