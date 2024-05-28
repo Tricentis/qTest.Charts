@@ -9,7 +9,7 @@ secrets:
 image:
   repository: qasymphony/parameters
   pullPolicy: IfNotPresent
-  tag: "2023.5.0"
+  tag: "2024.1.op"
 imageCredentials:
   enabled: false
   # name: ""
@@ -75,6 +75,7 @@ qTestParameters:
   qTestParametersSSLRequired: false
   qTestParametersSSLMountPath: "/mnt/secrets/tls"
   qTestParametersCorsOrigin: "tricentis.com"
+  qTestParametersDeploymentEnv: "saas"
 #### Ingress/IngressClass (> K8s 1.24-1.30+) #####
 ingressClass:
   enabled: false

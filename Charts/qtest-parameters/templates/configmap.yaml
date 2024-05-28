@@ -24,4 +24,5 @@ data:
   qTestParametersPort: "{{ .Values.service.targetHttpsPort }}"
   {{- else }}
   qTestParametersPort: "{{ .Values.service.targetPort }}"
+  qTestParametersDeploymentEnv: "{{ .Values.qTestParameters.qTestParametersDeploymentEnv }}"
   {{- end -}}
