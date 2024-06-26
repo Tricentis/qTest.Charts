@@ -9,7 +9,7 @@ secrets:
 image:
   repository: qasymphony/launch
   pullPolicy: IfNotPresent
-  tag: "2024.1.op"
+  tag: "v2024.1.op"
 imageCredentials:
   enabled: false
   # name: ""
@@ -27,6 +27,7 @@ serviceAccount:
   name: "qtest-launch-sa"
 deployment:
   annotations: {}
+  singlePodPerNode: false
 podAnnotations: {}
 rollouts:
   enabled: false
@@ -181,3 +182,6 @@ startupSslProbe:
     port: 3443
   failureThreshold: 4
   periodSeconds: 30
+nodeSelector: {}
+tolerations: []
+affinity: {}
