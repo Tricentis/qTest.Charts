@@ -14,12 +14,13 @@
 {{- $notificationProfile = .Values.testconductor.environment.op.notification -}}
 {{- $singleProfile = .Values.testconductor.environment.op.single -}}
 {{- end }}
+{{- $affinityUi := deepCopy (default (dict) .Values.affinity) | merge (.Values.deployment.singlePodPerNode | ternary (include "qtest-mgr.podAntiAffinity" "qtest-mgr" | fromYaml) (dict)) -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mgr-ui-deployment
   namespace: {{ .Values.namespace.name }}
-  {{- with .Values.annotations }}
+  {{- with .Values.deployment.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
@@ -67,7 +68,7 @@ spec:
       nodeSelector:
 {{ toYaml . | indent 8 }}
     {{- end }}
-    {{- with .Values.affinity }}
+    {{- with $affinityUi }}
       affinity:
 {{ toYaml . | indent 8 }}
     {{- end }}
@@ -222,12 +223,15 @@ spec:
 {{- end }}
 ---
 {{ if not $iSingleInstance }}
+{{- $affinityPoller := deepCopy (default (dict) .Values.affinity) | merge (.Values.deployment.singlePodPerNode | ternary (include "qtest-mgr.podAntiAffinity" "qtest-mgr-poller" | fromYaml) (dict)) -}}
+{{- $affinityNotification := deepCopy (default (dict) .Values.affinity) | merge (.Values.deployment.singlePodPerNode | ternary (include "qtest-mgr.podAntiAffinity" "qtest-mgr-notification" | fromYaml) (dict)) -}}
+{{- $affinityApi := deepCopy (default (dict) .Values.affinity) | merge (.Values.deployment.singlePodPerNode | ternary (include "qtest-mgr.podAntiAffinity" "qtest-mgr-api" | fromYaml) (dict)) -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mgr-poller-deployment
   namespace: {{ .Values.namespace.name }}
-  {{- with .Values.annotations }}
+  {{- with .Values.deployment.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
@@ -275,7 +279,7 @@ spec:
       nodeSelector:
 {{ toYaml . | indent 8 }}
     {{- end }}
-    {{- with .Values.affinity }}
+    {{- with $affinityPoller }}
       affinity:
 {{ toYaml . | indent 8 }}
     {{- end }}
@@ -430,7 +434,7 @@ kind: Deployment
 metadata:
   name: mgr-notification-deployment
   namespace: {{ .Values.namespace.name }}
-  {{- with .Values.annotations }}
+  {{- with .Values.deployment.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
@@ -478,7 +482,7 @@ spec:
       nodeSelector:
 {{ toYaml . | indent 8 }}
     {{- end }}
-    {{- with .Values.affinity }}
+    {{- with $affinityNotification }}
       affinity:
 {{ toYaml . | indent 8 }}
     {{- end }}
@@ -633,7 +637,7 @@ kind: Deployment
 metadata:
   name: mgr-api-deployment
   namespace: {{ .Values.namespace.name }}
-  {{- with .Values.annotations }}
+  {{- with .Values.deployment.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
@@ -681,7 +685,7 @@ spec:
       nodeSelector:
 {{ toYaml . | indent 8 }}
     {{- end }}
-    {{- with .Values.affinity }}
+    {{- with $affinityApi }}
       affinity:
 {{ toYaml . | indent 8 }}
     {{- end }}
