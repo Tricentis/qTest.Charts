@@ -27,6 +27,7 @@ serviceAccount:
   name: "qtest-parameters-sa"
 deployment:
   annotations: {}
+  singlePodPerNode: false
 podAnnotations: {}
 rollouts:
   enabled: false
@@ -183,3 +184,6 @@ startupSslProbe:
     port: 5443
   failureThreshold: 4
   periodSeconds: 30
+nodeSelector: {}
+tolerations: []
+affinity: {}
