@@ -27,6 +27,7 @@ serviceAccount:
   name: "qtest-scenario-sa"
 deployment:
   annotations: {}
+  singlePodPerNode: false
 podAnnotations: {}
 rollouts:
   enabled: false
@@ -183,3 +184,6 @@ startupSslProbe:
     port: 6443
   failureThreshold: 4
   periodSeconds: 30
+nodeSelector: {}
+tolerations: []
+affinity: {}
