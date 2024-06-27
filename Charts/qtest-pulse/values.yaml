@@ -26,6 +26,7 @@ serviceAccount:
   name: "qtest-pulse-sa"
 deployment:
   annotations: {}
+  singlePodPerNode: false
 podAnnotations: {}
 rollouts:
   enabled: false
@@ -78,7 +79,7 @@ qTestPulse:
   # Optional Value to specify a seperate Pulse executor URL.
   qtestPulseExecutorUrl: ""
   swaggerUrl: https://qtest.dev.tricentis.com
-  qTestPulseDeploymentEnv: "saas"
+  qTestPulseDeploymentEnv: "op"
 #### Ingress/IngressClass (> K8s 1.24-1.30+) #####
 ingressClass:
   enabled: false
@@ -186,3 +187,6 @@ startupSslProbe:
     port: 4443
   failureThreshold: 4
   periodSeconds: 30
+nodeSelector: {}
+tolerations: []
+affinity: {}

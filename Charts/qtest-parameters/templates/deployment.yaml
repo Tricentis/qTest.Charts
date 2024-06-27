@@ -1,5 +1,6 @@
 {{- $existingImageCredentials := .Values.imageCredentials.existingImageCredentials -}}
 {{- $imageCredentials := .Values.imageCredentials.name -}}
+{{- $affinity := deepCopy (default (dict) .Values.affinity) | merge (.Values.deployment.singlePodPerNode | ternary (include "qtest-parameters.podAntiAffinity" . | fromYaml) (dict)) -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -225,3 +226,15 @@ spec:
 {{- with .Values.extraVolumes }}
 {{ toYaml . | indent 8 }}
 {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

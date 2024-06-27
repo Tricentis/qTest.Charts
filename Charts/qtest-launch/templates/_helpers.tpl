@@ -66,3 +66,18 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Create podAntiAffinity to avoid multiple pods to be scheduled on single node
+*/}}
+{{- define "qtest-launch.podAntiAffinity" -}}
+podAntiAffinity:
+  requiredDuringSchedulingIgnoredDuringExecution:
+  - labelSelector:
+      matchExpressions:
+      - key: app
+        operator: In
+        values:
+        - qtest-launch
+    topologyKey: "kubernetes.io/hostname"
+{{- end }}

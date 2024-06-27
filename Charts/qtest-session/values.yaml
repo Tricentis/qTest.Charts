@@ -20,6 +20,7 @@ imageCredentials:
   # existingImageCredentials: ""
 deployment:
   annotations: {}
+  singlePodPerNode: false
 podAnnotations: {}
 rollouts:
   enabled: false
@@ -197,3 +198,6 @@ startupSslProbe:
     port: 8443
   failureThreshold: 4
   periodSeconds: 30
+nodeSelector: {}
+tolerations: []
+affinity: {}

@@ -30,6 +30,7 @@ serviceAccount:
   name: "qtest-insightsetl-sa"
 deployment:
   annotations: {}
+  singlePodPerNode: false
 podAnnotations: {}
 rollouts:
   enabled: false
@@ -132,3 +133,6 @@ limitRange:
   enabled: false
 resourceQuota:
   enabled: false
+nodeSelector: {}
+tolerations: []
+affinity: {}
