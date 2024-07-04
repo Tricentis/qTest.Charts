@@ -20,7 +20,7 @@ kind: Deployment
 metadata:
   name: mgr-ui-deployment
   namespace: {{ .Values.namespace.name }}
-  {{- with (default .Values.deployment.annotations .Values.annotations) }}
+  {{- with .Values.deployment.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
@@ -231,7 +231,7 @@ kind: Deployment
 metadata:
   name: mgr-poller-deployment
   namespace: {{ .Values.namespace.name }}
-  {{- with (default .Values.deployment.annotations .Values.annotations) }}
+  {{- with .Values.deployment.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
@@ -434,7 +434,7 @@ kind: Deployment
 metadata:
   name: mgr-notification-deployment
   namespace: {{ .Values.namespace.name }}
-  {{- with (default .Values.deployment.annotations .Values.annotations) }}
+  {{- with .Values.deployment.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
@@ -637,7 +637,7 @@ kind: Deployment
 metadata:
   name: mgr-api-deployment
   namespace: {{ .Values.namespace.name }}
-  {{- with (default .Values.deployment.annotations .Values.annotations) }}
+  {{- with .Values.deployment.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
