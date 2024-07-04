@@ -15,6 +15,7 @@ data:
   qTestSessionDBHostName: "{{ .Values.qTestSession.qTestSessionDBHostName }}"
   qTestSessionDBPort: "{{ .Values.qTestSession.qTestSessionDBPort }}"
   QTestManagerHost: "{{ .Values.qTestSession.qTestManagerHost }}"
+  qTestSessionDeploymentEnv: "{{ .Values.qTestSession.qTestSessionDeploymentEnv }}"
   qTestSessionMasterToken: "{{ .Values.qTestSession.qTestSessionMasterToken }}"
   qTestSessionStorageRootPath: "{{ .Values.qTestSession.qTestSessionStorageRootPath }}"
   qTestSessionClamavURL: "{{ .Values.qTestSession.qTestSessionClamavURL }}"

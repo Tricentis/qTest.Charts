@@ -173,6 +173,11 @@ spec:
                 configMapKeyRef:
                   name: qtest-session-configmap
                   key: QTestManagerHost
+            - name: DEPLOYMENT_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-session-configmap
+                  key: qTestSessionDeploymentEnv
             - name: QTEST_MASTER_TOKEN
               valueFrom:
                 configMapKeyRef:

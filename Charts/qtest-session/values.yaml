@@ -9,7 +9,7 @@ secrets:
 image:
   repository: qasymphony/sessions
   pullPolicy: IfNotPresent
-  tag: "2024.1.op"
+  tag: "2024.1.3"
 imageCredentials:
   enabled: false
   # name: ""
@@ -84,6 +84,7 @@ qTestSession:
   qTestSessionCustomSchemaName: public
   postgresDBPassword:
     secret: qtest-manager-secret
+  qTestSessionDeploymentEnv: "op"
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
 ingressClass:
   enabled: false
