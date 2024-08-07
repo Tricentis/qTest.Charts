@@ -19,6 +19,7 @@ data:
   qTestScenarioAppKeyDescriptor: "{{ .Values.qTestScenario.qTestScenarioAppKeyDescriptor }}"
   qTestScenarioQTestURL: "{{ .Values.qTestScenario.qTestScenarioQTestURL }}"
   qTestScenarioIsSSLRequired: "{{ .Values.qTestScenario.qTestScenarioSSLRequired }}"
+  qTestScenarioDeploymentEnv: "{{ .Values.qTestScenario.qTestScenarioDeploymentEnv }}"
   {{- if .Values.qTestScenario.qTestScenarioSSLRequired }}
   qTestScenarioSSLCert: "{{ $sslCert }}"
   qTestScenarioSSLKey: "{{ $sslKey }}"
