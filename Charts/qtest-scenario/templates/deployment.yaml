@@ -118,6 +118,11 @@ spec:
                 configMapKeyRef:
                   name: qtest-scenario-configmap
                   key: qTestScenarioDBPort
+            - name: DEPLOYMENT_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-scenario-configmap
+                  key: qTestScenarioDeploymentEnv
             - name: DATABASE_URL
               {{- if .Values.qTestScenario.qTestScenarioDBSSLEnable }}
               value: {{ printf "postgresql://$(SCENARIO_DB_USERNAME):$(SCENARIO_DB_PWD)@$(SCENARIO_DB_HOSTNAME):$(SCENARIO_DB_PORT)/$(SCENARIO_DB_NAME)%s" .Values.qTestScenario.qTestScenarioDBSSL }}

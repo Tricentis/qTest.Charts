@@ -79,6 +79,7 @@ qTestScenario:
   qTestScenarioDBSSLMountPath: "/etc/ssl"
   qTestScenarioDBSSL: ""
   qTestScenarioDBCRT: ""
+  qTestScenarioDeploymentEnv: "op"
 #### Ingress/IngressClass (> K8s 1.24-1.30+) #####
 ingressClass:
   enabled: false
