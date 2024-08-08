@@ -48,6 +48,11 @@ jobs:
           - v1.17.4
           - v1.18.1
     steps:
+      - name: Update Helm dependencies for all charts
+        run: |
+          for dir in ./charts/*/; do
+            helm dependency update "$dir"
+          done
       - name: Checkout
         uses: actions/checkout@v2.3.4
         with:
