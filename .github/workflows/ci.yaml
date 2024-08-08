@@ -54,7 +54,7 @@ jobs:
           fetch-depth: 0
       - name: Update Helm dependencies for all charts
         run: |
-          for dir in ./charts/*/; do
+          for dir in ./Charts/*/; do
             helm dependency update "$dir"
           done
       - name: Run kubeval
