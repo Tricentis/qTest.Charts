@@ -109,6 +109,11 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secrets.sessionsName }}
                   key: client.jdbc.postgres.password
+            - name: INSIGHTS_RO_DB_PW
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: insightsReadOnly
 {{- with .Values.extraEnv }}
 {{ toYaml . | indent 12 }}
 {{- end }}
