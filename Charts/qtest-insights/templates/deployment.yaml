@@ -121,6 +121,16 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secrets.sessionsName }}
                   key: client.jdbc.postgres.password
+            - name: INSIGHTS_RO_DB_PW
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: insightsReadOnly
+            - name: SESSION_RO_DB_PW
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: sessionReadOnly
             - name: SMTP_PASSWORD
               valueFrom:
                 secretKeyRef:
