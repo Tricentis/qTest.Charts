@@ -27,7 +27,7 @@ rollouts:
     #     args:
     #     - name: service-name
     - setWeight: 50
-    - pause: {duration: 10s}
+    - pause: { duration: 10s }
 liquibase:
   enabled: true
   securityContext: {}
@@ -430,7 +430,7 @@ vpaAutoscaling:
     updateMode: "Off"
   resourcePolicy:
     containerPolicies:
-      - containerName: '*'
+      - containerName: "*"
         controlledValues: RequestsAndLimits
 # HPA values
 autoscaling:

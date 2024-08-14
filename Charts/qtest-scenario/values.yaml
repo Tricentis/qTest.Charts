@@ -46,7 +46,7 @@ rollouts:
     #     args:
     #     - name: service-name
     - setWeight: 50
-    - pause: {duration: 10s}
+    - pause: { duration: 10s }
 service:
   type: LoadBalancer
   annotations: {}
@@ -127,7 +127,7 @@ vpaAutoscaling:
     updateMode: "Off"
   resourcePolicy:
     containerPolicies:
-      - containerName: '*'
+      - containerName: "*"
         controlledValues: RequestsAndLimits
 # HPA values
 autoscaling:

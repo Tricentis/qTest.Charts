@@ -39,7 +39,7 @@ rollouts:
     #     args:
     #     - name: service-name
     - setWeight: 50
-    - pause: {duration: 10s}
+    - pause: { duration: 10s }
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
@@ -141,7 +141,7 @@ vpaAutoscaling:
     updateMode: "Off"
   resourcePolicy:
     containerPolicies:
-      - containerName: '*'
+      - containerName: "*"
         controlledValues: RequestsAndLimits
 # HPA values
 autoscaling:
