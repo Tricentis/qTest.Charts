@@ -135,6 +135,16 @@ spec:
                 configMapKeyRef:
                   name: qtest-session-configmap
                   key: qTestSessionDBPort
+            - name: SESSION_RO_DB_PW
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: sessionReadOnly
+            - name: INSIGHTS_RO_DB_PW
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: insightsReadOnly
             {{- if .Values.qTestSession.qTestSessionCustomSchemaEnable }}
             - name: DATABASE_SCHEMA_SESSION
               valueFrom:
