@@ -430,7 +430,7 @@ vpaAutoscaling:
     updateMode: "Off"
   resourcePolicy:
     containerPolicies:
-      - containerName: '*'
+      - containerName: "*"
         controlledValues: RequestsAndLimits
 # HPA values
 autoscaling:
