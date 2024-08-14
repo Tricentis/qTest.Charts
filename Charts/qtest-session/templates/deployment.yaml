@@ -135,6 +135,7 @@ spec:
                 configMapKeyRef:
                   name: qtest-session-configmap
                   key: qTestSessionDBPort
+            {{- if .Values.qTestSession.qTestSessionCustomSchemaEnable }}
             - name: DATABASE_SCHEMA_SESSION
               valueFrom:
                 configMapKeyRef:
