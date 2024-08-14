@@ -12,6 +12,7 @@ data:
   qTestLaunchDBUserName: "{{ .Values.qTestLaunch.qTestLaunchDBUserName }}"
   qTestLaunchDBHostName: "{{ .Values.qTestLaunch.qTestLaunchDBHostName }}"
   qTestLaunchDBPort: "{{ .Values.qTestLaunch.qTestLaunchDBPort }}"
+  qTestLaunchDeploymentEnv: "{{ .Values.qTestLaunch.qTestLaunchDeploymentEnv }}"
   qTestLaunchRootURL: "{{ .Values.qTestLaunch.qTestLaunchRootURL }}"
   qTestLaunchQTestURL: "{{ .Values.qTestLaunch.qTestLaunchQTestURL }}"
   qTestLaunchTCPWD: "{{ .Values.qTestLaunch.qTestLaunchTCPWD }}"

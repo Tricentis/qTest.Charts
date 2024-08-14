@@ -103,6 +103,11 @@ spec:
                 configMapKeyRef:
                   name: qtest-launch-configmap
                   key: qTestLaunchDBName
+            - name: DEPLOYMENT_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-launch-configmap
+                  key: qTestLaunchDeploymentEnv
             - name: LAUNCH_DB_USERNAME
               valueFrom:
                 configMapKeyRef:
