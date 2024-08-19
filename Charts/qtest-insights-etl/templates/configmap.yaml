@@ -7,6 +7,7 @@ metadata:
     app: qTestInsightsEtl
 data:
   LOG_PATH: "{{ .Values.qTestInsightsEtl.qTestInsightsProxyEnabled }}"
+  QTEST_DB_SUPERUSER: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlWriteQTestDBSuperUser }}"
   QTEST_DB_NAME: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlDBName }}"
   QTEST_DB_HOST: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlDBHost }}"
   QTEST_DB_USER: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlDBUser }}"
