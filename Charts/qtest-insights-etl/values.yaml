@@ -8,6 +8,7 @@ reloader:
 secrets:
   name: qtest-manager-secret
   sessionsName: qtest-manager-secret
+  superUserPasswordKey: client.jdbc.postgres.password
 replicaCount: 1
 image:
   repository: qasymphony/insights-etl
@@ -66,6 +67,7 @@ qTestInsightsEtl:
   qTestInsightsEtlDBPort: 5432
   qTestInsightsEtlDBSchemaName: public
   qTestInsightsEtlDBHost: postgres.local
+  qTestInsightsEtlWriteQTestDBSuperUser: postgres
   qTestInsightsEtlWriteQTestDBName: qtest
   qTestInsightsEtlWriteQTestDBUser: postgres
   qTestInsightsEtlWriteQTestDBHost: postgres.local

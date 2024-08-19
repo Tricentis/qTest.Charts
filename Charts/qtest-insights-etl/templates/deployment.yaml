@@ -109,6 +109,11 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secrets.sessionsName }}
                   key: client.jdbc.postgres.password
+            - name: QTEST_DB_SUPERUSER_PW
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: {{ .Values.secrets.superUserPasswordKey }}
 {{- with .Values.extraEnv }}
 {{ toYaml . | indent 12 }}
 {{- end }}
