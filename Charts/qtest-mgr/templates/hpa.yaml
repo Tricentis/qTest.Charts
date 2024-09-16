@@ -1,17 +1,19 @@
 {{- if .Values.autoscaling.enabled }}
-{{- if .Values.rollouts.enabled -}}
+{{- $targetType := ternary "Rollout" "Deployment" .Values.rollouts.enabled -}}
+{{- $targetSuffix := ternary "rollout" "deployment" .Values.rollouts.enabled -}}
+{{- $targetApiVersion := ternary "argoproj.io/v1alpha1" "apps/v1" .Values.rollouts.enabled -}}
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: mgr-ui-rollout
+  name: mgr-ui-{{ $targetSuffix }}
   namespace: {{ .Values.namespace.name }}
   labels:
     {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
-    apiVersion: argoproj.io/v1alpha1
-    kind: Rollout
-    name: mgr-ui-rollout
+    apiVersion: {{ $targetApiVersion }}
+    kind: {{ $targetType }}
+    name: mgr-ui-{{ $targetSuffix }}
   minReplicas: {{ .Values.autoscaling.minReplicas.ui }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas.ui }}
   metrics:
@@ -36,15 +38,15 @@ spec:
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: mgr-api-rollout
+  name: mgr-api-{{ $targetSuffix }}
   namespace: {{ .Values.namespace.name }}
   labels:
     {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
-    apiVersion: argoproj.io/v1alpha1
-    kind: Rollout
-    name: mgr-api-rollout
+    apiVersion: {{ $targetApiVersion }}
+    kind: {{ $targetType }}
+    name: mgr-api-{{ $targetSuffix }}
   minReplicas: {{ .Values.autoscaling.minReplicas.api }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas.api }}
   metrics:
@@ -68,47 +70,15 @@ spec:
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: mgr-poller-rollout
+  name: mgr-notification-{{ $targetSuffix }}
   namespace: {{ .Values.namespace.name }}
   labels:
     {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
-    apiVersion: argoproj.io/v1alpha1
-    kind: Rollout
-    name: mgr-poller-rollout
-  minReplicas: {{ .Values.autoscaling.minReplicas.poller }}
-  maxReplicas: {{ .Values.autoscaling.maxReplicas.poller }}
-  metrics:
-    {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
-    - type: Resource
-      resource:
-        name: memory
-        target:
-          type: Utilization
-          averageUtilization: {{ .Values.autoscaling.targetMemoryUtilizationPercentage }}
-    {{- end }}
-    {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
-    {{- end }}
----
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: mgr-notification-rollout
-  namespace: {{ .Values.namespace.name }}
-  labels:
-    {{- include "qtest-mgr.labels" . | nindent 4 }}
-spec:
-  scaleTargetRef:
-    apiVersion: argoproj.io/v1alpha1
-    kind: Rollout
-    name: mgr-notification-rollout
+    apiVersion: {{ $targetApiVersion }}
+    kind: {{ $targetType }}
+    name: mgr-notification-{{ $targetSuffix }}
   minReplicas: {{ .Values.autoscaling.minReplicas.notification }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas.notification }}
   metrics:
@@ -128,73 +98,8 @@ spec:
           type: Utilization
           averageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
     {{- end }}
+---
 {{- end -}}
-{{- else }}
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: mgr-ui-deployment
-  namespace: {{ .Values.namespace.name }}
-  labels:
-    {{- include "qtest-mgr.labels" . | nindent 4 }}
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: mgr-ui-deployment
-  minReplicas: {{ .Values.autoscaling.minReplicas.ui }}
-  maxReplicas: {{ .Values.autoscaling.maxReplicas.ui }}
-  metrics:
-    {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
-    - type: Resource
-      resource:
-        name: memory
-        target:
-          type: Utilization
-          averageUtilization: {{ .Values.autoscaling.targetMemoryUtilizationPercentage }}
-    {{- end }}
-    {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
-    {{- end }}
----
-{{ if not .Values.testconductor.environment.singleInstance }}
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: mgr-api-deployment
-  namespace: {{ .Values.namespace.name }}
-  labels:
-    {{- include "qtest-mgr.labels" . | nindent 4 }}
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: mgr-api-deployment
-  minReplicas: {{ .Values.autoscaling.minReplicas.api }}
-  maxReplicas: {{ .Values.autoscaling.maxReplicas.api }}
-  metrics:
-    {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
-    - type: Resource
-      resource:
-        name: memory
-        target:
-          type: Utilization
-          averageUtilization: {{ .Values.autoscaling.targetMemoryUtilizationPercentage }}
-    {{- end }}
-    {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
-    {{- end }}
----
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
@@ -226,38 +131,4 @@ spec:
           type: Utilization
           averageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
     {{- end }}
----
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: mgr-notification-deployment
-  namespace: {{ .Values.namespace.name }}
-  labels:
-    {{- include "qtest-mgr.labels" . | nindent 4 }}
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: mgr-notification-deployment
-  minReplicas: {{ .Values.autoscaling.minReplicas.notification }}
-  maxReplicas: {{ .Values.autoscaling.maxReplicas.notification }}
-  metrics:
-    {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
-    - type: Resource
-      resource:
-        name: memory
-        target:
-          type: Utilization
-          averageUtilization: {{ .Values.autoscaling.targetMemoryUtilizationPercentage }}
-    {{- end }}
-    {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
-    {{- end }}
-{{- end -}}
-{{- end }}
 {{- end }}

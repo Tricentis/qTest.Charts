@@ -64,6 +64,10 @@ spec:
         {{ toYaml .Values.podLabels | nindent 8 }}
         {{- end}}
     spec:
+    {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+{{ toYaml . | indent 8 }}
+    {{- end }}
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
@@ -244,11 +248,7 @@ metadata:
     {{ $key }}: {{ $value }}
 {{- end }}
 spec:
-  {{- if .Values.rollouts.enabled }}
-  replicas: 0
-  {{- else }}
   replicas: {{ .Values.autoscaling.minReplicas.poller }}
-  {{- end }}
   revisionHistoryLimit: 3
   selector:
     matchLabels:
@@ -275,6 +275,10 @@ spec:
         {{ toYaml .Values.podLabels | nindent 8 }}
         {{- end}}
     spec:
+    {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+{{ toYaml . | indent 8 }}
+    {{- end }}
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
@@ -478,6 +482,10 @@ spec:
         {{ toYaml .Values.podLabels | nindent 8 }}
         {{- end}}
     spec:
+    {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+{{ toYaml . | indent 8 }}
+    {{- end }}
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
@@ -681,6 +689,10 @@ spec:
         {{ toYaml .Values.podLabels | nindent 8 }}
         {{- end}}
     spec:
+    {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+{{ toYaml . | indent 8 }}
+    {{- end }}
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
