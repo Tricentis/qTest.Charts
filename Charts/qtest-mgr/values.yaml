@@ -73,7 +73,6 @@ secrets:
   useExistingTls: false
   ## existingConfigs must be qtest-manager-secret
   # existingConfigs: "qtest-manager-secret"
-  aesSecretKeysName: qtest-aes-secret-keys
 serviceAccount:
   create: true
   name:
@@ -243,31 +242,6 @@ qTestManager:
   featureFlagOpOverrides:
     managerTestConfiguration:
       enabled: false
-  l2c:
-    enabled: false
-    mountPath: /mnt/secrets/l2c
-    config:
-      url: https://localhost
-      pemfile: /mnt/secrets/l2c/..data/license.pem
-      issuer: test
-      webhookUrl: https://localhost
-      defaultProductFamily: QTEST
-      supportedProductFamilies: QTEST
-    env:
-      productVersion: 1.0
-      environment: l2c-dev
-      productComponent: unknown
-    jwttoken:
-      envUrl: https://localhost
-      oktaUrl: https://localhost
-      envAudience: tta.admin
-      oktaAudience: tta.admin
-  kong:
-    api:
-      url: http://localhost:8001
-  redis:
-    host: localhost
-    port: 6379
 ui:
   action:
     task:
@@ -305,23 +279,6 @@ api:
       maxActive: 400
   springProfilesActive: postgres,disableAllTasksMode,readOnlyEnable,backgroundQueue
   resources: {}
-  queue:
-    manager:
-      implementation: "sqs"
-      awsRegion: ""
-      scheduler:
-        enabled: false
-        interval: 3000
-      workQueue: ""
-      workQueueDLQ: ""
-      receive:
-        waitTimeSeconds: 10
-        visibilityTimeout: 30
-      taskpool:
-        receive:
-          waitTimeSeconds: 1
-          maxMessages: 10
-      taskQueues: ""
 poller:
   appName: notification
   asyncThreadNumber: 100
@@ -366,23 +323,6 @@ notification:
   schedulerBlobHandleMaxRetryTimes: 5
   queuePublisherMaxDequeue: 300
   resources: {}
-  queue:
-    manager:
-      implementation: "sqs"
-      awsRegion: ""
-      scheduler:
-        enabled: false
-        interval: 3000
-      workQueue: ""
-      workQueueDLQ: ""
-      receive:
-        waitTimeSeconds: 10
-        visibilityTimeout: 30
-      taskpool:
-        receive:
-          waitTimeSeconds: 1
-          maxMessages: 10
-      taskQueues: ""
 testconductor:
   environment:
     isOnPremise: true
@@ -490,7 +430,7 @@ vpaAutoscaling:
     updateMode: "Off"
   resourcePolicy:
     containerPolicies:
-      - containerName: '*'
+      - containerName: "*"
         controlledValues: RequestsAndLimits
 # HPA values
 autoscaling:
