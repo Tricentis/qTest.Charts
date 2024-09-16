@@ -175,7 +175,7 @@ spec:
         - name: qtest-manager-secret-root-volume
           mountPath: {{ .Values.qTestManager.client.jdbc.sslMountPath }}
           readOnly: true
-        {{- end }}        
+        {{- end }}
         {{- if .Values.qTestManager.serverAppSSLRequired }}
         - name: qtest-manager-secret-ssl-volume
           mountPath: {{ .Values.qTestManager.server.sslMountPath }}
