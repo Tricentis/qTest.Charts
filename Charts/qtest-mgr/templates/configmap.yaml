@@ -89,6 +89,21 @@ data:
   vera.auto.testrun.beta.clients: "{{ .Values.qTestManager.vera.auto.testrun.beta.clients }}"
   sslMountPath: "{{ .Values.qTestManager.server.sslMountPath }}"
   isSSLRequired: "{{ .Values.qTestManager.serverAppSSLRequired }}"
+  {{ if .Values.qTestManager.l2c.enabled }}
+  l2c.config.url: "{{ .Values.qTestManager.l2c.config.url }}"
+  l2c.config.pemFile: "{{ .Values.qTestManager.l2c.config.pemfile }}"
+  l2c.config.issuer: "{{ .Values.qTestManager.l2c.config.issuer }}"
+  l2c.config.webhookUrl: "{{ .Values.qTestManager.l2c.config.webhookUrl }}"
+  l2c.config.defaultProductFamily: "{{ .Values.qTestManager.l2c.config.defaultProductFamily }}"
+  l2c.config.supportedProductFamilies: "{{ .Values.qTestManager.l2c.config.supportedProductFamilies }}"
+  l2c.env.productVersion: "{{ .Values.qTestManager.l2c.env.productVersion }}"
+  l2c.env.environment: "{{ .Values.qTestManager.l2c.env.environment }}"
+  l2c.env.productComponent: "{{ .Values.qTestManager.l2c.env.productComponent }}"
+  l2c.jwttoken.envUrl: "{{ .Values.qTestManager.l2c.jwttoken.envUrl }}"
+  l2c.jwttoken.oktaUrl: "{{ .Values.qTestManager.l2c.jwttoken.oktaUrl }}"
+  l2c.jwttoken.envAudience: "{{ .Values.qTestManager.l2c.jwttoken.envAudience }}"
+  l2c.jwttoken.oktaAudience: "{{ .Values.qTestManager.l2c.jwttoken.oktaAudience }}"
+  {{ end }}
   {{ if .Values.testconductor.environment.isOnPremise }} 
   async.max.cpu: "{{ .Values.qTestManager.async.maxCpu }}"
   async.max.database.cpu: "{{ .Values.qTestManager.async.databaseCpu }}"
@@ -100,7 +115,12 @@ data:
   security.csrf.source.trust.pattern: "{{ .Values.qTestManager.security.csrf.source.trust.pattern }}"
   cors.allowed.all: "{{ .Values.qTestManager.cors.allowed.all }}"
   manager.test.configuration: "{{ .Values.qTestManager.featureFlagOpOverrides.managerTestConfiguration.enabled }}"
+  {{ else }}
+  kong.api.url: "{{ .Values.qTestManager.kong.api.url }}"
+  redis.host: "{{ .Values.qTestManager.redis.host }}"
+  redis.port: "{{ .Values.qTestManager.redis.port }}"
   {{ end }}
+
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -146,6 +166,18 @@ data:
   scheduler.blobHandle.maxRetryTimes: "{{ .Values.notification.schedulerBlobHandleMaxRetryTimes }}"
   action.task.executor.poolSize: "{{ .Values.notification.action.task.executor.poolSize }}"
   com.qasymphony.qtest.event.service.ToscaQueueEventProcessingService.MAX_DEQUEUE: "{{ .Values.notification.queuePublisherMaxDequeue }}"
+  queue.manager.implementation: "{{ .Values.notification.queue.manager.implementation }}"
+  queue.manager.sqs.aws.region: "{{ .Values.notification.queue.manager.awsRegion }}"
+  queue.manager.scheduler.enabled: "{{ .Values.notification.queue.manager.scheduler.enabled }}"
+  queue.manager.scheduler.interval: "{{ .Values.notification.queue.manager.scheduler.interval }}"
+  queue.aws.region: "{{ .Values.notification.queue.manager.awsRegion }}"
+  queue.urls: "{{ .Values.notification.queue.manager.taskQueues }}"
+  queue.url.workqueue: "{{ .Values.notification.queue.manager.workQueue }}"
+  queue.url.workqueueDLQ: "{{ .Values.notification.queue.manager.workQueueDLQ }}"
+  queue.receive.waitTimeSeconds: "{{ .Values.notification.queue.manager.receive.waitTimeSeconds }}"
+  queue.receive.visibilityTimeout: "{{ .Values.notification.queue.manager.receive.visibilityTimeout }}"
+  queue.taskpool.receive.waitTimeSeconds: "{{ .Values.notification.queue.manager.taskpool.receive.waitTimeSeconds }}"
+  queue.taskpool.receive.maxMessages: "{{ .Values.notification.queue.manager.taskpool.receive.maxMessages }}"
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -171,6 +203,18 @@ data:
   background.event.test_execution_api.threshold: "{{ .Values.api.background.event.testExecutionApiThreshold }}"
   client.dbcp.maxActive: "{{ .Values.api.client.dbcp.maxActive }}"
   spring.profiles.active: "{{ .Values.api.springProfilesActive }}"
+  queue.manager.implementation: "{{ .Values.api.queue.manager.implementation }}"
+  queue.manager.sqs.aws.region: "{{ .Values.api.queue.manager.awsRegion }}"
+  queue.manager.scheduler.enabled: "{{ .Values.api.queue.manager.scheduler.enabled }}"
+  queue.manager.scheduler.interval: "{{ .Values.api.queue.manager.scheduler.interval }}"
+  queue.aws.region: "{{ .Values.api.queue.manager.awsRegion }}"
+  queue.urls: "{{ .Values.api.queue.manager.taskQueues }}"
+  queue.url.workqueue: "{{ .Values.api.queue.manager.workQueue }}"
+  queue.url.workqueueDLQ: "{{ .Values.api.queue.manager.workQueueDLQ }}"
+  queue.receive.waitTimeSeconds: "{{ .Values.api.queue.manager.receive.waitTimeSeconds }}"
+  queue.receive.visibilityTimeout: "{{ .Values.api.queue.manager.receive.visibilityTimeout }}"
+  queue.taskpool.receive.waitTimeSeconds: "{{ .Values.api.queue.manager.taskpool.receive.waitTimeSeconds }}"
+  queue.taskpool.receive.maxMessages: "{{ .Values.api.queue.manager.taskpool.receive.maxMessages }}"
 ---
 apiVersion: v1
 kind: ConfigMap
