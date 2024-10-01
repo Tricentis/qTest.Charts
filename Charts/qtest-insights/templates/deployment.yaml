@@ -33,6 +33,10 @@ spec:
         release: "{{ .Release.Name }}"
         heritage: "{{ .Release.Service }}"
     spec:
+      {{- with .Values.topologySpreadConstraints }}
+        topologySpreadConstraints:
+      {{ toYaml . | indent 8 }}
+      {{- end }}
       serviceAccountName: {{ .Values.serviceAccount.name }}
       {{- if .Values.securityContext }}
       securityContext: {{- toYaml .Values.securityContext | nindent 8 }}
