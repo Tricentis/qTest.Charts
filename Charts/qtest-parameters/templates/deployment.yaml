@@ -34,8 +34,8 @@ spec:
         heritage: "{{ .Release.Service }}"
     spec:
     {{- with .Values.topologySpreadConstraints }}
-        topologySpreadConstraints:
-      {{ toYaml . | indent 8 }}
+      topologySpreadConstraints:
+{{ toYaml . | indent 8 }}
       {{- end }}
     {{ if .Values.imageCredentials.enabled }}
       {{ if .Values.imageCredentials.existingImageCredentials }}
