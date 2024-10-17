@@ -73,6 +73,7 @@ secrets:
   useExistingTls: false
   ## existingConfigs must be qtest-manager-secret
   # existingConfigs: "qtest-manager-secret"
+  aesSecretKeysName: qtest-aes-secret-keys
 serviceAccount:
   create: true
   name:
@@ -242,6 +243,41 @@ qTestManager:
   featureFlagOpOverrides:
     managerTestConfiguration:
       enabled: false
+  l2c:
+    enabled: false
+    mountPath: /mnt/secrets/l2c
+    config:
+      url: https://localhost
+      pemfile: /mnt/secrets/l2c/..data/license.pem
+      issuer: test
+      webhookUrl: https://localhost
+      defaultProductFamily: QTEST
+      supportedProductFamilies: QTEST
+    env:
+      productVersion: 1.0
+      environment: l2c-dev
+      productComponent: unknown
+    jwttoken:
+      envUrl: https://localhost
+      oktaUrl: https://localhost
+      envAudience: tta.admin
+      oktaAudience: tta.admin
+  kong:
+    api:
+      url: http://localhost:8001
+  redis:
+    host: localhost
+    port: 6379
+  system:
+    passwords:
+      encryption:
+        mode: INCREMENTAL
+        percentage: 0
+        tenants: ""
+        batch:
+          size: 100
+        scheduler:
+          cron: 0 0 * * * *
 ui:
   action:
     task:
@@ -254,9 +290,15 @@ ui:
       maxActive: 200
       readOnlyMaxActive: 100
   ## if single instance then change to postgres
-  springProfilesActive: postgres,readOnlyEnable
+  springProfilesActive: postgres,readOnlyEnable,queueManager
   useriqEnabled: false
   resources: {}
+  queue:
+    manager:
+      scheduler:
+        enabled: false
+      worker:
+        enabled: false
 api:
   appName: api
   asyncThreadNumber: 100
@@ -277,8 +319,22 @@ api:
   client:
     dbcp:
       maxActive: 400
-  springProfilesActive: postgres,disableAllTasksMode,readOnlyEnable,backgroundQueue
+  springProfilesActive: postgres,disableAllTasksMode,readOnlyEnable,backgroundQueue,queueManager
   resources: {}
+  queue:
+    manager:
+      executor:
+        pool:
+          minSize: 1
+          maxSize: 10
+          queueCapacity: 25
+      scheduler:
+        enabled: true
+        interval: 100
+      worker:
+        enabled: true
+        thread:
+          ttl: 300000
 poller:
   appName: notification
   asyncThreadNumber: 100
@@ -293,8 +349,14 @@ poller:
   siteFieldTemplateAssigningProjectBatchSize: 50
   testconductorAppPath: testconductor-app.localhost.xml
   queuePublisherMaxDequeue: 300
-  springProfilesActive: postgres,oldTrackingDefect,disableAllTasksMode
+  springProfilesActive: postgres,oldTrackingDefect,disableAllTasksMode,queueManager
   resources: {}
+  queue:
+    manager:
+      scheduler:
+        enabled: false
+      worker:
+        enabled: false
 notification:
   action:
     task:
@@ -319,10 +381,21 @@ notification:
   client:
     dbcp:
       maxActive: 300
-  springProfilesActive: postgres,backgroundQueue
+  springProfilesActive: postgres,backgroundQueue,queueManager
   schedulerBlobHandleMaxRetryTimes: 5
   queuePublisherMaxDequeue: 300
   resources: {}
+  queue:
+    manager:
+      executor:
+        pool:
+          minSize: 1
+          maxSize: 10
+          queueCapacity: 25
+      scheduler:
+        enabled: false
+      worker:
+        enabled: true
 testconductor:
   environment:
     isOnPremise: true
@@ -339,6 +412,26 @@ testconductor:
       api: api.onpremise
       poller: poller.onpremise
       notification: notification.onpremise
+  queue:
+    manager:
+      enabled: false
+      awsRegion: ""
+      implementation: "SQS"
+      taskQueues: ""
+      workQueue: ""
+      workQueueDLQ: ""
+      receive:
+        waitTimeSeconds: 10
+        visibilityTimeout: 120
+      task:
+        scheduler:
+          interval: 100
+      taskqueue:
+        receive:
+          maxMessages: 10
+      worker:
+        thread:
+          ttl: 300000
 #### Shared Resources definition for app Mgr pods in case you don't want to to define it on per pod basis
 ### You may also define per Mgr pod Resources above
 resources: {}
@@ -430,7 +523,7 @@ vpaAutoscaling:
     updateMode: "Off"
   resourcePolicy:
     containerPolicies:
-      - containerName: "*"
+      - containerName: '*'
         controlledValues: RequestsAndLimits
 # HPA values
 autoscaling:
