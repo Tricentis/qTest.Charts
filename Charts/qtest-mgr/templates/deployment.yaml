@@ -162,6 +162,11 @@ spec:
         {{ else }}
           value: {{ $uiProfile }}
         {{- end }}
+        - name: AES_SECRET_KEYS
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.secrets.aesSecretKeysName }}
+              key: AESsecretKeys
 {{- with .Values.extraEnv }}
 {{ toYaml . | indent 8 }}
 {{- end }}
@@ -174,6 +179,11 @@ spec:
         {{- if .Values.qTestManager.client.jdbc.sslEnable }}
         - name: qtest-manager-secret-root-volume
           mountPath: {{ .Values.qTestManager.client.jdbc.sslMountPath }}
+          readOnly: true
+        {{- end }}
+        {{- if .Values.qTestManager.l2c.enabled }}
+        - name: qtest-manager-secret-l2c-volume
+          mountPath: {{ .Values.qTestManager.l2c.mountPath }}
           readOnly: true
         {{- end }}
         {{- if .Values.qTestManager.serverAppSSLRequired }}
@@ -206,6 +216,11 @@ spec:
       - name: qtest-manager-secret-root-volume
         secret:
           secretName: qtest-db-root-secret
+      {{- end }}
+      {{- if .Values.qTestManager.l2c.enabled }}
+      - name: qtest-manager-secret-l2c-volume
+        secret:
+          secretName: qtest-l2c-secret
       {{- end }}
       {{- if .Values.qTestManager.serverAppSSLRequired }}
       - name: qtest-manager-secret-ssl-volume
@@ -372,6 +387,11 @@ spec:
 {{- with .Values.extraEnv }}
 {{ toYaml . | indent 8 }}
 {{- end }}
+        - name: AES_SECRET_KEYS
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.secrets.aesSecretKeysName }}
+              key: AESsecretKeys
         volumeMounts:
         - name: qtest-data
           mountPath: {{ .Values.qTestManager.data.volumeMount }}
@@ -381,6 +401,11 @@ spec:
          {{- if .Values.qTestManager.client.jdbc.sslEnable }}
         - name: qtest-manager-secret-root-volume
           mountPath: {{ .Values.qTestManager.client.jdbc.sslMountPath }}
+          readOnly: true
+        {{- end }}
+        {{- if .Values.qTestManager.l2c.enabled }}
+        - name: qtest-manager-secret-l2c-volume
+          mountPath: {{ .Values.qTestManager.l2c.mountPath }}
           readOnly: true
         {{- end }}
         {{- if .Values.qTestManager.serverAppSSLRequired }}
@@ -413,6 +438,11 @@ spec:
       - name: qtest-manager-secret-root-volume
         secret:
           secretName: qtest-db-root-secret
+      {{- end }}
+      {{- if .Values.qTestManager.l2c.enabled }}
+      - name: qtest-manager-secret-l2c-volume
+        secret:
+          secretName: qtest-l2c-secret
       {{- end }}
       {{- if .Values.qTestManager.serverAppSSLRequired }}
       - name: qtest-manager-secret-ssl-volume
@@ -579,6 +609,11 @@ spec:
 {{- with .Values.extraEnv }}
 {{ toYaml . | indent 8 }}
 {{- end }}
+        - name: AES_SECRET_KEYS
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.secrets.aesSecretKeysName }}
+              key: AESsecretKeys
         volumeMounts:
         - name: qtest-data
           mountPath: {{ .Values.qTestManager.data.volumeMount }}
@@ -588,6 +623,11 @@ spec:
         {{- if .Values.qTestManager.client.jdbc.sslEnable }}
         - name: qtest-manager-secret-root-volume
           mountPath: {{ .Values.qTestManager.client.jdbc.sslMountPath }}
+          readOnly: true
+        {{- end }}
+        {{- if .Values.qTestManager.l2c.enabled }}
+        - name: qtest-manager-secret-l2c-volume
+          mountPath: {{ .Values.qTestManager.l2c.mountPath }}
           readOnly: true
         {{- end }}
         {{- if .Values.qTestManager.serverAppSSLRequired }}
@@ -620,6 +660,11 @@ spec:
       - name: qtest-manager-secret-root-volume
         secret:
           secretName: qtest-db-root-secret
+      {{- end }}
+      {{- if .Values.qTestManager.l2c.enabled }}
+      - name: qtest-manager-secret-l2c-volume
+        secret:
+          secretName: qtest-l2c-secret
       {{- end }}
       {{- if .Values.qTestManager.serverAppSSLRequired }}
       - name: qtest-manager-secret-ssl-volume
@@ -786,6 +831,11 @@ spec:
 {{- with .Values.extraEnv }}
 {{ toYaml . | indent 8 }}
 {{- end }}
+        - name: AES_SECRET_KEYS
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.secrets.aesSecretKeysName }}
+              key: AESsecretKeys
         volumeMounts:
         - name: qtest-data
           mountPath: {{ .Values.qTestManager.data.volumeMount }}
@@ -795,6 +845,11 @@ spec:
         {{- if .Values.qTestManager.client.jdbc.sslEnable }}
         - name: qtest-manager-secret-root-volume
           mountPath: {{ .Values.qTestManager.client.jdbc.sslMountPath }}
+          readOnly: true
+        {{- end }}
+        {{- if .Values.qTestManager.l2c.enabled }}
+        - name: qtest-manager-secret-l2c-volume
+          mountPath: {{ .Values.qTestManager.l2c.mountPath }}
           readOnly: true
         {{- end }}
         {{- if .Values.qTestManager.serverAppSSLRequired }}
@@ -827,6 +882,11 @@ spec:
       - name: qtest-manager-secret-root-volume
         secret:
           secretName: qtest-db-root-secret
+      {{- end }}
+      {{- if .Values.qTestManager.l2c.enabled }}
+      - name: qtest-manager-secret-l2c-volume
+        secret:
+          secretName: qtest-l2c-secret
       {{- end }}
       {{- if .Values.qTestManager.serverAppSSLRequired }}
       - name: qtest-manager-secret-ssl-volume
