@@ -6,6 +6,7 @@ reloader:
   enabled: false
 secrets:
   name: qtest-manager-secret
+  aesSecretKeysName: qtest-aes-secret-keys
 image:
   repository: qasymphony/launch
   pullPolicy: IfNotPresent
@@ -125,7 +126,7 @@ vpaAutoscaling:
     updateMode: "Off"
   resourcePolicy:
     containerPolicies:
-      - containerName: "*"
+      - containerName: '*'
         controlledValues: RequestsAndLimits
 # HPA values
 autoscaling:

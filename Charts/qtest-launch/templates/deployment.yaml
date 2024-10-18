@@ -36,7 +36,7 @@ spec:
     {{- with .Values.topologySpreadConstraints }}
       topologySpreadConstraints:
 {{ toYaml . | indent 8 }}
-      {{- end }}
+    {{- end }}
     {{ if .Values.imageCredentials.enabled }}
       {{ if .Values.imageCredentials.existingImageCredentials }}
       imagePullSecrets:
@@ -154,6 +154,11 @@ spec:
                 configMapKeyRef:
                   name: qtest-launch-configmap
                   key: qTestLaunchTCPWD
+            - name: AES_SECRET_KEYS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.aesSecretKeysName }}
+                  key: AESsecretKeys
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               valueFrom:
                 configMapKeyRef:
