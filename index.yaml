@@ -880,6 +880,29 @@ entries:
   qtest-insights-etl:
   - apiVersion: v2
     appVersion: v2024.2.op
+    created: "2024-10-18T21:05:09.69002006Z"
+    dependencies:
+    - condition: reloader.enabled
+      name: reloader
+      repository: https://stakater.github.io/stakater-charts
+      version: '*'
+    description: A Helm chart for Kubernetes
+    digest: 201d2301ad2ae9713373da0617c0d7541e2f9096e4718e5de1f3b6c2dc8e4a96
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: b.yang@tricentis.com
+      name: byangtri
+    - email: p.jaladi@ext.tricentis.com
+      name: pjaladi21
+    - email: l.nguyen@tricentis.com
+      name: liemng
+    name: qtest-insights-etl
+    type: application
+    urls:
+    - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-insights-etl-1.5.0/qtest-insights-etl-1.5.0.tgz
+    version: 1.5.0
+  - apiVersion: v2
+    appVersion: v2024.2.op
     created: "2024-08-19T10:12:58.976188753Z"
     dependencies:
     - condition: reloader.enabled
@@ -8018,4 +8041,4 @@ entries:
     urls:
     - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-session-0.1.0/qtest-session-0.1.0.tgz
     version: 0.1.0
-generated: "2024-10-18T19:35:21.775091866Z"
+generated: "2024-10-18T21:05:09.691015812Z"
