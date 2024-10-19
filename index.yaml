@@ -3,33 +3,6 @@ entries:
   qtest-insights:
   - apiVersion: v2
     appVersion: v2024.2.op
-    created: "2024-10-18T21:05:44.78901902Z"
-    dependencies:
-    - condition: reloader.enabled
-      name: reloader
-      repository: https://stakater.github.io/stakater-charts
-      version: '*'
-    description: A Helm chart for qTest Insights
-    digest: 16a5700623e166d1f0644ed56290d4148beef7c191066bf9280f68830205513a
-    home: https://github.com/Tricentis-qTest/qtest-chart.git
-    icon: https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_c2d6524c36c94138504f7a18bf179d76/tricentis-qtest.png
-    kubeVersion: '>=1.24.0-0'
-    maintainers:
-    - email: b.yang@tricentis.com
-      name: byangtri
-    - email: p.jaladi@ext.tricentis.com
-      name: pjaladi21
-    - email: l.nguyen@tricentis.com
-      name: liemng
-    - email: k.kanojiya@tricentis.com
-      name: KaranKanojiya
-    name: qtest-insights
-    type: application
-    urls:
-    - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-insights-1.7.0/qtest-insights-1.7.0.tgz
-    version: 1.7.0
-  - apiVersion: v2
-    appVersion: v2024.2.op
     created: "2024-10-02T10:46:11.275500738Z"
     dependencies:
     - condition: reloader.enabled
@@ -905,6 +878,29 @@ entries:
     - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-insights-0.1.0/qtest-insights-0.1.0.tgz
     version: 0.1.0
   qtest-insights-etl:
+  - apiVersion: v2
+    appVersion: v2024.2.op
+    created: "2024-10-18T21:05:09.69002006Z"
+    dependencies:
+    - condition: reloader.enabled
+      name: reloader
+      repository: https://stakater.github.io/stakater-charts
+      version: '*'
+    description: A Helm chart for Kubernetes
+    digest: 201d2301ad2ae9713373da0617c0d7541e2f9096e4718e5de1f3b6c2dc8e4a96
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: b.yang@tricentis.com
+      name: byangtri
+    - email: p.jaladi@ext.tricentis.com
+      name: pjaladi21
+    - email: l.nguyen@tricentis.com
+      name: liemng
+    name: qtest-insights-etl
+    type: application
+    urls:
+    - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-insights-etl-1.5.0/qtest-insights-etl-1.5.0.tgz
+    version: 1.5.0
   - apiVersion: v2
     appVersion: v2024.2.op
     created: "2024-08-19T10:12:58.976188753Z"
@@ -5944,30 +5940,6 @@ entries:
   qtest-parameters:
   - apiVersion: v2
     appVersion: 2024.2.0
-    created: "2024-10-18T21:10:58.64162027Z"
-    dependencies:
-    - condition: reloader.enabled
-      name: reloader
-      repository: https://stakater.github.io/stakater-charts
-      version: '*'
-    description: A Helm chart for Kubernetes cluster of qtest-parameters
-    digest: 0647e3634b00fe8de8ba85d23128e3347521c09dab2676c29f7953acd854891a
-    home: https://github.com/Tricentis-qTest/qtest-chart.git
-    kubeVersion: '>=1.24.0-0'
-    maintainers:
-    - email: b.yang@tricentis.com
-      name: byangtri
-    - email: p.jaladi@ext.tricentis.com
-      name: pjaladi21
-    - email: l.nguyen@tricentis.com
-      name: liemng
-    name: qtest-parameters
-    type: application
-    urls:
-    - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-parameters-1.4.0/qtest-parameters-1.4.0.tgz
-    version: 1.4.0
-  - apiVersion: v2
-    appVersion: 2024.2.0
     created: "2024-10-02T10:46:11.565332709Z"
     dependencies:
     - condition: reloader.enabled
@@ -7499,14 +7471,14 @@ entries:
   qtest-session:
   - apiVersion: v2
     appVersion: "2024.2"
-    created: "2024-10-18T21:13:26.919848975Z"
+    created: "2024-10-19T07:59:52.910922961Z"
     dependencies:
     - condition: reloader.enabled
       name: reloader
       repository: https://stakater.github.io/stakater-charts
       version: '*'
     description: A Helm chart for Kubernetes cluster of qtest-session
-    digest: 9cdba1a54274f15c24bb6c5218085180db50f160dd482374a0e03d607e583eb9
+    digest: 19314a75b4e0a2161666fbfbf6ec6eded21ba111fafc9bf6b2738034dca43592
     home: https://github.com/Tricentis-qTest/qtest-chart.git
     kubeVersion: '>=1.24.0-0'
     maintainers:
@@ -7517,8 +7489,8 @@ entries:
     name: qtest-session
     type: application
     urls:
-    - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-session-1.6.0/qtest-session-1.6.0.tgz
-    version: 1.6.0
+    - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-session-1.6.1/qtest-session-1.6.1.tgz
+    version: 1.6.1
   - apiVersion: v2
     appVersion: "2024.2"
     created: "2024-10-02T10:46:12.110510017Z"
@@ -8091,4 +8063,4 @@ entries:
     urls:
     - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-session-0.1.0/qtest-session-0.1.0.tgz
     version: 0.1.0
-generated: "2024-10-18T21:13:26.920908188Z"
+generated: "2024-10-19T07:59:52.911938238Z"
