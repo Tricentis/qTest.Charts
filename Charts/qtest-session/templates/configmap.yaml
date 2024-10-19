@@ -30,4 +30,8 @@ data:
   qTestSessionPort: "{{ .Values.service.targetHttpsPort }}"
   {{- else }}
   qTestSessionPort: "{{ .Values.service.targetPort }}"
-  {{- end -}}
+  {{- end }}
+  qTestSessionNodeOptions: |-
+    {{- if and .Values.qTestSession.qTestSessionSSLRequired .Values.qTestSession.qTestSessionSSLCipherSuites }}
+    "--tls-cipher-list='{{- join ":" .Values.qTestSession.qTestSessionSSLCipherSuites -}}'"
+    {{- end }}
