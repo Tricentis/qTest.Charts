@@ -162,11 +162,6 @@ spec:
         {{ else }}
           value: {{ $uiProfile }}
         {{- end }}
-        - name: AES_SECRET_KEYS
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.secrets.aesSecretKeysName }}
-              key: AESsecretKeys
 {{- with .Values.extraEnv }}
 {{ toYaml . | indent 8 }}
 {{- end }}
@@ -386,12 +381,7 @@ spec:
           value: {{ $pollerProfile }}
 {{- with .Values.extraEnv }}
 {{ toYaml . | indent 8 }}
-{{- end }}
-        - name: AES_SECRET_KEYS
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.secrets.aesSecretKeysName }}
-              key: AESsecretKeys
+{{- end }}        
         volumeMounts:
         - name: qtest-data
           mountPath: {{ .Values.qTestManager.data.volumeMount }}
@@ -609,11 +599,6 @@ spec:
 {{- with .Values.extraEnv }}
 {{ toYaml . | indent 8 }}
 {{- end }}
-        - name: AES_SECRET_KEYS
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.secrets.aesSecretKeysName }}
-              key: AESsecretKeys
         volumeMounts:
         - name: qtest-data
           mountPath: {{ .Values.qTestManager.data.volumeMount }}
@@ -830,12 +815,7 @@ spec:
           value: {{ $apiProfile }}
 {{- with .Values.extraEnv }}
 {{ toYaml . | indent 8 }}
-{{- end }}
-        - name: AES_SECRET_KEYS
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.secrets.aesSecretKeysName }}
-              key: AESsecretKeys
+{{- end }}        
         volumeMounts:
         - name: qtest-data
           mountPath: {{ .Values.qTestManager.data.volumeMount }}

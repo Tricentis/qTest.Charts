@@ -73,7 +73,6 @@ secrets:
   useExistingTls: false
   ## existingConfigs must be qtest-manager-secret
   # existingConfigs: "qtest-manager-secret"
-  aesSecretKeysName: qtest-aes-secret-keys
 serviceAccount:
   create: true
   name:
@@ -268,16 +267,6 @@ qTestManager:
   redis:
     host: localhost
     port: 6379
-  system:
-    passwords:
-      encryption:
-        mode: INCREMENTAL
-        percentage: 0
-        tenants: ""
-        batch:
-          size: 100
-        scheduler:
-          cron: 0 0 * * * *
 ui:
   action:
     task:
