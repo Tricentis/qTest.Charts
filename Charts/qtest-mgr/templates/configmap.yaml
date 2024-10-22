@@ -89,11 +89,6 @@ data:
   vera.auto.testrun.beta.clients: "{{ .Values.qTestManager.vera.auto.testrun.beta.clients }}"
   sslMountPath: "{{ .Values.qTestManager.server.sslMountPath }}"
   isSSLRequired: "{{ .Values.qTestManager.serverAppSSLRequired }}"
-  system.passwords.encryption.mode: "{{ .Values.qTestManager.system.passwords.encryption.mode }}"
-  system.passwords.encryption.percentage: "{{ .Values.qTestManager.system.passwords.encryption.percentage }}"
-  system.passwords.encryption.tenants: "{{ .Values.qTestManager.system.passwords.encryption.tenants }}"
-  system.passwords.encryption.batch.size: "{{ .Values.qTestManager.system.passwords.encryption.batch.size }}"
-  scheduler.cron.system.passwords.encryption.interval: "{{ .Values.qTestManager.system.passwords.encryption.scheduler.cron }}"
   {{ if .Values.qTestManager.l2c.enabled }}
   l2c.config.url: "{{ .Values.qTestManager.l2c.config.url }}"
   l2c.config.pemfile: "{{ .Values.qTestManager.l2c.config.pemfile }}"
