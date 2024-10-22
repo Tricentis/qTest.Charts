@@ -181,11 +181,6 @@ spec:
                   name: qtest-parameters-configmap
                   key: qTestParametersSSLKey
             {{- end }}
-            - name: NODE_OPTIONS
-              valueFrom:
-                configMapKeyRef:
-                  name: qtest-parameters-configmap
-                  key: qTestParametersNodeOptions
 {{- with .Values.extraEnv }}
 {{ toYaml . | indent 12 }}
 {{- end }}
