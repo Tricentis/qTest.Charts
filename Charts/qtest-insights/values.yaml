@@ -101,8 +101,6 @@ qTestInsights:
   qTestInsightsSessionDBPort: 5432
   qTestInsightsCSRFAllowPattern: \"$insights_security_csrf_trusted_source_pattern\"
   serverAppSSLRequired: false
-  # Array of cipher suites for SSL/TLS connection in OpenSSL format (e.g. ["TLS_AES_256_GCM_SHA384", "TLS_CHACHA20_POLY1305_SHA256"])
-  qTestInsightsSSLCipherSuites: []
   server:
     sslMountPath: "/mnt/secrets/tls"
   smtp:
