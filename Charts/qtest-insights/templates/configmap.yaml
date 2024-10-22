@@ -25,7 +25,3 @@ data:
   SMTP_ACCOUNT: "{{ .Values.qTestInsights.smtp.account }}"
   SMTP_SERVER: "{{ .Values.qTestInsights.smtp.server }}"
   SSL_MOUNT_PATH: "{{ .Values.qTestInsights.server.sslMountPath }}"
-  IS_SSL_REQUIRED: "{{ .Values.qTestInsights.serverAppSSLRequired }}"
-  {{- if .Values.qTestInsights.qTestInsightsSSLCipherSuites }}
-  SSL_CIPHERS: "ciphers=\"{{- join "," .Values.qTestInsights.qTestInsightsSSLCipherSuites -}}\""
-  {{- end -}}
