@@ -29,3 +29,4 @@ data:
   WRITE_SESSIONS_DB_SCHEMA: "{{ .Values.qTestInsightsEtl.writeSessionsDBSchema }}"
   UPDATEDB: "true"
   AUTO_REFRESH_DBLINK: "{{ .Values.qTestInsightsEtl.autoRefreshDBLink }}"
+  DEPLOYMENT_ENV: "{{ .Values.qTestInsightsEtl.qTestInsightsEtlDeploymentEnv }}"

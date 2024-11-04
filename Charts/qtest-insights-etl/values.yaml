@@ -83,6 +83,7 @@ qTestInsightsEtl:
   writeSessionsDBPort: 5432
   writeSessionsDBSchema: public
   autoRefreshDBLink: true
+  qTestInsightsEtlDeploymentEnv: op
 persistence:
   enabled: false
   ## Set annotations on pvc
