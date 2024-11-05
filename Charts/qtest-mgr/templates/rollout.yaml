@@ -20,7 +20,7 @@ spec:
       stableService: mgr-service
       trafficRouting:
         {{ .Values.rollouts.ingressClassName }}:
-          annotationPrefix: {{ .Values.ingress.canary.annotationPrefix }}
+          annotationPrefix: {{ .Values.ingress.canary.annotationPrefix | quote }}
           {{- with .Values.ingress.canary.annotations }}
           additionalIngressAnnotations:
           {{- toYaml . | nindent 12 }}
@@ -53,7 +53,7 @@ spec:
       stableService: mgr-service-notification
       trafficRouting:
         {{ .Values.rollouts.ingressClassName }}:
-          annotationPrefix: {{ .Values.ingress.canary.annotationPrefix }}
+          annotationPrefix: {{ .Values.ingress.canary.annotationPrefix | quote }}
           {{- with .Values.ingress.canary.annotations }}
           additionalIngressAnnotations:
           {{- toYaml . | nindent 12 }}
@@ -85,7 +85,7 @@ spec:
       stableService: mgr-service-api
       trafficRouting:
         {{ .Values.rollouts.ingressClassName }}:
-          annotationPrefix: {{ .Values.ingress.canary.annotationPrefix }}
+          annotationPrefix: {{ .Values.ingress.canary.annotationPrefix | quote }}
           {{- with .Values.ingress.canary.annotations }}
           additionalIngressAnnotations:
           {{- toYaml . | nindent 12 }}

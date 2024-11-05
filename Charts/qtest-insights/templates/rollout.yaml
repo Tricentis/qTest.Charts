@@ -19,7 +19,7 @@ spec:
       stableService: {{ .Values.service.serviceName }}
       trafficRouting:
         {{ .Values.rollouts.ingressClassName }}:
-          annotationPrefix: {{ .Values.ingress.canary.annotationPrefix }}
+          annotationPrefix: {{ .Values.ingress.canary.annotationPrefix | quote }}
           {{- with .Values.ingress.canary.annotations }}
           additionalIngressAnnotations:
           {{- toYaml . | nindent 12 }}
