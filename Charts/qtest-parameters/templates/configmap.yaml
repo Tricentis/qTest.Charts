@@ -25,4 +25,9 @@ data:
   {{- else }}
   qTestParametersPort: "{{ .Values.service.targetPort }}"
   qTestParametersDeploymentEnv: "{{ .Values.qTestParameters.qTestParametersDeploymentEnv }}"
-  {{- end -}}
+  {{- end }}
+  {{- $nodeOptions := .Values.qTestParameters.qTestParametersNodeOptions -}}
+  {{- if (and .Values.qTestParameters.qTestParametersSSLRequired .Values.qTestParameters.qTestParametersSSLCipherSuites) -}}
+  {{-   $nodeOptions = print $nodeOptions " --tls-cipher-list='" (join ":" .Values.qTestParameters.qTestParametersSSLCipherSuites) "'" -}}
+  {{- end }}
+  qTestParametersNodeOptions: "{{ $nodeOptions }}"

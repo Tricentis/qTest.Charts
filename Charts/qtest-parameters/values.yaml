@@ -75,8 +75,11 @@ qTestParameters:
   qTestParametersDBCRT: ""
   qTestParametersSSLRequired: false
   qTestParametersSSLMountPath: "/mnt/secrets/tls"
+  # Array of cipher suites for SSL/TLS connection in OpenSSL format (e.g. ["TLS_AES_256_GCM_SHA384", "TLS_CHACHA20_POLY1305_SHA256"])
+  qTestParametersSSLCipherSuites: []
   qTestParametersCorsOrigin: "tricentis.com"
   qTestParametersDeploymentEnv: "saas"
+  qTestParametersNodeOptions: ""
 #### Ingress/IngressClass (> K8s 1.24-1.30+) #####
 ingressClass:
   enabled: false

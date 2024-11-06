@@ -73,6 +73,7 @@ secrets:
   useExistingTls: false
   ## existingConfigs must be qtest-manager-secret
   # existingConfigs: "qtest-manager-secret"
+  aesSecretKeysName: qtest-aes-secret-keys
 serviceAccount:
   create: true
   name:
@@ -183,6 +184,8 @@ qTestManager:
           pattern: ""
   serverAppUseSecureCookie: true
   serverAppSSLRequired: false
+  # Array of cipher suites for SSL/TLS connection in OpenSSL format (e.g. ["TLS_AES_256_GCM_SHA384", "TLS_CHACHA20_POLY1305_SHA256"])
+  serverAppSSLCipherSuites: []
   preUrl: http://nephele.qtest.local
   preUrlHttps: https://nephele.qtest.local
   qasymphonyUrlPostfix: .qtest.local
@@ -199,8 +202,6 @@ qTestManager:
   notification:
     urlExternal: "https://notification.qtest.local"
     urlInternal: "http://notification.qtest.local"
-  pentaho:
-    usingClientId: ""
   qTest:
     serverMapUrl: "http://qtest.local/public/jira-widget/server-map"
     instance: US
@@ -209,9 +210,6 @@ qTestManager:
       nonce:
         disabled: true
         mode: HighPrecision
-  report:
-    httpUrl: http://localhost/pentaho
-    url: https://localhost/pentaho
   requestExecutionTimeUpperThreshold: -1
   siteFieldTemplateAssigningProjectBatchSize: 50
   taskExecutionTimeUpperThreshold: -1
@@ -267,6 +265,16 @@ qTestManager:
   redis:
     host: localhost
     port: 6379
+  system:
+    passwords:
+      encryption:
+        mode: INCREMENTAL
+        percentage: 0
+        tenants: ""
+        batch:
+          size: 100
+        scheduler:
+          cron: 0 0 * * * *
 ui:
   action:
     task:
@@ -512,7 +520,7 @@ vpaAutoscaling:
     updateMode: "Off"
   resourcePolicy:
     containerPolicies:
-      - containerName: '*'
+      - containerName: "*"
         controlledValues: RequestsAndLimits
 # HPA values
 autoscaling:

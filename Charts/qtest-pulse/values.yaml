@@ -75,11 +75,14 @@ qTestPulse:
   qTestPulseDBSSLMountPath: "/etc/ssl"
   qTestPulseDBSSL: ""
   qTestPulseDBCRT: ""
+  # Array of cipher suites for SSL/TLS connection in OpenSSL format (e.g. ["TLS_AES_256_GCM_SHA384", "TLS_CHACHA20_POLY1305_SHA256"])
+  qTestPulseSSLCipherSuites: []
   qTestPulseType: "qtest-pulse"
   # Optional Value to specify a seperate Pulse executor URL.
   qtestPulseExecutorUrl: ""
   swaggerUrl: https://qtest.dev.tricentis.com
   qTestPulseDeploymentEnv: "op"
+  qTestPulseNodeOptions: ""
 #### Ingress/IngressClass (> K8s 1.24-1.30+) #####
 ingressClass:
   enabled: false

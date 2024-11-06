@@ -28,4 +28,9 @@ data:
   {{- else }}
   qTestPulsePort: "{{ .Values.service.targetPort }}"
   qTestPulseDeploymentEnv: "{{ .Values.qTestPulse.qTestPulseDeploymentEnv }}"
-  {{- end -}}
+  {{- end }}
+  {{- $nodeOptions := .Values.qTestPulse.qTestPulseNodeOptions -}}
+  {{- if (and .Values.qTestPulse.qTestPulseSSLRequired .Values.qTestPulse.qTestPulseSSLCipherSuites) -}}
+  {{-   $nodeOptions = print $nodeOptions " --tls-cipher-list='" (join ":" .Values.qTestPulse.qTestPulseSSLCipherSuites) "'" -}}
+  {{- end }}
+  qTestPulseNodeOptions: "{{ $nodeOptions }}"

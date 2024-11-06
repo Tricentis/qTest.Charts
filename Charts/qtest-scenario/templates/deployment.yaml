@@ -190,7 +190,12 @@ spec:
                 configMapKeyRef:
                   name: qtest-scenario-configmap
                   key: qTestScenarioSSLKey
-          {{- end }}
+            {{- end }}
+            - name: NODE_OPTIONS
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-scenario-configmap
+                  key: qTestScenarioNodeOptions
 {{- with .Values.extraEnv }}
 {{ toYaml . | indent 12 }}
 {{- end }}

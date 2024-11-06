@@ -80,11 +80,14 @@ qTestSession:
   qTestSessionDBSSLMountPath: "/etc/ssl"
   qTestSessionDBSSL: ""
   qTestSessionDBCRT: ""
+  # Array of cipher suites for SSL/TLS connection in OpenSSL format (e.g. ["TLS_AES_256_GCM_SHA384", "TLS_CHACHA20_POLY1305_SHA256"])
+  qTestSessionSSLCipherSuites: []
   qTestSessionCustomSchemaEnable: false
   qTestSessionCustomSchemaName: public
   postgresDBPassword:
     secret: qtest-manager-secret
   qTestSessionDeploymentEnv: "op"
+  qTestSessionNodeOptions: ""
 #### Ingress/IngressClass (> K8s 1.18-1.22+) #####
 ingressClass:
   enabled: false

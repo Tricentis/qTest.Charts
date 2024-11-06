@@ -79,7 +79,10 @@ qTestScenario:
   qTestScenarioDBSSLMountPath: "/etc/ssl"
   qTestScenarioDBSSL: ""
   qTestScenarioDBCRT: ""
+  # Array of cipher suites for SSL/TLS connection in OpenSSL format (e.g. ["TLS_AES_256_GCM_SHA384", "TLS_CHACHA20_POLY1305_SHA256"])
+  qTestScenarioSSLCipherSuites: []
   qTestScenarioDeploymentEnv: "op"
+  qTestScenarioNodeOptions: ""
 #### Ingress/IngressClass (> K8s 1.24-1.30+) #####
 ingressClass:
   enabled: false
@@ -127,7 +130,7 @@ vpaAutoscaling:
     updateMode: "Off"
   resourcePolicy:
     containerPolicies:
-      - containerName: "*"
+      - containerName: '*'
         controlledValues: RequestsAndLimits
 # HPA values
 autoscaling:
