@@ -9,3 +9,4 @@ chart-repos:
   - reloader=https://stakater.github.io/stakater-charts
   - qtest=https://tricentis.github.io/qTest.Charts
 remote: origin
+validate-maintainers: false
