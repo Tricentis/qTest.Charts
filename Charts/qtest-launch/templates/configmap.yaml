@@ -24,4 +24,9 @@ data:
   qTestLaunchPort: "{{ .Values.service.targetHttpsPort }}"
   {{- else }}
   qTestLaunchPort: "{{ .Values.service.targetPort }}"
-  {{- end -}}
+  {{- end }}
+  {{- $nodeOptions := .Values.qTestLaunch.qTestLaunchNodeOptions -}}
+  {{- if (and .Values.qTestLaunch.qTestLaunchSSLRequired .Values.qTestLaunch.qTestLaunchSSLCipherSuites) -}}
+  {{-   $nodeOptions = print $nodeOptions " --tls-cipher-list='" (join ":" .Values.qTestLaunch.qTestLaunchSSLCipherSuites) "'" -}}
+  {{- end }}
+  qTestLaunchNodeOptions: "{{ $nodeOptions }}"

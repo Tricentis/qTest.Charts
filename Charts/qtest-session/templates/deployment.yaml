@@ -239,6 +239,11 @@ spec:
                   name: qtest-session-configmap
                   key: qTestSessionSSLKey
             {{- end }}
+            - name: NODE_OPTIONS
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-session-configmap
+                  key: qTestSessionNodeOptions
 {{- with .Values.extraEnv }}
 {{ toYaml . | indent 12 }}
 {{- end }}

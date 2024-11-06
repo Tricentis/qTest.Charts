@@ -30,4 +30,9 @@ data:
   qTestSessionPort: "{{ .Values.service.targetHttpsPort }}"
   {{- else }}
   qTestSessionPort: "{{ .Values.service.targetPort }}"
-  {{- end -}}
+  {{- end }}
+  {{- $nodeOptions := .Values.qTestSession.qTestSessionNodeOptions -}}
+  {{- if (and .Values.qTestSession.qTestSessionSSLRequired .Values.qTestSession.qTestSessionSSLCipherSuites) -}}
+  {{-   $nodeOptions = print $nodeOptions " --tls-cipher-list='" (join ":" .Values.qTestSession.qTestSessionSSLCipherSuites) "'" -}}
+  {{- end }}
+  qTestSessionNodeOptions: "{{ $nodeOptions }}"

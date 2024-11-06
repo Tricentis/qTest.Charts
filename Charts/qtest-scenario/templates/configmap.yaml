@@ -26,4 +26,9 @@ data:
   qTestScenarioPort: "{{ .Values.service.targetHttpsPort }}"
   {{- else }}
   qTestScenarioPort: "{{ .Values.service.targetPort }}"
-  {{- end -}}
+  {{- end }}
+  {{- $nodeOptions := .Values.qTestScenario.qTestScenarioNodeOptions -}}
+  {{- if (and .Values.qTestScenario.qTestScenarioSSLRequired .Values.qTestScenario.qTestScenarioSSLCipherSuites) -}}
+  {{-   $nodeOptions = print $nodeOptions " --tls-cipher-list='" (join ":" .Values.qTestScenario.qTestScenarioSSLCipherSuites) "'" -}}
+  {{- end }}
+  qTestScenarioNodeOptions: "{{ $nodeOptions }}"

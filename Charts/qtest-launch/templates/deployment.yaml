@@ -180,7 +180,12 @@ spec:
                 configMapKeyRef:
                   name: qtest-launch-configmap
                   key: qTestLaunchSSLKey
-            {{- end -}}
+            {{- end }}
+            - name: NODE_OPTIONS
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-launch-configmap
+                  key: qTestLaunchNodeOptions
 {{- with .Values.extraEnv }}
 {{ toYaml . | indent 12 }}
 {{- end }}

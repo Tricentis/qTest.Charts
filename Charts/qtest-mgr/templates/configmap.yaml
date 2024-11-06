@@ -21,7 +21,7 @@ data:
   client.jdbc.postgres.username: "{{ .Values.qTestManager.client.jdbc.postgresUserName }}"
   client.jdbc.postgres.sessionsschema: "{{ .Values.qTestManager.client.jdbc.sessionsSchema }}"
 ---
-{{- end -}}
+{{- end }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -56,7 +56,6 @@ data:
   serverapp.ssl.required: "{{ .Values.qTestManager.serverAppSSLRequired }}"
   serverapp.ssl.redirect.custom.status.enabled: "{{ .Values.qTestManager.serverAppSSLRequired }}"
   parameter.page.size: "{{ .Values.qTestManager.parameterPageSize }}"
-  pentaho.usingClientId: "{{ .Values.qTestManager.pentaho.usingClientId }}"
   preUrl: "{{ .Values.qTestManager.preUrl }}"
   preUrl.https: "{{ .Values.qTestManager.preUrlHttps }}"
   qasymphonyUrlPostfix: "{{ .Values.qTestManager.qasymphonyUrlPostfix }}"
@@ -82,13 +81,17 @@ data:
   qtest.od.private: "{{ .Values.qTestManager.qTest.ODPrivate }}"
   secret.volume.mount.path: "{{ .Values.qTestManager.secret.appVolumeMount }}"
   emailchange.allow.clients: "{{ .Values.qTestManager.emailchange.allowClients }}"
-  report.http.url: "{{ .Values.qTestManager.report.httpUrl }}"
-  report.url: "{{ .Values.qTestManager.report.url }}"
   request.execution.time.upper.threshold: "{{ .Values.qTestManager.requestExecutionTimeUpperThreshold }}"
   task.execution.time.upper.threshold: "{{ .Values.qTestManager.taskExecutionTimeUpperThreshold }}"
   vera.auto.testrun.beta.clients: "{{ .Values.qTestManager.vera.auto.testrun.beta.clients }}"
   sslMountPath: "{{ .Values.qTestManager.server.sslMountPath }}"
+  sslCiphers: "ciphers=\"{{- join "," .Values.qTestManager.serverAppSSLCipherSuites -}}\""
   isSSLRequired: "{{ .Values.qTestManager.serverAppSSLRequired }}"
+  system.passwords.encryption.mode: "{{ .Values.qTestManager.system.passwords.encryption.mode }}"
+  system.passwords.encryption.percentage: "{{ .Values.qTestManager.system.passwords.encryption.percentage }}"
+  system.passwords.encryption.tenants: "{{ .Values.qTestManager.system.passwords.encryption.tenants }}"
+  system.passwords.encryption.batch.size: "{{ .Values.qTestManager.system.passwords.encryption.batch.size }}"
+  scheduler.cron.system.passwords.encryption.interval: "{{ .Values.qTestManager.system.passwords.encryption.scheduler.cron }}"
   {{ if .Values.qTestManager.l2c.enabled }}
   l2c.config.url: "{{ .Values.qTestManager.l2c.config.url }}"
   l2c.config.pemfile: "{{ .Values.qTestManager.l2c.config.pemfile }}"
@@ -237,4 +240,4 @@ data:
   testconductor.app.path: "{{ .Values.poller.testconductorAppPath }}"
   queue.manager.task.scheduler.enabled: "{{ .Values.poller.queue.manager.scheduler.enabled }}"
   queue.manager.worker.enabled: "{{ .Values.poller.queue.manager.worker.enabled }}"
-{{- end -}}
+{{- end }}

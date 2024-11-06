@@ -76,7 +76,10 @@ qTestLaunch:
   qTestLaunchDBSSLMountPath: "/etc/ssl"
   qTestLaunchDBSSL: ""
   qTestLaunchDBCRT: ""
+  # Array of cipher suites for SSL/TLS connection in OpenSSL format (e.g. ["TLS_AES_256_GCM_SHA384", "TLS_CHACHA20_POLY1305_SHA256"])
+  qTestLaunchSSLCipherSuites: []
   qTestLaunchDeploymentEnv: "op"
+  qTestLaunchNodeOptions: ""
 #### Ingress/IngressClass (> K8s 1.24-1.30+) #####
 ingressClass:
   enabled: false
