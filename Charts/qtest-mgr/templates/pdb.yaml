@@ -1,0 +1,24 @@
+{{- if eq (.Values.podDisruptionBudget.enabled | quote | lower) "\"true\"" }}
+{{- range (list "ui" "api" "poller" "notification") }}
+  {{- $minReplicas := index $.Values.autoscaling.minReplicas . }}
+  {{- $maxUnavailable := sub $minReplicas 1 }}
+  {{- if gt $maxUnavailable 0 }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: qtest-mgr-{{ . }}-pdb
+  namespace: {{ $.Values.namespace.name }}
+spec:
+  maxUnavailable: {{ $maxUnavailable }}
+  selector:
+    matchLabels:
+      {{- if eq . "ui" }}
+      app: qtest-mgr
+      {{- else }}
+      app: qtest-mgr-{{ . }}
+      {{- end }}
+      release: {{ $.Release.Name }}
+---
+  {{- end }}
+{{- end }}
+{{- end }}
