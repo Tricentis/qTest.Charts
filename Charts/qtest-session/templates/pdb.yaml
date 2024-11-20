@@ -1,0 +1,18 @@
+{{- if eq (.Values.podDisruptionBudget.enabled | quote | lower) "\"true\"" }}
+  {{- $minReplicas := $.Values.autoscaling.minReplicas }}
+  {{- $maxUnavailable := sub $minReplicas 1 }}
+  {{- if gt $maxUnavailable 0 }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: qtest-session-pdb
+  namespace: {{ $.Values.namespace.name }}
+spec:
+  maxUnavailable: {{ $maxUnavailable }}
+  selector:
+    matchLabels:
+      app: qtest-session
+      release: {{ $.Release.Name }}
+---
+  {{- end }}
+{{- end }}
