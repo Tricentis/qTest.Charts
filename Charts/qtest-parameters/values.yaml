@@ -141,6 +141,8 @@ autoscaling:
   failureThreshold: 4
   targetCPUUtilizationPercentage: 85
   targetMemoryUtilizationPercentage: 85
+podDisruptionBudget:
+  enabled: true
 resources:
   requests:
     cpu: 1
