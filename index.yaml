@@ -6403,6 +6403,26 @@ entries:
   qtest-parameters:
   - apiVersion: v2
     appVersion: 2024.2.0
+    created: "2024-11-20T10:17:13.134550424Z"
+    dependencies:
+    - condition: reloader.enabled
+      name: reloader
+      repository: https://stakater.github.io/stakater-charts
+      version: '*'
+    description: A Helm chart for Kubernetes cluster of qtest-parameters
+    digest: 621d6562178b906aab525f95f36ab8de53b41d4352a3c08eb2f2f334bd5584ac
+    home: https://github.com/Tricentis-qTest/qtest-chart.git
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - name: Tricentis support
+      url: https://support-hub.tricentis.com/open
+    name: qtest-parameters
+    type: application
+    urls:
+    - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-parameters-1.5.0/qtest-parameters-1.5.0.tgz
+    version: 1.5.0
+  - apiVersion: v2
+    appVersion: 2024.2.0
     created: "2024-11-06T14:27:00.762120533Z"
     dependencies:
     - condition: reloader.enabled
@@ -8767,4 +8787,4 @@ entries:
     urls:
     - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-session-0.1.0/qtest-session-0.1.0.tgz
     version: 0.1.0
-generated: "2024-11-20T10:04:58.830625575Z"
+generated: "2024-11-20T10:17:13.135733696Z"
