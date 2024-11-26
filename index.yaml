@@ -8193,6 +8193,26 @@ entries:
   qtest-session:
   - apiVersion: v2
     appVersion: "2024.2"
+    created: "2024-11-26T10:34:39.080675607Z"
+    dependencies:
+    - condition: reloader.enabled
+      name: reloader
+      repository: https://stakater.github.io/stakater-charts
+      version: '*'
+    description: A Helm chart for Kubernetes cluster of qtest-session
+    digest: 23be1473fb18bbe5f5326e7363dff15f2dd3db70d6dd30d77a6c080d77e4354b
+    home: https://github.com/Tricentis-qTest/qtest-chart.git
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - name: Tricentis support
+      url: https://support-hub.tricentis.com/open
+    name: qtest-session
+    type: application
+    urls:
+    - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-session-1.7.1/qtest-session-1.7.1.tgz
+    version: 1.7.1
+  - apiVersion: v2
+    appVersion: "2024.2"
     created: "2024-11-20T10:23:57.911644504Z"
     dependencies:
     - condition: reloader.enabled
@@ -8847,4 +8867,4 @@ entries:
     urls:
     - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-session-0.1.0/qtest-session-0.1.0.tgz
     version: 0.1.0
-generated: "2024-11-26T10:31:54.897625373Z"
+generated: "2024-11-26T10:34:39.081921069Z"
