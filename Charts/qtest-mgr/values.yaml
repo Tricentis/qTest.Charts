@@ -57,8 +57,8 @@ image:
   repository: tricentisimage/qtest-mgr
   liquibase: tricentisimage/qtest-mgr-liquibase
   pullPolicy: IfNotPresent
-  tag: "2024.2.1.1.op"
-  liquibasetag: "2024.2.1.1.op"
+  tag: "v2024.4.0.6.op"
+  liquibasetag: "v2024.4.0.6.op"
   liquibasepullpolicy: IfNotPresent
 imageCredentials:
   enabled: false
@@ -265,16 +265,6 @@ qTestManager:
   redis:
     host: localhost
     port: 6379
-  system:
-    passwords:
-      encryption:
-        mode: INCREMENTAL
-        percentage: 0
-        tenants: ""
-        batch:
-          size: 100
-        scheduler:
-          cron: 0 0 * * * *
 ui:
   action:
     task:
