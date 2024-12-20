@@ -12,7 +12,7 @@ replicaCount: 1
 image:
   repository: qasymphony/insights-etl
   pullPolicy: IfNotPresent
-  tag: "v2024.2.op"
+  tag: "v2024.4.op"
 imageCredentials:
   enabled: false
   # name: ""
