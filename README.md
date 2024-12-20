@@ -1,7 +1,7 @@
 # Helm Repository for qTest Manager and qTest Applications
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Chart Publish](https://github.com/Tricentis-qTest/qtest-chart/actions/workflows/release.yaml/badge.svg?branch=main)](https://github.com/Tricentis-qTest/qtest-chart/actions/workflows/release.yaml)
+[![Chart Publish](https://github.com/Tricentis/qTest.Charts/actions/workflows/release.yaml/badge.svg?branch=main)](https://github.com/Tricentis/qTest.Charts/actions/workflows/release.yaml)
 
 <img src="https://assets-global.website-files.com/5dfb2c5f5b18187014b68b84/5e5765ef5072d028554d9233_qTest_logo.png" width="450" height="134">
 
