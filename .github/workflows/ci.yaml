@@ -19,7 +19,7 @@ jobs:
           version: 3.4.0 #renovate: datasource=github-releases depName=helm/helm
       - uses: actions/setup-python@v2.2.2
         with:
-          python-version: 3.7
+          python-version: 3.13
       - name: Install chart-testing
         uses: helm/chart-testing-action@v2.1.0
         with:
