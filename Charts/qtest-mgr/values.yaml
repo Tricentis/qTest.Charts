@@ -303,6 +303,9 @@ api:
       oldDefectTrackingSystemsThreshold: 20
       testExecutionApiRetryTime: 1
       testExecutionApiThreshold: 2
+  jiraCloudCategoryTaskExecutor:
+    threadPool:
+      keepWaitingSeconds: 180
   client:
     dbcp:
       maxActive: 400
@@ -365,6 +368,9 @@ notification:
       oldDefectTrackingSystemsThreshold: 20
       testExecutionApiRetryTime: 0
       testExecutionApiThreshold: 1
+  jiraCloudCategoryTaskExecutor:
+    threadPool:
+      keepWaitingSeconds: 180
   client:
     dbcp:
       maxActive: 300
