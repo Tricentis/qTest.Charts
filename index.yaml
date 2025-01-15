@@ -2298,6 +2298,63 @@ entries:
     version: 0.1.0
   qtest-mgr:
   - apiVersion: v2
+    appVersion: 2024.4.0.6.op
+    created: "2025-01-15T09:55:33.800457386Z"
+    dependencies:
+    - condition: qtest-launch.enabled
+      name: qtest-launch
+      repository: https://tricentis.github.io/qTest.Charts
+      version: '*'
+    - condition: qtest-insights.enabled
+      name: qtest-insights
+      repository: https://tricentis.github.io/qTest.Charts
+      version: '*'
+    - condition: qtest-insights-etl.enabled
+      name: qtest-insights-etl
+      repository: https://tricentis.github.io/qTest.Charts
+      version: '*'
+    - condition: qtest-parameters.enabled
+      name: qtest-parameters
+      repository: https://tricentis.github.io/qTest.Charts
+      version: '*'
+    - condition: qtest-pulse.enabled
+      name: qtest-pulse
+      repository: https://tricentis.github.io/qTest.Charts
+      version: '*'
+    - condition: qtest-scenario.enabled
+      name: qtest-scenario
+      repository: https://tricentis.github.io/qTest.Charts
+      version: '*'
+    - condition: qtest-session.enabled
+      name: qtest-session
+      repository: https://tricentis.github.io/qTest.Charts
+      version: '*'
+    - condition: reloader.enabled
+      name: reloader
+      repository: https://stakater.github.io/stakater-charts
+      version: '*'
+    description: A Helm chart for qTest Manager
+    digest: 44e6a7db85c619d881c2b3e0a59f65c34e7457987db14615220b250a50c8c72f
+    home: https://github.com/Tricentis-qTest/qtest-chart.git
+    icon: https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_c2d6524c36c94138504f7a18bf179d76/tricentis-qtest.png
+    keywords:
+    - qtest-launch
+    - qtest-insights
+    - qtest-insights-etl
+    - qtest-parameters
+    - qtest-pulse
+    - qtest-scenario
+    - qtest-session
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - name: Tricentis support
+      url: https://support-hub.tricentis.com/open
+    name: qtest-mgr
+    type: application
+    urls:
+    - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-mgr-1.10.3/qtest-mgr-1.10.3.tgz
+    version: 1.10.3
+  - apiVersion: v2
     appVersion: v2024.4.0.6.op
     created: "2025-01-10T20:18:37.054330274Z"
     dependencies:
@@ -9122,4 +9179,4 @@ entries:
     urls:
     - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-session-0.1.0/qtest-session-0.1.0.tgz
     version: 0.1.0
-generated: "2025-01-10T20:18:37.055498213Z"
+generated: "2025-01-15T09:55:33.801635641Z"
