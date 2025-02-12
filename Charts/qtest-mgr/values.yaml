@@ -206,6 +206,7 @@ qTestManager:
     serverMapUrl: "http://qtest.local/public/jira-widget/server-map"
     instance: US
     ODPrivate: false
+    region: "Default Cluster"
     request:
       nonce:
         disabled: true

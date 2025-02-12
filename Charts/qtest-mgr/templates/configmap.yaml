@@ -101,6 +101,7 @@ data:
   l2c.jwttoken.oktaUrl: "{{ .Values.qTestManager.l2c.jwttoken.oktaUrl }}"
   l2c.jwttoken.envAudience: "{{ .Values.qTestManager.l2c.jwttoken.envAudience }}"
   l2c.jwttoken.oktaAudience: "{{ .Values.qTestManager.l2c.jwttoken.oktaAudience }}"
+  qtest.region: "{{ .Values.qTestManager.qTest.region }}"
   {{ end }}
   {{ if .Values.testconductor.environment.isOnPremise }} 
   async.max.cpu: "{{ .Values.qTestManager.async.maxCpu }}"
