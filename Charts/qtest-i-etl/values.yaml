@@ -1,0 +1,177 @@
+# Default values for qtest-i-etl-chart
+namespace:
+  name: qtest
+
+secrets:
+  name: qtest-manager-secret
+
+image:
+  repository: qasymphony/i-etl
+  pullPolicy: IfNotPresent
+  tag: "2025.1.0"
+
+imageCredentials:
+  enabled: false
+  # name: ""
+  # registry: ""
+  # username: ""
+  # password: ""
+  # email: ""
+  # existingImageCredentials: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # A service account will be created for you if set to true. Set to false if you want to use your own.
+  name: "qtest-insights-i-etl-sa"
+
+deployment:
+  annotations: {}
+  singlePodPerNode: false
+  strategy:
+    type: Recreate
+
+podAnnotations: {}
+
+rollouts:
+  enabled: false
+  ingressClassName: alb
+  strategy:
+    canary:
+      maxSurge: "25%"
+      maxUnavailable: 0
+  steps:
+    # if prometheus metrics are enabled
+    # - analysis:
+    #     templates:
+    #     - templateName: success-rates
+    #       clusterScope: true
+    #     args:
+    #     - name: service-name
+    - setWeight: 50
+
+extraInitContainers: []
+
+extraContainers: []
+
+extraArgs: []
+
+extraEnv: []
+
+extraVolumeMounts: []
+
+extraVolumes: []
+
+service:
+  type: ClusterIP
+  annotations: {}
+  port: 8080
+  targetPort: 8080
+  serviceName: insights-i-etl
+securityContext:
+  runAsUser: 8877
+  runAsNonRoot: true
+  fsGroup: 8877
+
+qTestInsightsIEtl:
+  qTestInsightsIEtlDBName: qtest
+  qTestInsightsDBUser: insights
+  qTestInsightsIEtlDBPort: 5432
+  qTestInsightsIEtlDBSchemaName: public
+  qTestInsightsIEtlDBHost: postgres.local
+  qTestInsightsIEtlDBUser: postgres
+  qTestInsightsIEtlWriteQTestDBName: qtest
+  qTestInsightsIEtlWriteQTestDBHost: postgres.local
+  qTestInsightsIEtlWriteQTestDBPort: 5432
+  qTestInsightsIEtlInsightDBSchemaName: insights
+#  smtp:
+#    server: "smtp.local"
+#    account: "qtest"
+
+#### Ingress/IngressClass
+ingressClass:
+  enabled: false
+  labels: {}
+  controller: ingress.k8s.aws/alb
+  isDefaultClass: true
+  # Use to force a networking.k8s.io API Version for certain CI/CD applications. Ex. "v1"
+  fallbackApiVersion: ""
+
+ingress:
+  enabled: false
+  name: qtest-insights-i-etl-ingress
+  labels: {}
+  annotations: {}
+  canary:
+    annotationPrefix: ""
+    annotations:
+      {}
+  hosts:
+    - host: insights-i-etl.qtest.local
+
+  paths: []
+
+  extraPaths:
+    - path: /*
+      backendServiceName: insights-i-etl
+      pathType: ImplementationSpecific
+      backendPort: 8080
+
+  tls:
+    []
+    # - secretName: qtest-svc-tls
+    #   hosts:
+    #     - svc.qtest.com
+  https: false
+
+# HPA values
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 1
+
+  livenessProbe:
+    httpGet:
+      path: /healthz
+      scheme: HTTP
+      port: 8080
+    initialDelaySeconds: 70
+    periodSeconds: 30
+
+  readinessProbe:
+    httpGet:
+      path: /healthz
+      scheme: HTTP
+      port: 8080
+    initialDelaySeconds: 70
+    periodSeconds: 30
+
+  startupProbe:
+    httpGet:
+      path: /healthz
+      scheme: HTTP
+      port: 8080
+    initialDelaySeconds: 70
+    periodSeconds: 30
+    failureThreshold: 20
+
+  targetCPUUtilizationPercentage: 85
+  targetMemoryUtilizationPercentage: 85
+
+resources:
+  requests:
+    cpu: 1
+    memory: 2Gi
+  limits:
+    cpu: 1
+    memory: 2Gi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+topologySpreadConstraints: {}
