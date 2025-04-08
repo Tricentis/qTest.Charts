@@ -6862,26 +6862,6 @@ entries:
   qtest-parameters:
   - apiVersion: v2
     appVersion: "2024.4"
-    created: "2025-04-08T10:37:52.82583018Z"
-    dependencies:
-    - condition: reloader.enabled
-      name: reloader
-      repository: https://stakater.github.io/stakater-charts
-      version: '*'
-    description: A Helm chart for Kubernetes cluster of qtest-parameters
-    digest: 874dd87bdb3f12aab263f8baaf921177df94c8efe0d075d746c5627afc5f8017
-    home: https://github.com/Tricentis-qTest/qtest-chart.git
-    kubeVersion: '>=1.24.0-0'
-    maintainers:
-    - name: Tricentis support
-      url: https://support-hub.tricentis.com/open
-    name: qtest-parameters
-    type: application
-    urls:
-    - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-parameters-1.6.0/qtest-parameters-1.6.0.tgz
-    version: 1.6.0
-  - apiVersion: v2
-    appVersion: "2024.4"
     created: "2024-12-20T17:31:33.081155492Z"
     dependencies:
     - condition: reloader.enabled
@@ -8693,6 +8673,26 @@ entries:
   qtest-session:
   - apiVersion: v2
     appVersion: "2024.4"
+    created: "2025-04-08T10:38:25.315580756Z"
+    dependencies:
+    - condition: reloader.enabled
+      name: reloader
+      repository: https://stakater.github.io/stakater-charts
+      version: '*'
+    description: A Helm chart for Kubernetes cluster of qtest-session
+    digest: 74ddbf0bf1b2ff60e3da0b3d202b2c81803c704bec441b5d9120b3ee219bfa86
+    home: https://github.com/Tricentis-qTest/qtest-chart.git
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - name: Tricentis support
+      url: https://support-hub.tricentis.com/open
+    name: qtest-session
+    type: application
+    urls:
+    - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-session-1.8.0/qtest-session-1.8.0.tgz
+    version: 1.8.0
+  - apiVersion: v2
+    appVersion: "2024.4"
     created: "2024-12-20T17:22:24.825168168Z"
     dependencies:
     - condition: reloader.enabled
@@ -9387,4 +9387,4 @@ entries:
     urls:
     - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-session-0.1.0/qtest-session-0.1.0.tgz
     version: 0.1.0
-generated: "2025-04-08T10:37:52.826995716Z"
+generated: "2025-04-08T10:38:25.316970322Z"
