@@ -19,15 +19,13 @@ rollouts:
       maxUnavailable: 0
   steps:
     - setWeight: 20
-    ## if prometheus metrics are enabled
-    # - analysis:
-    #     templates:
-    #     - templateName: success-rates
-    #       clusterScope: true
-    #     args:
-    #     - name: service-name
-    - setWeight: 50
-    - pause: {duration: 10s}
+      ## if prometheus metrics are enabled
+      # - analysis:
+      #     templates:
+      #     - templateName: success-rates
+      #       clusterScope: true
+      #     args:
+      #     - name: service-name
 liquibase:
   enabled: true
   securityContext: {}
@@ -228,6 +226,14 @@ qTestManager:
     jira:
       testConnectionLegacyEndpointClients: ""
   parameterPageSize: 50
+  logging:
+    overrideEnabled: true
+    configMountPath: /mnt/data/loggingcfg
+    configFile: logback.xml
+    levels:
+      # syntax is logger: loglevel
+      # will be converted to xml in configmap
+      tc.integration: info
   data:
     volumeMount: /mnt/data/qtest
   vera:

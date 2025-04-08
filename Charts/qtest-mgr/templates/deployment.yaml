@@ -167,10 +167,18 @@ spec:
             secretKeyRef:
               name: {{ .Values.secrets.aesSecretKeysName }}
               key: AESsecretKeys
+        {{- if .Values.qTestManager.logging.overrideEnabled }}
+        - name: logback.configurationFile.additional
+          value: "{{ .Values.qTestManager.logging.configMountPath }}/{{ .Values.qTestManager.logging.configFile }}"
+        {{- end }}
 {{- with .Values.extraEnv }}
 {{ toYaml . | indent 8 }}
 {{- end }}
         volumeMounts:
+        {{- if .Values.qTestManager.logging.overrideEnabled }}
+        - name: qtest-manager-logging-configuration-volume
+          mountPath: {{ .Values.qTestManager.logging.configMountPath }}
+        {{- end }}
         - name: qtest-data
           mountPath: {{ .Values.qTestManager.data.volumeMount }}
         - name: qtest-manager-secret-storage
@@ -226,6 +234,11 @@ spec:
       - name: qtest-manager-secret-ssl-volume
         secret:
           secretName: qtest-ssl-root-secret
+      {{- end }}
+      {{- if .Values.qTestManager.logging.overrideEnabled }}
+      - name: qtest-manager-logging-configuration-volume
+        configMap:
+          name: qtest-manager-logging-config
       {{- end }}
       - name: qtest-data
       {{- if .Values.persistence.existingClaim }}
@@ -392,7 +405,15 @@ spec:
             secretKeyRef:
               name: {{ .Values.secrets.aesSecretKeysName }}
               key: AESsecretKeys
+        {{- if .Values.qTestManager.logging.overrideEnabled }}
+        - name: logback.configurationFile.additional
+          value: "{{ .Values.qTestManager.logging.configMountPath }}/{{ .Values.qTestManager.logging.configFile }}"
+        {{- end }}
         volumeMounts:
+        {{- if .Values.qTestManager.logging.overrideEnabled }}
+        - name: qtest-manager-logging-configuration-volume
+          mountPath: {{ .Values.qTestManager.logging.configMountPath }}
+        {{- end }}
         - name: qtest-data
           mountPath: {{ .Values.qTestManager.data.volumeMount }}
         - name: qtest-manager-secret-storage
@@ -448,6 +469,11 @@ spec:
       - name: qtest-manager-secret-ssl-volume
         secret:
           secretName: qtest-ssl-root-secret
+      {{- end }}
+      {{- if .Values.qTestManager.logging.overrideEnabled }}
+      - name: qtest-manager-logging-configuration-volume
+        configMap:
+          name: qtest-manager-logging-config
       {{- end }}
       - name: qtest-data
       {{- if .Values.persistence.existingClaim }}
@@ -614,7 +640,15 @@ spec:
             secretKeyRef:
               name: {{ .Values.secrets.aesSecretKeysName }}
               key: AESsecretKeys
+        {{- if .Values.qTestManager.logging.overrideEnabled }}
+        - name: logback.configurationFile.additional
+          value: "{{ .Values.qTestManager.logging.configMountPath }}/{{ .Values.qTestManager.logging.configFile }}"
+        {{- end }}
         volumeMounts:
+        {{- if .Values.qTestManager.logging.overrideEnabled }}
+        - name: qtest-manager-logging-configuration-volume
+          mountPath: {{ .Values.qTestManager.logging.configMountPath }}
+        {{- end }}
         - name: qtest-data
           mountPath: {{ .Values.qTestManager.data.volumeMount }}
         - name: qtest-manager-secret-storage
@@ -670,6 +704,11 @@ spec:
       - name: qtest-manager-secret-ssl-volume
         secret:
           secretName: qtest-ssl-root-secret
+      {{- end }}
+      {{- if .Values.qTestManager.logging.overrideEnabled }}
+      - name: qtest-manager-logging-configuration-volume
+        configMap:
+          name: qtest-manager-logging-config
       {{- end }}
       - name: qtest-data
       {{- if .Values.persistence.existingClaim }}
@@ -836,7 +875,15 @@ spec:
             secretKeyRef:
               name: {{ .Values.secrets.aesSecretKeysName }}
               key: AESsecretKeys
+        {{- if .Values.qTestManager.logging.overrideEnabled }}
+        - name: logback.configurationFile.additional
+          value: "{{ .Values.qTestManager.logging.configMountPath }}/{{ .Values.qTestManager.logging.configFile }}"
+        {{- end }}
         volumeMounts:
+        {{- if .Values.qTestManager.logging.overrideEnabled }}
+        - name: qtest-manager-logging-configuration-volume
+          mountPath: {{ .Values.qTestManager.logging.configMountPath }}
+        {{- end }}
         - name: qtest-data
           mountPath: {{ .Values.qTestManager.data.volumeMount }}
         - name: qtest-manager-secret-storage
@@ -892,6 +939,11 @@ spec:
       - name: qtest-manager-secret-ssl-volume
         secret:
           secretName: qtest-ssl-root-secret
+      {{- end }}
+      {{- if .Values.qTestManager.logging.overrideEnabled }}
+      - name: qtest-manager-logging-configuration-volume
+        configMap:
+          name: qtest-manager-logging-config
       {{- end }}
       - name: qtest-data
       {{- if .Values.persistence.existingClaim }}
