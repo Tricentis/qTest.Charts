@@ -19,6 +19,10 @@ data:
   qTestPulseNodeEnv: "{{ .Values.qTestPulse.qTestPulseNodeEnv }}"
   qTestPulseType: "{{ .Values.qTestPulse.qTestPulseType }}"
   qtestPulseExecutorUrl: "{{ .Values.qTestPulse.qtestPulseExecutorUrl }}"
+  qTestPulseLogLevel: "{{ .Values.qTestPulse.qTestPulseLogLevel }}"
+  qTestPulseWebsocketServerPort: "{{ .Values.qTestPulse.qTestPulseWebsocketServerPort }}"
+  qTestPulseWebsocketUrl: "{{ .Values.qTestPulse.qTestPulseWebsocketUrl }}"
+  qTestPulseFlagEnableExecutorPolling: "{{ .Values.qTestPulse.qTestPulseFlagEnableExecutorPolling }}"
   swaggerUrl: "{{ .Values.qTestPulse.swaggerUrl }}"
   qTestPulseIsSSLRequired: "{{ .Values.qTestPulse.qTestPulseSSLRequired }}"
   {{- if .Values.qTestPulse.qTestPulseSSLRequired }}

@@ -52,6 +52,8 @@ service:
   port: 4080
   targetPort: 4080
   targetHttpsPort: 4443
+  websocketPort: 6001
+  targetWebsocketPort: 6001
   serviceName: qtest-pulse-service
 extraInitContainers: []
 extraContainers: []
@@ -80,6 +82,10 @@ qTestPulse:
   qTestPulseType: "qtest-pulse"
   # Optional Value to specify a seperate Pulse executor URL.
   qtestPulseExecutorUrl: ""
+  qTestPulseLogLevel: "info"
+  qTestPulseFlagEnableExecutorPolling: "0"
+  qTestPulseWebsocketServerPort: 6001
+  qTestPulseWebsocketUrl: "ws://qtest-pulse-service:6001/ws"
   swaggerUrl: https://qtest.dev.tricentis.com
   qTestPulseDeploymentEnv: "op"
   qTestPulseNodeOptions: ""
