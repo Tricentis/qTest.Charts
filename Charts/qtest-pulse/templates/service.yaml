@@ -20,10 +20,15 @@ spec:
       port: {{ .Values.service.targetHttpsPort }}
       targetPort: {{ .Values.service.targetHttpsPort }}
     {{- else }}
-    - protocol: TCP
+    - name: http
+      protocol: TCP
       port: {{ .Values.service.port }}
       targetPort: {{ .Values.service.targetPort }}
     {{- end }}
+    - name: websocket
+      protocol: TCP
+      port: {{ .Values.service.websocketPort }}
+      targetPort: {{ .Values.service.targetWebsocketPort }}
   selector:
     app: {{ include "qtest-pulse.name" . }}
     release: {{ .Release.Name }}
@@ -52,10 +57,15 @@ spec:
       port: {{ .Values.service.targetHttpsPort }}
       targetPort: {{ .Values.service.targetHttpsPort }}
     {{- else }}
-    - protocol: TCP
+    - name: http
+      protocol: TCP
       port: {{ .Values.service.port }}
       targetPort: {{ .Values.service.targetPort }}
     {{- end }}
+    - name: websocket
+      protocol: TCP
+      port: {{ .Values.service.websocketPort }}
+      targetPort: {{ .Values.service.targetWebsocketPort }}
   selector:
     app: {{ include "qtest-pulse.name" . }}
     release: {{ .Release.Name }}

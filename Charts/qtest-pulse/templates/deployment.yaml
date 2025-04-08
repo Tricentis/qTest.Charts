@@ -96,12 +96,19 @@ spec:
             - containerPort: {{ .Values.service.targetPort }}
               name: http
             {{- end }}
+            - containerPort: {{ .Values.service.websocketPort }}
+              name: websocket
           env:
             - name: NODE_ENV
               valueFrom:
                 configMapKeyRef:
                   name: {{ include "qtest-pulse.fullname" . }}-configmap
                   key: qTestPulseNodeEnv
+            - name: LAUNCHDARKLY_SDKKEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: launchdarkly-sdkKey
             - name: PULSE_DB_NAME
               valueFrom:
                 configMapKeyRef:
@@ -169,6 +176,26 @@ spec:
                 configMapKeyRef:
                   name: {{ include "qtest-pulse.fullname" . }}-configmap
                   key: qtestPulseExecutorUrl
+            - name: LOG_LEVEL
+              valueFrom: 
+                configMapKeyRef:
+                  name: {{ include "qtest-pulse.fullname" . }}-configmap
+                  key: qTestPulseLogLevel
+            - name: FLAG_ENABLE_EXECUTOR_POLLING
+              valueFrom: 
+                configMapKeyRef:
+                  name: {{ include "qtest-pulse.fullname" . }}-configmap
+                  key: qTestPulseFlagEnableExecutorPolling
+            - name: WEBSOCKET_SERVER_PORT
+              valueFrom: 
+                configMapKeyRef:
+                  name: {{ include "qtest-pulse.fullname" . }}-configmap
+                  key: qTestPulseWebsocketServerPort
+            - name: WEBSOCKET_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "qtest-pulse.fullname" . }}-configmap
+                  key: qTestPulseWebsocketUrl
             - name: EXECUTOR_API_KEY
               valueFrom: 
                 secretKeyRef:
