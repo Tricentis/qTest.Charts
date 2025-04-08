@@ -55,8 +55,8 @@ image:
   repository: tricentisimage/qtest-mgr
   liquibase: tricentisimage/qtest-mgr-liquibase
   pullPolicy: IfNotPresent
-  tag: "2025.2.op"
-  liquibasetag: "2025.2.op"
+  tag: "2025.2"
+  liquibasetag: "2025.2"
   liquibasepullpolicy: IfNotPresent
 imageCredentials:
   enabled: false
