@@ -159,6 +159,11 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secrets.name }}
                   key: {{ .Values.secrets.secretKey }}
+            - name: CSRF_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: {{ .Values.secrets.csrfKey }}
             - name: DEPLOYMENT_ENV
               valueFrom:
                 configMapKeyRef:
