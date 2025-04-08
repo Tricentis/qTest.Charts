@@ -6,6 +6,7 @@ reloader:
 secrets:
   name: qtest-manager-secret
   secretKey: client.jdbc.postgres.password
+  csrfKey: csrf.secret.key
 image:
   repository: qasymphony/parameters
   pullPolicy: IfNotPresent
