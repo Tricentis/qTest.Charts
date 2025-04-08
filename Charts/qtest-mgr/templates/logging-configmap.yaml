@@ -1,0 +1,16 @@
+{{- if .Values.qTestManager.logging.overrideEnabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: qtest-manager-logging-config
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    app: qtest-mgr
+data:
+  {{ .Values.qTestManager.logging.configFile }}: |-
+    <included>
+      {{- range $logger, $level := .Values.qTestManager.logging.levels }}
+        <logger name="{{ $logger }}" level="{{ $level }}"/>
+      {{- end }}
+    </included>
+{{- end }}
