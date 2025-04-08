@@ -207,6 +207,11 @@ spec:
                 configMapKeyRef:
                   name: qtest-session-configmap
                   key: qTestSessionStorageRootPath
+            - name: CSRF_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: {{ .Values.secrets.csrfSecretKey }}
             - name: SECRET_KEY
               valueFrom:
                 secretKeyRef:
