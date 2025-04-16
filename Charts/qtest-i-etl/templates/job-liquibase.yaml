@@ -1,0 +1,63 @@
+{{- $existingImageCredentials := .Values.imageCredentials.existingImageCredentials -}}
+{{- $imageCredentials := .Values.imageCredentials.name -}}
+{{ if .Values.liquibase.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: i-etl-liquibase-job
+  namespace: {{ .Values.namespace.name }}
+  {{- with .Values.liquibase.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  template:
+    metadata:
+      name: i-etl-liquibase-job
+      labels:
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
+    spec:
+      {{- if .Values.liquibase.securityContext }}
+      securityContext: {{- toYaml .Values.liquibase.securityContext | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: qtestliquibase
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+            - "migrate"
+            - "migrate-old"
+          resources:
+            requests:
+              memory: "0.5Gi"
+              cpu: "0.25"
+            limits:
+              memory: "2Gi"
+              cpu: "0.5"
+          envFrom:
+            - configMapRef:
+                name: qtest-insights-i-etl-configmap
+          env:
+            - name: QTEST_WRITE_DB_PW
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: qtestDbPassword
+            - name: INSIGHTS_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: insightsDbPassword
+      restartPolicy: OnFailure
+    {{ if .Values.imageCredentials.enabled }}
+      {{ if .Values.imageCredentials.existingImageCredentials }}
+      imagePullSecrets:
+        - name: {{ $existingImageCredentials }}
+      {{ else }}
+      imagePullSecrets:
+        - name: {{ $imageCredentials }}-liquibase
+      {{- end }}
+    {{- end }}
+{{- end }}
