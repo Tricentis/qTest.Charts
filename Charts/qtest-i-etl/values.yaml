@@ -108,6 +108,8 @@ qTestInsightsIEtl:
   iEtlMaterializedViewInterval: 600
   iEtlBetaJobsDisabled: false
   logEnvironment: opk8s
+  qTestDBPassword:
+  insightsDBPassword:
 
 #### Ingress/IngressClass
 ingressClass:
