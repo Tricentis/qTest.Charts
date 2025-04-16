@@ -9,7 +9,7 @@ secrets:
 image:
   repository: qasymphony/i-etl
   pullPolicy: IfNotPresent
-  tag: "v2025.2"
+  tag: "2025.2.0"
 
 liquibase:
   enabled: true
