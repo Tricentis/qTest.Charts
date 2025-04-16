@@ -151,7 +151,7 @@ autoscaling:
   minReplicas: 1
   maxReplicas: 1
 
-  llivenessProbe:
+  livenessProbe:
     httpGet:
       path: /healthz
       scheme: HTTP
