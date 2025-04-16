@@ -259,24 +259,27 @@ Installation command for pulse service:
 helm install qtest-pulse-executor qtest/qtest-pulse -n qtest -f values-pulse.yaml
 ```
 
-| Parameter                   | Description                                                                                    | Default                                                       |
-| --------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
-| `qTestPulseDBName`          | PSQL database name of the pulse                                                                | `pulse`                                                       |
-| `qTestPulseDBUserName`      | PSQL username                                                                                  | `postgres`                                                    |
-| `qTestPulseDBHostName`      | PSQL database host name                                                                        | `host.docker.internal`                                        |
-| `qTestPulseRootURL`         | qTest Pulse url                                                                                | `https://pulse.qtest.local`                                   |
-| `qTestPulseScenarioURL`     | qTest Launch url                                                                               | `https://scenario.qtest.local`                                |
-| `qTestPulseDBSSLEnable`     | Enable ssl connections                                                                         | `false`                                                       |
-| `qTestPulseDBSSLMountPath`  | Postgresql ssl certificate mount directory                                                     | `\etc\ssl`                                                    |
-| `qTestPulseDBSSL`           | SSL Connection which appends for SSL Connection (only change cert name)                        | `?ssl=true&sslmode=verify-full&sslrootcert=/etc/ssl/root.crt` |
-| `qTestPulseDBRootCRT`       | Postgresql client certificate                                                                  | (postgres client certificate, base64-encoded)                 |
-| `qTestPulseType`            | The type of Pulse service that is running, can be `qtest-pulse` or `executor`                          | `qtest-pulse`                                                 |
-| `qTestPulseExecutorUrl`     | The URL of Pulse Executor, could be something like `http://pulse-executor-service.<namespace>` | empty string                                                  |
-| `qTestPulseDBPort`          | Postgresql database port                                                                       | `5432`                                                        |
-| `qTestPulseSSLRequired`     | Pod Level SSL Traffic Encryption                                                               | `false`                                                       |
-| `qTestPulseSSLMountPath`    | Pod client certificate                                                                         | `/mnt/secrets/tls`                                            |
-| `qTestPulseSSLCipherSuites` | Cipher suites for SSL/TLS connection                                                           | []                                                            |
-| `qtestPulseExecutorApiKey`  | Pulse Executor API key - random string used as an authorization between pulse service and executor service                                                                       | `''` empty string                |
+| Parameter                             | Description                                                                                                            | Default                                                       |
+|---------------------------------------|------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
+| `qTestPulseDBName`                    | PSQL database name of the pulse                                                                                        | `pulse`                                                       |
+| `qTestPulseDBUserName`                | PSQL username                                                                                                          | `postgres`                                                    |
+| `qTestPulseDBHostName`                | PSQL database host name                                                                                                | `host.docker.internal`                                        |
+| `qTestPulseRootURL`                   | qTest Pulse url                                                                                                        | `https://pulse.qtest.local`                                   |
+| `qTestPulseScenarioURL`               | qTest Launch url                                                                                                       | `https://scenario.qtest.local`                                |
+| `qTestPulseDBSSLEnable`               | Enable ssl connections                                                                                                 | `false`                                                       |
+| `qTestPulseDBSSLMountPath`            | Postgresql ssl certificate mount directory                                                                             | `\etc\ssl`                                                    |
+| `qTestPulseDBSSL`                     | SSL Connection which appends for SSL Connection (only change cert name)                                                | `?ssl=true&sslmode=verify-full&sslrootcert=/etc/ssl/root.crt` |
+| `qTestPulseDBRootCRT`                 | Postgresql client certificate                                                                                          | (postgres client certificate, base64-encoded)                 |
+| `qTestPulseType`                      | The type of Pulse service that is running, can be `qtest-pulse` or `executor`                                          | `qtest-pulse`                                                 |
+| `qTestPulseExecutorUrl`               | The URL of Pulse Executor, could be something like `http://pulse-executor-service.<namespace>`                         | empty string                                                  |
+| `qTestPulseWebsocketServerPort`       | The websocket port of pulse server                                                                                     | `6001`                                                        |
+| `qTestPulseWebsocketUrl`              | The URL used by Executor websocket client to connect to pulse server, could be something like `wss://pulse-service/ws` | empty string                                                  |
+| `qTestPulseLogLevel`                  | Log level setting for both Pulse and Executor apps                                                                     | `info`                                                        |
+| `qTestPulseDBPort`                    | Postgresql database port                                                                                               | `5432`                                                        |
+| `qTestPulseSSLRequired`               | Pod Level SSL Traffic Encryption                                                                                       | `false`                                                       |
+| `qTestPulseSSLMountPath`              | Pod client certificate                                                                                                 | `/mnt/secrets/tls`                                            |
+| `qTestPulseSSLCipherSuites`           | Cipher suites for SSL/TLS connection                                                                                   | []                                                            |
+| `qtestPulseExecutorApiKey`            | Pulse Executor API key - random string used as an authorization between pulse service and executor service             | `''` empty string                                             |
 
 ## Pulse Executor app configurations to change in pulse-executor-values-kind.yaml
 
