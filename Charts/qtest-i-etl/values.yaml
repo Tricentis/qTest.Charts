@@ -3,12 +3,24 @@ namespace:
   name: qtest
 
 secrets:
-  name: qtest-manager-secret
+  enabled: false
+  name: qtest-i-etl-secret
 
 image:
   repository: qasymphony/i-etl
   pullPolicy: IfNotPresent
-  tag: "2025.1.0"
+  tag: "v2025.1"
+
+liquibase:
+  enabled: true
+  securityContext: {}
+  annotations:
+    helm.sh/hook: pre-install, pre-upgrade
+    helm.sh/hook-delete-policy: before-hook-creation
+  dependencyAnnotations:
+    helm.sh/hook: pre-install, pre-upgrade
+    helm.sh/hook-weight: "-5"
+    helm.sh/hook-delete-policy: before-hook-creation
 
 imageCredentials:
   enabled: false
@@ -56,8 +68,6 @@ extraInitContainers: []
 
 extraContainers: []
 
-extraArgs: []
-
 extraEnv: []
 
 extraVolumeMounts: []
@@ -76,19 +86,28 @@ securityContext:
   fsGroup: 8877
 
 qTestInsightsIEtl:
-  qTestInsightsIEtlDBName: qtest
-  qTestInsightsDBUser: insights
-  qTestInsightsIEtlDBPort: 5432
-  qTestInsightsIEtlDBSchemaName: public
-  qTestInsightsIEtlDBHost: postgres.local
-  qTestInsightsIEtlDBUser: postgres
-  qTestInsightsIEtlWriteQTestDBName: qtest
-  qTestInsightsIEtlWriteQTestDBHost: postgres.local
-  qTestInsightsIEtlWriteQTestDBPort: 5432
-  qTestInsightsIEtlInsightDBSchemaName: insights
-#  smtp:
-#    server: "smtp.local"
-#    account: "qtest"
+  readQTestDBHost: postgres.local
+  readQTestDBPort: 5432
+  readQTestDBName: qtest
+  readQTestDBUser: postgres
+  writeQTestDBHost: postgres.local
+  writeQTestDBPort: 5432
+  writeQTestDBName: qtest
+  writeQTestDBUser: postgres
+  qTestDBSchema: public
+  insightsDBSchema: insights
+  insightsDBUser: postgres
+  insightEtlDBSchema: insights_etl
+  iEtlQuartzThreadCount: 10
+  iEtlBatchInitialSize: 10000
+  iEtlBatchMinSize: 1000
+  iEtlBatchMaxSize: "1000000"
+  iEtlBatchSleepPercentage: 50
+  iEtlBatchOptimalDurationSeconds: 60
+  iEtlAggregationInterval: 600
+  iEtlMaterializedViewInterval: 600
+  iEtlBetaJobsDisabled: false
+  logEnvironment: opk8s
 
 #### Ingress/IngressClass
 ingressClass:
@@ -132,29 +151,31 @@ autoscaling:
   minReplicas: 1
   maxReplicas: 1
 
-  livenessProbe:
+  llivenessProbe:
     httpGet:
       path: /healthz
       scheme: HTTP
       port: 8080
-    initialDelaySeconds: 70
-    periodSeconds: 30
+    initialDelaySeconds: 15
+    periodSeconds: 15
+    failureThreshold: 3
 
   readinessProbe:
     httpGet:
       path: /healthz
       scheme: HTTP
       port: 8080
-    initialDelaySeconds: 70
-    periodSeconds: 30
+    initialDelaySeconds: 15
+    periodSeconds: 15
+    failureThreshold: 3
 
   startupProbe:
     httpGet:
       path: /healthz
       scheme: HTTP
       port: 8080
-    initialDelaySeconds: 70
-    periodSeconds: 30
+    initialDelaySeconds: 10
+    periodSeconds: 5
     failureThreshold: 20
 
   targetCPUUtilizationPercentage: 85

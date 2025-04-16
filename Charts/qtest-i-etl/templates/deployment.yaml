@@ -67,12 +67,8 @@ spec:
         - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: {{ .Chart.Name }}
-{{- if .Values.extraArgs }}
           args:
-{{- with .Values.extraArgs }}
-{{ toYaml . | indent 12 }}
-{{- end }}
-{{- end }}
+            - "start"
           livenessProbe:
           {{- toYaml .Values.autoscaling.livenessProbe | nindent 12 }}
           readinessProbe:
@@ -89,21 +85,16 @@ spec:
             - configMapRef:
                 name: qtest-insights-i-etl-configmap
           env:
-            - name: QTEST_DB_PW
+            - name: QTEST_READ_DB_PW
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secrets.name }}
-                  key: client.jdbc.postgres.password
-            - name: WRITE_QTEST_DB_PW
+                  key: qtestDbPassword
+            - name: QTEST_WRITE_DB_PW
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secrets.name }}
-                  key: client.jdbc.postgres.password
-            - name: SMTP_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: qtest-manager-secret
-                  key: mail.password
+                  key: qtestDbPassword
 {{- with .Values.extraEnv }}
 {{ toYaml . | indent 12 }}
 {{- end }}
