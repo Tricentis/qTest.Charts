@@ -34,4 +34,3 @@ data:
   INSIGHTS_ETL_MATERIALIZED_VIEW_INTERVAL: "{{ .Values.qTestInsightsIEtl.iEtlMaterializedViewInterval }}"
   INSIGHTS_ETL_BETA_JOBS_DISABLED: "{{ .Values.qTestInsightsIEtl.iEtlBetaJobsDisabled }}"
   LOG_ENVIRONMENT: "{{ .Values.qTestInsightsIEtl.logEnvironment }}"
-  
