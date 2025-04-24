@@ -5,14 +5,32 @@ metadata:
   namespace: {{ .Values.namespace.name }}
   labels:
     app: qTestInsightsIEtl
+
+  {{- with .Values.liquibase.dependencyAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+
 data:
-  QTEST_DB_NAME: "{{ .Values.qTestInsightsIEtl.qTestInsightsIEtlDBName }}"
-  QTEST_DB_HOST: "{{ .Values.qTestInsightsIEtl.qTestInsightsIEtlDBHost }}"
-  QTEST_DB_USER: "{{ .Values.qTestInsightsIEtl.qTestInsightsIEtlDBUser }}"
-  QTEST_DB_PORT: "{{ .Values.qTestInsightsIEtl.qTestInsightsIEtlDBPort }}"
-  QTEST_DB_SCHEMA_NAME: "{{ .Values.qTestInsightsIEtl.qTestInsightsIEtlDBSchemaName }}"
-  WRITE_QTEST_DB_NAME: "{{ .Values.qTestInsightsIEtl.qTestInsightsIEtlWriteQTestDBName }}"
-  WRITE_QTEST_DB_HOST: "{{ .Values.qTestInsightsIEtl.qTestInsightsIEtlWriteQTestDBHost }}"
-  WRITE_QTEST_DB_PORT: "{{ .Values.qTestInsightsIEtl.qTestInsightsIEtlWriteQTestDBPort }}"
-  INSIGHTS_DB_SCHEMA: "{{ .Values.qTestInsightsIEtl.qTestInsightsIEtlInsightDBSchemaName }}"
-  INSIGHTS_DB_USER: "{{ .Values.qTestInsightsIEtl.qTestInsightsDBUser }}"
+  QTEST_READ_DB_HOST: "{{ .Values.qTestInsightsIEtl.readQTestDBHost }}"
+  QTEST_READ_DB_PORT: "{{ .Values.qTestInsightsIEtl.readQTestDBPort }}"
+  QTEST_READ_DB_NAME: "{{ .Values.qTestInsightsIEtl.readQTestDBName }}"
+  QTEST_READ_DB_USER: "{{ .Values.qTestInsightsIEtl.readQTestDBUser }}"
+  QTEST_WRITE_DB_HOST: "{{ .Values.qTestInsightsIEtl.writeQTestDBHost }}"
+  QTEST_WRITE_DB_PORT: "{{ .Values.qTestInsightsIEtl.writeQTestDBPort }}"
+  QTEST_WRITE_DB_NAME: "{{ .Values.qTestInsightsIEtl.writeQTestDBName }}"
+  QTEST_WRITE_DB_USER: "{{ .Values.qTestInsightsIEtl.writeQTestDBUser }}"
+  QTEST_DB_SCHEMA: "{{ .Values.qTestInsightsIEtl.qTestDBSchema }}"
+  INSIGHTS_DB_USER: "{{ .Values.qTestInsightsIEtl.insightsDBUser }}"
+  INSIGHTS_DB_SCHEMA: "{{ .Values.qTestInsightsIEtl.insightsDBSchema }}"
+  INSIGHTS_ETL_DB_SCHEMA: "{{ .Values.qTestInsightsIEtl.insightEtlDBSchema }}"
+  QUARTZ_THREAD_COUNT: "{{ .Values.qTestInsightsIEtl.iEtlQuartzThreadCount }}"
+  INSIGHTS_ETL_BATCH_INITIAL_SIZE: "{{ .Values.qTestInsightsIEtl.iEtlBatchInitialSize }}"
+  INSIGHTS_ETL_BATCH_MIN_SIZE: "{{ .Values.qTestInsightsIEtl.iEtlBatchMinSize }}"
+  INSIGHTS_ETL_BATCH_MAX_SIZE: "{{ .Values.qTestInsightsIEtl.iEtlBatchMaxSize }}"
+  INSIGHTS_ETL_BATCH_SLEEP_PERCENTAGE: "{{ .Values.qTestInsightsIEtl.iEtlBatchSleepPercentage }}"
+  INSIGHTS_ETL_BATCH_OPTIMAL_DURATION_SECONDS: "{{ .Values.qTestInsightsIEtl.iEtlBatchOptimalDurationSeconds }}"
+  INSIGHTS_ETL_AGGREGATION_INTERVAL: "{{ .Values.qTestInsightsIEtl.iEtlAggregationInterval }}"
+  INSIGHTS_ETL_MATERIALIZED_VIEW_INTERVAL: "{{ .Values.qTestInsightsIEtl.iEtlMaterializedViewInterval }}"
+  INSIGHTS_ETL_BETA_JOBS_DISABLED: "{{ .Values.qTestInsightsIEtl.iEtlBetaJobsDisabled }}"
+  LOG_ENVIRONMENT: "{{ .Values.qTestInsightsIEtl.logEnvironment }}"
