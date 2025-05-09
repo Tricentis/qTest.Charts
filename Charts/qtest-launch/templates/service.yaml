@@ -20,7 +20,8 @@ spec:
       port: {{ .Values.service.targetHttpsPort }}
       targetPort: {{ .Values.service.targetHttpsPort }}
     {{- else }}
-    - protocol: TCP
+    - name: http
+      protocol: TCP
       port: {{ .Values.service.port }}
       targetPort: {{ .Values.service.targetPort }}
     {{- end }}
@@ -52,7 +53,8 @@ spec:
       port: {{ .Values.service.targetHttpsPort }}
       targetPort: {{ .Values.service.targetHttpsPort }}
     {{- else }}
-    - protocol: TCP
+    - name: http
+      protocol: TCP
       port: {{ .Values.service.port }}
       targetPort: {{ .Values.service.targetPort }}
     {{- end }}
