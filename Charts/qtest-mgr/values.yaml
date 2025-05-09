@@ -55,8 +55,8 @@ image:
   repository: tricentisimage/qtest-mgr
   liquibase: tricentisimage/qtest-mgr-liquibase
   pullPolicy: IfNotPresent
-  tag: "2024.4.0.6.op"
-  liquibasetag: "2024.4.0.6.op"
+  tag: "2025.2.4"
+  liquibasetag: "2025.2.4"
   liquibasepullpolicy: IfNotPresent
 imageCredentials:
   enabled: false
@@ -220,6 +220,7 @@ qTestManager:
     password: "dGVzdHBhc3N3b3Jk"
     supportEmailAddress: supports@tricentis.com
     blockExternal: true
+    starttls: false
   emailchange:
     allowClients: "null"
   integration:

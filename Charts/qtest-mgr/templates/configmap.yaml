@@ -76,6 +76,7 @@ data:
   mail.port: "{{ .Values.qTestManager.mail.port }}"
   mail.username: "{{ .Values.qTestManager.mail.userName }}"
   mail.block.external: "{{ .Values.qTestManager.mail.blockExternal }}"
+  mail.smtp.starttls.enable: "{{ .Values.qTestManager.mail.starttls }}"
   supportEmailAddress: "{{ .Values.qTestManager.mail.supportEmailAddress }}"
   integration.jira.testConnection.legacyEndpoint.clients: "{{ .Values.qTestManager.integration.jira.testConnectionLegacyEndpointClients }}"
   qtest.od.private: "{{ .Values.qTestManager.qTest.ODPrivate }}"
