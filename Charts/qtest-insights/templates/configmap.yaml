@@ -12,6 +12,7 @@ data:
   QTEST_DB_USER: "{{ .Values.qTestInsights.qTestInsightsDBUser }}"
   QTEST_DB_PORT: "{{ .Values.qTestInsights.qTestInsightsDBPort }}"
   QTEST_DB_SCHEMA: "{{ .Values.qTestInsights.qTestInsightsDBSchema }}"
+  POSTGRES_MAX_PARALLEL_WORKERS_PER_GATHER: "{{ .Values.qTestInsights.postgresMaxParallelWorkersPerGather }}"
   WRITE_QTEST_DB_NAME: "{{ .Values.qTestInsights.qTestInsightsWriteQTestDBName }}"
   WRITE_QTEST_DB_HOST: "{{ .Values.qTestInsights.qTestInsightsWriteQTestDBHost }}"
   WRITE_QTEST_DB_USER: "{{ .Values.qTestInsights.qTestInsightsWriteQTestDBUser }}"

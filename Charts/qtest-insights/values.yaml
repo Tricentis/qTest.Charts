@@ -89,6 +89,7 @@ qTestInsights:
   qTestInsightsDBHost: postgres.local
   qTestInsightsDBSchema: public
   qTestInsightsDBPort: 5432
+  postgresMaxParallelWorkersPerGather: 0
   qTestInsightsWriteQTestDBName: qtest
   qTestInsightsWriteQTestDBUser: postgres
   qTestInsightsWriteQTestDBHost: postgres.local

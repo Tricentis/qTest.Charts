@@ -135,6 +135,9 @@ spec:
 {{- end }}
           volumeMounts:
             - name: qtest-insights
+              mountPath: /tmp/insights-sessions
+              subPath: sessions
+            - name: qtest-insights
               mountPath: /usr/local/tomcat/logs/
               subPath: data/logs
             {{- if .Values.qTestInsights.serverAppSSLRequired }}
