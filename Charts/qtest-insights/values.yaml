@@ -9,7 +9,7 @@ secrets:
 image:
   repository: qasymphony/insights
   pullPolicy: IfNotPresent
-  tag: "2025.2.1"
+  tag: "2025.2.6"
 imageCredentials:
   enabled: false
   # name: ""
@@ -102,6 +102,10 @@ qTestInsights:
   qTestInsightsSessionDBPort: 5432
   qTestInsightsCSRFAllowPattern: \"$insights_security_csrf_trusted_source_pattern\"
   serverAppSSLRequired: false
+  # Persist user sessions to prevent re-login after each pod restart
+  sessionsPersistence: false
+  # Persist logs from the application
+  logsPersistence: true
   # Array of cipher suites for SSL/TLS connection in OpenSSL format (e.g. ["TLS_AES_256_GCM_SHA384", "TLS_CHACHA20_POLY1305_SHA256"])
   qTestInsightsSSLCipherSuites: []
   server:
@@ -177,35 +181,35 @@ autoscaling:
   maxReplicas: 1
   livenessProbe:
     httpGet:
-      path: /rdLogon.aspx
+      path: /healthz
       scheme: HTTP
       port: 8080
     initialDelaySeconds: 70
     periodSeconds: 30
   livenessSslProbe:
     httpGet:
-      path: /rdLogon.aspx
+      path: /healthz
       scheme: HTTPS
       port: 8443
     initialDelaySeconds: 70
     periodSeconds: 30
   readinessProbe:
     httpGet:
-      path: /rdLogon.aspx
+      path: /healthz
       scheme: HTTP
       port: 8080
     initialDelaySeconds: 70
     periodSeconds: 30
   readinessSslProbe:
     httpGet:
-      path: /rdLogon.aspx
+      path: /healthz
       scheme: HTTPS
       port: 8443
     initialDelaySeconds: 70
     periodSeconds: 30
   startupProbe:
     httpGet:
-      path: /rdLogon.aspx
+      path: /healthz
       scheme: HTTP
       port: 8080
     initialDelaySeconds: 70
@@ -213,7 +217,7 @@ autoscaling:
     failureThreshold: 20
   startupSslProbe:
     httpGet:
-      path: /rdLogon.aspx
+      path: /healthz
       scheme: HTTPS
       port: 8443
     initialDelaySeconds: 70

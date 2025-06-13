@@ -134,12 +134,16 @@ spec:
 {{ toYaml . | indent 12 }}
 {{- end }}
           volumeMounts:
+            {{- if .Values.qTestInsights.sessionsPersistence }}
             - name: qtest-insights
               mountPath: /tmp/insights-sessions
               subPath: sessions
+            {{- end }}
+            {{- if .Values.qTestInsights.logsPersistence }}
             - name: qtest-insights
               mountPath: /usr/local/tomcat/logs/
               subPath: data/logs
+            {{- end }}
             {{- if .Values.qTestInsights.serverAppSSLRequired }}
             - name: qtest-insights-secret-ssl-volume
               mountPath: {{ .Values.qTestInsights.server.sslMountPath }}
