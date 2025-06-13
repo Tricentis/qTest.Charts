@@ -112,6 +112,12 @@ spec:
                 configMapKeyRef:
                   name: qtest-launch-configmap
                   key: qTestLaunchDeploymentEnv
+            - name: LAUNCHDARKLY_SDKKEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: launchdarkly.sdkKey
+                  optional: true
             - name: LAUNCH_DB_USERNAME
               valueFrom:
                 configMapKeyRef:
