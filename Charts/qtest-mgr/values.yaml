@@ -200,6 +200,10 @@ qTestManager:
   notification:
     urlExternal: "https://notification.qtest.local"
     urlInternal: "http://notification.qtest.local"
+  oidc:
+    clientId: "NOT_A_REAL_CLIENT_ID"
+    configurationUri: https://use.a.real.site/.well-known/openid-configuration
+    redirectUri: https://use.a.real.site/login/oauth2/support/token
   qTest:
     serverMapUrl: "http://qtest.local/public/jira-widget/server-map"
     instance: US
