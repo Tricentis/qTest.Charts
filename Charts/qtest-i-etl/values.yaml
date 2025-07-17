@@ -86,45 +86,18 @@ securityContext:
   fsGroup: 8877
 
 qTestInsightsIEtl:
-  # qTest database configurations - read
   readQTestDBHost: postgres.local
   readQTestDBPort: 5432
   readQTestDBName: qtest
   readQTestDBUser: postgres
-  readQTestDBMaxPoolSize: 25
-  readQTestDBMinIdle: 5
-
-  # qTest database configurations - write
   writeQTestDBHost: postgres.local
   writeQTestDBPort: 5432
   writeQTestDBName: qtest
   writeQTestDBUser: postgres
-  writeQTestDBMaxPoolSize: 25
-  writeQTestDBMinIdle: 5
   qTestDBSchema: public
   insightsDBSchema: insights
   insightsDBUser: postgres
   insightEtlDBSchema: insights_etl
-
-  # Session database configurations - read
-  sessionsReadDBHost: postgres.local
-  sessionsReadDBPort: 5432
-  sessionsReadDBName: sessions
-  sessionsReadDBUser: postgres
-  sessionsReadDBSchema: public
-
-  # Session database configurations - write
-  sessionsWriteDBHost: postgres.local
-  sessionsWriteDBPort: 5432
-  sessionsWriteDBName: sessions
-  sessionsWriteDBUser: postgres
-  sessionsWriteDBSchema: public
-
-  # General configurations
-  autoRefreshDBLink: true
-  logEnvironment: opk8s
-
-  # Quartz and job configurations
   iEtlQuartzThreadCount: 10
   iEtlBatchInitialSize: 10000
   iEtlBatchMinSize: 1000
@@ -134,6 +107,9 @@ qTestInsightsIEtl:
   iEtlAggregationInterval: 600
   iEtlMaterializedViewInterval: 600
   iEtlBetaJobsDisabled: false
+  logEnvironment: opk8s
+  qTestDBPassword: ""
+  insightsDBPassword: ""
   iEtlLongRunningMaterializedViewInterval: 10800
 
 #### Ingress/IngressClass
