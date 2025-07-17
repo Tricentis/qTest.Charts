@@ -95,6 +95,17 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secrets.name }}
                   key: qtestDbPassword
+            - name: SESSIONS_WRITE_DB_PW
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: sessionsWriteDbPassword
+            - name: SESSIONS_READ_DB_PW
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: sessionsReadDbPassword
+
 {{- with .Values.extraEnv }}
 {{ toYaml . | indent 12 }}
 {{- end }}
