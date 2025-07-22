@@ -10,18 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
       - name: Install Helm
-        uses: azure/setup-helm@v1
+        uses: azure/setup-helm@b9e51907a09c216f16ebe8536097933489208112 # v4.3.0
         with:
           version: 3.4.0 #renovate: datasource=github-releases depName=helm/helm
-      - uses: actions/setup-python@v2.2.2
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: 3.13
       - name: Install chart-testing
-        uses: helm/chart-testing-action@v2.1.0
+        uses: helm/chart-testing-action@cf48dbf901ed202ae2c5aee26422dd6dfdf41e47 # v2.7.0
         with:
           version: v3.4.0 #renovate: datasource=github-releases depName=helm/chart-testing
       - name: Run lint
@@ -32,7 +32,7 @@ jobs:
     needs: lint-chart
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Run helm-docs
         run: sudo .github/helm-docs.sh
 
@@ -49,7 +49,7 @@ jobs:
           - v1.18.1
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
       - name: Update Helm dependencies for all charts
