@@ -32,32 +32,12 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Run helm-docs
         run: sudo .github/helm-docs.sh
-
-  kubeval-chart:
-    runs-on: ubuntu-latest
-    needs:
-      - lint-chart
-      - lint-docs
-    strategy:
-      matrix:
-        k8s:
-          # from https://github.com/instrumenta/kubernetes-json-schema
-          - v1.17.4
-          - v1.18.1
-    steps:
-      - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: login to Github Packages
+        run: echo "${{ github.token }}" | docker login https://ghcr.io -u ${GITHUB_ACTOR} --password-stdin
+      - uses: docker://ghcr.io/yannh/kubeconform:latest
         with:
-          fetch-depth: 0
-      - name: Update Helm dependencies for all charts
-        run: |
-          for dir in ./Charts/*/; do
-            helm dependency update "$dir"
-          done
-      - name: Run kubeval
-        env:
-          KUBERNETES_VERSION: ${{ matrix.k8s }}
-        run: .github/kubeval.sh
+          entrypoint: '/kubeconform'
+          args: "-summary -output json kubeconfigs/"
 
   # install-chart:
   #   name: install-chart
