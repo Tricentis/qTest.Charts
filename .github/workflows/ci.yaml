@@ -23,6 +23,23 @@ jobs:
 
       - name: Run lint
         run: ct lint --config .github/ct.yaml
+      - name: Render Helm templates for validation
+        run: |
+          mkdir -p kubeconfigs
+          for chart in Charts/*/; do
+            if [ -f "$chart/Chart.yaml" ]; then
+              echo "Rendering templates for $chart"
+              helm template $(basename "$chart") "$chart" \
+                --values "$chart/values.yaml" \
+                --output-dir kubeconfigs/$(basename "$chart") || true
+            fi
+          done
+      - name: login to Github Packages
+        run: echo "${{ github.token }}" | docker login https://ghcr.io -u ${GITHUB_ACTOR} --password-stdin
+      - uses: docker://ghcr.io/yannh/kubeconform:latest
+        with:
+          entrypoint: '/kubeconform'
+          args: "-summary -output json kubeconfigs/"
 
   lint-docs:
     runs-on: ubuntu-latest
@@ -32,12 +49,6 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Run helm-docs
         run: sudo .github/helm-docs.sh
-      - name: login to Github Packages
-        run: echo "${{ github.token }}" | docker login https://ghcr.io -u ${GITHUB_ACTOR} --password-stdin
-      - uses: docker://ghcr.io/yannh/kubeconform:latest
-        with:
-          entrypoint: '/kubeconform'
-          args: "-summary -output json kubeconfigs/"
 
   # install-chart:
   #   name: install-chart
