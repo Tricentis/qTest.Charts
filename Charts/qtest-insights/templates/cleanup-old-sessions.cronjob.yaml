@@ -1,0 +1,37 @@
+{{- if and .Values.qTestInsights.sessionsPersistence (or .Values.persistence.enabled .Values.persistence.existingClaim) }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: insights-cleanup-old-sessions
+spec:
+  schedule: {{ .Values.qTestInsights.staleSessionsRemovalSchedule }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: cleanup
+            image: alpine:latest
+            command: ["/bin/sh", "-c"]
+            volumeMounts:
+            - name: qtest-insights
+              mountPath: /tmp/insights-sessions
+              subPath: sessions
+            args:
+            - |
+              echo "Deleting session files older than 1 day..."
+              find /tmp/insights-sessions/ -type f -mtime +0 -exec rm -f {} \;
+              echo "Done"
+          restartPolicy: OnFailure
+          volumes:
+          - name: qtest-insights
+          {{- if .Values.persistence.existingClaim }}
+            persistentVolumeClaim:
+              claimName: {{ .Values.persistence.existingClaim }}
+          {{- else if .Values.persistence.enabled }}
+            persistentVolumeClaim:
+              claimName: {{ template "qtest-insights.fullname" . }}
+          {{- else }}
+            emptyDir: {}
+          {{- end }}
+{{- end }}
