@@ -15,15 +15,12 @@ jobs:
           fetch-depth: 0
       - name: Install Helm
         uses: azure/setup-helm@b9e51907a09c216f16ebe8536097933489208112 # v4.3.0
-        with:
-          version: 3.4.0 #renovate: datasource=github-releases depName=helm/helm
+
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
-        with:
-          python-version: 3.13
+
       - name: Install chart-testing
         uses: helm/chart-testing-action@cf48dbf901ed202ae2c5aee26422dd6dfdf41e47 # v2.7.0
-        with:
-          version: v3.4.0 #renovate: datasource=github-releases depName=helm/chart-testing
+
       - name: Run lint
         run: ct lint --config .github/ct.yaml
 
