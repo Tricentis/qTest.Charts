@@ -104,6 +104,7 @@ qTestInsights:
   serverAppSSLRequired: false
   # Persist user sessions to prevent re-login after each pod restart
   sessionsPersistence: false
+  staleSessionsRemovalSchedule: "0 12 * * *"
   # Persist logs from the application
   logsPersistence: true
   # Array of cipher suites for SSL/TLS connection in OpenSSL format (e.g. ["TLS_AES_256_GCM_SHA384", "TLS_CHACHA20_POLY1305_SHA256"])
