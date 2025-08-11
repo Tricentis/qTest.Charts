@@ -5,7 +5,6 @@ target-branch: main
 chart-dirs:
   - Charts
 chart-repos:
-  - bitnami=https://charts.bitnami.com/bitnami
   - reloader=https://stakater.github.io/stakater-charts
   - qtest=https://tricentis.github.io/qTest.Charts
 remote: origin
