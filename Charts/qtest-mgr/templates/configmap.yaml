@@ -135,6 +135,9 @@ data:
   oidc.client.id: "{{ .Values.qTestManager.oidc.clientId }}"
   oidc.metadata.url: "{{ .Values.qTestManager.oidc.configurationUri }}"
   oidc.redirect.uri: "{{ .Values.qTestManager.oidc.redirectUri }}"
+  {{- range .Values.secrets.oauthAppEnv }}
+  {{ .key }}: "{{ .name }}"
+  {{- end }}
 ---
 apiVersion: v1
 kind: ConfigMap

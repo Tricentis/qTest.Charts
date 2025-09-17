@@ -72,6 +72,30 @@ secrets:
   ## existingConfigs must be qtest-manager-secret
   # existingConfigs: "qtest-manager-secret"
   aesSecretKeysName: qtest-aes-secret-keys
+  oauthAppsSecretName: qtest-manager-secret
+  oauthAppEnv:
+    - name: OAUTH_APP_SP_SECRET
+      key: oauth.app.sp.secret
+    - name: OAUTH_APP_SP_GRANTS
+      key: oauth.app.sp.grants
+    - name: OAUTH_APP_SP_ACCESS_VALIDITY
+      key: oauth.app.sp.access.validity
+    - name: OAUTH_APP_SESSIONS_SECRET
+      key: oauth.app.sessions.secret
+    - name: OAUTH_APP_EXPLORER_SECRET
+      key: oauth.app.explorer.secret
+    - name: OAUTH_APP_WEB_EXPLORER_SECRET
+      key: oauth.app.web-explorer.secret
+    - name: OAUTH_APP_QMAP_SECRET
+      key: oauth.app.qmap.secret
+    - name: OAUTH_APP_JENKINS_SECRET
+      key: oauth.app.jenkins.secret
+    - name: OAUTH_APP_BAMBOO_SECRET
+      key: oauth.app.bamboo.secret
+    - name: OAUTH_APP_PULSE_SECRET
+      key: oauth.app.pulse.secret
+    - name: OAUTH_APP_TOSCA_SECRET
+      key: oauth.app.tosca.secret
 serviceAccount:
   create: true
   name:
@@ -83,7 +107,6 @@ service:
   port: 8080
   targetPort: 8080
   targetHttpsPort: 8443
-  targetSigSciPort: 8081
   serviceName: mgr-service
   # servicePortHttp: 80
   # servicePortHttps: 443
@@ -221,7 +244,7 @@ qTestManager:
     port: 465
     userName: "qtest"
     ## default password
-    password: "dGVzdHBhc3N3b3Jk"
+    password: ""
     supportEmailAddress: supports@tricentis.com
     blockExternal: true
     starttls: false
