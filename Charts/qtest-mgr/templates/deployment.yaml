@@ -190,6 +190,11 @@ spec:
         {{- end }}
         - name: qtest-data
           mountPath: {{ .Values.qTestManager.data.volumeMount }}
+        {{- if .Values.secrets.javaCertsSecretEnabled }}
+        - name: qtest-java-certs
+          mountPath: {{ .Values.qTestManager.extraCerts.mountPath }}
+          readOnly: true
+        {{- end }}
         - name: qtest-manager-secret-storage
           mountPath: {{ .Values.qTestManager.secret.volumeMount }}
           readOnly: true
@@ -229,6 +234,15 @@ spec:
       {{ else }}
           secretName: qtest-manager-secret
       {{- end }}
+      {{- if .Values.secrets.javaCertsSecretEnabled }}
+      - name: qtest-java-certs
+        secret:
+      {{- if .Values.secrets.javaCertsSecretName }}
+          secretName: {{ .Values.secrets.javaCertsSecretName }}
+      {{ else }}
+          secretName: java-certs-secret
+      {{- end }}
+      {{- end}}
       {{- if .Values.qTestManager.client.jdbc.sslEnable }}
       - name: qtest-manager-secret-root-volume
         secret:
@@ -434,6 +448,11 @@ spec:
         {{- end }}
         - name: qtest-data
           mountPath: {{ .Values.qTestManager.data.volumeMount }}
+        {{- if .Values.secrets.javaCertsSecretEnabled }}
+        - name: qtest-java-certs
+          mountPath: {{ .Values.qTestManager.extraCerts.mountPath }}
+          readOnly: true
+        {{- end }}
         - name: qtest-manager-secret-storage
           mountPath: {{ .Values.qTestManager.secret.volumeMount }}
           readOnly: true
@@ -678,6 +697,11 @@ spec:
         {{- end }}
         - name: qtest-data
           mountPath: {{ .Values.qTestManager.data.volumeMount }}
+        {{- if .Values.secrets.javaCertsSecretEnabled }}
+        - name: qtest-java-certs
+          mountPath: {{ .Values.qTestManager.extraCerts.mountPath }}
+          readOnly: true
+        {{- end }}
         - name: qtest-manager-secret-storage
           mountPath: {{ .Values.qTestManager.secret.volumeMount }}
           readOnly: true
@@ -922,6 +946,11 @@ spec:
         {{- end }}
         - name: qtest-data
           mountPath: {{ .Values.qTestManager.data.volumeMount }}
+        {{- if .Values.secrets.javaCertsSecretEnabled }}
+        - name: qtest-java-certs
+          mountPath: {{ .Values.qTestManager.extraCerts.mountPath }}
+          readOnly: true
+        {{- end }}
         - name: qtest-manager-secret-storage
           mountPath: {{ .Values.qTestManager.secret.volumeMount }}
           readOnly: true
