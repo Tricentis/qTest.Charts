@@ -5,25 +5,40 @@ metadata:
   namespace: {{ .Values.namespace.name }}
   labels:
     app: qTestInsightsIEtl
-
   {{- with .Values.liquibase.dependencyAnnotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
-
 data:
+  # qTest database configurations 
   QTEST_READ_DB_HOST: "{{ .Values.qTestInsightsIEtl.readQTestDBHost }}"
   QTEST_READ_DB_PORT: "{{ .Values.qTestInsightsIEtl.readQTestDBPort }}"
   QTEST_READ_DB_NAME: "{{ .Values.qTestInsightsIEtl.readQTestDBName }}"
   QTEST_READ_DB_USER: "{{ .Values.qTestInsightsIEtl.readQTestDBUser }}"
+  QTEST_READ_DB_MAX_POOL_SIZE: "{{ .Values.qTestInsightsIEtl.readQTestDBMaxPoolSize }}"
+  QTEST_READ_DB_MIN_IDLE: "{{ .Values.qTestInsightsIEtl.readQTestDBMinIdle }}"
   QTEST_WRITE_DB_HOST: "{{ .Values.qTestInsightsIEtl.writeQTestDBHost }}"
   QTEST_WRITE_DB_PORT: "{{ .Values.qTestInsightsIEtl.writeQTestDBPort }}"
   QTEST_WRITE_DB_NAME: "{{ .Values.qTestInsightsIEtl.writeQTestDBName }}"
   QTEST_WRITE_DB_USER: "{{ .Values.qTestInsightsIEtl.writeQTestDBUser }}"
+  QTEST_WRITE_DB_MAX_POOL_SIZE: "{{ .Values.qTestInsightsIEtl.writeQTestDBMaxPoolSize }}"
+  QTEST_WRITE_DB_MIN_IDLE: "{{ .Values.qTestInsightsIEtl.writeQTestDBMinIdle }}"
   QTEST_DB_SCHEMA: "{{ .Values.qTestInsightsIEtl.qTestDBSchema }}"
   INSIGHTS_DB_USER: "{{ .Values.qTestInsightsIEtl.insightsDBUser }}"
   INSIGHTS_DB_SCHEMA: "{{ .Values.qTestInsightsIEtl.insightsDBSchema }}"
   INSIGHTS_ETL_DB_SCHEMA: "{{ .Values.qTestInsightsIEtl.insightEtlDBSchema }}"
+  SESSIONS_READ_DB_HOST: "{{ .Values.qTestInsightsIEtl.sessionsReadDBHost }}"
+  SESSIONS_READ_DB_PORT: "{{ .Values.qTestInsightsIEtl.sessionsReadDBPort }}"
+  SESSIONS_READ_DB_NAME: "{{ .Values.qTestInsightsIEtl.sessionsReadDBName }}"
+  SESSIONS_READ_DB_USER: "{{ .Values.qTestInsightsIEtl.sessionsReadDBUser }}"
+  SESSIONS_READ_DB_SCHEMA_NAME: "{{ .Values.qTestInsightsIEtl.sessionsReadDBSchema }}"
+  SESSIONS_WRITE_DB_HOST: "{{ .Values.qTestInsightsIEtl.sessionsWriteDBHost }}"
+  SESSIONS_WRITE_DB_PORT: "{{ .Values.qTestInsightsIEtl.sessionsWriteDBPort }}"
+  SESSIONS_WRITE_DB_NAME: "{{ .Values.qTestInsightsIEtl.sessionsWriteDBName }}"
+  SESSIONS_WRITE_DB_USER: "{{ .Values.qTestInsightsIEtl.sessionsWriteDBUser }}"
+  SESSIONS_WRITE_DB_SCHEMA_NAME: "{{ .Values.qTestInsightsIEtl.sessionsWriteDBSchema }}"
+  # General configurations
+  AUTO_REFRESH_DBLINK: "{{ .Values.qTestInsightsIEtl.autoRefreshDBLink }}"
   QUARTZ_THREAD_COUNT: "{{ .Values.qTestInsightsIEtl.iEtlQuartzThreadCount }}"
   INSIGHTS_ETL_BATCH_INITIAL_SIZE: "{{ .Values.qTestInsightsIEtl.iEtlBatchInitialSize }}"
   INSIGHTS_ETL_BATCH_MIN_SIZE: "{{ .Values.qTestInsightsIEtl.iEtlBatchMinSize }}"
@@ -35,3 +50,25 @@ data:
   INSIGHTS_ETL_BETA_JOBS_DISABLED: "{{ .Values.qTestInsightsIEtl.iEtlBetaJobsDisabled }}"
   LOG_ENVIRONMENT: "{{ .Values.qTestInsightsIEtl.logEnvironment }}"
   INSIGHTS_ETL_LONG_RUNNING_MATERIALIZED_VIEW_INTERVAL: "{{ .Values.qTestInsightsIEtl.iEtlLongRunningMaterializedViewInterval }}"
+  # Rapid Dashboards configurations
+  RAPID_DASHBOARDS_TASK_INTERVAL: "{{ .Values.qTestInsightsIEtl.rapidDashboardsTaskInterval }}"
+  RAPID_DASHBOARDS_BATCH_SIZE: "{{ .Values.qTestInsightsIEtl.rapidDashboardsBatchSize }}"
+  RAPID_DASHBOARDS_MAX_CONCURRENT_TASKS: "{{ .Values.qTestInsightsIEtl.rapidDashboardsMaxConcurrentTasks }}"
+  RAPID_DASHBOARDS_PICKER_WINDOW: "{{ .Values.qTestInsightsIEtl.rapidDashboardsPickerWindow }}"
+  RAPID_DASHBOARDS_REQUEST_TIMEOUT: "{{ .Values.qTestInsightsIEtl.rapidDashboardsRequestTimeout }}"
+  RAPID_DASHBOARDS_CONNECT_TIMEOUT: "{{ .Values.qTestInsightsIEtl.rapidDashboardsConnectTimeout }}"
+  RAPID_DASHBOARDS_SOCKET_TIMEOUT: "{{ .Values.qTestInsightsIEtl.rapidDashboardsSocketTimeout }}"
+  RAPID_DASHBOARDS_CONNECTION_REQUEST_TIMEOUT: "{{ .Values.qTestInsightsIEtl.rapidDashboardsConnectionRequestTimeout }}"
+  RAPID_DASHBOARDS_ENABLE_MISFIRE_HANDLING: "{{ .Values.qTestInsightsIEtl.rapidDashboardsEnableMisfireHandling }}"
+  # Scheduled Reports configurations
+  SCHEDULED_REPORTS_ENABLE_MISFIRE_HANDLING: "{{ .Values.qTestInsightsIEtl.scheduledReportsEnableMisfireHandling }}"
+  SCHEDULED_REPORTS_REQUEST_TIMEOUT: "{{ .Values.qTestInsightsIEtl.scheduledReportsRequestTimeout }}"
+  SCHEDULED_REPORTS_RESULT_LOGS_PATH: "{{ .Values.qTestInsightsIEtl.scheduledReportsResultLogsPath }}"
+  SCHEDULED_REPORTS_CONNECT_TIMEOUT: "{{ .Values.qTestInsightsIEtl.scheduledReportsConnectTimeout }}"
+  SCHEDULED_REPORTS_SOCKET_TIMEOUT: "{{ .Values.qTestInsightsIEtl.scheduledReportsSocketTimeout }}"
+  SCHEDULED_REPORTS_CONNECTION_REQUEST_TIMEOUT: "{{ .Values.qTestInsightsIEtl.scheduledReportsConnectionRequestTimeout }}"
+  SCHEDULED_REPORTS_BATCH_SIZE: "{{ .Values.qTestInsightsIEtl.scheduledReportsBatchSize }}"
+  SCHEDULED_REPORTS_MAX_CONCURRENT_TASKS: "{{ .Values.qTestInsightsIEtl.scheduledReportsMaxConcurrentTasks }}"
+  SCHEDULED_REPORTS_TASK_INTERVAL: "{{ .Values.qTestInsightsIEtl.scheduledReportsTaskInterval }}"
+  
+
