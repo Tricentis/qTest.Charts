@@ -1,16 +1,13 @@
 # Default values for qtest-i-etl-chart
 namespace:
   name: qtest
-
 secrets:
   enabled: false
   name: qtest-i-etl-secret
-
 image:
   repository: qasymphony/i-etl
   pullPolicy: IfNotPresent
   tag: "2025.2.0"
-
 liquibase:
   enabled: true
   securityContext: {}
@@ -21,7 +18,6 @@ liquibase:
     helm.sh/hook: pre-install, pre-upgrade
     helm.sh/hook-weight: "-5"
     helm.sh/hook-delete-policy: before-hook-creation
-
 imageCredentials:
   enabled: false
   # name: ""
@@ -30,7 +26,6 @@ imageCredentials:
   # password: ""
   # email: ""
   # existingImageCredentials: ""
-
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
@@ -38,15 +33,12 @@ serviceAccount:
   annotations: {}
   # A service account will be created for you if set to true. Set to false if you want to use your own.
   name: "qtest-insights-i-etl-sa"
-
 deployment:
   annotations: {}
   singlePodPerNode: false
   strategy:
     type: Recreate
-
 podAnnotations: {}
-
 rollouts:
   enabled: false
   ingressClassName: alb
@@ -63,17 +55,11 @@ rollouts:
     #     args:
     #     - name: service-name
     - setWeight: 50
-
 extraInitContainers: []
-
 extraContainers: []
-
 extraEnv: []
-
 extraVolumeMounts: []
-
 extraVolumes: []
-
 service:
   type: ClusterIP
   annotations: {}
@@ -84,20 +70,41 @@ securityContext:
   runAsUser: 8877
   runAsNonRoot: true
   fsGroup: 8877
-
 qTestInsightsIEtl:
+  # qTest database configurations - read
   readQTestDBHost: postgres.local
   readQTestDBPort: 5432
   readQTestDBName: qtest
   readQTestDBUser: postgres
+  readQTestDBMaxPoolSize: 25
+  readQTestDBMinIdle: 5
+  # qTest database configurations - write
   writeQTestDBHost: postgres.local
   writeQTestDBPort: 5432
   writeQTestDBName: qtest
   writeQTestDBUser: postgres
+  writeQTestDBMaxPoolSize: 25
+  writeQTestDBMinIdle: 5
   qTestDBSchema: public
   insightsDBSchema: insights
   insightsDBUser: postgres
   insightEtlDBSchema: insights_etl
+  # Session database configurations - read
+  sessionsReadDBHost: postgres.local
+  sessionsReadDBPort: 5432
+  sessionsReadDBName: sessions
+  sessionsReadDBUser: postgres
+  sessionsReadDBSchema: public
+  # Session database configurations - write
+  sessionsWriteDBHost: postgres.local
+  sessionsWriteDBPort: 5432
+  sessionsWriteDBName: sessions
+  sessionsWriteDBUser: postgres
+  sessionsWriteDBSchema: public
+  # General configurations
+  autoRefreshDBLink: true
+  logEnvironment: opk8s
+  # Quartz and job configurations
   iEtlQuartzThreadCount: 10
   iEtlBatchInitialSize: 10000
   iEtlBatchMinSize: 1000
@@ -107,11 +114,27 @@ qTestInsightsIEtl:
   iEtlAggregationInterval: 600
   iEtlMaterializedViewInterval: 600
   iEtlBetaJobsDisabled: false
-  logEnvironment: opk8s
-  qTestDBPassword: ""
-  insightsDBPassword: ""
   iEtlLongRunningMaterializedViewInterval: 10800
-
+  # Rapid Dashboards configurations - ALL IN SECONDS
+  rapidDashboardsTaskInterval: 60
+  rapidDashboardsBatchSize: 100
+  rapidDashboardsMaxConcurrentTasks: 10
+  rapidDashboardsPickerWindow: 61
+  rapidDashboardsRequestTimeout: 600
+  rapidDashboardsConnectTimeout: 10
+  rapidDashboardsSocketTimeout: 600
+  rapidDashboardsConnectionRequestTimeout: 10
+  rapidDashboardsEnableMisfireHandling: true
+  # Scheduled Reports configurations - ALL IN SECONDS
+  scheduledReportsEnableMisfireHandling: true
+  scheduledReportsBatchSize: 100
+  scheduledReportsRequestTimeout: 600
+  scheduledReportsResultLogsPath: /tmp/scheduled-reports-logs
+  scheduledReportsConnectTimeout: 10
+  scheduledReportsSocketTimeout: 600
+  scheduledReportsConnectionRequestTimeout: 10
+  scheduledReportsMaxConcurrentTasks: 10
+  scheduledReportsTaskInterval: 60
 #### Ingress/IngressClass
 ingressClass:
   enabled: false
@@ -120,7 +143,6 @@ ingressClass:
   isDefaultClass: true
   # Use to force a networking.k8s.io API Version for certain CI/CD applications. Ex. "v1"
   fallbackApiVersion: ""
-
 ingress:
   enabled: false
   name: qtest-insights-i-etl-ingress
@@ -128,32 +150,25 @@ ingress:
   annotations: {}
   canary:
     annotationPrefix: ""
-    annotations:
-      {}
+    annotations: {}
   hosts:
     - host: insights-i-etl.qtest.local
-
   paths: []
-
   extraPaths:
     - path: /*
       backendServiceName: insights-i-etl
       pathType: ImplementationSpecific
       backendPort: 8080
-
-  tls:
-    []
-    # - secretName: qtest-svc-tls
-    #   hosts:
-    #     - svc.qtest.com
+  tls: []
+  # - secretName: qtest-svc-tls
+  #   hosts:
+  #     - svc.qtest.com
   https: false
-
 # HPA values
 autoscaling:
   enabled: false
   minReplicas: 1
   maxReplicas: 1
-
   livenessProbe:
     httpGet:
       path: /healthz
@@ -162,7 +177,6 @@ autoscaling:
     initialDelaySeconds: 15
     periodSeconds: 15
     failureThreshold: 3
-
   readinessProbe:
     httpGet:
       path: /healthz
@@ -171,7 +185,6 @@ autoscaling:
     initialDelaySeconds: 15
     periodSeconds: 15
     failureThreshold: 3
-
   startupProbe:
     httpGet:
       path: /healthz
@@ -180,10 +193,8 @@ autoscaling:
     initialDelaySeconds: 10
     periodSeconds: 5
     failureThreshold: 20
-
   targetCPUUtilizationPercentage: 85
   targetMemoryUtilizationPercentage: 85
-
 resources:
   requests:
     cpu: 1
@@ -191,11 +202,7 @@ resources:
   limits:
     cpu: 1
     memory: 2Gi
-
 nodeSelector: {}
-
 tolerations: []
-
 affinity: {}
-
 topologySpreadConstraints: {}
