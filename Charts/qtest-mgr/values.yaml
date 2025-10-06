@@ -55,8 +55,8 @@ image:
   repository: tricentisimage/qtest-mgr
   liquibase: tricentisimage/qtest-mgr-liquibase
   pullPolicy: IfNotPresent
-  tag: "2025.2.8"
-  liquibasetag: "2025.2.8"
+  tag: "2025.2.9"
+  liquibasetag: "2025.2.9"
   liquibasepullpolicy: IfNotPresent
 imageCredentials:
   enabled: false
@@ -264,6 +264,7 @@ qTestManager:
     levels:
       # syntax is logger: loglevel
       # will be converted to xml in configmap
+      root: info
       tc.integration: info
   data:
     volumeMount: /mnt/data/qtest
