@@ -264,7 +264,6 @@ qTestManager:
     levels:
       # syntax is logger: loglevel
       # will be converted to xml in configmap
-      root: info
       tc.integration: info
   data:
     volumeMount: /mnt/data/qtest
