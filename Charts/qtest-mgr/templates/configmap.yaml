@@ -71,6 +71,7 @@ data:
   notification.url.external: "{{ .Values.qTestManager.notification.urlExternal }}"
   notification.url.internal: "{{ .Values.qTestManager.notification.urlInternal }}"
   qtest.servermap.url: "{{ .Values.qTestManager.qTest.serverMapUrl }}"
+  qtest.verifyotp.url: "{{ .Values.qTestManager.qTest.verifyOtpUrl }}"
   tdm.setting.url: "{{ .Values.qTestManager.tdmSettingUrl }}"
   mail.host: "{{ .Values.qTestManager.mail.host }}"
   mail.port: "{{ .Values.qTestManager.mail.port }}"

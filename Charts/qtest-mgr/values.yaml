@@ -5,9 +5,6 @@
 ## universal namespace for all qtest app services
 namespace:
   name: qtest
-## Deploys Stakater Reloader https://github.com/stakater/Reloader
-reloader:
-  enabled: false
 ## When Argo Rollouts is enabled, this will set Kubernetes deployment to Rollouts
 ## https://argoproj.github.io/rollouts/
 rollouts:
@@ -55,8 +52,8 @@ image:
   repository: tricentisimage/qtest-mgr
   liquibase: tricentisimage/qtest-mgr-liquibase
   pullPolicy: IfNotPresent
-  tag: "2025.2.8"
-  liquibasetag: "2025.2.8"
+  tag: "2025.2.9"
+  liquibasetag: "2025.2.9"
   liquibasepullpolicy: IfNotPresent
 imageCredentials:
   enabled: false
@@ -89,8 +86,6 @@ secrets:
       key: oauth.app.explorer.secret
     - name: OAUTH_APP_WEB_EXPLORER_SECRET
       key: oauth.app.web-explorer.secret
-    - name: OAUTH_APP_QMAP_SECRET
-      key: oauth.app.qmap.secret
     - name: OAUTH_APP_JENKINS_SECRET
       key: oauth.app.jenkins.secret
     - name: OAUTH_APP_BAMBOO_SECRET
@@ -232,6 +227,7 @@ qTestManager:
     redirectUri: https://use.a.real.site/login/oauth2/support/token
   qTest:
     serverMapUrl: "http://qtest.local/public/jira-widget/server-map"
+    verifyOtpUrl: "http://qtest.local/public/jira-widget/verify-otp"
     instance: US
     ODPrivate: false
     region: "Default Cluster"
@@ -648,24 +644,3 @@ nodeSelector: {}
 tolerations: []
 affinity: {}
 topologySpreadConstraints: {}
-### qtest-launch ###################################################
-qtest-launch:
-  enabled: false
-### qtest-insights ###################################################
-qtest-insights:
-  enabled: false
-### qtest-insights-etl ###################################################
-qtest-insights-etl:
-  enabled: false
-### qtest-parameters ###################################################
-qtest-parameters:
-  enabled: false
-### qtest-pulse ###################################################
-qtest-pulse:
-  enabled: false
-### qtest-scenario ###################################################
-qtest-scenario:
-  enabled: false
-### qtest-session ###################################################
-qtest-session:
-  enabled: false
