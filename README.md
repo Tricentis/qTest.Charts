@@ -3,8 +3,6 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Chart Publish](https://github.com/Tricentis/qTest.Charts/actions/workflows/release.yaml/badge.svg?branch=main)](https://github.com/Tricentis/qTest.Charts/actions/workflows/release.yaml)
 
-<img src="https://assets-global.website-files.com/5dfb2c5f5b18187014b68b84/5e5765ef5072d028554d9233_qTest_logo.png" width="450" height="134">
-
 [Tricentis qTest](https://www.tricentis.com/products/unified-test-management-qtest/) is a centralized test management platform to help unify, manage, and rapidly scale testing across the enterprise, so teams can collaborate to ship faster with less risk.
 
 ## Introduction
@@ -24,6 +22,7 @@ This repository includes the following charts:
 - qTest Pulse
 - qTest Insights
 - qTest Insights ETL
+- qTest Insights i-ETL
 - qTest Swagger-UI
 - qTest Test Config
 
@@ -45,16 +44,30 @@ When prompted, enter your Docker ID and access token. The login process creates 
 
 Next, create a corresponding Kubernetes secret named `regcred`. This can be created from you existing credentials:
 
+> **Note:**  
+> In all the `kubectl` and `helm` commands shown in this guide, we use `-n qtest` to specify the `qtest` namespace.
+>
+> If you want to skip creating/using a namespace, simply remove `-n qtest` from all commands, and resources will be created in the default namespace.
+
+
 ```bash
+kubectl create namespace qtest --dry-run=client -o yaml | kubectl apply -f -
+
 kubectl create secret generic regcred \
     --from-file=.dockerconfigjson=<path/to/.docker/config.json> \
-    --type=kubernetes.io/dockerconfigjson
+    --type=kubernetes.io/dockerconfigjson -n qtest
 ```
+
+
+```bash
+kubectl create secret generic qtest-manager-secret -n qtest --from-literal=oauth.app.sp.access.validity="3600000"  --from-literal=oauth.app.sp.secret="{value}" --from-literal=oauth.app.sp.grants="" --from-literal=oauth.app.sessions.secret="{value}"  --from-literal=oauth.app.explorer.secret="{value}"  --from-literal=oauth.app.qmap.secret="{value}" --from-literal=oauth.app.jenkins.secret="{value}" --from-literal=oauth.app.bamboo.secret="{value}" --from-literal=oauth.app.pulse.secret="{value}"  --from-literal=oauth.app.tosca.secret="{value}" --from-literal=oauth.app.web-explorer.secret="{value}"   --dry-run=client -o yaml | kubectl apply -f -
+```
+Just replace {value} with the values.
 
 If you do not wish to use the Docker `config.json` file, the secret can also be created directly from the command line:
 
 ```bash
-kubectl create secret docker-registry regcred --docker-server=<your-registry-server> --docker-username=<your-name> --docker-password=<your-pword> --docker-email=<your-email>
+kubectl create secret docker-registry regcred -n qtest --docker-server=<your-registry-server> --docker-username=<your-name> --docker-password=<your-pword> --docker-email=<your-email>
 ```
 
 where:
@@ -131,18 +144,18 @@ Every chart has a set of common properties which influence deployment-related be
 At a minimum, the `postgres` and `elasticSearch` parameters should be provided to match your environment.
 
 | Parameter                                  | Description                                                                                            | Default                                                                                      |
-| ------------------------------------------ | ------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
+| ------------------------------------------ |--------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
 | `attachment.folder.path`                   | qTest attachement folder path                                                                          | `/mnt/data/qtest/attachments`                                                                |
 | `blobstorage.type`                         | qTest Manager attachements folder type                                                                 | `disk_storage` (Accepted values disk_storage, amazon_s3_access_key)                          |
 | `blobstorage.region`                       | S3 bucket region                                                                                       | `us-east-1` (Needed when blobstorage.type is amazon_s3_access_key)                           |
 | `blobstorage.sharedBucket`                 | S3 bucket name                                                                                         | `qtest` (Needed when blobstorage.type is amazon_s3_access_key)                               |
 | `client.jdbc.postgresUrl`                  | PSQL database URL                                                                                      | `jdbc:postgresql://host.docker.internal/qtest`                                               |
 | `client.jdbc.postgresUserName`             | PSQL username                                                                                          | `postgres`                                                                                   |
-| `client.jdbc.postgresPassword`             | PSQL password                                                                                          | `cG9zdGdyZXM=` (`postgres`, base64-encoded)                                                  |
+| `client.jdbc.postgresPassword`             | PSQL password                                                                                          |                                                                                              |
 | `client.jdbc.sslEnable`                    | Enable ssl connections                                                                                 | `false`                                                                                      |
 | `client.jdbc.postgres.readonly.url`        | PSQL readonly database URL                                                                             | `jdbc:postgresql://host.docker.internal/qtest`                                               |
 | `client.jdbc.postgres.readonly.username`   | PSQL username                                                                                          | `postgres`                                                                                   |
-| `client.jdbc.postgres.readonly.password`   | PSQL password                                                                                          | `cG9zdGdyZXM=` (`postgres`, base64-encoded)                                                  |
+| `client.jdbc.postgres.readonly.password`   | PSQL password                                                                                          |                                                                                              |
 | `client.jdbc.sslMountPath`                 | Postgresql ssl certificate mount directory                                                             | `\etc\ssl`                                                                                   |
 | `client.jdbc.sslPath`                      | Postgresql ssl connection string                                                                       | `?ssl=true&sslmode=verify-full&sslrootcert=/etc/ssl/root.crt` (please chnage only cert path) |
 | `client.jdbc.cert`                         | Postgresql client certificate                                                                          | `` (postgres client certificate, base64-encoded)                                             |
@@ -155,9 +168,9 @@ At a minimum, the `postgres` and `elasticSearch` parameters should be provided t
 | `mail.host`                                | SMTP host name                                                                                         | `smtp.local`                                                                                 |
 | `mail.port`                                | SMTP port number                                                                                       | `465`                                                                                        |
 | `mail.username`                            | SMTP username                                                                                          | `qtest`                                                                                      |
-| `mail.password`                            | SMTP password                                                                                          | `cG9zdGdyZXM=` (`postgres`, base64-encoded)                                                  |
+| `mail.password`                            | SMTP password                                                                                          |                                                                                              |
 | `mail.supportEmailAddress`                 | qTest Support email address                                                                            | `supports@tricentis.com`                                                                     |
-| `mail.starttls`                 | qTest Manager SMTP StartTLS                                                                          | `false`                                                                     |
+| `mail.starttls`                            | Use TLS to encrypt communication with the SMTP server (enables use of port 587).                       | `false`                                                                                      |
 | `notification.urlExternal`                 | Notification URL                                                                                       | `https://nephele.qtest.local`                                                                |
 | `preUrl`                                   | qTest Manager URL                                                                                      | `http://<sitename>.qtest.local`                                                              |
 | `preUrlHttps`                              | qTest Manager URL                                                                                      | `https://<sitename>.qtest.local`                                                             |
@@ -207,8 +220,21 @@ At a minimum, the `postgres` and `elasticSearch` parameters should be provided t
 | `serverAppSSLRequired`                     | Runs pod of qTest Manager on SSL                                                                       | `false`                                                                                      |
 | `serverAppSSLCipherSuites`                 | Cipher suites for SSL/TLS connection                                                                   | []                                                                                           |
 | `server.sslMountPath`                      | Pod certificate mounting path                                                                          | `/mnt/secrets/tls`                                                                           |
+| `OauthAppSpSecret`                         | Get the value from AWS SM                                                                              | *(none)*                                                                                     |
+| `OauthAppSpGrants`                         | Get the value from AWS SM                                                                              | *(none)*                                                                                     |
+| `OauthAppSpAccessValidity`                 | Token validity (seconds)                                                                               | `300000`                                                                                     |
+| `OauthAppSessionsSecret`                   | Get the value from AWS SM                                                                              | *(none)*                                                                                     |
+| `OauthAppExplorerSecret`                   | Get the value from AWS SM                                                                              | *(none)*                                                                                     |
+| `OauthAppWebExplorerSecret`                | Get the value from AWS SM                                                                              | *(none)*                                                                                     |
+| `OauthAppQmapSecret`                       | Get the value from AWS SM                                                                              | *(none)*                                                                                     |
+| `OauthAppJenkinsSecret`                    | Get the value from AWS SM                                                                              | *(none)*                                                                                     |
+| `OauthAppBambooSecret`                     | Get the value from AWS SM                                                                              | *(none)*                                                                                     |
+| `OauthAppPulseSecret`                      | Get the value from AWS SM                                                                              | *(none)*                                                                                     |
+| `OauthAppToscaSecret`                      | Get the value from AWS SM                                                                              | *(none)*                                                                                     |
+| `secret.javaCertsSecretEnabled`            | Enable the extra Java certs                                                                            | `false`                                                                                      |
+| `secret.javaCertsSecretName`               | Name of the secret containing extra Java certs                                                         | `java-certs-secret`                                                                         |
 
-## Parameters app configurations to change in parameters-values-kind.yaml
+## Parameters app configurations to change in "Charts/qtest-parameters/values.yaml"
 
 | Parameter                        | Description                                                             | Default                                                       |
 | -------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------- |
@@ -224,7 +250,7 @@ At a minimum, the `postgres` and `elasticSearch` parameters should be provided t
 | `qTestParametersSSLMountPath`    | Pod client certificate                                                  | `/mnt/secrets/tls`                                            |
 | `qTestParametersSSLCipherSuites` | Cipher suites for SSL/TLS connection                                    | []                                                            |
 
-## Launch app configurations to change in launch-values-kind.yaml
+## Launch app configurations to change in "Charts/qtest-launch/values.yaml"
 
 | Parameter                    | Description                                                             | Default                                                       |
 | ---------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------- |
@@ -242,7 +268,7 @@ At a minimum, the `postgres` and `elasticSearch` parameters should be provided t
 | `qTestLaunchSSLCipherSuites` | Cipher suites for SSL/TLS connection                                    | []                                                            |
 | `qTestLaunchDeploymentEnv`   | Type of deployment environment. Either SaaS or OP                       | `op`                                                          |
 
-## Automation Host app configurations to change in Charts/qtest-automation-host/values.yaml
+## Automation Host app configurations to change in "Charts/qtest-automation-host/values.yaml"
 
 | Parameter                       | Description                                                  | Default              |
 | ------------------------------- | ------------------------------------------------------------ | -------------------- |
@@ -250,7 +276,7 @@ At a minimum, the `postgres` and `elasticSearch` parameters should be provided t
 | `qTestAutomationHostPort`       | Port of the Automation Host                                  | `6789`               |
 | `qTestAutomationHostManagerUrl` | URL of qTest Manager to which Automation Host should connect | `https://manager.dc` |
 
-## Pulse app configurations to change in pulse-values-kind.yaml
+## Pulse app configurations to change in "Charts/qtest-pulse/values.yaml"
 
 Helm chart values for Pulse service to set either in `values-pulse.yaml` or `--set` flag.
 
@@ -260,27 +286,28 @@ Installation command for pulse service:
 helm install qtest-pulse-executor qtest/qtest-pulse -n qtest -f values-pulse.yaml
 ```
 
-| Parameter                             | Description                                                                                                            | Default                                                       |
-|---------------------------------------|------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
-| `qTestPulseDBName`                    | PSQL database name of the pulse                                                                                        | `pulse`                                                       |
-| `qTestPulseDBUserName`                | PSQL username                                                                                                          | `postgres`                                                    |
-| `qTestPulseDBHostName`                | PSQL database host name                                                                                                | `host.docker.internal`                                        |
-| `qTestPulseRootURL`                   | qTest Pulse url                                                                                                        | `https://pulse.qtest.local`                                   |
-| `qTestPulseScenarioURL`               | qTest Launch url                                                                                                       | `https://scenario.qtest.local`                                |
-| `qTestPulseDBSSLEnable`               | Enable ssl connections                                                                                                 | `false`                                                       |
-| `qTestPulseDBSSLMountPath`            | Postgresql ssl certificate mount directory                                                                             | `\etc\ssl`                                                    |
-| `qTestPulseDBSSL`                     | SSL Connection which appends for SSL Connection (only change cert name)                                                | `?ssl=true&sslmode=verify-full&sslrootcert=/etc/ssl/root.crt` |
-| `qTestPulseDBRootCRT`                 | Postgresql client certificate                                                                                          | (postgres client certificate, base64-encoded)                 |
-| `qTestPulseType`                      | The type of Pulse service that is running, can be `qtest-pulse` or `executor`                                          | `qtest-pulse`                                                 |
-| `qTestPulseExecutorUrl`               | The URL of Pulse Executor, could be something like `http://pulse-executor-service.<namespace>`                         | empty string                                                  |
-| `qTestPulseWebsocketServerPort`       | The websocket port of pulse server                                                                                     | `6001`                                                        |
-| `qTestPulseWebsocketUrl`              | The URL used by Executor websocket client to connect to pulse server, could be something like `wss://pulse-service/ws` | empty string                                                  |
-| `qTestPulseLogLevel`                  | Log level setting for both Pulse and Executor apps                                                                     | `info`                                                        |
-| `qTestPulseDBPort`                    | Postgresql database port                                                                                               | `5432`                                                        |
-| `qTestPulseSSLRequired`               | Pod Level SSL Traffic Encryption                                                                                       | `false`                                                       |
-| `qTestPulseSSLMountPath`              | Pod client certificate                                                                                                 | `/mnt/secrets/tls`                                            |
-| `qTestPulseSSLCipherSuites`           | Cipher suites for SSL/TLS connection                                                                                   | []                                                            |
-| `qtestPulseExecutorApiKey`            | Pulse Executor API key - random string used as an authorization between pulse service and executor service             | `''` empty string                                             |
+| Parameter                   | Description                                                                                    | Default                                                       |
+| --------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| `qTestPulseDBName`          | PSQL database name of the pulse                                                                | `pulse`                                                       |
+| `qTestPulseDBUserName`      | PSQL username                                                                                  | `postgres`                                                    |
+| `qTestPulseDBHostName`      | PSQL database host name                                                                        | `host.docker.internal`                                        |
+| `qTestPulseRootURL`         | qTest Pulse url                                                                                | `https://pulse.qtest.local`                                   |
+| `qTestPulseScenarioURL`     | qTest Launch url                                                                               | `https://scenario.qtest.local`                                |
+| `qTestPulseDBSSLEnable`     | Enable ssl connections                                                                         | `false`                                                       |
+| `qTestPulseDBSSLMountPath`  | Postgresql ssl certificate mount directory                                                     | `\etc\ssl`                                                    |
+| `qTestPulseDBSSL`           | SSL Connection which appends for SSL Connection (only change cert name)                        | `?ssl=true&sslmode=verify-full&sslrootcert=/etc/ssl/root.crt` |
+| `qTestPulseDBRootCRT`       | Postgresql client certificate                                                                  | (postgres client certificate, base64-encoded)                 |
+| `qTestPulseType`            | The type of Pulse service that is running, can be `qtest-pulse` or `executor`                          | `qtest-pulse`                                                 |
+| `qTestPulseExecutorUrl`     | The URL of Pulse Executor, could be something like `http://pulse-executor-service.<namespace>` | empty string                                                  |
+| `qTestPulseWebsocketServerPort`     | The websocket port of pulse server                                                     | `6001`                                                  |
+| `qTestPulseWebsocketUrl`    | The URL used by Executor websocket client to connect to pulse server, could be something like `wss://pulse-service/ws` | empty string                                                  |
+| `qTestPulseLogLevel`        | Log level setting for both Pulse and Executor apps                                             | `info`                                                        |
+| `qTestPulseFlagEnableExecutorPolling`        | Flag that enables new way of communication for Pulse and Executor (needs to be enabled in both)                   | `0`                                                        |
+| `qTestPulseDBPort`          | Postgresql database port                                                                       | `5432`                                                        |
+| `qTestPulseSSLRequired`     | Pod Level SSL Traffic Encryption                                                               | `false`                                                       |
+| `qTestPulseSSLMountPath`    | Pod client certificate                                                                         | `/mnt/secrets/tls`                                            |
+| `qTestPulseSSLCipherSuites` | Cipher suites for SSL/TLS connection                                                           | []                                                            |
+| `qtestPulseExecutorApiKey`  | Pulse Executor API key - random string used as an authorization between pulse service and executor service                                                                       | `''` empty string                |
 
 ## Pulse Executor app configurations to change in pulse-executor-values-kind.yaml
 
@@ -292,33 +319,34 @@ Installation command for executor service:
 helm install qtest-pulse-executor qtest/qtest-pulse -n qtest -f values-pulse-executor.yaml
 ```
 
-| Parameter              | Description                                                             | Default                                                       |
-| ---------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------- |
-| `qTestPulseType`       | The type of Pulse service that is running, can be `qtest-pulse` or `executor`. Default is `qtest-pulse` for running executor should be change to `executor`   | `qtest-pulse`                                                 |
-| `qtestPulseExecutorApiKey`  | Pulse Executor API key - random string used as an authorization between pulse service and executor, should be same as in pulse service                                                                       | `''` empty string                |
-| `nameOverride`  | Pulse and executor use the same chart. To not conflicting resources value should be set to 'qtest-pulse-executor                                                                       | `''`                |
-| `service.serviceName`  | To rename the k8s service. Value should be set to something like `pulse-executor-service`. value has to be the same like the one on Pulse app above.                                                                     | `''`                |
+| Parameter                  | Description                                                                                                                                                 | Default           |
+|----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------|
+| `qTestPulseType`           | The type of Pulse service that is running, can be `qtest-pulse` or `executor`. Default is `qtest-pulse` for running executor should be change to `executor` | `qtest-pulse`     |
+| `qtestPulseExecutorApiKey` | Pulse Executor API key - random string used as an authorization between pulse service and executor, should be same as in pulse service                      | `''` empty string |
+| `nameOverride`             | Pulse and executor use the same chart. To not conflicting resources value should be set to 'qtest-pulse-executor                                            | `''`              |
+| `service.serviceName`      | To rename the k8s service. Value should be set to something like `pulse-executor-service`. value has to be the same like the one on Pulse app above.        | `''`              |
 
-## Scenario app configurations to change in scenario-values-kind.yaml
+## Scenario app configurations to change in "Charts/qtest-scenario/values.yaml"
 
-| Parameter                      | Description                                                             | Default                                                       |
-| ------------------------------ | ----------------------------------------------------------------------- | ------------------------------------------------------------- |
-| `qTestScenarioDBName`          | PSQL database name of the scenario                                      | `scenario`                                                    |
-| `qTestScenarioDBUserName`      | PSQL username                                                           | `postgres`                                                    |
-| `qTestScenarioDBHostName`      | PSQL database host name                                                 | `host.docker.internal`                                        |
-| `qTestScenarioLocalBaseURL`    | qTest Pulse url                                                         | `https://scenario.qtest.local`                                |
-| `qTestScenarioQTestURL`        | qTest Launch url                                                        | `https://nephele.qtest.local`                                 |
-| `qTestScenarioDBSSLEnable`     | Enable ssl connections                                                  | `false`                                                       |
-| `qTestScenarioDBSSLMountPath`  | Postgresql ssl certificate mount directory                              | `\etc\ssl`                                                    |
-| `qTestScenarioDBSSL`           | SSL Connection which appends for SSL Connection (only change cert name) | `?ssl=true&sslmode=verify-full&sslrootcert=/etc/ssl/root.crt` |
-| `qTestScenarioDBRootCRT`       | Postgresql client certificate                                           | `` (postgres client certificate, base64-encoded)              |
-| `qTestScenarioDBPort`          | Postgresql database port                                                | `5432`                                                        |
-| `qTestScenarioSSLRequired`     | Pod Level SSL Traffic Encryption                                        | `false`                                                       |
-| `qTestScenarioSSLMountPath`    | Pod client certificate                                                  | `/mnt/secrets/tls`                                            |
-| `qTestScenarioSSLCipherSuites` | Cipher suites for SSL/TLS connection                                    | []                                                            |
-| `qTestScenarioDeploymentEnv`   | Type of deployment environment. Either SaaS or OP                       | `op`                                                          |
+| Parameter                         | Description                                                             | Default                                                       |
+|-----------------------------------|-------------------------------------------------------------------------|---------------------------------------------------------------|
+| `qTestScenarioDBName`             | PSQL database name of the scenario                                      | `scenario`                                                    |
+| `qTestScenarioDBUserName`         | PSQL username                                                           | `postgres`                                                    |
+| `qTestScenarioDBHostName`         | PSQL database host name                                                 | `host.docker.internal`                                        |
+| `qTestScenarioLocalBaseURL`       | qTest Pulse url                                                         | `https://scenario.qtest.local`                                |
+| `qTestScenarioQTestURL`           | qTest Launch url                                                        | `https://nephele.qtest.local`                                 |
+| `qTestScenarioDBSSLEnable`        | Enable ssl connections                                                  | `false`                                                       |
+| `qTestScenarioDBSSLMountPath`     | Postgresql ssl certificate mount directory                              | `\etc\ssl`                                                    |
+| `qTestScenarioDBSSL`              | SSL Connection which appends for SSL Connection (only change cert name) | `?ssl=true&sslmode=verify-full&sslrootcert=/etc/ssl/root.crt` |
+| `qTestScenarioDBRootCRT`          | Postgresql client certificate                                           | `` (postgres client certificate, base64-encoded)              |
+| `qTestScenarioDBPort`             | Postgresql database port                                                | `5432`                                                        |
+| `qTestScenarioSSLRequired`        | Pod Level SSL Traffic Encryption                                        | `false`                                                       |
+| `qTestScenarioSSLMountPath`       | Pod client certificate                                                  | `/mnt/secrets/tls`                                            |
+| `qTestScenarioSSLCipherSuites`    | Cipher suites for SSL/TLS connection                                    | []                                                            |
+| `qTestScenarioDeploymentEnv`      | Type of deployment environment. Either SaaS or OP                       | `op`                                                          |
+| `qTestScenarioRefreshTokenSecret` | Random string used as the refresh token secret                          | `secret`                                                      |
 
-## Session app configurations to change in sessions-values-kind.yaml
+## Session app configurations to change in "Charts/qtest-session/values.yaml"
 
 | Parameter                     | Description                                                             | Default                                                       |
 | ----------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------- |
@@ -338,7 +366,7 @@ helm install qtest-pulse-executor qtest/qtest-pulse -n qtest -f values-pulse-exe
 | `qTestSessionSSLCipherSuites` | Cipher suites for SSL/TLS connection                                    | []                                                            |
 | `qTestSessionDeploymentEnv`   | Type of deployment environment. Either SaaS or OP                       | `op`                                                          |
 
-## Insights app configurations to change in insights-values-kind.yaml
+## Insights app configurations to change in "Charts/qtest-insights/values.yaml"
 
 | Parameter                           | Description                             | Default                                     |
 | ----------------------------------- | --------------------------------------- | ------------------------------------------- |
@@ -348,21 +376,23 @@ helm install qtest-pulse-executor qtest/qtest-pulse -n qtest -f values-pulse-exe
 | `qTestInsightsDBSchema`             | Schema name for qTest Manager           | `public`                                    |
 | `qTestInsightsWriteQTestDBName`     | PSQL database name of the qTest manager | `qTest`                                     |
 | `qTestInsightsWriteQTestDBUser`     | PSQL username                           | `postgres`                                  |
-| `qTestInsightsWriteQTestDBPassword` | PSQL password                           | `cG9zdGdyZXM=` (`postgres`, base64-encoded) |
+| `qTestInsightsWriteQTestDBPassword` | PSQL password                           |                                             |
 | `qTestInsightsWriteQTestDBHost`     | PSQL database host name                 | `host.docker.internal`                      |
 | `qTestInsightsWriteQTestDBSchema`   | Schema name of qtest manager            | `public`                                    |
 | `qTestInsightsSessionDBName`        | PSQL database name of the session       | `sessions`                                  |
 | `qTestInsightsSessionDBSchema`      | PSQL session schema name                | `postgres`                                  |
 | `qTestInsightsSessionDBUser`        | PSQL username                           | `postgres`                                  |
-| `qTestInsightsSessionDBPassword`    | PSQL password                           | `cG9zdGdyZXM=` (`postgres`, base64-encoded) |
+| `qTestInsightsSessionDBPassword`    | PSQL password                           |                                             |
 | `qTestInsightsSessionDBHost`        | PSQL database host name                 | `host.docker.internal`                      |
 | `serverAppSSLRequired`              | Runs pod of Insights on SSL             | `false`                                     |
+| `sessionsPersistence`               | Persist user sessions                   | `false`                                     |
+| `logsPersistence`                   | Persist logs sessions                   | `true`                                      |
 | `qTestInsightsWriteQTestDBPort`     | Insights Postgresql database port       | `5432`                                      |
 | `qTestInsightsSessionDBPort`        | Session Postgresql database port        | `5432`                                      |
 | `server.sslMountPath`               | Pod Level SSL Traffic Encryption        | `/mnt/secrets/tls`                          |
 | `qTestInsightsSSLCipherSuites`      | Cipher suites for SSL/TLS connection    | []                                          |
 
-## Insights etl app configurations to change in insights-etl-values-kind.yaml
+## Insights etl app configurations to change in "Charts/qtest-insights-etl/values.yaml"
 
 | Parameter                          | Description                             | Default                |
 | ---------------------------------- | --------------------------------------- | ---------------------- |
@@ -381,6 +411,68 @@ helm install qtest-pulse-executor qtest/qtest-pulse -n qtest -f values-pulse-exe
 | `qTestInsightsEtlWriteQTestDBPort` | qTest Postgresql database port          | `5432`                 |
 | `writeSessionsDBPort`              | Session Postgresql database port        | `5432`                 |
 | `qTestInsightsEtlDeploymentEnv`    | Deployment environment. saas or op      | `op`                   |
+
+## Insights i-ETL app configurations to change in "Charts/qtest-i-etl/values.yaml"
+
+| Parameter                                 | Description                                              | Value            |
+|-------------------------------------------|----------------------------------------------------------|------------------|
+| `readQTestDBHost`                         | Host for read qTest DB                                   | `postgres.local` |
+| `readQTestDBPort`                         | Port for read qTest DB                                   | `5432`           |
+| `readQTestDBName`                         | Name for read qTest DB                                   | `qtest`          |
+| `readQTestDBUser`                         | User for read qTest DB                                   | `postgres`       |
+| `readQTestDBMaxPoolSize`                  | Max pool size for read qTest DB                          | `25`             |
+| `readQTestDBMinIdle`                      | Min idle connections for read qTest DB                   | `5`              |
+| `writeQTestDBHost`                        | Host for write qTest DB                                  | `postgres.local` |
+| `writeQTestDBPort`                        | Port for write qTest DB                                  | `5432`           |
+| `writeQTestDBName`                        | Name for write qTest DB                                  | `qtest`          |
+| `writeQTestDBUser`                        | User for write qTest DB                                  | `postgres`       |
+| `writeQTestDBMaxPoolSize`                 | Max pool size for write qTest DB                         | `25`             |
+| `writeQTestDBMinIdle`                     | Min idle connections for write qTest DB                  | `5`              |
+| `qTestDBSchema`                           | Schema for qTest DB                                      | `public`         |
+| `insightsDBSchema`                        | Schema for Insights DB                                   | `insights`       |
+| `insightsDBUser`                          | User for Insights DB                                     | `postgres`       |
+| `insightEtlDBSchema`                      | Schema for Insights ETL DB                               | `insights_etl`   |
+| `sessionsReadDBHost`                      | Host for read Sessions DB                                | `postgres.local` |
+| `sessionsReadDBPort`                      | Port for read Sessions DB                                | `5432`           |
+| `sessionsReadDBName`                      | Name for read Sessions DB                                | `sessions`       |
+| `sessionsReadDBUser`                      | User for read Sessions DB                                | `postgres`       |
+| `sessionsReadDBSchema`                    | Schema for read Sessions DB                              | `public`         |
+| `sessionsWriteDBHost`                     | Host for write Sessions DB                               | `postgres.local` |
+| `sessionsWriteDBPort`                     | Port for write Sessions DB                               | `5432`           |
+| `sessionsWriteDBName`                     | Name for write Sessions DB                               | `sessions`       |
+| `sessionsWriteDBUser`                     | User for write Sessions DB                               | `postgres`       |
+| `sessionsWriteDBSchema`                   | Schema for write Sessions DB                             | `public`         |
+| `autoRefreshDBLink`                       | Enable auto-refresh of DB link                           | `true`           |
+| `logEnvironment`                          | Log environment                                          | `opk8s`          |
+| `iEtlQuartzThreadCount`                   | Number of threads for Quartz scheduler                   | `10`             |
+| `iEtlBatchInitialSize`                    | Initial batch size                                       | `10000`          |
+| `iEtlBatchMinSize`                        | Minimum batch size                                       | `1000`           |
+| `iEtlBatchMaxSize`                        | Maximum batch size                                       | `"1000000"`      |
+| `iEtlBatchSleepPercentage`                | Sleep percentage between batches                         | `50`             |
+| `iEtlBatchOptimalDurationSeconds`         | Optimal duration for each batch                          | `60`             |
+| `iEtlAggregationInterval`                 | Interval (seconds) between aggregation jobs              | `600`            |
+| `iEtlMaterializedViewInterval`            | Interval (seconds) between refreshing materialized views | `600`            |
+| `iEtlLongRunningMaterializedViewInterval` | Interval (seconds) for long-running materialized views   | `10800`          |
+| `iEtlBetaJobsDisabled`                    | Flag to disable beta jobs                                | `false`          |
+| `rapidDashboardsTaskInterval`             | Task interval for rapid dashboards (seconds)             | `60`             |
+| `rapidDashboardsBatchSize`                | Batch size for rapid dashboards processing               | `100`            |
+| `rapidDashboardsMaxConcurrentTasks`       | Max concurrent tasks for rapid dashboards                | `10`             |
+| `rapidDashboardsPickerWindow`             | Picker window for rapid dashboards (seconds)             | `61`             |
+| `rapidDashboardsRequestTimeout`           | Request timeout for rapid dashboards (seconds)           | `600`            |
+| `rapidDashboardsConnectTimeout`           | Connect timeout for rapid dashboards (seconds)           | `10`             |
+| `rapidDashboardsSocketTimeout`            | Socket timeout for rapid dashboards (seconds)            | `600`            |
+| `rapidDashboardsConnectionRequestTimeout` | Connection request timeout for rapid dashboards (seconds)| `10`             |
+| `rapidDashboardsEnableMisfireHandling`    | Enable misfire handling for rapid dashboards             | `true`           |
+| `scheduledReportsEnableMisfireHandling`   | Enable misfire handling for scheduled reports            | `true`           |
+| `scheduledReportsBatchSize`               | Batch size for scheduled reports processing              | `100`            |
+| `scheduledReportsRequestTimeout`          | Request timeout for scheduled reports (seconds)          | `600`            |
+| `scheduledReportsResultLogsPath`          | Path for scheduled reports result logs                   | `/tmp/scheduled-reports-logs` |
+| `scheduledReportsConnectTimeout`          | Connect timeout for scheduled reports (seconds)          | `10`             |
+| `scheduledReportsSocketTimeout`           | Socket timeout for scheduled reports (seconds)           | `600`            |
+| `scheduledReportsConnectionRequestTimeout`| Connection request timeout for scheduled reports (seconds)| `10`            |
+| `scheduledReportsMaxConcurrentTasks`      | Max concurrent tasks for scheduled reports               | `10`             |
+| `scheduledReportsTaskInterval`            | Task interval for scheduled reports (seconds)            | `60`             |
+
 
 For file persistence, only **one** of the following options is needed:
 
