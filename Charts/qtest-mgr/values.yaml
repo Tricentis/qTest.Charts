@@ -55,8 +55,8 @@ image:
   repository: tricentisimage/qtest-mgr
   liquibase: tricentisimage/qtest-mgr-liquibase
   pullPolicy: IfNotPresent
-  tag: "2025.2.9"
-  liquibasetag: "2025.2.9"
+  tag: "2025.2.10"
+  liquibasetag: "2025.2.10"
   liquibasepullpolicy: IfNotPresent
 imageCredentials:
   enabled: false
@@ -221,6 +221,8 @@ qTestManager:
   preSessionUrl: "https://sessions.qtest.local"
   pulseUrlBase: "https://pulse.qtest.local"
   insightsUrl: "http://insights-service:8080"
+  uiIndexUrl: "http://qtest-ui-service:80"
+  uiAssetsUrl: "https://qtest-ui.qtest.local/"
   launchUrlBase: "https://launch.qtest.local"
   tdmSettingUrl: "http://parameters.qtest.local"
   notification:
@@ -264,6 +266,7 @@ qTestManager:
     levels:
       # syntax is logger: loglevel
       # will be converted to xml in configmap
+      root: info
       tc.integration: info
   data:
     volumeMount: /mnt/data/qtest
