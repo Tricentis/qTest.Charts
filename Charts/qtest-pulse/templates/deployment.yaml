@@ -109,6 +109,7 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secrets.name }}
                   key: launchdarkly-sdkKey
+                  optional: true
             - name: PULSE_DB_NAME
               valueFrom:
                 configMapKeyRef:
