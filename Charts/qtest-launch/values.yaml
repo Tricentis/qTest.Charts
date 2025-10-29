@@ -10,7 +10,7 @@ secrets:
 image:
   repository: qasymphony/launch
   pullPolicy: IfNotPresent
-  tag: "2025.2.6"
+  tag: "2025.2.5"
 imageCredentials:
   enabled: false
   # name: ""
