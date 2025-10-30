@@ -61,9 +61,9 @@ icon: https://images.g2crowd.com/uploads/product/image/social_landscape/social_l
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
 
-version: 1.12.7
+version: 1.12.8
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
-appVersion: "2025.2.9"
+appVersion: "2025.2.10"
