@@ -221,8 +221,6 @@ qTestManager:
   preSessionUrl: "https://sessions.qtest.local"
   pulseUrlBase: "https://pulse.qtest.local"
   insightsUrl: "http://insights-service:8080"
-  uiIndexUrl: "http://qtest-ui-service:80"
-  uiAssetsUrl: "https://qtest-ui.qtest.local/"
   launchUrlBase: "https://launch.qtest.local"
   tdmSettingUrl: "http://parameters.qtest.local"
   notification:
