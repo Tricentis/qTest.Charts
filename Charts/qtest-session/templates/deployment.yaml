@@ -212,6 +212,12 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secrets.name }}
                   key: {{ .Values.secrets.csrfSecretKey }}
+            - name: LAUNCHDARKLY_SDK_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: {{ .Values.secrets.launchDarklySdkKey }}
+                  optional: true                  
             - name: SECRET_KEY
               valueFrom:
                 secretKeyRef:
