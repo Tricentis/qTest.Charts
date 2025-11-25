@@ -11,7 +11,7 @@ secrets:
 image:
   repository: qasymphony/sessions
   pullPolicy: IfNotPresent
-  tag: "2025.2.0"
+  tag: "2025.8.0"
 imageCredentials:
   enabled: false
   # name: ""
