@@ -67,6 +67,8 @@ data:
   pre.session.url: "{{ .Values.qTestManager.preSessionUrl }}"
   pulse.url.base: "{{ .Values.qTestManager.pulseUrlBase }}"
   insights.url: "{{ .Values.qTestManager.insightsUrl }}"
+  ui.index.url: "{{ .Values.qTestManager.uiIndexUrl }}"
+  ui.assets.url: "{{ .Values.qTestManager.uiAssetsUrl }}"
   launch.url.base: "{{ .Values.qTestManager.launchUrlBase }}"
   notification.url.external: "{{ .Values.qTestManager.notification.urlExternal }}"
   notification.url.internal: "{{ .Values.qTestManager.notification.urlInternal }}"
@@ -135,9 +137,6 @@ data:
   oidc.client.id: "{{ .Values.qTestManager.oidc.clientId }}"
   oidc.metadata.url: "{{ .Values.qTestManager.oidc.configurationUri }}"
   oidc.redirect.uri: "{{ .Values.qTestManager.oidc.redirectUri }}"
-  {{- range .Values.secrets.oauthAppEnv }}
-  {{ .key }}: "{{ .name }}"
-  {{- end }}
 ---
 apiVersion: v1
 kind: ConfigMap
