@@ -1831,6 +1831,22 @@ entries:
     version: 0.1.0
   qtest-insights-i-etl:
   - apiVersion: v2
+    appVersion: 2025.8.1
+    created: "2025-12-02T15:40:57.533745791Z"
+    description: A Helm chart for qTest Insights I-ETL
+    digest: 0881680e48c24efbf1b64a24d2b0b28fa7232b1881c89f678618ef42131df672
+    home: https://github.com/Tricentis-qTest/qtest-chart.git
+    icon: https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_c2d6524c36c94138504f7a18bf179d76/tricentis-qtest.png
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - name: Tricentis support
+      url: https://support-hub.tricentis.com/open
+    name: qtest-insights-i-etl
+    type: application
+    urls:
+    - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-insights-i-etl-0.2.5/qtest-insights-i-etl-0.2.5.tgz
+    version: 0.2.5
+  - apiVersion: v2
     appVersion: 2025.2.0
     created: "2025-10-03T11:01:57.63028796Z"
     description: A Helm chart for qTest Insights I-ETL
@@ -10326,4 +10342,4 @@ entries:
     urls:
     - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-session-0.1.0/qtest-session-0.1.0.tgz
     version: 0.1.0
-generated: "2025-10-30T10:00:40.148431394Z"
+generated: "2025-12-02T15:40:57.534327358Z"
