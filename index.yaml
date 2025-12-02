@@ -2,6 +2,27 @@ apiVersion: v1
 entries:
   qtest-insights:
   - apiVersion: v2
+    appVersion: 2025.8.1
+    created: "2025-12-02T16:02:37.797317492Z"
+    dependencies:
+    - condition: reloader.enabled
+      name: reloader
+      repository: https://stakater.github.io/stakater-charts
+      version: '*'
+    description: A Helm chart for qTest Insights
+    digest: 848866895eaf4ef0de55c0f9bee6e044c8eb09348a37614645a699002336c02a
+    home: https://github.com/Tricentis-qTest/qtest-chart.git
+    icon: https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_c2d6524c36c94138504f7a18bf179d76/tricentis-qtest.png
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - name: Tricentis support
+      url: https://support-hub.tricentis.com/open
+    name: qtest-insights
+    type: application
+    urls:
+    - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-insights-1.8.6/qtest-insights-1.8.6.tgz
+    version: 1.8.6
+  - apiVersion: v2
     appVersion: 2025.2.10
     created: "2025-09-05T14:26:00.488057893Z"
     dependencies:
@@ -1832,6 +1853,22 @@ entries:
   qtest-insights-i-etl:
   - apiVersion: v2
     appVersion: 2025.8.1
+    created: "2025-12-02T16:02:38.030164019Z"
+    description: A Helm chart for qTest Insights I-ETL
+    digest: 5db7a46494d85149a67b575994c76137d97c90091306b3c7b4ee5e97b9a0257d
+    home: https://github.com/Tricentis-qTest/qtest-chart.git
+    icon: https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_c2d6524c36c94138504f7a18bf179d76/tricentis-qtest.png
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - name: Tricentis support
+      url: https://support-hub.tricentis.com/open
+    name: qtest-insights-i-etl
+    type: application
+    urls:
+    - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-insights-i-etl-0.2.6/qtest-insights-i-etl-0.2.6.tgz
+    version: 0.2.6
+  - apiVersion: v2
+    appVersion: 2025.8.1
     created: "2025-12-02T15:40:57.533745791Z"
     description: A Helm chart for qTest Insights I-ETL
     digest: 0881680e48c24efbf1b64a24d2b0b28fa7232b1881c89f678618ef42131df672
@@ -1943,6 +1980,26 @@ entries:
     - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-insights-i-etl-0.1.0/qtest-insights-i-etl-0.1.0.tgz
     version: 0.1.0
   qtest-launch:
+  - apiVersion: v2
+    appVersion: 2025.8.0
+    created: "2025-12-02T16:02:38.259265986Z"
+    dependencies:
+    - condition: reloader.enabled
+      name: reloader
+      repository: https://stakater.github.io/stakater-charts
+      version: '*'
+    description: A Helm chart for Kubernetes cluster of qtest-launch
+    digest: f4e3aadfc2ed59cc131f81d52bc4d0b94d44e0f4def57e7c880b9b4c9a6269bc
+    home: https://github.com/Tricentis-qTest/qtest-chart.git
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - name: Tricentis support
+      url: https://support-hub.tricentis.com/open
+    name: qtest-launch
+    type: application
+    urls:
+    - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-launch-1.6.4/qtest-launch-1.6.4.tgz
+    version: 1.6.4
   - apiVersion: v2
     appVersion: 2025.2.6
     created: "2025-06-13T12:08:01.259877709Z"
@@ -2574,6 +2631,63 @@ entries:
     - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-launch-0.1.0/qtest-launch-0.1.0.tgz
     version: 0.1.0
   qtest-mgr:
+  - apiVersion: v2
+    appVersion: 2025.8.0
+    created: "2025-12-02T16:02:38.5475627Z"
+    dependencies:
+    - condition: qtest-launch.enabled
+      name: qtest-launch
+      repository: https://tricentis.github.io/qTest.Charts
+      version: '*'
+    - condition: qtest-insights.enabled
+      name: qtest-insights
+      repository: https://tricentis.github.io/qTest.Charts
+      version: '*'
+    - condition: qtest-insights-etl.enabled
+      name: qtest-insights-etl
+      repository: https://tricentis.github.io/qTest.Charts
+      version: '*'
+    - condition: qtest-parameters.enabled
+      name: qtest-parameters
+      repository: https://tricentis.github.io/qTest.Charts
+      version: '*'
+    - condition: qtest-pulse.enabled
+      name: qtest-pulse
+      repository: https://tricentis.github.io/qTest.Charts
+      version: '*'
+    - condition: qtest-scenario.enabled
+      name: qtest-scenario
+      repository: https://tricentis.github.io/qTest.Charts
+      version: '*'
+    - condition: qtest-session.enabled
+      name: qtest-session
+      repository: https://tricentis.github.io/qTest.Charts
+      version: '*'
+    - condition: reloader.enabled
+      name: reloader
+      repository: https://stakater.github.io/stakater-charts
+      version: '*'
+    description: A Helm chart for qTest Manager
+    digest: c63d8c98bc8abf33b82f53fa55ffbe13154f0c18d604cee3c5dbaef406899f2b
+    home: https://github.com/Tricentis-qTest/qtest-chart.git
+    icon: https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_c2d6524c36c94138504f7a18bf179d76/tricentis-qtest.png
+    keywords:
+    - qtest-launch
+    - qtest-insights
+    - qtest-insights-etl
+    - qtest-parameters
+    - qtest-pulse
+    - qtest-scenario
+    - qtest-session
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - name: Tricentis support
+      url: https://support-hub.tricentis.com/open
+    name: qtest-mgr
+    type: application
+    urls:
+    - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-mgr-1.12.10/qtest-mgr-1.12.10.tgz
+    version: 1.12.10
   - apiVersion: v2
     appVersion: 2025.2.10
     created: "2025-10-30T10:00:40.147924606Z"
@@ -7634,6 +7748,26 @@ entries:
     version: 0.1.0
   qtest-parameters:
   - apiVersion: v2
+    appVersion: 2025.8.0
+    created: "2025-12-02T16:02:38.79241972Z"
+    dependencies:
+    - condition: reloader.enabled
+      name: reloader
+      repository: https://stakater.github.io/stakater-charts
+      version: '*'
+    description: A Helm chart for Kubernetes cluster of qtest-parameters
+    digest: 5247405f9af7ded98e9663174a6edba99238127d90b45779b64fe3e9d02900bb
+    home: https://github.com/Tricentis-qTest/qtest-chart.git
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - name: Tricentis support
+      url: https://support-hub.tricentis.com/open
+    name: qtest-parameters
+    type: application
+    urls:
+    - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-parameters-1.6.3/qtest-parameters-1.6.3.tgz
+    version: 1.6.3
+  - apiVersion: v2
     appVersion: 2025.2.0
     created: "2025-05-09T11:05:17.346919035Z"
     dependencies:
@@ -8269,6 +8403,26 @@ entries:
     version: 0.1.0
   qtest-pulse:
   - apiVersion: v2
+    appVersion: 2025.8.1
+    created: "2025-12-02T16:02:39.061806386Z"
+    dependencies:
+    - condition: reloader.enabled
+      name: reloader
+      repository: https://stakater.github.io/stakater-charts
+      version: '*'
+    description: A Helm chart for Kubernetes cluster of qtest-pulse
+    digest: ba85a923b62e933644590fd0124df2440421b5a6cbc6c9cb72cb9c9e5731385b
+    home: https://github.com/Tricentis-qTest/qtest-chart.git
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - name: Tricentis support
+      url: https://support-hub.tricentis.com/open
+    name: qtest-pulse
+    type: application
+    urls:
+    - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-pulse-1.7.2/qtest-pulse-1.7.2.tgz
+    version: 1.7.2
+  - apiVersion: v2
     appVersion: 2025.2.5
     created: "2025-10-29T14:44:39.757541546Z"
     dependencies:
@@ -8873,6 +9027,27 @@ entries:
     - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-pulse-0.1.0/qtest-pulse-0.1.0.tgz
     version: 0.1.0
   qtest-scenario:
+  - apiVersion: v2
+    appVersion: 2025.8.0
+    created: "2025-12-02T16:02:39.322618619Z"
+    dependencies:
+    - condition: reloader.enabled
+      name: reloader
+      repository: https://stakater.github.io/stakater-charts
+      version: '*'
+    description: A Helm chart for Kubernetes cluster of qtest-scenario
+    digest: e602ca4cc892958fc9e6b471176d08dc4043d9e409d51ac640c9588ada161422
+    home: https://github.com/Tricentis-qTest/qtest-chart.git
+    icon: https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_c2d6524c36c94138504f7a18bf179d76/tricentis-qtest.png
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - name: Tricentis support
+      url: https://support-hub.tricentis.com/open
+    name: qtest-scenario
+    type: application
+    urls:
+    - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-scenario-1.6.2/qtest-scenario-1.6.2.tgz
+    version: 1.6.2
   - apiVersion: v2
     appVersion: 2025.2.6
     created: "2025-06-13T12:11:05.915902697Z"
@@ -9586,6 +9761,26 @@ entries:
     - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-scenario-0.1.0/qtest-scenario-0.1.0.tgz
     version: 0.1.0
   qtest-session:
+  - apiVersion: v2
+    appVersion: 2025.8.0
+    created: "2025-12-02T16:02:39.598042437Z"
+    dependencies:
+    - condition: reloader.enabled
+      name: reloader
+      repository: https://stakater.github.io/stakater-charts
+      version: '*'
+    description: A Helm chart for Kubernetes cluster of qtest-session
+    digest: 2ef6d36e466ef7d95f76b383fdb2febf2a52eb552c366a055c4850fc1bed06a7
+    home: https://github.com/Tricentis-qTest/qtest-chart.git
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - name: Tricentis support
+      url: https://support-hub.tricentis.com/open
+    name: qtest-session
+    type: application
+    urls:
+    - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-session-1.9.2/qtest-session-1.9.2.tgz
+    version: 1.9.2
   - apiVersion: v2
     appVersion: 2025.2.0
     created: "2025-10-29T14:55:03.517867344Z"
@@ -10342,4 +10537,4 @@ entries:
     urls:
     - https://github.com/Tricentis/qTest.Charts/releases/download/qtest-session-0.1.0/qtest-session-0.1.0.tgz
     version: 0.1.0
-generated: "2025-12-02T15:40:57.534327358Z"
+generated: "2025-12-02T16:02:39.599351804Z"
