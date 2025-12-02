@@ -167,15 +167,6 @@ spec:
             secretKeyRef:
               name: {{ .Values.secrets.aesSecretKeysName }}
               key: AESsecretKeys
-        {{- with .Values.secrets.oauthAppEnv }}
-        {{- range . }}
-        - name: {{ .name }}
-          valueFrom:
-            secretKeyRef:
-              name: {{ $.Values.secrets.oauthAppsSecretName | required "secrets.oauthAppsSecretName is required" }}
-              key: {{ .key }}
-        {{- end }}
-        {{- end }}
         {{- if .Values.qTestManager.logging.overrideEnabled }}
         - name: logback.configurationFile.additional
           value: "{{ .Values.qTestManager.logging.configMountPath }}/{{ .Values.qTestManager.logging.configFile }}"
@@ -428,15 +419,6 @@ spec:
             secretKeyRef:
               name: {{ .Values.secrets.aesSecretKeysName }}
               key: AESsecretKeys
-        {{- with .Values.secrets.oauthAppEnv }}
-        {{- range . }}
-        - name: {{ .name }}
-          valueFrom:
-            secretKeyRef:
-              name: {{ $.Values.secrets.oauthAppsSecretName | required "secrets.oauthAppsSecretName is required" }}
-              key: {{ .key }}
-        {{- end }}
-        {{- end }}
         {{- if .Values.qTestManager.logging.overrideEnabled }}
         - name: logback.configurationFile.additional
           value: "{{ .Values.qTestManager.logging.configMountPath }}/{{ .Values.qTestManager.logging.configFile }}"
@@ -677,15 +659,6 @@ spec:
             secretKeyRef:
               name: {{ .Values.secrets.aesSecretKeysName }}
               key: AESsecretKeys
-        {{- with .Values.secrets.oauthAppEnv }}
-        {{- range . }}
-        - name: {{ .name }}
-          valueFrom:
-            secretKeyRef:
-              name: {{ $.Values.secrets.oauthAppsSecretName | required "secrets.oauthAppsSecretName is required" }}
-              key: {{ .key }}
-        {{- end }}
-        {{- end }}
         {{- if .Values.qTestManager.logging.overrideEnabled }}
         - name: logback.configurationFile.additional
           value: "{{ .Values.qTestManager.logging.configMountPath }}/{{ .Values.qTestManager.logging.configFile }}"
@@ -926,15 +899,6 @@ spec:
             secretKeyRef:
               name: {{ .Values.secrets.aesSecretKeysName }}
               key: AESsecretKeys
-        {{- with .Values.secrets.oauthAppEnv }}
-        {{- range . }}
-        - name: {{ .name }}
-          valueFrom:
-            secretKeyRef:
-              name: {{ $.Values.secrets.oauthAppsSecretName | required "secrets.oauthAppsSecretName is required" }}
-              key: {{ .key }}
-        {{- end }}
-        {{- end }}
         {{- if .Values.qTestManager.logging.overrideEnabled }}
         - name: logback.configurationFile.additional
           value: "{{ .Values.qTestManager.logging.configMountPath }}/{{ .Values.qTestManager.logging.configFile }}"
