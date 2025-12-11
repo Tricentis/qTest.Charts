@@ -75,12 +75,6 @@ secrets:
   # Optional: name of a secret containing .pem certificates to mount in /certs/java
   javaCertsSecretEnabled: false
   javaCertsSecretName: java-certs-secret
-  jiraOAuth2EncryptionSecretName: qtest-manager-secret
-  jiraOAuth2EncryptionEnv:
-    - name: JIRA_OAUTH2_ENCRYPTION_PASSWORD
-      key: jira.oauth2.password
-    - name: JIRA_OAUTH2_ENCRYPTION_SALT
-      key: jira.oauth2.salt
 serviceAccount:
   create: true
   name:
