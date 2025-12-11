@@ -75,6 +75,12 @@ secrets:
   # Optional: name of a secret containing .pem certificates to mount in /certs/java
   javaCertsSecretEnabled: false
   javaCertsSecretName: java-certs-secret
+  jiraOAuth2EncryptionSecretName: qtest-manager-secret
+  jiraOAuth2EncryptionEnv:
+    - name: JIRA_OAUTH2_ENCRYPTION_PASSWORD
+      key: jira.oauth2.password
+    - name: JIRA_OAUTH2_ENCRYPTION_SALT
+      key: jira.oauth2.salt
 serviceAccount:
   create: true
   name:
@@ -197,6 +203,8 @@ qTestManager:
   preSessionUrl: "https://sessions.qtest.local"
   pulseUrlBase: "https://pulse.qtest.local"
   insightsUrl: "http://insights-service:8080"
+  uiIndexUrl: "http://qtest-ui-service:80"
+  uiAssetsUrl: "https://qtest-ui.qtest.local/"
   launchUrlBase: "https://launch.qtest.local"
   tdmSettingUrl: "http://parameters.qtest.local"
   notification:
