@@ -167,6 +167,26 @@ spec:
             secretKeyRef:
               name: {{ .Values.secrets.aesSecretKeysName }}
               key: AESsecretKeys
+        {{- with .Values.secrets.jiraOAuth2EncryptionEnv }}
+        {{- range . }}
+        - name: {{ .name }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $.Values.secrets.jiraOAuth2EncryptionSecretName | required "secrets.jiraOAuth2EncryptionSecretName is required" }}
+              key: {{ .key }}
+        {{- end }}
+        {{- end }}
+        {{- if .Values.secrets.taisAuthSecretEnabled }}
+        {{- with .Values.secrets.taisAuthEnv }}
+        {{- range . }}
+        - name: {{ .name }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $.Values.secrets.taisAuthSecretName }}
+              key: {{ .key }}
+        {{- end }}
+        {{- end }}
+        {{- end }}
         {{- if .Values.qTestManager.logging.overrideEnabled }}
         - name: logback.configurationFile.additional
           value: "{{ .Values.qTestManager.logging.configMountPath }}/{{ .Values.qTestManager.logging.configFile }}"
@@ -419,6 +439,26 @@ spec:
             secretKeyRef:
               name: {{ .Values.secrets.aesSecretKeysName }}
               key: AESsecretKeys
+        {{- with .Values.secrets.jiraOAuth2EncryptionEnv }}
+        {{- range . }}
+        - name: {{ .name }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $.Values.secrets.jiraOAuth2EncryptionSecretName | required "secrets.jiraOAuth2EncryptionSecretName is required" }}
+              key: {{ .key }}
+        {{- end }}
+        {{- end }}
+        {{- if .Values.secrets.taisAuthSecretEnabled }}
+        {{- with .Values.secrets.taisAuthEnv }}
+        {{- range . }}
+        - name: {{ .name }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $.Values.secrets.taisAuthSecretName }}
+              key: {{ .key }}
+        {{- end }}
+        {{- end }}
+        {{- end }}
         {{- if .Values.qTestManager.logging.overrideEnabled }}
         - name: logback.configurationFile.additional
           value: "{{ .Values.qTestManager.logging.configMountPath }}/{{ .Values.qTestManager.logging.configFile }}"
@@ -659,6 +699,26 @@ spec:
             secretKeyRef:
               name: {{ .Values.secrets.aesSecretKeysName }}
               key: AESsecretKeys
+        {{- with .Values.secrets.jiraOAuth2EncryptionEnv }}
+        {{- range . }}
+        - name: {{ .name }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $.Values.secrets.jiraOAuth2EncryptionSecretName | required "secrets.jiraOAuth2EncryptionSecretName is required" }}
+              key: {{ .key }}
+        {{- end }}
+        {{- end }}
+        {{- if .Values.secrets.taisAuthSecretEnabled }}
+        {{- with .Values.secrets.taisAuthEnv }}
+        {{- range . }}
+        - name: {{ .name }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $.Values.secrets.taisAuthSecretName }}
+              key: {{ .key }}
+        {{- end }}
+        {{- end }}
+        {{- end }}
         {{- if .Values.qTestManager.logging.overrideEnabled }}
         - name: logback.configurationFile.additional
           value: "{{ .Values.qTestManager.logging.configMountPath }}/{{ .Values.qTestManager.logging.configFile }}"
@@ -899,6 +959,26 @@ spec:
             secretKeyRef:
               name: {{ .Values.secrets.aesSecretKeysName }}
               key: AESsecretKeys
+        {{- with .Values.secrets.jiraOAuth2EncryptionEnv }}
+        {{- range . }}
+        - name: {{ .name }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $.Values.secrets.jiraOAuth2EncryptionSecretName | required "secrets.jiraOAuth2EncryptionSecretName is required" }}
+              key: {{ .key }}
+        {{- end }}
+        {{- end }}
+        {{- if .Values.secrets.taisAuthSecretEnabled }}
+        {{- with .Values.secrets.taisAuthEnv }}
+        {{- range . }}
+        - name: {{ .name }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $.Values.secrets.taisAuthSecretName }}
+              key: {{ .key }}
+        {{- end }}
+        {{- end }}
+        {{- end }}
         {{- if .Values.qTestManager.logging.overrideEnabled }}
         - name: logback.configurationFile.additional
           value: "{{ .Values.qTestManager.logging.configMountPath }}/{{ .Values.qTestManager.logging.configFile }}"
