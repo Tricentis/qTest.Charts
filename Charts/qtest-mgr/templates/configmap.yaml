@@ -69,6 +69,7 @@ data:
   insights.url: "{{ .Values.qTestManager.insightsUrl }}"
   ui.index.url: "{{ .Values.qTestManager.uiIndexUrl }}"
   ui.assets.url: "{{ .Values.qTestManager.uiAssetsUrl }}"
+  ui.url: "{{ .Values.qTestManager.uiUrl }}"
   launch.url.base: "{{ .Values.qTestManager.launchUrlBase }}"
   notification.url.external: "{{ .Values.qTestManager.notification.urlExternal }}"
   notification.url.internal: "{{ .Values.qTestManager.notification.urlInternal }}"
@@ -115,6 +116,7 @@ data:
   qtest.request.nonce.disabled: "{{ .Values.qTestManager.qTest.request.nonce.disabled }}"
   qtest.request.nonce.mode: "{{ .Values.qTestManager.qTest.request.nonce.mode }}"
   security.csrf.source.trust.pattern: "{{ .Values.qTestManager.security.csrf.source.trust.pattern }}"
+  ssrf.hosts.blocklist.patterns: "{{ .Values.qTestManager.security.ssrf.hosts.blocklist.patterns }}"
   cors.allowed.all: "{{ .Values.qTestManager.cors.allowed.all }}"
   manager.test.configuration: "{{ .Values.qTestManager.featureFlagOpOverrides.managerTestConfiguration.enabled }}"
   {{ else }}
@@ -137,6 +139,12 @@ data:
   oidc.client.id: "{{ .Values.qTestManager.oidc.clientId }}"
   oidc.metadata.url: "{{ .Values.qTestManager.oidc.configurationUri }}"
   oidc.redirect.uri: "{{ .Values.qTestManager.oidc.redirectUri }}"
+  {{ if .Values.qTestManager.nats.enabled }}
+  nats.url: "{{ .Values.qTestManager.nats.url }}"
+  nats.streamName: "{{ .Values.qTestManager.nats.streamName }}"
+  nats.userName: "{{ .Values.qTestManager.nats.userName }}"
+  nats.region: "{{ .Values.qTestManager.nats.region }}"
+  {{ end  }}
 ---
 apiVersion: v1
 kind: ConfigMap

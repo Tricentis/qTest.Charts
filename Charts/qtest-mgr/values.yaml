@@ -75,6 +75,11 @@ secrets:
   # Optional: name of a secret containing .pem certificates to mount in /certs/java
   javaCertsSecretEnabled: false
   javaCertsSecretName: java-certs-secret
+  natsSecretEnabled: false
+  natsSecretName: qtest-nats-secret
+  natsSecretEnv:
+    - name: NATS_PASSWORD
+      key: qtestPublisherPassword
   jiraOAuth2EncryptionSecretName: qtest-manager-secret
   jiraOAuth2EncryptionEnv:
     - name: JIRA_OAUTH2_ENCRYPTION_PASSWORD
@@ -150,6 +155,13 @@ qTestManager:
     databaseCpu: 101
   server:
     sslMountPath: "/mnt/secrets/tls"
+  nats:
+    enabled: false
+    url: "nats://localhost:4222"
+    streamName: "qtest-publisher"
+    userName: "qtest-publisher"
+    region: "us-east-1"
+    password: ""
   client:
     jdbc:
       postgresUrl: "jdbc:postgresql://postgres.local:5432/qtest"
@@ -193,6 +205,10 @@ qTestManager:
       source:
         trust:
           pattern: ""
+    ssrf:
+      hosts:
+        blocklist:
+          patterns: ""
   serverAppUseSecureCookie: true
   serverAppSSLRequired: false
   # Array of cipher suites for SSL/TLS connection in OpenSSL format (e.g. ["TLS_AES_256_GCM_SHA384", "TLS_CHACHA20_POLY1305_SHA256"])
@@ -210,6 +226,7 @@ qTestManager:
   insightsUrl: "http://insights-service:8080"
   uiIndexUrl: "http://qtest-ui-service:80"
   uiAssetsUrl: "https://qtest-ui.qtest.local/"
+  uiUrl: "https://qtest-ui.dc.local"
   launchUrlBase: "https://launch.qtest.local"
   tdmSettingUrl: "http://parameters.qtest.local"
   notification:

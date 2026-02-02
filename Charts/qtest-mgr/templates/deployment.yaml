@@ -176,6 +176,17 @@ spec:
               key: {{ .key }}
         {{- end }}
         {{- end }}
+        {{- if .Values.qTestManager.nats.enabled }}
+        {{- with .Values.secrets.natsSecretEnv }}
+        {{- range . }}
+        - name: {{ .name }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $.Values.secrets.natsSecretName | required "secrets.natsSecretName is required" }}
+              key: {{ .key }}
+        {{- end }}
+        {{- end }}
+        {{- end }}
         {{- if .Values.secrets.taisAuthSecretEnabled }}
         {{- with .Values.secrets.taisAuthEnv }}
         {{- range . }}
@@ -448,6 +459,17 @@ spec:
               key: {{ .key }}
         {{- end }}
         {{- end }}
+        {{- if .Values.qTestManager.nats.enabled }}
+        {{- with .Values.secrets.natsSecretEnv }}
+        {{- range . }}
+        - name: {{ .name }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $.Values.secrets.natsSecretName | required "secrets.natsSecretName is required" }}
+              key: {{ .key }}
+        {{- end }}
+        {{- end }}
+        {{- end }}
         {{- if .Values.secrets.taisAuthSecretEnabled }}
         {{- with .Values.secrets.taisAuthEnv }}
         {{- range . }}
@@ -708,6 +730,17 @@ spec:
               key: {{ .key }}
         {{- end }}
         {{- end }}
+        {{- if .Values.qTestManager.nats.enabled }}
+        {{- with .Values.secrets.natsSecretEnv }}
+        {{- range . }}
+        - name: {{ .name }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $.Values.secrets.natsSecretName | required "secrets.natsSecretName is required" }}
+              key: {{ .key }}
+        {{- end }}
+        {{- end }}
+        {{- end }}
         {{- if .Values.secrets.taisAuthSecretEnabled }}
         {{- with .Values.secrets.taisAuthEnv }}
         {{- range . }}
@@ -966,6 +999,17 @@ spec:
             secretKeyRef:
               name: {{ $.Values.secrets.jiraOAuth2EncryptionSecretName | required "secrets.jiraOAuth2EncryptionSecretName is required" }}
               key: {{ .key }}
+        {{- end }}
+        {{- end }}
+        {{- if .Values.qTestManager.nats.enabled }}
+        {{- with .Values.secrets.natsSecretEnv }}
+        {{- range . }}
+        - name: {{ .name }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $.Values.secrets.natsSecretName | required "secrets.natsSecretName is required" }}
+              key: {{ .key }}
+        {{- end }}
         {{- end }}
         {{- end }}
         {{- if .Values.secrets.taisAuthSecretEnabled }}
