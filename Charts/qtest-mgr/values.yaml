@@ -210,6 +210,7 @@ qTestManager:
   insightsUrl: "http://insights-service:8080"
   uiIndexUrl: "http://qtest-ui-service:80"
   uiAssetsUrl: "https://qtest-ui.qtest.local/"
+  uiUrl: "https://qtest-ui.dc.local"
   launchUrlBase: "https://launch.qtest.local"
   tdmSettingUrl: "http://parameters.qtest.local"
   notification:
