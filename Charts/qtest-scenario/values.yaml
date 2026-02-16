@@ -71,6 +71,7 @@ qTestScenario:
   qTestScenarioNodeTLSRejectUnAuthorized: "0"
   qTestScenarioNodeEnvironment: production
   qTestScenarioRefreshTokenSecret: "secret"
+  ScenarioJiraCypherKey: "secret"
   qTestScenarioAppKeyDescriptor: ""
   qTestScenarioQTestURL: https://nephele.qtest.local
   qTestScenarioDBSSLEnable: false

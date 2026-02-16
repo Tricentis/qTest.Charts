@@ -196,6 +196,11 @@ spec:
                 configMapKeyRef:
                   name: qtest-scenario-configmap
                   key: qTestScenarioNodeOptions
+            - name: JIRA_CYPHER_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: qtest-scenario-secret
+                  key: jiraCypherKey
 {{- with .Values.extraEnv }}
 {{ toYaml . | indent 12 }}
 {{- end }}
