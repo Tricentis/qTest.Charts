@@ -8,7 +8,7 @@ secrets:
 image:
   repository: qasymphony/pulse
   pullPolicy: IfNotPresent
-  tag: "2025.8.1"
+  tag: "2026.2.0"
 imageCredentials:
   enabled: false
   # name: ""
