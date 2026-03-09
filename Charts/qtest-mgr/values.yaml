@@ -338,7 +338,7 @@ api:
   client:
     dbcp:
       maxActive: 400
-  springProfilesActive: postgres,disableAllTasksMode,readOnlyEnable,backgroundQueue,queueManager
+  springProfilesActive: postgres,disableAllTasksMode,readOnlyEnable,queueManager
   resources: {}
   queue:
     manager:
