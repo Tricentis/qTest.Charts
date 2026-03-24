@@ -170,13 +170,7 @@ qTestManager:
       all: true
       domains: ""
   elasticSearch:
-    init: false
-    disable: true
-    scheme: http
-    host: elasticsearch.local
-    port: 9200
     permittedClients: ""
-    maximumObjectsPerIndexRequest: 1000
   attachmentFolderPath: /mnt/data/qtest/attachments
   licenseFolderPath: /mnt/data/qtest
   blobStorage:
