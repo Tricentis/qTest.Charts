@@ -128,7 +128,7 @@ Every chart has a set of common properties which influence deployment-related be
 
 ### qTest Manager
 
-At a minimum, the `postgres` and `elasticSearch` parameters should be provided to match your environment.
+At a minimum, the `postgres` parameters should be provided to match your environment.
 
 | Parameter                                  | Description                                                                                            | Default                                                                                      |
 | ------------------------------------------ | ------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
@@ -148,9 +148,6 @@ At a minimum, the `postgres` and `elasticSearch` parameters should be provided t
 | `client.jdbc.cert`                         | Postgresql client certificate                                                                          | `` (postgres client certificate, base64-encoded)                                             |
 | `cors.allowed.all`                         | cors allowed                                                                                           | `true`                                                                                       |
 | `cors.allowed.domains`                     | cors allowed domains                                                                                   | ``                                                                                           |
-| `elasticSearch.host`                       | Elasticsearch host                                                                                     | `host.docker.internal`                                                                       |
-| `elasticSearch.port`                       | Elasticsearch port                                                                                     | `9200`                                                                                       |
-| `elasticSearch.scheme`                     | Elasticsearch port                                                                                     | `http`                                                                                       |
 | `license.folder.path`                      | qTest Manager license folder path                                                                      | `/mnt/data/qtest/license`                                                                    |
 | `mail.host`                                | SMTP host name                                                                                         | `smtp.local`                                                                                 |
 | `mail.port`                                | SMTP port number                                                                                       | `465`                                                                                        |
