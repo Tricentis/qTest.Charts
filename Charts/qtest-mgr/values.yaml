@@ -379,18 +379,18 @@ notification:
   asyncThreadNumber: 100
   background:
     event:
-      maxThreshold: 2000
-      apiThreshold: 20
+      maxThreshold: 15000
+      apiThreshold: 300
       cleanUpInterval: "3600000"
-      jiraCloudThreshold: 20
+      jiraCloudThreshold: 500
       jiraCloudRateLimitDelayTime: 0
       jiraCloudRateLimitRetryPeriod: 5
       jiraCloudRateLimitRetryTimes: 3
       jiraCloudRateLimitThreshold: 500
       jiraServerThreshold: 20
       oldDefectTrackingSystemsThreshold: 20
-      testExecutionApiRetryTime: 0
-      testExecutionApiThreshold: 1
+      testExecutionApiRetryTime: 1
+      testExecutionApiThreshold: 2
   jiraCloudCategoryTaskExecutor:
     threadPool:
       keepWaitingSeconds: 180
