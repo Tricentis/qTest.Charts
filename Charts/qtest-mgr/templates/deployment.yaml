@@ -186,8 +186,6 @@ spec:
               key: {{ .key }}
         {{- end }}
         {{- end }}
-        - name: OTEL_INSTRUMENTATION_OPENTELEMETRY_API_ENABLED
-          value: {{ .Values.qTestManager.nats.otelInstrumentationOpenTelemetryApiEnabled | quote }}
         {{- end }}
         {{- if .Values.secrets.taisAuthSecretEnabled }}
         {{- with .Values.secrets.taisAuthEnv }}
@@ -471,8 +469,6 @@ spec:
               key: {{ .key }}
         {{- end }}
         {{- end }}
-        - name: OTEL_INSTRUMENTATION_OPENTELEMETRY_API_ENABLED
-          value: {{ .Values.qTestManager.nats.otelInstrumentationOpenTelemetryApiEnabled | quote }}
         {{- end }}
         {{- if .Values.secrets.taisAuthSecretEnabled }}
         {{- with .Values.secrets.taisAuthEnv }}
@@ -744,8 +740,6 @@ spec:
               key: {{ .key }}
         {{- end }}
         {{- end }}
-        - name: OTEL_INSTRUMENTATION_OPENTELEMETRY_API_ENABLED
-          value: {{ .Values.qTestManager.nats.otelInstrumentationOpenTelemetryApiEnabled | quote }}
         {{- end }}
         {{- if .Values.secrets.taisAuthSecretEnabled }}
         {{- with .Values.secrets.taisAuthEnv }}
@@ -1017,8 +1011,6 @@ spec:
               key: {{ .key }}
         {{- end }}
         {{- end }}
-        - name: OTEL_INSTRUMENTATION_OPENTELEMETRY_API_ENABLED
-          value: {{ .Values.qTestManager.nats.otelInstrumentationOpenTelemetryApiEnabled | quote }}
         {{- end }}
         {{- if .Values.secrets.taisAuthSecretEnabled }}
         {{- with .Values.secrets.taisAuthEnv }}

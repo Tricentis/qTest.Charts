@@ -164,7 +164,6 @@ qTestManager:
     region: "us-east-1"
     password: ""
     metricsEnabled: false
-    otelInstrumentationOpenTelemetryApiEnabled: false
   client:
     jdbc:
       postgresUrl: "jdbc:postgresql://postgres.local:5432/qtest"
