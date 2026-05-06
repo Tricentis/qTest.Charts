@@ -169,6 +169,12 @@ spec:
                 configMapKeyRef:
                   name: qtest-parameters-configmap
                   key: qTestParametersDeploymentEnv
+            - name: LAUNCHDARKLY_SDKKEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: launchdarkly-sdkKey
+                  optional: true
             - name: SSL_ENABLED
               valueFrom:
                 configMapKeyRef:
@@ -191,6 +197,13 @@ spec:
                 configMapKeyRef:
                   name: qtest-parameters-configmap
                   key: qTestParametersNodeOptions
+            {{- if .Values.qTestParameters.qTestParametersWorkerThreads }}
+            - name: WORKER_THREADS
+              valueFrom:
+                configMapKeyRef:
+                  name: qtest-parameters-configmap
+                  key: qTestParametersWorkerThreads
+            {{- end }}
 {{- with .Values.extraEnv }}
 {{ toYaml . | indent 12 }}
 {{- end }}

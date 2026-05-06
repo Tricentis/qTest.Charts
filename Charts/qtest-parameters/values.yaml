@@ -81,6 +81,7 @@ qTestParameters:
   qTestParametersCorsOrigin: "tricentis.com"
   qTestParametersDeploymentEnv: "saas"
   qTestParametersNodeOptions: ""
+  qTestParametersWorkerThreads: ""
 #### Ingress/IngressClass (> K8s 1.24-1.30+) #####
 ingressClass:
   enabled: false
