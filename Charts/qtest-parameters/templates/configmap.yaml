@@ -31,3 +31,4 @@ data:
   {{-   $nodeOptions = print $nodeOptions " --tls-cipher-list='" (join ":" .Values.qTestParameters.qTestParametersSSLCipherSuites) "'" -}}
   {{- end }}
   qTestParametersNodeOptions: "{{ $nodeOptions }}"
+  qTestParametersWorkerThreads: "{{ .Values.qTestParameters.qTestParametersWorkerThreads }}"
