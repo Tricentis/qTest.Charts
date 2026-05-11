@@ -90,6 +90,10 @@ spec:
           {{- end }}
           resources:
           {{- toYaml .Values.resources | nindent 12 }}
+          {{- with .Values.lifecycle }}
+          lifecycle:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           ports:
             {{- if .Values.qTestSession.qTestSessionSSLRequired }}
             - containerPort: {{ .Values.service.targetHttpsPort }}
@@ -212,7 +216,7 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secrets.name }}
                   key: {{ .Values.secrets.csrfSecretKey }}
-            - name: LAUNCHDARKLY_SDK_KEY
+            - name: LAUNCHDARKLY_SDKKEY
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secrets.name }}
