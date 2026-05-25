@@ -176,6 +176,13 @@ spec:
               key: {{ .key }}
         {{- end }}
         {{- end }}
+        {{- if .Values.secrets.tenantRegistryOAuth2SecretEnabled }}
+        - name: TENANT_REGISTRY_OAUTH2_CLIENTSECRET
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.secrets.tenantRegistryOAuth2ClientSecretSecretName }}
+              key: {{ .Values.secrets.tenantRegistryOAuth2ClientSecretKey }}
+        {{- end }}
         {{- if .Values.qTestManager.nats.enabled }}
         {{- with .Values.secrets.natsSecretEnv }}
         {{- range . }}
@@ -459,6 +466,13 @@ spec:
               key: {{ .key }}
         {{- end }}
         {{- end }}
+        {{- if .Values.secrets.tenantRegistryOAuth2SecretEnabled }}
+        - name: TENANT_REGISTRY_OAUTH2_CLIENTSECRET
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.secrets.tenantRegistryOAuth2ClientSecretSecretName }}
+              key: {{ .Values.secrets.tenantRegistryOAuth2ClientSecretKey }}
+        {{- end }}
         {{- if .Values.qTestManager.nats.enabled }}
         {{- with .Values.secrets.natsSecretEnv }}
         {{- range . }}
@@ -730,6 +744,13 @@ spec:
               key: {{ .key }}
         {{- end }}
         {{- end }}
+        {{- if .Values.secrets.tenantRegistryOAuth2SecretEnabled }}
+        - name: TENANT_REGISTRY_OAUTH2_CLIENTSECRET
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.secrets.tenantRegistryOAuth2ClientSecretSecretName }}
+              key: {{ .Values.secrets.tenantRegistryOAuth2ClientSecretKey }}
+        {{- end }}
         {{- if .Values.qTestManager.nats.enabled }}
         {{- with .Values.secrets.natsSecretEnv }}
         {{- range . }}
@@ -1000,6 +1021,13 @@ spec:
               name: {{ $.Values.secrets.jiraOAuth2EncryptionSecretName | required "secrets.jiraOAuth2EncryptionSecretName is required" }}
               key: {{ .key }}
         {{- end }}
+        {{- end }}
+        {{- if .Values.secrets.tenantRegistryOAuth2SecretEnabled }}
+        - name: TENANT_REGISTRY_OAUTH2_CLIENTSECRET
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.secrets.tenantRegistryOAuth2ClientSecretSecretName }}
+              key: {{ .Values.secrets.tenantRegistryOAuth2ClientSecretKey }}
         {{- end }}
         {{- if .Values.qTestManager.nats.enabled }}
         {{- with .Values.secrets.natsSecretEnv }}
