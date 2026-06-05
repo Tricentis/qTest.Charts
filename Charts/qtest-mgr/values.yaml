@@ -91,6 +91,9 @@ secrets:
   taisAuthEnv:
     - name: TAIS_AUTH_KEY
       key: tais.auth.key
+  tenantRegistryOAuth2SecretEnabled: false
+  tenantRegistryOAuth2ClientSecretSecretName: qtest-s2s-auth-secret
+  tenantRegistryOAuth2ClientSecretKey: password
 serviceAccount:
   create: true
   name:
@@ -158,11 +161,15 @@ qTestManager:
   nats:
     enabled: false
     url: "nats://localhost:4222"
-    streamName: "qtest-publisher"
+    streamName: "qtest"
     userName: "qtest-publisher"
     region: "us-east-1"
     password: ""
     metricsEnabled: false
+    toscaCloud:
+      streamName: "tosca"
+      consumerName: "tosca-cloud-consumer"
+      environment: "prod"
   client:
     jdbc:
       postgresUrl: "jdbc:postgresql://postgres.local:5432/qtest"
@@ -255,6 +262,9 @@ qTestManager:
   integration:
     jira:
       testConnectionLegacyEndpointClients: ""
+    sync:
+      requirement:
+        defaultBatchSize: 100
   parameterPageSize: 50
   logging:
     overrideEnabled: true
@@ -308,6 +318,13 @@ qTestManager:
   background:
     event:
       metricsEnabled: false
+  tenantRegistry:
+    oauth2:
+      clientId: ""
+      issuerUrl: ""
+      environment: ""
+    readApi:
+      baseUrl: ""
 ui:
   action:
     task:

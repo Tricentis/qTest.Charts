@@ -75,6 +75,7 @@ data:
   mail.smtp.starttls.enable: "{{ .Values.qTestManager.mail.starttls }}"
   supportEmailAddress: "{{ .Values.qTestManager.mail.supportEmailAddress }}"
   integration.jira.testConnection.legacyEndpoint.clients: "{{ .Values.qTestManager.integration.jira.testConnectionLegacyEndpointClients }}"
+  integration.sync.requirement.defaultBatchSize: "{{ .Values.qTestManager.integration.sync.requirement.defaultBatchSize }}"
   qtest.od.private: "{{ .Values.qTestManager.qTest.ODPrivate }}"
   secret.volume.mount.path: "{{ .Values.qTestManager.secret.appVolumeMount }}"
   emailchange.allow.clients: "{{ .Values.qTestManager.emailchange.allowClients }}"
@@ -132,12 +133,19 @@ data:
   oidc.client.id: "{{ .Values.qTestManager.oidc.clientId }}"
   oidc.metadata.url: "{{ .Values.qTestManager.oidc.configurationUri }}"
   oidc.redirect.uri: "{{ .Values.qTestManager.oidc.redirectUri }}"
+  tenantRegistry.oauth2.clientId: "{{ .Values.qTestManager.tenantRegistry.oauth2.clientId }}"
+  tenantRegistry.oauth2.issuerUrl: "{{ .Values.qTestManager.tenantRegistry.oauth2.issuerUrl }}"
+  tenantRegistry.oauth2.environment: "{{ .Values.qTestManager.tenantRegistry.oauth2.environment }}"
+  tenantRegistry.readApi.baseUrl: "{{ .Values.qTestManager.tenantRegistry.readApi.baseUrl }}"
   {{ if .Values.qTestManager.nats.enabled }}
   nats.url: "{{ .Values.qTestManager.nats.url }}"
   nats.streamName: "{{ .Values.qTestManager.nats.streamName }}"
   nats.userName: "{{ .Values.qTestManager.nats.userName }}"
   nats.region: "{{ .Values.qTestManager.nats.region }}"
   nats.metricsEnabled: "{{ .Values.qTestManager.nats.metricsEnabled }}"
+  nats.toscaCloud.streamName: "{{ .Values.qTestManager.nats.toscaCloud.streamName }}"
+  nats.toscaCloud.consumerName: "{{ .Values.qTestManager.nats.toscaCloud.consumerName }}"
+  nats.toscaCloud.environment: "{{ .Values.qTestManager.nats.toscaCloud.environment }}"
   {{ end  }}
 ---
 apiVersion: v1
