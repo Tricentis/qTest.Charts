@@ -38,6 +38,7 @@ deployment:
   singlePodPerNode: false
   strategy:
     type: Recreate
+lifecycle: {}
 podAnnotations: {}
 rollouts:
   enabled: false

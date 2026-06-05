@@ -82,6 +82,10 @@ spec:
             periodSeconds: {{ .Values.autoscaling.periodSeconds }}
           resources:
           {{- toYaml .Values.resources | nindent 12 }}
+          {{- with .Values.lifecycle }}
+          lifecycle:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           ports:
             - containerPort: {{ .Values.service.targetPort }}
               name: http

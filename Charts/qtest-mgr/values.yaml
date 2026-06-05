@@ -112,7 +112,6 @@ shareProcessNamespace: "true"
 ## ref: https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods
 ##
 terminationGracePeriodSeconds: ""
-# -- Specify postStart and preStop lifecycle hooks for your qTest Manager containers
 lifecycle: {}
 extraInitContainers: []
 extraContainers: []
