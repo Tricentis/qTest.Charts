@@ -42,7 +42,6 @@ data:
   client.jdbc.postgres.readonly.username: "{{ .Values.qTestManager.client.jdbc.postgresReadOnlyUserName }}"
   attachment.folder.path: "{{ .Values.qTestManager.attachmentFolderPath }}"
   license.folder.path: "{{ .Values.qTestManager.licenseFolderPath }}"
-  elasticsearch.permitted_clients: "{{ .Values.qTestManager.elasticSearch.permittedClients }}"
   search.admin_routes_permitted_clients: "{{ .Values.qTestManager.search.adminRoutesPermittedClients }}"
   blobStorage.region: "{{ .Values.qTestManager.blobStorage.region }}"
   blobStorage.sharedBucket: "{{ .Values.qTestManager.blobStorage.sharedBucket }}"
