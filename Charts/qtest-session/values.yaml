@@ -23,9 +23,11 @@ imageCredentials:
 deployment:
   annotations: {}
   singlePodPerNode: false
-# -- Specify postStart and preStop lifecycle hooks for your qTest Session containers
+
 lifecycle: {}
+
 podAnnotations: {}
+
 rollouts:
   enabled: false
   ingressClassName: alb
