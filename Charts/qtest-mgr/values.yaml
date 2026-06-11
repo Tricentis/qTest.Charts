@@ -115,9 +115,7 @@ shareProcessNamespace: "true"
 ## ref: https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods
 ##
 terminationGracePeriodSeconds: ""
-
 lifecycle: {}
-
 extraInitContainers: []
 extraContainers: []
 extraArgs: []
@@ -171,7 +169,7 @@ qTestManager:
     toscaCloud:
       streamName: "tosca"
       consumerName: "tosca-cloud-consumer"
-      environment: "prod"
+      environment: "*"
   client:
     jdbc:
       postgresUrl: "jdbc:postgresql://postgres.local:5432/qtest"
@@ -248,6 +246,10 @@ qTestManager:
         disabled: true
         mode: HighPrecision
   requestExecutionTimeUpperThreshold: -1
+  sql:
+    query:
+      audit:
+        mode: "off"
   siteFieldTemplateAssigningProjectBatchSize: 50
   taskExecutionTimeUpperThreshold: -1
   mail:
@@ -451,6 +453,9 @@ notification:
         enabled: false
       worker:
         enabled: true
+  queueProcessingState:
+    cleanup:
+      enabled: false
 testconductor:
   environment:
     isOnPremise: true
