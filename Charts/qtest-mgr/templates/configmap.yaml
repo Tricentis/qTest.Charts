@@ -80,6 +80,7 @@ data:
   secret.volume.mount.path: "{{ .Values.qTestManager.secret.appVolumeMount }}"
   emailchange.allow.clients: "{{ .Values.qTestManager.emailchange.allowClients }}"
   request.execution.time.upper.threshold: "{{ .Values.qTestManager.requestExecutionTimeUpperThreshold }}"
+  sql.query.audit.mode: "{{ .Values.qTestManager.sql.query.audit.mode }}"
   task.execution.time.upper.threshold: "{{ .Values.qTestManager.taskExecutionTimeUpperThreshold }}"
   vera.auto.testrun.beta.clients: "{{ .Values.qTestManager.vera.auto.testrun.beta.clients }}"
   sslMountPath: "{{ .Values.qTestManager.server.sslMountPath }}"
@@ -201,6 +202,7 @@ data:
   queue.manager.executor.pool.min.size: "{{ .Values.notification.queue.manager.executor.pool.minSize }}"
   queue.manager.executor.pool.max.size: "{{ .Values.notification.queue.manager.executor.pool.maxSize }}"
   queue.manager.executor.pool.queue.capacity: "{{ .Values.notification.queue.manager.executor.pool.queueCapacity }}"
+  queueProcessingState.cleanup.enabled: "{{ .Values.notification.queueProcessingState.cleanup.enabled }}"
 ---
 apiVersion: v1
 kind: ConfigMap
