@@ -31,7 +31,7 @@ spec:
       {{- end }}
       labels:
         app: qtest-insights-i-etl
-        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        chart: {{ include "qtest-insights-i-etl.chart" . }}
         release: "{{ .Release.Name }}"
         heritage: "{{ .Release.Service }}"
     spec:
@@ -109,6 +109,12 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secrets.name }}
                   key: sessionsReadDbPassword
+            - name: LAUNCHDARKLY_SDKKEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: launchdarkly-sdkKey
+                  optional: true
 
 {{- with .Values.extraEnv }}
 {{ toYaml . | indent 12 }}

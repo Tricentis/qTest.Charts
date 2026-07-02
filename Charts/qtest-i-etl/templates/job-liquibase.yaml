@@ -15,7 +15,7 @@ spec:
     metadata:
       name: i-etl-liquibase-job
       labels:
-        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        chart: {{ include "qtest-insights-i-etl.chart" . }}
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
     spec:

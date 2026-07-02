@@ -5,7 +5,7 @@ secrets:
   enabled: false
   name: qtest-i-etl-secret
 image:
-  repository: qasymphony/i-etl
+  repository: tricentisimage/insights-i-etl
   pullPolicy: IfNotPresent
   tag: "2026.3.0"
 liquibase:
@@ -38,10 +38,8 @@ deployment:
   singlePodPerNode: false
   strategy:
     type: Recreate
-
 lifecycle: {}
 podAnnotations: {}
-
 rollouts:
   enabled: false
   ingressClassName: alb
