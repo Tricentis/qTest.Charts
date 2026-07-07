@@ -117,6 +117,7 @@ data:
   kong.api.url: "{{ .Values.qTestManager.kong.api.url }}"
   redis.host: "{{ .Values.qTestManager.redis.host }}"
   redis.port: "{{ .Values.qTestManager.redis.port }}"
+  redis.ssl.enabled: "{{ .Values.qTestManager.redis.ssl.enabled }}"
   ssrf.hosts.blocklist.patterns: "{{ .Values.qTestManager.security.ssrf.hosts.blocklist.patterns }}"
   {{ end }}
   {{ if .Values.testconductor.queue.manager.enabled }}
