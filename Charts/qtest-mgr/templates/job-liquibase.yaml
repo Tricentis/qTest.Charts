@@ -15,7 +15,7 @@ spec:
     metadata:
       name: mgr-liquibase-job
       labels:
-        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        chart: {{ include "qtest-mgr.chart" . }}
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
     spec:

@@ -80,7 +80,6 @@ data:
   secret.volume.mount.path: "{{ .Values.qTestManager.secret.appVolumeMount }}"
   emailchange.allow.clients: "{{ .Values.qTestManager.emailchange.allowClients }}"
   request.execution.time.upper.threshold: "{{ .Values.qTestManager.requestExecutionTimeUpperThreshold }}"
-  sql.query.audit.mode: "{{ .Values.qTestManager.sql.query.audit.mode }}"
   task.execution.time.upper.threshold: "{{ .Values.qTestManager.taskExecutionTimeUpperThreshold }}"
   vera.auto.testrun.beta.clients: "{{ .Values.qTestManager.vera.auto.testrun.beta.clients }}"
   sslMountPath: "{{ .Values.qTestManager.server.sslMountPath }}"
@@ -139,6 +138,8 @@ data:
   tenantRegistry.oauth2.issuerUrl: "{{ .Values.qTestManager.tenantRegistry.oauth2.issuerUrl }}"
   tenantRegistry.oauth2.environment: "{{ .Values.qTestManager.tenantRegistry.oauth2.environment }}"
   tenantRegistry.readApi.baseUrl: "{{ .Values.qTestManager.tenantRegistry.readApi.baseUrl }}"
+  backfill.jwttoken.issuerUrl: "{{ .Values.qTestManager.backfill.jwttoken.issuerUrl }}"
+  backfill.jwttoken.audience: "{{ .Values.qTestManager.backfill.jwttoken.audience }}"
   {{ if .Values.qTestManager.nats.enabled }}
   nats.url: "{{ .Values.qTestManager.nats.url }}"
   nats.streamName: "{{ .Values.qTestManager.nats.streamName }}"

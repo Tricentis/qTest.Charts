@@ -246,10 +246,6 @@ qTestManager:
         disabled: true
         mode: HighPrecision
   requestExecutionTimeUpperThreshold: -1
-  sql:
-    query:
-      audit:
-        mode: "off"
   siteFieldTemplateAssigningProjectBatchSize: 50
   taskExecutionTimeUpperThreshold: -1
   mail:
@@ -331,6 +327,10 @@ qTestManager:
       environment: ""
     readApi:
       baseUrl: ""
+  backfill:
+    jwttoken:
+      issuerUrl: ""
+      audience: ""
 ui:
   action:
     task:
