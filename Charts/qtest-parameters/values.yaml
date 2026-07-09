@@ -31,7 +31,6 @@ deployment:
   singlePodPerNode: false
 lifecycle: {}
 podAnnotations: {}
-additionalPodLabels: {}
 rollouts:
   enabled: false
   ingressClassName: alb
