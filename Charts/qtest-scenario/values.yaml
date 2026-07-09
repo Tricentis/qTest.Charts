@@ -28,10 +28,8 @@ serviceAccount:
 deployment:
   annotations: {}
   singlePodPerNode: false
-
 lifecycle: {}
 podAnnotations: {}
-
 rollouts:
   enabled: false
   ingressClassName: alb
@@ -74,7 +72,7 @@ qTestScenario:
   qTestScenarioNodeTLSRejectUnAuthorized: "0"
   qTestScenarioNodeEnvironment: production
   qTestScenarioRefreshTokenSecret: "secret"
-  ScenarioJiraCypherKey: "secret"
+  jiraCypherKey: "secret"
   qTestScenarioAppKeyDescriptor: ""
   qTestScenarioQTestURL: https://nephele.qtest.local
   qTestScenarioDBSSLEnable: false
