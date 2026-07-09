@@ -29,9 +29,12 @@ spec:
       {{- end }}
       labels:
         app: qtest-parameters
-        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        chart: {{ include "qtest-parameters.chart" . }}
         release: "{{ .Release.Name }}"
         heritage: "{{ .Release.Service }}"
+      {{- with .Values.additionalPodLabels }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
     spec:
     {{- with .Values.topologySpreadConstraints }}
       topologySpreadConstraints:

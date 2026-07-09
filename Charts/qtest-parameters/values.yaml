@@ -29,10 +29,9 @@ serviceAccount:
 deployment:
   annotations: {}
   singlePodPerNode: false
-
 lifecycle: {}
 podAnnotations: {}
-
+additionalPodLabels: {}
 rollouts:
   enabled: false
   ingressClassName: alb
