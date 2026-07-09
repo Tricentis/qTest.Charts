@@ -9,7 +9,7 @@ metadata:
   {{- end }}
   labels:
     app: {{ include "qtest-pulse.name" . }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    chart: {{ include "qtest-pulse.chart" . }}
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
@@ -46,7 +46,7 @@ metadata:
   {{- end }}
   labels:
     app: {{ include "qtest-pulse.name" . }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    chart: {{ include "qtest-pulse.chart" . }}
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
