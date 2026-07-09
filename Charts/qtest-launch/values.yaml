@@ -29,10 +29,12 @@ serviceAccount:
 deployment:
   annotations: {}
   singlePodPerNode: false
-
 lifecycle: {}
 podAnnotations: {}
-
+## @param terminationGracePeriodSeconds Seconds qTest Launch pod needs to terminate gracefully
+## ref: https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods
+##
+terminationGracePeriodSeconds: ""
 rollouts:
   enabled: false
   ingressClassName: alb

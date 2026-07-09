@@ -29,7 +29,7 @@ spec:
       {{- end }}
       labels:
         app: qtest-launch
-        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        chart: {{ include "qtest-launch.chart" . }}
         release: "{{ .Release.Name }}"
         heritage: "{{ .Release.Service }}"
     spec:
@@ -47,6 +47,9 @@ spec:
       {{- end }}
     {{- end }}
       serviceAccountName: {{ .Values.serviceAccount.name }}
+      {{- if .Values.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      {{- end }}
       {{- if .Values.extraInitContainers }}
       # Currently some extra blocks accept strings
       # to continue with backwards compatibility this is being kept
