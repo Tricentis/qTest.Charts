@@ -1,4 +1,5 @@
 {{- if .Values.vpaAutoscaling.enabled }}
+{{- $iSingleInstance := .Values.testconductor.environment.singleInstance -}}
 {{- if not .Values.rollouts.enabled -}}
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
@@ -19,6 +20,7 @@ spec:
         {{- toYaml . | nindent 4 }}
     {{- end }}
       controlledResources: ["cpu", "memory"]
+{{- if not $iSingleInstance }}
 ---
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
@@ -80,6 +82,7 @@ spec:
     {{- end }}
       controlledResources: ["cpu", "memory"]
 {{- end }}
+{{- end }}
 {{- if .Values.rollouts.enabled -}}
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
@@ -100,6 +103,7 @@ spec:
         {{- toYaml . | nindent 4 }}
     {{- end }}
       controlledResources: ["cpu", "memory"]
+{{- if not $iSingleInstance }}
 ---
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
@@ -160,5 +164,6 @@ spec:
         {{- toYaml . | nindent 4 }}
     {{- end }}
       controlledResources: ["cpu", "memory"]
+{{- end }}
 {{- end }}
 {{- end }}
