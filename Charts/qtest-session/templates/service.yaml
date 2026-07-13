@@ -9,7 +9,7 @@ metadata:
   {{- end }}
   labels:
     app: qtest-session
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    chart: {{ include "qtest-session.chart" . }}
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
@@ -42,7 +42,7 @@ metadata:
   {{- end }}
   labels:
     app: qtest-session
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    chart: {{ include "qtest-session.chart" . }}
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:

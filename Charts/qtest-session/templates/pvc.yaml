@@ -6,7 +6,7 @@ metadata:
   namespace: {{ .Values.namespace.name }}
   labels:
     app: test-conductor
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    chart: {{ include "qtest-session.chart" . }}
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 {{ if .Values.persistence.annotations}}
