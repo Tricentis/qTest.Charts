@@ -31,7 +31,7 @@ spec:
   targetRef: 
     apiVersion: "apps/v1"
     kind: Deployment
-    name: mgr-deployment-api
+    name: mgr-api-deployment
   updatePolicy:
     updateMode: {{ .Values.vpaAutoscaling.updatePolicy.updateMode | squote }}
   resourcePolicy:
@@ -51,7 +51,7 @@ spec:
   targetRef: 
     apiVersion: "apps/v1"
     kind: Deployment
-    name: mgr-deployment-poller
+    name: mgr-poller-deployment
   updatePolicy:
     updateMode: {{ .Values.vpaAutoscaling.updatePolicy.updateMode | squote }}
   resourcePolicy:
@@ -71,7 +71,7 @@ spec:
   targetRef: 
     apiVersion: "apps/v1"
     kind: Deployment
-    name: mgr-deployment-notification
+    name: mgr-notification-deployment
   updatePolicy:
     updateMode: {{ .Values.vpaAutoscaling.updatePolicy.updateMode | squote }}
   resourcePolicy:
@@ -124,15 +124,15 @@ spec:
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
-  name: mgr-poller-rollout
+  name: mgr-poller-deployment
   namespace: {{ .Values.namespace.name }}
   labels:
     {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
   targetRef: 
-    apiVersion: "argoproj.io/v1alpha1"
-    kind: Rollout
-    name: mgr-poller-rollout
+    apiVersion: "apps/v1"
+    kind: Deployment
+    name: mgr-poller-deployment
   updatePolicy:
     updateMode: {{ .Values.vpaAutoscaling.updatePolicy.updateMode | squote }}
   resourcePolicy:
