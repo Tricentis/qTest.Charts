@@ -9,7 +9,7 @@ metadata:
   {{- end }}
   labels:
     app: qtest-launch
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    chart: {{ include "qtest-launch.chart" . }}
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
@@ -42,7 +42,7 @@ metadata:
   {{- end }}
   labels:
     app: qtest-launch
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    chart: {{ include "qtest-launch.chart" . }}
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
