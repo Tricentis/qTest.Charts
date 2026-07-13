@@ -29,7 +29,7 @@ spec:
       {{- end }}
       labels:
         app: qtest-parameters
-        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        chart: {{ include "qtest-parameters.chart" . }}
         release: "{{ .Release.Name }}"
         heritage: "{{ .Release.Service }}"
     spec:
