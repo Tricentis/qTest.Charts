@@ -1,4 +1,5 @@
 {{- if .Values.vpaAutoscaling.enabled }}
+{{- $iSingleInstance := .Values.testconductor.environment.singleInstance -}}
 {{- if not .Values.rollouts.enabled -}}
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
@@ -19,6 +20,7 @@ spec:
         {{- toYaml . | nindent 4 }}
     {{- end }}
       controlledResources: ["cpu", "memory"]
+{{- if not $iSingleInstance }}
 ---
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
@@ -31,7 +33,7 @@ spec:
   targetRef: 
     apiVersion: "apps/v1"
     kind: Deployment
-    name: mgr-deployment-api
+    name: mgr-api-deployment
   updatePolicy:
     updateMode: {{ .Values.vpaAutoscaling.updatePolicy.updateMode | squote }}
   resourcePolicy:
@@ -51,7 +53,7 @@ spec:
   targetRef: 
     apiVersion: "apps/v1"
     kind: Deployment
-    name: mgr-deployment-poller
+    name: mgr-poller-deployment
   updatePolicy:
     updateMode: {{ .Values.vpaAutoscaling.updatePolicy.updateMode | squote }}
   resourcePolicy:
@@ -71,7 +73,7 @@ spec:
   targetRef: 
     apiVersion: "apps/v1"
     kind: Deployment
-    name: mgr-deployment-notification
+    name: mgr-notification-deployment
   updatePolicy:
     updateMode: {{ .Values.vpaAutoscaling.updatePolicy.updateMode | squote }}
   resourcePolicy:
@@ -79,6 +81,7 @@ spec:
         {{- toYaml . | nindent 4 }}
     {{- end }}
       controlledResources: ["cpu", "memory"]
+{{- end }}
 {{- end }}
 {{- if .Values.rollouts.enabled -}}
 apiVersion: autoscaling.k8s.io/v1
@@ -100,6 +103,7 @@ spec:
         {{- toYaml . | nindent 4 }}
     {{- end }}
       controlledResources: ["cpu", "memory"]
+{{- if not $iSingleInstance }}
 ---
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
@@ -124,15 +128,15 @@ spec:
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
-  name: mgr-poller-rollout
+  name: mgr-poller-deployment
   namespace: {{ .Values.namespace.name }}
   labels:
     {{- include "qtest-mgr.labels" . | nindent 4 }}
 spec:
   targetRef: 
-    apiVersion: "argoproj.io/v1alpha1"
-    kind: Rollout
-    name: mgr-poller-rollout
+    apiVersion: "apps/v1"
+    kind: Deployment
+    name: mgr-poller-deployment
   updatePolicy:
     updateMode: {{ .Values.vpaAutoscaling.updatePolicy.updateMode | squote }}
   resourcePolicy:
@@ -160,5 +164,6 @@ spec:
         {{- toYaml . | nindent 4 }}
     {{- end }}
       controlledResources: ["cpu", "memory"]
+{{- end }}
 {{- end }}
 {{- end }}

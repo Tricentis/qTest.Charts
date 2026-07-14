@@ -1,4 +1,5 @@
 {{- if .Values.vpaAutoscaling.enabled }}
+{{- if not .Values.rollouts.enabled -}}
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
@@ -10,12 +11,33 @@ spec:
   targetRef: 
     apiVersion: "apps/v1"
     kind: Deployment
-    name: {{ include "qtest-scenario.fullname" . }}
+    name: qtest-scenario
   updatePolicy:
-    updateMode: {{ .Values.vpaAutoscaling.updatePolicy.updateMode }}
+    updateMode: {{ .Values.vpaAutoscaling.updatePolicy.updateMode | squote }}
   resourcePolicy:
     {{- with .Values.vpaAutoscaling.resourcePolicy -}}
         {{- toYaml . | nindent 4 }}
     {{- end }}
       controlledResources: ["cpu", "memory"]
+{{- else }}
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: {{ include "qtest-scenario.fullname" . }}-rollout
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    {{- include "qtest-scenario.labels" . | nindent 4 }}
+spec:
+  targetRef: 
+    apiVersion: "argoproj.io/v1alpha1"
+    kind: Rollout
+    name: qtest-scenario-rollout
+  updatePolicy:
+    updateMode: {{ .Values.vpaAutoscaling.updatePolicy.updateMode | squote }}
+  resourcePolicy:
+    {{- with .Values.vpaAutoscaling.resourcePolicy -}}
+        {{- toYaml . | nindent 4 }}
+    {{- end }}
+      controlledResources: ["cpu", "memory"]
+{{- end }}
 {{- end }}
