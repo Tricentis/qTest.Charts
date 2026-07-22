@@ -169,36 +169,46 @@ livenessProbe:
     path: /
     port: 4080
   periodSeconds: 30
+  timeoutSeconds: 5
+  failureThreshold: 10
 livenessSslProbe:
   httpGet:
     path: /
     scheme: HTTPS
     port: 4443
   periodSeconds: 30
+  timeoutSeconds: 5
+  failureThreshold: 10
 readinessProbe:
   httpGet:
     path: /
     port: 4080
   periodSeconds: 30
+  timeoutSeconds: 5
+  failureThreshold: 10
 readinessSslProbe:
   httpGet:
     path: /
     scheme: HTTPS
     port: 4443
   periodSeconds: 30
+  timeoutSeconds: 5
+  failureThreshold: 10
 startupProbe:
   httpGet:
     path: /
     port: 4080
-  failureThreshold: 4
   periodSeconds: 30
+  timeoutSeconds: 5
+  failureThreshold: 10
 startupSslProbe:
   httpGet:
     path: /
     scheme: HTTPS
     port: 4443
-  failureThreshold: 4
   periodSeconds: 30
+  timeoutSeconds: 5
+  failureThreshold: 10
 nodeSelector: {}
 tolerations: []
 affinity: {}
