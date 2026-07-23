@@ -1,68 +1,47 @@
-# Helm Repository for qTest Manager and qTest Applications
+# qTest Manager and qTest Applications Helm charts
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Chart Publish](https://github.com/Tricentis/qTest.Charts/actions/workflows/release.yaml/badge.svg?branch=main)](https://github.com/Tricentis/qTest.Charts/actions/workflows/release.yaml)
 
-<img src="https://assets-global.website-files.com/5dfb2c5f5b18187014b68b84/5e5765ef5072d028554d9233_qTest_logo.png" width="450" height="134">
-
-[Tricentis qTest](https://www.tricentis.com/products/unified-test-management-qtest/) is a centralized test management platform to help unify, manage, and rapidly scale testing across the enterprise, so teams can collaborate to ship faster with less risk.
-
-## Introduction
+[Tricentis qTest](https://www.tricentis.com/products/unified-test-management-qtest): Scalable, AI-driven test management, operations, and analytics to centralize testing and orchestrate quality at speed, with visibility throughout the software development lifecycle.
 
 This repository includes the following charts:
 
-- clamav
-- clamav-mirror
-- qTest API Gateway
-- qTest L2C Integration
-- qTest Manager
-- qTest Scenario
-- qTest Launch
-- qTest Automation Host
-- qTest Session
-- qTest Parameters
-- qTest Pulse
-- qTest Insights
-- qTest Insights ETL
-- qTest Swagger-UI
-- qTest Test Config
+- qTest Insights I-ETL (`qtest-i-etl`)
+- qTest Insights (`qtest-insights`)
+- qTest Insights ETL (`qtest-insights-etl`)
+- qTest Launch (`qtest-launch`)
+- qTest Manager (`qtest-mgr`)
+- qTest Parameters (`qtest-parameters`)
+- qTest Pulse (`qtest-pulse`)
+- qTest Scenario (`qtest-scenario`)
+- qTest Session (`qtest-session`)
 
 ## Prerequisites
 
-- Helm 3
+- Helm 3+
 - Kubernetes 1.24+
-- PV provisioner support in the underlying infrastructure
+- Persistent Volume (PV) provisioner support in the underlying infrastructure
 
 ## Authentication
 
-qTest uses private Docker images and requires authentication via Docker.
+qTest uses private Docker images, so each chart needs registry credentials to pull them. Provide them via the `imageCredentials` block in your `values.yaml` - the chart then creates a `kubernetes.io/dockerconfigjson` secret (named after `imageCredentials.name`) and attaches it to the pods automatically:
 
-```bash
-docker login
+```yaml
+imageCredentials:
+  enabled: true                    # off by default; no pull secret is attached unless enabled
+  name: regcred
+  registry: <your-registry-server> # Private registry FQDN; use https://index.docker.io/v1/ for DockerHub
+  username: <your-name>            # Docker username
+  password: <your-pword>           # Docker access token
+  email: <your-email>              # Docker email
 ```
 
-When prompted, enter your Docker ID and access token. The login process creates or updates a `config.json` file that holds an authorization token, typically located under `$HOME/.docker/config.json`.
+> [!IMPORTANT]
+> The secret is created in the chart's namespace (`namespace.name`, default `qtest`). For the `qtest-mgr` umbrella chart, set `imageCredentials` per enabled subchart (e.g. `qtest-launch.imageCredentials`, ...).
 
-Next, create a corresponding Kubernetes secret named `regcred`. This can be created from you existing credentials:
-
-```bash
-kubectl create secret generic regcred \
-    --from-file=.dockerconfigjson=<path/to/.docker/config.json> \
-    --type=kubernetes.io/dockerconfigjson
-```
-
-If you do not wish to use the Docker `config.json` file, the secret can also be created directly from the command line:
-
-```bash
-kubectl create secret docker-registry regcred --docker-server=<your-registry-server> --docker-username=<your-name> --docker-password=<your-pword> --docker-email=<your-email>
-```
-
-where:
-
-- `<your-registry-server>` is your Private Docker Registry FQDN. Use https://index.docker.io/v1/ for DockerHub.
-- `<your-name>` is your Docker username.
-- `<your-pword>` is your Docker access token.
-- `<your-email>` is your Docker email.
+> [!NOTE]
+> Advanced: to reference a pre-existing secret (e.g. GitOps), set `imageCredentials.enabled: true` and `imageCredentials.existingImageCredentials: <secret-name>` and leave the credential fields unset.
 
 ## Installation
 
@@ -73,18 +52,14 @@ helm repo add qtest https://tricentis.github.io/qTest.Charts
 helm repo update
 ```
 
-## (End-to-End) Helm Chart Integrity Verification
-
-To verify the integrity of the qTest Helm Chart for public consumption (**highly advised**, however **OPTIONAL**), the qTest Helm Charts follow the Helm Provenance Security Packaging Guidelines to 100% guarantee the qTest Helm Chart consumers download and deploy to their Kubernetes Clusters a 100% integrity (anti-highjacked) version of the Helm Chart. For a full-description and step-for-step guideline on how to issue the verification process see [Helm Provenance](docs/README-qtest-k8s-helm-chart-integrity-verification.md).
-
 Install the qTest Manager chart with the release name `qtest-manager` in `qtest` namespace:
 
 ```bash
 helm install qtest-manager qtest/qtest-mgr -f <values.yaml> -n qtest --create-namespace
 ```
 
-Note that qTest Manager chart should be the **first** chart to be installed.
-All other qTest charts may be installed subsequently in the similar manner. For example, to install qTest Parameters with the release name `qtest-parameters`:
+> [!NOTE]
+> qTest Manager chart should be the **first** chart to be installed. All other qTest charts may be installed subsequently in the similar manner. For example, to install qTest Parameters with the release name `qtest-parameters`:
 
 ```bash
 helm install qtest-parameters qtest/qtest-parameters -n qtest
@@ -105,9 +80,7 @@ The following table lists the configurable parameters for qTest Manager and its 
 
 ### Ingress Controller
 
-qTest relies an IngressController to route ingress traffic into the cluster. We recommend SSL offloading/termination be done at the IngressController. Specific TLS setup instructions depend on the IngressController you have.
-
-qTest includes a sample NginX IngressController YAML file to demonstrate how qTest services may be exposed via an IngressController. Additional TLS configuration for the NginX IngressController can be found [here](https://kubernetes.github.io/ingress-nginx/user-guide/tls/).
+qTest relies on an Ingress Controller to route ingress traffic into the cluster. We recommend SSL offloading/termination be done at the Ingress Controller. Specific TLS setup instructions depend on the Ingress Controller you have.
 
 ### Common properties
 
