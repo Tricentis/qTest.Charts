@@ -1,4 +1,4 @@
-# qTest Helm charts
+# qTest Helm Charts
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Chart Publish](https://github.com/Tricentis/qTest.Charts/actions/workflows/release.yaml/badge.svg?branch=main)](https://github.com/Tricentis/qTest.Charts/actions/workflows/release.yaml)
@@ -358,7 +358,7 @@ For file persistence, only **one** of the following options is needed:
 - _StorageClass_. StorageClass used to carve out a PersistentVolumeClaim with the specified size and access mode. If empty, the default StorageClass will be used.
 - _existingClaim_. If specified, the PersistentVolumeClaim will be used as file persistence for qTest.
 
-## Uninstalling the qTest Manager Chart
+## Uninstalling the qTest Manager chart
 
 To uninstall the qTest Manager chart with the release name `qtestmanager`:
 
