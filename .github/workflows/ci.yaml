@@ -7,7 +7,7 @@ on:
 
 jobs:
   lint-chart:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-stepsecurity-x64
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -36,13 +36,13 @@ jobs:
           done
       - name: login to Github Packages
         run: echo "${{ github.token }}" | docker login https://ghcr.io -u ${GITHUB_ACTOR} --password-stdin
-      - uses: docker://ghcr.io/yannh/kubeconform:latest
+      - uses: docker://ghcr.io/yannh/kubeconform:latest@sha256:5103f6f5e89061728aad4ad5a250627dd0fc9b2a92eb876f3762677a4222f9e0
         with:
           entrypoint: '/kubeconform'
           args: "-summary -output json kubeconfigs/"
 
   lint-docs:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-stepsecurity-x64
     needs: lint-chart
     steps:
       - name: Checkout
