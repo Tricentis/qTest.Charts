@@ -320,6 +320,7 @@ qTestManager:
   background:
     event:
       metricsEnabled: false
+      jiraMaxConcurrentProcessing: 0
   tenantRegistry:
     oauth2:
       clientId: ""
