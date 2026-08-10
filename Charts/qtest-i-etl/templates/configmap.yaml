@@ -50,6 +50,7 @@ data:
   INSIGHTS_ETL_BETA_JOBS_DISABLED: "{{ .Values.qTestInsightsIEtl.iEtlBetaJobsDisabled }}"
   LOG_ENVIRONMENT: "{{ .Values.qTestInsightsIEtl.logEnvironment }}"
   INSIGHTS_ETL_LONG_RUNNING_MATERIALIZED_VIEW_INTERVAL: "{{ .Values.qTestInsightsIEtl.iEtlLongRunningMaterializedViewInterval }}"
+  DEPLOYMENT_ENV: "{{ .Values.qTestInsightsIEtl.deploymentEnv }}"
   # Rapid Dashboards configurations
   RAPID_DASHBOARDS_TASK_INTERVAL: "{{ .Values.qTestInsightsIEtl.rapidDashboardsTaskInterval }}"
   RAPID_DASHBOARDS_BATCH_SIZE: "{{ .Values.qTestInsightsIEtl.rapidDashboardsBatchSize }}"

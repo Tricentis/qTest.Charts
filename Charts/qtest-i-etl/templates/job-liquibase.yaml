@@ -29,6 +29,7 @@ spec:
           args:
             - "migrate"
             - "migrate-old"
+            - "migrate-scheduler-tasks"
           resources:
             requests:
               memory: "0.5Gi"
@@ -40,6 +41,11 @@ spec:
             - configMapRef:
                 name: qtest-insights-i-etl-configmap
           env:
+            - name: QTEST_READ_DB_PW
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: qtestDbPassword
             - name: QTEST_WRITE_DB_PW
               valueFrom:
                 secretKeyRef:
