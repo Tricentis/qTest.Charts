@@ -29,6 +29,7 @@ spec:
           args:
             - "migrate"
             - "migrate-old"
+            - "migrate-scheduler-tasks"
           resources:
             requests:
               memory: "0.5Gi"

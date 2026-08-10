@@ -105,6 +105,7 @@ qTestInsightsIEtl:
   # General configurations
   autoRefreshDBLink: true
   logEnvironment: opk8s
+  deploymentEnv: "saas"
   # Quartz and job configurations
   iEtlQuartzThreadCount: 10
   iEtlBatchInitialSize: 10000

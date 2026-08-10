@@ -103,6 +103,7 @@ qTestInsights:
   qTestInsightsSessionDBPort: 5432
   qTestInsightsCSRFAllowPattern: \"$insights_security_csrf_trusted_source_pattern\"
   serverAppSSLRequired: false
+  deploymentEnv: "saas"
   # Persist user sessions to prevent re-login after each pod restart
   sessionsPersistence: false
   # Persist logs from the application
