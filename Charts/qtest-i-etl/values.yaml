@@ -197,15 +197,6 @@ autoscaling:
     failureThreshold: 20
   targetCPUUtilizationPercentage: 85
   targetMemoryUtilizationPercentage: 85
-# VPA values
-vpaAutoscaling:
-  enabled: false
-  updatePolicy:
-    updateMode: "Off"
-  resourcePolicy:
-    containerPolicies:
-      - containerName: '*'
-        controlledValues: RequestsAndLimits
 resources:
   requests:
     cpu: 1
