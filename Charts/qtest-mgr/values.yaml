@@ -170,6 +170,9 @@ qTestManager:
       streamName: "tosca"
       consumerName: "tosca-cloud-consumer"
       environment: "*"
+    tenantRegistry:
+      streamName: "tenant-group-membership-events"
+      consumerName: "qtest-tenant-group-membership-consumer"
   client:
     jdbc:
       postgresUrl: "jdbc:postgresql://postgres.local:5432/qtest"
@@ -185,6 +188,10 @@ qTestManager:
       cert: ""
     dbcp:
       testWhileIdle: 1
+  jdbc:
+    pool:
+      metrics:
+        enabled: false
   cors:
     allowed:
       all: true
@@ -315,11 +322,11 @@ qTestManager:
   redis:
     host: localhost
     port: 6379
-    ssl:
-      enabled: true
   background:
     event:
       metricsEnabled: false
+      metrics:
+        enabled: false
       jiraMaxConcurrentProcessing: 0
   tenantRegistry:
     oauth2:
@@ -343,6 +350,9 @@ ui:
     dbcp:
       maxActive: 200
       readOnlyMaxActive: 100
+      initialSize: 0
+      minIdle: 0
+      maxIdle: 0
   ## if single instance then change to postgres
   springProfilesActive: postgres,readOnlyEnable,queueManager
   useriqEnabled: false
@@ -376,6 +386,9 @@ api:
   client:
     dbcp:
       maxActive: 400
+      initialSize: 0
+      minIdle: 0
+      maxIdle: 0
   springProfilesActive: postgres,disableAllTasksMode,readOnlyEnable,queueManager
   resources: {}
   queue:
@@ -402,6 +415,9 @@ poller:
   client:
     dbcp:
       maxActive: 150
+      initialSize: 0
+      minIdle: 0
+      maxIdle: 0
   schedulerBlobHandleMaxRetryTimes: 5
   siteFieldTemplateAssigningProjectBatchSize: 50
   testconductorAppPath: testconductor-app.localhost.xml
@@ -441,6 +457,9 @@ notification:
   client:
     dbcp:
       maxActive: 300
+      initialSize: 0
+      minIdle: 0
+      maxIdle: 0
   springProfilesActive: postgres,backgroundQueue,queueManager
   schedulerBlobHandleMaxRetryTimes: 5
   queuePublisherMaxDequeue: 300
