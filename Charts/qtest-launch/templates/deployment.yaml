@@ -47,6 +47,9 @@ spec:
       {{- end }}
     {{- end }}
       serviceAccountName: {{ .Values.serviceAccount.name }}
+      {{- if .Values.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      {{- end }}
       {{- if .Values.extraInitContainers }}
       # Currently some extra blocks accept strings
       # to continue with backwards compatibility this is being kept
@@ -169,6 +172,12 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secrets.aesSecretKeysName }}
                   key: AESsecretKeys
+            - name: LAUNCH_MANAGER_OAUTH_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: oauth.app.launch.secret
+                  optional: true
             - name: NODE_TLS_REJECT_UNAUTHORIZED
               valueFrom:
                 configMapKeyRef:
