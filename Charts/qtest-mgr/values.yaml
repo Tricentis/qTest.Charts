@@ -196,8 +196,8 @@ qTestManager:
     allowed:
       all: true
       domains: ""
-  elasticSearch:
-    permittedClients: ""
+  search:
+    adminRoutesPermittedClients: ""
   attachmentFolderPath: /mnt/data/qtest/attachments
   licenseFolderPath: /mnt/data/qtest
   blobStorage:
