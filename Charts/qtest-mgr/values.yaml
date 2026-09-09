@@ -372,10 +372,6 @@ api:
       apiThreshold: 300
       cleanUpInterval: "3600000"
       jiraCloudThreshold: 500
-      jiraCloudRateLimitDelayTime: 0
-      jiraCloudRateLimitRetryPeriod: 5
-      jiraCloudRateLimitRetryTimes: 3
-      jiraCloudRateLimitThreshold: 500
       jiraServerThreshold: 20
       oldDefectTrackingSystemsThreshold: 20
       testExecutionApiRetryTime: 1
@@ -443,10 +439,6 @@ notification:
       apiThreshold: 300
       cleanUpInterval: "3600000"
       jiraCloudThreshold: 500
-      jiraCloudRateLimitDelayTime: 0
-      jiraCloudRateLimitRetryPeriod: 5
-      jiraCloudRateLimitRetryTimes: 3
-      jiraCloudRateLimitThreshold: 500
       jiraServerThreshold: 20
       oldDefectTrackingSystemsThreshold: 20
       testExecutionApiRetryTime: 1
