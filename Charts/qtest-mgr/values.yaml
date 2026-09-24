@@ -80,6 +80,13 @@ secrets:
   natsSecretEnv:
     - name: NATS_PASSWORD
       key: qtestPublisherPassword
+  natsIndependentSecretEnv:
+    - name: NATS_QTEST_PASSWORD
+      key: qtestAccountPassword
+    - name: NATS_TOSCA_CLOUD_PASSWORD
+      key: toscaConsumerPassword
+    - name: NATS_PLATFORM_PASSWORD
+      key: platformConsumerPassword
   jiraOAuth2EncryptionSecretName: qtest-manager-secret
   jiraOAuth2EncryptionEnv:
     - name: JIRA_OAUTH2_ENCRYPTION_PASSWORD
@@ -165,8 +172,15 @@ qTestManager:
     userName: "qtest-publisher"
     region: "us-east-1"
     password: ""
+    independentAccounts:
+      enabled: false
+    qtest:
+      userName: "qtest-publisher"
+    platform:
+      userName: "platform-consumer"
     metricsEnabled: false
     toscaCloud:
+      userName: "tosca-consumer"
       streamName: "tosca"
       consumerName: "tosca-cloud-consumer"
       environment: "*"

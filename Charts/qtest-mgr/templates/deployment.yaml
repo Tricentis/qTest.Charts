@@ -193,6 +193,17 @@ spec:
               key: {{ .key }}
         {{- end }}
         {{- end }}
+        {{- if .Values.qTestManager.nats.independentAccounts.enabled }}
+        {{- with .Values.secrets.natsIndependentSecretEnv }}
+        {{- range . }}
+        - name: {{ .name }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $.Values.secrets.natsSecretName | required "secrets.natsSecretName is required" }}
+              key: {{ .key }}
+        {{- end }}
+        {{- end }}
+        {{- end }}
         {{- end }}
         {{- if .Values.secrets.taisAuthSecretEnabled }}
         {{- with .Values.secrets.taisAuthEnv }}
@@ -483,6 +494,17 @@ spec:
               key: {{ .key }}
         {{- end }}
         {{- end }}
+        {{- if .Values.qTestManager.nats.independentAccounts.enabled }}
+        {{- with .Values.secrets.natsIndependentSecretEnv }}
+        {{- range . }}
+        - name: {{ .name }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $.Values.secrets.natsSecretName | required "secrets.natsSecretName is required" }}
+              key: {{ .key }}
+        {{- end }}
+        {{- end }}
+        {{- end }}
         {{- end }}
         {{- if .Values.secrets.taisAuthSecretEnabled }}
         {{- with .Values.secrets.taisAuthEnv }}
@@ -761,6 +783,17 @@ spec:
               key: {{ .key }}
         {{- end }}
         {{- end }}
+        {{- if .Values.qTestManager.nats.independentAccounts.enabled }}
+        {{- with .Values.secrets.natsIndependentSecretEnv }}
+        {{- range . }}
+        - name: {{ .name }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $.Values.secrets.natsSecretName | required "secrets.natsSecretName is required" }}
+              key: {{ .key }}
+        {{- end }}
+        {{- end }}
+        {{- end }}
         {{- end }}
         {{- if .Values.secrets.taisAuthSecretEnabled }}
         {{- with .Values.secrets.taisAuthEnv }}
@@ -1037,6 +1070,17 @@ spec:
             secretKeyRef:
               name: {{ $.Values.secrets.natsSecretName | required "secrets.natsSecretName is required" }}
               key: {{ .key }}
+        {{- end }}
+        {{- end }}
+        {{- if .Values.qTestManager.nats.independentAccounts.enabled }}
+        {{- with .Values.secrets.natsIndependentSecretEnv }}
+        {{- range . }}
+        - name: {{ .name }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $.Values.secrets.natsSecretName | required "secrets.natsSecretName is required" }}
+              key: {{ .key }}
+        {{- end }}
         {{- end }}
         {{- end }}
         {{- end }}
