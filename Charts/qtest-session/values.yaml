@@ -174,9 +174,11 @@ resourceQuota:
   enabled: false
 livenessProbe:
   httpGet:
-    path: /health-check
+    path: /readiness-check
     port: 8080
   periodSeconds: 30
+  timeoutSeconds: 3
+  failureThreshold: 10
 livenessSslProbe:
   httpGet:
     path: /health-check
@@ -185,9 +187,11 @@ livenessSslProbe:
   periodSeconds: 30
 readinessProbe:
   httpGet:
-    path: /health-check
+    path: /readiness-check
     port: 8080
-  periodSeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 3
+  failureThreshold: 3
 readinessSslProbe:
   httpGet:
     path: /health-check
