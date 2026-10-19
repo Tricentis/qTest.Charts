@@ -159,39 +159,49 @@ resourceQuota:
   enabled: false
 livenessProbe:
   httpGet:
-    path: /atlassian-connect.json
+    path: /livez
     port: 6080
-  periodSeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 2
+  failureThreshold: 3
 livenessSslProbe:
   httpGet:
-    path: /atlassian-connect.json
+    path: /livez
     scheme: HTTPS
     port: 6443
-  periodSeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 2
+  failureThreshold: 3
+# readiness checks DB connectivity (2s internal timeout), so timeoutSeconds must exceed it
 readinessProbe:
   httpGet:
-    path: /atlassian-connect.json
+    path: /readyz
     port: 6080
-  periodSeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 3
+  failureThreshold: 3
 readinessSslProbe:
   httpGet:
-    path: /atlassian-connect.json
+    path: /readyz
     scheme: HTTPS
     port: 6443
-  periodSeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 3
+  failureThreshold: 3
+# allows up to 5 minutes for DB connect + migrations before liveness takes over
 startupProbe:
   httpGet:
-    path: /atlassian-connect.json
+    path: /livez
     port: 6080
-  failureThreshold: 4
-  periodSeconds: 30
+  periodSeconds: 10
+  failureThreshold: 30
 startupSslProbe:
   httpGet:
-    path: /atlassian-connect.json
+    path: /livez
     scheme: HTTPS
     port: 6443
-  failureThreshold: 4
-  periodSeconds: 30
+  periodSeconds: 10
+  failureThreshold: 30
 nodeSelector: {}
 tolerations: []
 affinity: {}
