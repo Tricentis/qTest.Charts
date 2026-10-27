@@ -65,6 +65,7 @@ data:
   insights.url: "{{ .Values.qTestManager.insightsUrl }}"
   ui.url: "{{ .Values.qTestManager.uiUrl }}"
   launch.url.base: "{{ .Values.qTestManager.launchUrlBase }}"
+  tmr.url.base: "{{ .Values.qTestManager.tmrUrlBase }}"
   notification.url.external: "{{ .Values.qTestManager.notification.urlExternal }}"
   notification.url.internal: "{{ .Values.qTestManager.notification.urlInternal }}"
   qtest.servermap.url: "{{ .Values.qTestManager.qTest.serverMapUrl }}"

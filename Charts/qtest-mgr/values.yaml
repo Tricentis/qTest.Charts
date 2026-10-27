@@ -249,6 +249,7 @@ qTestManager:
   insightsUrl: "http://insights-service:8080"
   uiUrl: "https://qtest-ui.dc.local"
   launchUrlBase: "https://launch.qtest.local"
+  tmrUrlBase: ""
   tdmSettingUrl: "http://parameters.qtest.local"
   notification:
     urlExternal: "https://notification.qtest.local"
