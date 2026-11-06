@@ -5,9 +5,9 @@ secrets:
   enabled: false
   name: qtest-i-etl-secret
 image:
-  repository: tricentisimage/insights-i-etl
+  repository: qasymphony/i-etl
   pullPolicy: IfNotPresent
-  tag: "2026.8.2"
+  tag: "2026.8.4"
 liquibase:
   enabled: true
   securityContext: {}
