@@ -8,7 +8,7 @@ secrets:
   name: qtest-manager-secret
   aesSecretKeysName: qtest-aes-secret-keys
 image:
-  repository: qasymphony/launch
+  repository: public.ecr.aws/tricentis-qtest/public-launch
   pullPolicy: IfNotPresent
   tag: "2026.8.0"
 imageCredentials:

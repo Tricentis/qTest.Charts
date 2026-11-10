@@ -7,7 +7,7 @@ secrets:
   name: qtest-manager-secret
   sessionsName: qtest-manager-secret
 image:
-  repository: qasymphony/insights
+  repository: public.ecr.aws/tricentis-qtest/public-insights
   pullPolicy: IfNotPresent
   tag: "2026.8.2"
 imageCredentials:

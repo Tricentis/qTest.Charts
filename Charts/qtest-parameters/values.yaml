@@ -8,7 +8,7 @@ secrets:
   secretKey: client.jdbc.postgres.password
   csrfKey: csrf.secret.key
 image:
-  repository: qasymphony/parameters
+  repository: public.ecr.aws/tricentis-qtest/public-parameters
   pullPolicy: IfNotPresent
   tag: "2026.8.2"
 imageCredentials:
