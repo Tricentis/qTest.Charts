@@ -715,9 +715,6 @@ qtest-launch:
 ### qtest-insights ###################################################
 qtest-insights:
   enabled: false
-### qtest-insights-etl ###################################################
-qtest-insights-etl:
-  enabled: false
 ### qtest-parameters ###################################################
 qtest-parameters:
   enabled: false

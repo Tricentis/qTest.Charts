@@ -9,7 +9,6 @@ This repository includes the following charts:
 
 - qTest Insights I-ETL (`qtest-i-etl`)
 - qTest Insights (`qtest-insights`)
-- qTest Insights ETL (`qtest-insights-etl`)
 - qTest Launch (`qtest-launch`)
 - qTest Manager (`qtest-mgr`)
 - qTest Parameters (`qtest-parameters`)
@@ -331,26 +330,6 @@ helm install qtest-pulse-executor qtest/qtest-pulse -n qtest -f values-pulse-exe
 | `qTestInsightsSessionDBPort`        | Session Postgresql database port        | `5432`                                      |
 | `server.sslMountPath`               | Pod Level SSL Traffic Encryption        | `/mnt/secrets/tls`                          |
 | `qTestInsightsSSLCipherSuites`      | Cipher suites for SSL/TLS connection    | []                                          |
-
-## Insights etl app configurations to change in insights-etl-values-kind.yaml
-
-| Parameter                          | Description                             | Default                |
-| ---------------------------------- | --------------------------------------- | ---------------------- |
-| `qTestInsightsEtlDBName`           | PSQL database name of the qTest manager | `qTest`                |
-| `qTestInsightsEtlDBUser`           | PSQL username                           | `postgres`             |
-| `qTestInsightsEtlDBHost`           | PSQL database host name                 | `host.docker.internal` |
-| `qTestInsightsEtlWriteQTestDBName` | PSQL database name of the qTest manager | `qTest`                |
-| `qTestInsightsEtlWriteQTestDBUser` | PSQL username                           | `postgres`             |
-| `qTestInsightsEtlWriteQTestDBHost` | PSQL database host name                 | `host.docker.internal` |
-| `qTestInsightsEtlDBSchemaName`     | qTest Manager schema name               | `public`               |
-| `qTestInsightsEtlSessionDBName`    | PSQL database name of the session       | `sessions`             |
-| `qTestInsightsEtlSessionDBUser`    | PSQL username                           | `postgres`             |
-| `qTestInsightsEtlSessionDBSchema`  | PSQL sessions schema name               | `postgres`             |
-| `qTestInsightsEtlSessionDBHost`    | PSQL database host name                 | `host.docker.internal` |
-| `qTestInsightsEtlDBPort`           | Insights Postgresql database port       | `5432`                 |
-| `qTestInsightsEtlWriteQTestDBPort` | qTest Postgresql database port          | `5432`                 |
-| `writeSessionsDBPort`              | Session Postgresql database port        | `5432`                 |
-| `qTestInsightsEtlDeploymentEnv`    | Deployment environment. saas or op      | `op`                   |
 
 For file persistence, only **one** of the following options is needed:
 
