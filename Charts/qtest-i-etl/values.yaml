@@ -10,6 +10,12 @@ image:
   tag: "2026.8.2"
 liquibase:
   enabled: true
+  image:
+    repository: public.ecr.aws/tricentis-qtest/public-insights-i-etl-liquibase
+    ## defaults to image.tag (then Chart.AppVersion) if not set
+    tag: ""
+    ## defaults to image.pullPolicy if not set
+    pullPolicy: ""
   securityContext: {}
   annotations:
     helm.sh/hook: pre-install, pre-upgrade
