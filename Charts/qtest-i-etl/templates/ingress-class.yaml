@@ -1,9 +1,17 @@
 {{- if .Values.ingressClass.enabled }}
+{{- if .Values.ingressClass.fallbackApiVersion }}
+apiVersion: networking.k8s.io/{{ .Values.ingressClass.fallbackApiVersion }}
+{{- else }}
 apiVersion: networking.k8s.io/v1
+{{- end }}
 kind: IngressClass
 metadata:
   name: "{{ include "qtest-insights-i-etl.fullname" . }}-ingressclass"
   namespace: {{ .Values.namespace.name }}
+  {{- with .Values.ingressClass.labels }}
+  labels:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   annotations:
     ingressclass.kubernetes.io/is-default-class: {{ .Values.ingressClass.isDefaultClass | quote }}
     helm.sh/hook: pre-install

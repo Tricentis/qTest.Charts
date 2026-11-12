@@ -342,10 +342,9 @@ Set under `qTestInsightsIEtl` in the `qtest-insights-i-etl` chart values (`Chart
 | `qTestInsightsIEtl.qTestDBSchema`                        | qTest Manager schema name                                | `public`                                                          |
 | `qTestInsightsIEtl.insightsDBSchema`                     | Insights schema name                                     | `insights`                                                        |
 | `qTestInsightsIEtl.insightsDBUser`                       | Insights database user                                   | `postgres`                                                        |
-| `qTestInsightsIEtl.insightEtlDBSchema`                   | I-ETL schema name                                        | `insights_etl`                                                    |
 | `qTestInsightsIEtl.sessionsReadDBHost` / `Port` / `Name` / `User` / `Schema` | Sessions database (read)                  | `postgres.local` / `5432` / `sessions` / `postgres` / `public`    |
 | `qTestInsightsIEtl.sessionsWriteDBHost` / `Port` / `Name` / `User` / `Schema` | Sessions database (write)               | `postgres.local` / `5432` / `sessions` / `postgres` / `public`    |
-| `qTestInsightsIEtl.deploymentEnv`                        | Deployment environment. saas or op                       | `saas`                                                            |
+| `qTestInsightsIEtl.deploymentEnv`                        | Deployment environment. saas or op                       | `op`                                                              |
 | `image.repository` / `image.tag`                         | I-ETL application image                                  | `public.ecr.aws/tricentis-qtest/public-insights-i-etl` / `2026.8.2` |
 | `liquibase.image.repository` / `tag` / `pullPolicy`      | Liquibase migration job image                            | `public.ecr.aws/tricentis-qtest/public-insights-i-etl-liquibase` / `2026.8.2` / `IfNotPresent` |
 

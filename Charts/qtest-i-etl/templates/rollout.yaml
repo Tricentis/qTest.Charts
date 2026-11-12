@@ -5,7 +5,7 @@ metadata:
   name: qtest-insights-i-etl-rollout
   namespace: {{ .Values.namespace.name }}
 spec:
-  replicas: {{ .Values.autoscaling.minReplicas }}
+  replicas: {{ .Values.replicaCount | default .Values.autoscaling.minReplicas }}
   revisionHistoryLimit: 3
   workloadRef:
     apiVersion: apps/v1
@@ -14,7 +14,7 @@ spec:
   strategy:
    {{- with .Values.rollouts.strategy -}}
       {{- toYaml . | nindent 4 }}
-   {{- end }} 
+   {{- end }}
       canaryService: {{ .Values.service.serviceName }}-canary
       stableService: {{ .Values.service.serviceName }}
       trafficRouting:

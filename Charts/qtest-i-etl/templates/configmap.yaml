@@ -10,7 +10,7 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 data:
-  # qTest database configurations 
+  # qTest database configurations
   QTEST_READ_DB_HOST: "{{ .Values.qTestInsightsIEtl.readQTestDBHost }}"
   QTEST_READ_DB_PORT: "{{ .Values.qTestInsightsIEtl.readQTestDBPort }}"
   QTEST_READ_DB_NAME: "{{ .Values.qTestInsightsIEtl.readQTestDBName }}"
@@ -26,7 +26,7 @@ data:
   QTEST_DB_SCHEMA: "{{ .Values.qTestInsightsIEtl.qTestDBSchema }}"
   INSIGHTS_DB_USER: "{{ .Values.qTestInsightsIEtl.insightsDBUser }}"
   INSIGHTS_DB_SCHEMA: "{{ .Values.qTestInsightsIEtl.insightsDBSchema }}"
-  INSIGHTS_ETL_DB_SCHEMA: "{{ .Values.qTestInsightsIEtl.insightEtlDBSchema }}"
+  INSIGHTS_ETL_DB_SCHEMA: "insights_etl"
   SESSIONS_READ_DB_HOST: "{{ .Values.qTestInsightsIEtl.sessionsReadDBHost }}"
   SESSIONS_READ_DB_PORT: "{{ .Values.qTestInsightsIEtl.sessionsReadDBPort }}"
   SESSIONS_READ_DB_NAME: "{{ .Values.qTestInsightsIEtl.sessionsReadDBName }}"
@@ -49,8 +49,8 @@ data:
   INSIGHTS_ETL_MATERIALIZED_VIEW_INTERVAL: "{{ .Values.qTestInsightsIEtl.iEtlMaterializedViewInterval }}"
   INSIGHTS_ETL_BETA_JOBS_DISABLED: "{{ .Values.qTestInsightsIEtl.iEtlBetaJobsDisabled }}"
   LOG_ENVIRONMENT: "{{ .Values.qTestInsightsIEtl.logEnvironment }}"
-  INSIGHTS_ETL_LONG_RUNNING_MATERIALIZED_VIEW_INTERVAL: "{{ .Values.qTestInsightsIEtl.iEtlLongRunningMaterializedViewInterval }}"
   DEPLOYMENT_ENV: "{{ .Values.qTestInsightsIEtl.deploymentEnv }}"
+  INSIGHTS_ETL_LONG_RUNNING_MATERIALIZED_VIEW_INTERVAL: "{{ .Values.qTestInsightsIEtl.iEtlLongRunningMaterializedViewInterval }}"
   # Rapid Dashboards configurations
   RAPID_DASHBOARDS_TASK_INTERVAL: "{{ .Values.qTestInsightsIEtl.rapidDashboardsTaskInterval }}"
   RAPID_DASHBOARDS_BATCH_SIZE: "{{ .Values.qTestInsightsIEtl.rapidDashboardsBatchSize }}"
@@ -71,5 +71,5 @@ data:
   SCHEDULED_REPORTS_BATCH_SIZE: "{{ .Values.qTestInsightsIEtl.scheduledReportsBatchSize }}"
   SCHEDULED_REPORTS_MAX_CONCURRENT_TASKS: "{{ .Values.qTestInsightsIEtl.scheduledReportsMaxConcurrentTasks }}"
   SCHEDULED_REPORTS_TASK_INTERVAL: "{{ .Values.qTestInsightsIEtl.scheduledReportsTaskInterval }}"
-  
+
 

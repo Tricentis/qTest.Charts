@@ -8,7 +8,7 @@ metadata:
   namespace: {{ .Values.namespace.name }}
   {{- with .Values.ingress.annotations }}
   annotations:
-  {{- toYaml . | nindent 4 }}
+    {{- toYaml . | nindent 4 }}
   {{- end }}
   {{- if .Values.ingress.labels }}
   labels:
@@ -17,17 +17,19 @@ metadata:
   {{- end }}
   {{- end }}
 spec:
-  {{- if .Values.ingressClass.enabled }}
   {{- if .Values.ingress.className }}
   ingressClassName: {{ .Values.ingress.className }}
-  {{ else }}
+  {{- else if .Values.ingressClass.enabled }}
   ingressClassName: "{{ include "qtest-insights-i-etl.fullname" . }}-ingressclass"
-  {{- end }}
   {{- end }}
   rules:
     {{- if .Values.ingress.hosts }}
     {{- range $host := .Values.ingress.hosts }}
-    - host: {{ .host | quote }}
+    {{- $hostname := . }}
+    {{- if kindIs "map" . }}
+    {{- $hostname = .host }}
+    {{- end }}
+    - host: {{ $hostname | quote }}
       http:
         paths:
           {{- range $p := $paths }}
