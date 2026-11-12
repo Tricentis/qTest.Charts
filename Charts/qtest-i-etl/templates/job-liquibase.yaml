@@ -24,8 +24,8 @@ spec:
       {{- end }}
       containers:
         - name: qtestliquibase
-          image: "{{ .Values.liquibase.image.repository }}:{{ .Values.liquibase.image.tag | default .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.liquibase.image.pullPolicy | default .Values.image.pullPolicy }}
+          image: "{{ .Values.liquibase.image.repository }}:{{ .Values.liquibase.image.tag }}"
+          imagePullPolicy: {{ .Values.liquibase.image.pullPolicy }}
           args:
             - "migrate"
             - "migrate-old"
