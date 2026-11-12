@@ -5,15 +5,11 @@ secrets:
   enabled: false
   name: qtest-i-etl-secret
 image:
-  repository: public.ecr.aws/tricentis-qtest/public-insights-i-etl
+  repository: tricentisimage/insights-i-etl
   pullPolicy: IfNotPresent
   tag: "2026.8.2"
 liquibase:
   enabled: true
-  image:
-    repository: public.ecr.aws/tricentis-qtest/public-insights-i-etl-liquibase
-    tag: "2026.8.2"
-    pullPolicy: IfNotPresent
   securityContext: {}
   annotations:
     helm.sh/hook: pre-install, pre-upgrade
