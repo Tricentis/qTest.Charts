@@ -13,7 +13,7 @@ type: application
 keywords:
   - qtest-launch
   - qtest-insights
-  - qtest-insights-etl
+  - qtest-insights-i-etl
   - qtest-parameters
   - qtest-pulse
   - qtest-scenario
@@ -27,10 +27,10 @@ dependencies:
     repository: "https://tricentis.github.io/qTest.Charts"
     version: "*"
     condition: qtest-insights.enabled
-  - name: qtest-insights-etl
+  - name: qtest-insights-i-etl
     repository: "https://tricentis.github.io/qTest.Charts"
     version: "*"
-    condition: qtest-insights-etl.enabled
+    condition: qtest-insights-i-etl.enabled
   - name: qtest-parameters
     repository: "https://tricentis.github.io/qTest.Charts"
     version: "*"
@@ -61,7 +61,7 @@ icon: https://images.g2crowd.com/uploads/product/image/social_landscape/social_l
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
 
-version: 1.13.20
+version: 1.14.0
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.

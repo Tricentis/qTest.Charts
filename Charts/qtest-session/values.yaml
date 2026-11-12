@@ -9,7 +9,7 @@ secrets:
   csrfSecretKey: csrfKey
   launchDarklySdkKey: launchdarkly-sdkKey
 image:
-  repository: qasymphony/sessions
+  repository: public.ecr.aws/tricentis-qtest/public-sessions
   pullPolicy: IfNotPresent
   tag: "2026.8.2"
 imageCredentials:

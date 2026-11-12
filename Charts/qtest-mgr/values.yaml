@@ -52,8 +52,8 @@ deployment:
 podAnnotations: {}
 podLabels: {}
 image:
-  repository: tricentisimage/qtest-mgr
-  liquibase: tricentisimage/qtest-mgr-liquibase
+  repository: public.ecr.aws/tricentis-qtest/public-qtestmgr
+  liquibase: public.ecr.aws/tricentis-qtest/public-qtestmgr-liquibase
   pullPolicy: IfNotPresent
   tag: "2026.8.2"
   liquibasetag: "2026.8.2"
@@ -715,8 +715,8 @@ qtest-launch:
 ### qtest-insights ###################################################
 qtest-insights:
   enabled: false
-### qtest-insights-etl ###################################################
-qtest-insights-etl:
+### qtest-insights-i-etl ###################################################
+qtest-insights-i-etl:
   enabled: false
 ### qtest-parameters ###################################################
 qtest-parameters:
