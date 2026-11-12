@@ -7,7 +7,7 @@
 
 This repository includes the following charts:
 
-- qTest Insights I-ETL (`qtest-i-etl`)
+- qTest Insights I-ETL (`qtest-insights-i-etl`)
 - qTest Insights (`qtest-insights`)
 - qTest Launch (`qtest-launch`)
 - qTest Manager (`qtest-mgr`)
@@ -330,6 +330,24 @@ helm install qtest-pulse-executor qtest/qtest-pulse -n qtest -f values-pulse-exe
 | `qTestInsightsSessionDBPort`        | Session Postgresql database port        | `5432`                                      |
 | `server.sslMountPath`               | Pod Level SSL Traffic Encryption        | `/mnt/secrets/tls`                          |
 | `qTestInsightsSSLCipherSuites`      | Cipher suites for SSL/TLS connection    | []                                          |
+
+## Insights I-ETL app configurations
+
+Set under `qTestInsightsIEtl` in the `qtest-insights-i-etl` chart values (`Charts/qtest-i-etl/values.yaml`; see the file for the complete list).
+
+| Parameter                                                | Description                                              | Default                                                           |
+| -------------------------------------------------------- | -------------------------------------------------------- | ----------------------------------------------------------------- |
+| `qTestInsightsIEtl.readQTestDBHost` / `Port` / `Name` / `User` | qTest Manager database (read)                      | `postgres.local` / `5432` / `qtest` / `postgres`                  |
+| `qTestInsightsIEtl.writeQTestDBHost` / `Port` / `Name` / `User` | qTest Manager database (write)                    | `postgres.local` / `5432` / `qtest` / `postgres`                  |
+| `qTestInsightsIEtl.qTestDBSchema`                        | qTest Manager schema name                                | `public`                                                          |
+| `qTestInsightsIEtl.insightsDBSchema`                     | Insights schema name                                     | `insights`                                                        |
+| `qTestInsightsIEtl.insightsDBUser`                       | Insights database user                                   | `postgres`                                                        |
+| `qTestInsightsIEtl.insightEtlDBSchema`                   | I-ETL schema name                                        | `insights_etl`                                                    |
+| `qTestInsightsIEtl.sessionsReadDBHost` / `Port` / `Name` / `User` / `Schema` | Sessions database (read)                  | `postgres.local` / `5432` / `sessions` / `postgres` / `public`    |
+| `qTestInsightsIEtl.sessionsWriteDBHost` / `Port` / `Name` / `User` / `Schema` | Sessions database (write)               | `postgres.local` / `5432` / `sessions` / `postgres` / `public`    |
+| `qTestInsightsIEtl.deploymentEnv`                        | Deployment environment. saas or op                       | `saas`                                                            |
+| `image.repository` / `image.tag`                         | I-ETL application image                                  | `public.ecr.aws/tricentis-qtest/public-insights-i-etl` / `2026.8.2` |
+| `liquibase.image.repository` / `tag` / `pullPolicy`      | Liquibase migration job image                            | `public.ecr.aws/tricentis-qtest/public-insights-i-etl-liquibase` / `2026.8.2` / `IfNotPresent` |
 
 For file persistence, only **one** of the following options is needed:
 
