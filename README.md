@@ -346,6 +346,7 @@ Set under `qTestInsightsIEtl` in the `qtest-insights-i-etl` chart values (`Chart
 | `qTestInsightsIEtl.sessionsReadDBHost` / `Port` / `Name` / `User` / `Schema` | Sessions database (read)                  | `postgres.local` / `5432` / `sessions` / `postgres` / `public`    |
 | `qTestInsightsIEtl.sessionsWriteDBHost` / `Port` / `Name` / `User` / `Schema` | Sessions database (write)               | `postgres.local` / `5432` / `sessions` / `postgres` / `public`    |
 | `qTestInsightsIEtl.deploymentEnv`                        | Deployment environment. saas or op                       | `saas`                                                            |
+| `image.repository` / `image.tag`                         | I-ETL application image                                  | `public.ecr.aws/tricentis-qtest/public-insights-i-etl` / `2026.8.2` |
 
 For file persistence, only **one** of the following options is needed:
 
