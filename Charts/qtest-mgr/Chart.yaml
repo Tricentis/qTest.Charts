@@ -13,6 +13,7 @@ type: application
 keywords:
   - qtest-launch
   - qtest-insights
+  - qtest-insights-i-etl
   - qtest-parameters
   - qtest-pulse
   - qtest-scenario
@@ -26,6 +27,10 @@ dependencies:
     repository: "https://tricentis.github.io/qTest.Charts"
     version: "*"
     condition: qtest-insights.enabled
+  - name: qtest-insights-i-etl
+    repository: "https://tricentis.github.io/qTest.Charts"
+    version: "*"
+    condition: qtest-insights-i-etl.enabled
   - name: qtest-parameters
     repository: "https://tricentis.github.io/qTest.Charts"
     version: "*"
