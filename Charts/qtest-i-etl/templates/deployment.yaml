@@ -14,7 +14,7 @@ spec:
   {{- if .Values.rollouts.enabled }}
   replicas: 0
   {{- else }}
-  replicas: {{ .Values.replicaCount | default .Values.autoscaling.minReplicas }}
+  replicas: {{ .Values.autoscaling.minReplicas }}
   {{- end }}
   revisionHistoryLimit: 3
   selector:
@@ -39,7 +39,7 @@ spec:
       topologySpreadConstraints:
 {{ toYaml . | indent 8 }}
     {{- end }}
-      serviceAccountName: {{ include "qtest-insights-i-etl.serviceAccountName" . }}
+      serviceAccountName: {{ .Values.serviceAccount.name }}
       {{- if .Values.securityContext }}
       securityContext: {{- toYaml .Values.securityContext | nindent 8 }}
       {{- end }}
@@ -113,7 +113,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secrets.name }}
-                  key: {{ .Values.secrets.launchDarklySdkKey | default "launchdarkly-sdkKey" }}
+                  key: launchdarkly-sdkKey
                   optional: true
 
 {{- with .Values.extraEnv }}
@@ -123,6 +123,16 @@ spec:
           volumeMounts:
 {{ toYaml . | indent 12 }}
 {{- end }}
+{{/*      {{- if .Values.extraContainers }}*/}}
+{{/*      # Currently some extra blocks accept strings*/}}
+{{/*      # to continue with backwards compatibility this is being kept*/}}
+{{/*      # whilst also allowing for yaml to be specified too.*/}}
+{{/*      {{- if eq "string" (printf "%T" .Values.extraContainers) }}*/}}
+{{/*{{ tpl .Values.extraContainers . | indent 8 }}*/}}
+{{/*      {{- else }}*/}}
+{{/*{{ toYaml .Values.extraContainers | indent 8 }}*/}}
+{{/*      {{- end }}*/}}
+{{/*      {{- end }}*/}}
 {{/*        - name: qtest-insights-i-etl-ephemeral*/}}
 {{/*          emptyDir: {}*/}}
 {{- with .Values.extraVolumes }}
